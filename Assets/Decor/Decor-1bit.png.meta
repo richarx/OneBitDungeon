@@ -346,7 +346,7 @@ TextureImporter:
         serializedVersion: 2
         x: 119
         y: 130
-        width: 23
+        width: 32
         height: 14
       alignment: 9
       pivot: {x: 0.5, y: 0}
@@ -357,6 +357,69 @@ TextureImporter:
       bones: []
       spriteID: b601e0baffb026649bd7eeba2429739a
       internalID: -750199913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_12
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 130
+        width: 27
+        height: 19
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 973568c391816b946afa5ec2fd1b176f
+      internalID: -1974086915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_13
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 128
+        width: 50
+        height: 35
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71eec0fdaccf6ef4890f158c50901f53
+      internalID: 996589556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_14
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 188
+        width: 18
+        height: 14
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a29bedd4d63867542876b71ce3d30793
+      internalID: 1401499827
       vertices: []
       indices: 
       edges: []
@@ -376,6 +439,9 @@ TextureImporter:
       Decor-1bit_1: 787868650
       Decor-1bit_10: -1378859951
       Decor-1bit_11: -750199913
+      Decor-1bit_12: -1974086915
+      Decor-1bit_13: 996589556
+      Decor-1bit_14: 1401499827
       Decor-1bit_2: 1101449112
       Decor-1bit_3: -901731748
       Decor-1bit_4: -724202128
