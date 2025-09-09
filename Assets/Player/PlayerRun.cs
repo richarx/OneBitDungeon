@@ -26,6 +26,9 @@ namespace Player
                 isSkippingFrame = false;
                 return;
             }
+            
+            if (player.moveInput.magnitude < 0.15f)
+                player.ChangeBehaviour(player.playerIdle);
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)

@@ -2,6 +2,7 @@ namespace Player
 {
     public enum BehaviourType 
     {
+        Idle,
         Run,
         Locked,
     }

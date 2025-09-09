@@ -11,6 +11,7 @@ namespace Player
         public static PlayerStateMachine instance;
 
         // Behaviour States
+        public PlayerIdle playerIdle = new PlayerIdle();
         public PlayerRun playerRun = new PlayerRun();
         public PlayerLocked playerLocked = new PlayerLocked();
 
@@ -38,7 +39,7 @@ namespace Player
             if (!Application.isEditor)
                 Cursor.visible = false;
             
-            currentBehaviour = playerRun;
+            currentBehaviour = playerIdle;
             currentBehaviour.StartBehaviour(this, BehaviourType.Run);
         }
         

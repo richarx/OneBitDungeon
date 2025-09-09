@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkMaxSpeed: 10
   dialogWalkMaxSpeed: 5
-  groundAcceleration: 60
-  groundDeceleration: 80
-  maxCameraMoveDistanceDuringDialog: 1
+  groundAcceleration: 80
+  groundDeceleration: 120
