@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0529c1d3a83062a4ba49d6f7ef8896c3
+guid: 52202d7a42ebf4143ac595fc7d4e0fe2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,253 +110,337 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Decor-1bit_0
+      name: Roll_0
       rect:
         serializedVersion: 2
-        x: 24
-        y: 188
-        width: 15
-        height: 36
+        x: 0
+        y: 96
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7691722580e50674380c3e90a3317a27
-      internalID: 1991616830
+      spriteID: c7ebe2477604fc240950ddc6e9a622bb
+      internalID: 1093204013
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_1
+      name: Roll_1
       rect:
         serializedVersion: 2
-        x: 87
-        y: 189
-        width: 9
-        height: 13
+        x: 32
+        y: 96
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 234d316cb52d9f346acb3b765172a653
-      internalID: 787868650
+      spriteID: f22acb342871bcd46921ba71e6fbef4a
+      internalID: -1113814703
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_2
+      name: Roll_2
       rect:
         serializedVersion: 2
-        x: 104
-        y: 189
-        width: 10
-        height: 13
+        x: 64
+        y: 96
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: acc2375f57ab1774190e035da8d6670e
-      internalID: 1101449112
+      spriteID: 4c02ec9562c790b459a313fe75842cfc
+      internalID: -311605276
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_3
+      name: Roll_3
       rect:
         serializedVersion: 2
-        x: 124
-        y: 189
-        width: 11
-        height: 13
+        x: 96
+        y: 96
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f5cdb060415670d48b04f429b96188c6
-      internalID: -901731748
+      spriteID: 6a8e7f968ae479244aa097289927bfbb
+      internalID: 1209780539
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_4
+      name: Roll_4
       rect:
         serializedVersion: 2
-        x: 89
-        y: 210
-        width: 5
-        height: 3
+        x: 0
+        y: 64
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 71dd03e835cff814685eb5d06f22d988
-      internalID: -724202128
+      spriteID: 27d942c7fb5f95744be2e5b53d7edea9
+      internalID: 139711314
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_5
+      name: Roll_5
       rect:
         serializedVersion: 2
-        x: 97
-        y: 210
-        width: 5
-        height: 4
+        x: 32
+        y: 64
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53b0cb813f6796e45a0914d456e54547
-      internalID: -1300790890
+      spriteID: 460e04b932582974d9b8d20031244ca8
+      internalID: 1268316621
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_6
+      name: Roll_6
       rect:
         serializedVersion: 2
-        x: 105
-        y: 210
-        width: 5
-        height: 3
+        x: 64
+        y: 64
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 977adf0657abca841a0f7b135dae2645
-      internalID: -1630975192
+      spriteID: 7ec8ef98f7115704c9a1e90e2f60db0d
+      internalID: 493920058
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_7
+      name: Roll_7
       rect:
         serializedVersion: 2
-        x: 89
-        y: 216
-        width: 5
-        height: 3
+        x: 96
+        y: 64
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e0b0bfd0b80dd8a4c8e696668bbce0b1
-      internalID: -1785587927
+      spriteID: c190ffb2ceab72842824f4a3fa3309bf
+      internalID: 1621894837
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_8
+      name: Roll_8
       rect:
         serializedVersion: 2
-        x: 97
-        y: 216
-        width: 5
-        height: 3
+        x: 0
+        y: 32
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1da1339dbc89c4c47b0af4aac64c2c86
-      internalID: 251956153
+      spriteID: 467a43c23bd43ac4085ee601164dbd5f
+      internalID: 751036126
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_9
+      name: Roll_9
       rect:
         serializedVersion: 2
-        x: 105
-        y: 216
-        width: 5
-        height: 3
+        x: 32
+        y: 32
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63c233260e643e144b6ed71d60b4d93f
-      internalID: -1474520116
+      spriteID: 97d6633eb289fee43aaf1e6eb150dc33
+      internalID: -1333611510
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_10
+      name: Roll_10
       rect:
         serializedVersion: 2
-        x: 60
-        y: 187
-        width: 15
-        height: 26
+        x: 64
+        y: 32
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2c3912381ad09a84dbacaf50b4d01afb
-      internalID: -1378859951
+      spriteID: db1ce4b1d935e7740813028c981490c1
+      internalID: -1533003475
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decor-1bit_11
+      name: Roll_11
       rect:
         serializedVersion: 2
-        x: 119
-        y: 130
-        width: 23
-        height: 14
+        x: 96
+        y: 32
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.578, y: 0.313}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b601e0baffb026649bd7eeba2429739a
-      internalID: -750199913
+      spriteID: 86dca63543182484fa7aababfc4489a4
+      internalID: 235400392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Roll_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.578, y: 0.313}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44d896726278663429bd1a9abd805c53
+      internalID: -498310013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Roll_13
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.578, y: 0.313}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f4c8944531cc484abad6a58a0ea7692
+      internalID: 61820902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Roll_14
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.578, y: 0.313}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df9512ceefd91d646ab271d9c7eff9e4
+      internalID: 725109573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Roll_15
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.578, y: 0.313}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f01bbb1696d3ca54db6ba7a492d83cb7
+      internalID: 1295965114
       vertices: []
       indices: 
       edges: []
@@ -364,7 +448,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 6006d98c46e120c42841f23efe1cbc20
+    spriteID: b16eccdc6e9f75043abf0ce8f89daa66
     internalID: 0
     vertices: []
     indices: 
@@ -372,18 +456,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Decor-1bit_0: 1991616830
-      Decor-1bit_1: 787868650
-      Decor-1bit_10: -1378859951
-      Decor-1bit_11: -750199913
-      Decor-1bit_2: 1101449112
-      Decor-1bit_3: -901731748
-      Decor-1bit_4: -724202128
-      Decor-1bit_5: -1300790890
-      Decor-1bit_6: -1630975192
-      Decor-1bit_7: -1785587927
-      Decor-1bit_8: 251956153
-      Decor-1bit_9: -1474520116
+      Roll_0: 1093204013
+      Roll_1: -1113814703
+      Roll_10: -1533003475
+      Roll_11: 235400392
+      Roll_12: -498310013
+      Roll_13: 61820902
+      Roll_14: 725109573
+      Roll_15: 1295965114
+      Roll_2: -311605276
+      Roll_3: 1209780539
+      Roll_4: 139711314
+      Roll_5: 1268316621
+      Roll_6: 493920058
+      Roll_7: 1621894837
+      Roll_8: 751036126
+      Roll_9: -1333611510
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
