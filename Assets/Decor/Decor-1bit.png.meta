@@ -386,9 +386,9 @@ TextureImporter:
       name: Decor-1bit_13
       rect:
         serializedVersion: 2
-        x: 24
+        x: 25
         y: 128
-        width: 50
+        width: 49
         height: 35
       alignment: 7
       pivot: {x: 0.5, y: 0}
