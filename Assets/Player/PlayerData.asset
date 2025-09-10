@@ -22,3 +22,4 @@ MonoBehaviour:
   rollAcceleration: 100
   rollDeceleration: 30
   rollDecelerationDistanceThreshold: 0.6
+  attackDuration: 0.3
