@@ -1,4 +1,3 @@
-using Player.Scripts;
 using UnityEngine;
 
 namespace Player
@@ -12,8 +11,17 @@ namespace Player
 
         public void UpdateBehaviour(PlayerStateMachine player)
         {
+            if (player.inputPackage.GetRoll.wasPressedThisFrame)
+            {
+                player.ChangeBehaviour(player.playerRoll);
+                return;
+            }
+
             if (player.moveInput.magnitude >= 0.15f)
+            {
                 player.ChangeBehaviour(player.playerRun);
+                return;
+            }
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)

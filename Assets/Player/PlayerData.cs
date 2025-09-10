@@ -5,10 +5,18 @@ namespace Player
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PlayerData")]
     public class PlayerData : ScriptableObject
     {
-        [Header("Movement - Ground")]
+        [Header("Movement")]
         public float walkMaxSpeed;
         public float dialogWalkMaxSpeed;
         public float groundAcceleration;
         public float groundDeceleration;
+        
+        [Header("Roll")]
+        public float rollMaxSpeed;
+        public float rollMaxDistance;
+        public float rollMaxDuration;
+        public float rollAcceleration;
+        public float rollDeceleration;
+        public float rollDecelerationDistanceThreshold;
     }
 }

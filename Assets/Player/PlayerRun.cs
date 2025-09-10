@@ -26,9 +26,18 @@ namespace Player
                 isSkippingFrame = false;
                 return;
             }
-            
+
+            if (player.inputPackage.GetRoll.wasPressedThisFrame)
+            {
+                player.ChangeBehaviour(player.playerRoll);
+                return;
+            }
+
             if (player.moveInput.magnitude < 0.15f)
+            {
                 player.ChangeBehaviour(player.playerIdle);
+                return;
+            }
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)
@@ -59,6 +68,7 @@ namespace Player
             {
                 player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, move.x, player.playerData.groundAcceleration * Time.fixedDeltaTime);
                 player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, move.y, player.playerData.groundAcceleration * Time.fixedDeltaTime);
+                player.lastLookDirection = player.moveInput.normalized;
             }
         }
 

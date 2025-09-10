@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aefdcc805903ce547b29c64f568ca237, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  walkMaxSpeed: 10
-  dialogWalkMaxSpeed: 5
+  walkMaxSpeed: 8
+  dialogWalkMaxSpeed: 3
   groundAcceleration: 80
   groundDeceleration: 120
+  rollMaxSpeed: 20
+  rollMaxDistance: 5
+  rollMaxDuration: 2
+  rollAcceleration: 80
+  rollDeceleration: 60
+  rollDecelerationDistanceThreshold: 0.6

@@ -4,6 +4,7 @@ namespace Player
     {
         Idle,
         Run,
+        Roll,
         Locked,
     }
     

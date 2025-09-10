@@ -13,6 +13,7 @@ namespace Player
         // Behaviour States
         public PlayerIdle playerIdle = new PlayerIdle();
         public PlayerRun playerRun = new PlayerRun();
+        public PlayerRoll playerRoll = new PlayerRoll();
         public PlayerLocked playerLocked = new PlayerLocked();
 
         public IPlayerBehaviour currentBehaviour;
@@ -26,7 +27,9 @@ namespace Player
         [HideInInspector] public Rigidbody rb;
 
         [HideInInspector] public InputPacker inputPacker = new InputPacker();
-        [HideInInspector] public InputPackage inputPackage; 
+        [HideInInspector] public InputPackage inputPackage;
+
+        [HideInInspector] public Vector2 lastLookDirection = Vector2.right;
         
         private void Awake()
         {
@@ -38,6 +41,8 @@ namespace Player
         {
             if (!Application.isEditor)
                 Cursor.visible = false;
+
+            lastLookDirection = Vector2.right;
             
             currentBehaviour = playerIdle;
             currentBehaviour.StartBehaviour(this, BehaviourType.Run);

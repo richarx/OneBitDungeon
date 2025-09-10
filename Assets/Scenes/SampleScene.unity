@@ -2146,8 +2146,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 880362352}
-  - component: {fileID: 880362353}
   - component: {fileID: 880362354}
+  - component: {fileID: 880362353}
+  - component: {fileID: 880362355}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2187,6 +2188,7 @@ MonoBehaviour:
   moveInput: {x: 0, y: 0}
   moveVelocity: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
+  lastLookDirection: {x: 0, y: 0}
 --- !u!54 &880362354
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2214,6 +2216,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &880362355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880362351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625809f9c76e2a942812cd7cc1a27d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1862258016}
 --- !u!1 &893351609
 GameObject:
   m_ObjectHideFlags: 0
@@ -4417,7 +4432,7 @@ GameObject:
   - component: {fileID: 1862258014}
   - component: {fileID: 1862258016}
   m_Layer: 0
-  m_Name: Player
+  m_Name: graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
