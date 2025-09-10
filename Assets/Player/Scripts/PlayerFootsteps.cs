@@ -9,6 +9,7 @@ namespace Player.Scripts
         [SerializeField] private float metersBetweenSteps;
         [SerializeField] private float volume;
         [SerializeField] private List<AudioClip> stepSounds;
+        [SerializeField] private List<GameObject> stepPrefabs;
         
         private PlayerStateMachine player;
 
@@ -23,7 +24,20 @@ namespace Player.Scripts
         private void LateUpdate()
         {
             if (IsTimeToTakeStep())
+            {
                 PlayStepSound(SelectSoundList());
+                SpawnStepVfx();
+            }
+        }
+
+        private void SpawnStepVfx()
+        {
+            int index = Random.Range(0, stepPrefabs.Count);
+            
+            GameObject step = Instantiate(stepPrefabs[index], player.position, Quaternion.identity);
+
+            if (player.moveVelocity.x > 0.0f)
+                step.GetComponent<SpriteRenderer>().flipX = true;
         }
 
         private List<AudioClip> SelectSoundList()
