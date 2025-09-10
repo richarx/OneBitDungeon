@@ -5,6 +5,7 @@ namespace Player
         Idle,
         Run,
         Roll,
+        Attack,
         Locked,
     }
     

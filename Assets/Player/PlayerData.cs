@@ -18,5 +18,8 @@ namespace Player
         public float rollAcceleration;
         public float rollDeceleration;
         public float rollDecelerationDistanceThreshold;
+
+        [Header("Combat")] 
+        public float attackDuration;
     }
 }

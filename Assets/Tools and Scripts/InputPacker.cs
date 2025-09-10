@@ -38,7 +38,7 @@ namespace Tools_and_Scripts
         public Vector2 GetLook => lastInputType == InputType.Gamepad ? gamepadLook : keyboardLook;
 
         public InputData GetRoll => lastInputType == InputType.Gamepad ? eastButton : spaceKey;
-        public InputData GetCrouch => lastInputType == InputType.Gamepad ? eastButton : ctrlKey;
+        public InputData GetAttack => lastInputType == InputType.Gamepad ? westButton : leftMouse;
         
         public InputData GetShoot => lastInputType == InputType.Gamepad ? rightTrigger : leftMouse;
         public InputData GetAim => lastInputType == InputType.Gamepad ? leftTrigger : rightMouse;

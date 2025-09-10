@@ -12,6 +12,7 @@ namespace Player
         private void Start()
         {
             player = PlayerStateMachine.instance;
+            player.playerAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
         }
 
         private void LateUpdate()
@@ -26,6 +27,8 @@ namespace Player
                     break;
                 case BehaviourType.Roll:
                     PlayRollAnimation();
+                    break;
+                case BehaviourType.Attack:
                     break;
                 case BehaviourType.Locked:
                     PlayIdleAnimation();
@@ -48,6 +51,11 @@ namespace Player
         private void PlayRollAnimation()
         {
             animator.Play($"Roll_NoWeapon_{ComputeCardinalLookDirection()}");
+        }
+        
+        private void PlayAttackAnimation(string attackAnimation)
+        {
+            animator.Play($"{attackAnimation}_InHand_{ComputeLookDirection()}", 0, 0.0f);
         }
 
         private string ComputeWeaponState()

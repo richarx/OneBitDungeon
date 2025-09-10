@@ -17,6 +17,7 @@ namespace Player
         {
             currentlyHasSword = hasSword;
             player = PlayerStateMachine.instance;
+            player.playerAttack.OnPlayerAttack.AddListener((_) => isSwordInHand = true);
         }
 
         private void LateUpdate()

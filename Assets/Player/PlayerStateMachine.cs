@@ -14,6 +14,7 @@ namespace Player
         public PlayerIdle playerIdle = new PlayerIdle();
         public PlayerRun playerRun = new PlayerRun();
         public PlayerRoll playerRoll = new PlayerRoll();
+        public PlayerAttack playerAttack = new PlayerAttack();
         public PlayerLocked playerLocked = new PlayerLocked();
 
         public IPlayerBehaviour currentBehaviour;

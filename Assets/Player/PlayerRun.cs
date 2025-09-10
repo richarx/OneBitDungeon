@@ -32,6 +32,12 @@ namespace Player
                 player.ChangeBehaviour(player.playerRoll);
                 return;
             }
+            
+            if (player.playerAttack.CanAttack(player) && player.inputPackage.GetAttack.wasPressedThisFrame)
+            {
+                player.ChangeBehaviour(player.playerAttack);
+                return;
+            }
 
             if (player.moveInput.magnitude < 0.15f)
             {
