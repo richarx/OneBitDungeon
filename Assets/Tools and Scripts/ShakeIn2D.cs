@@ -1,7 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class ShakeIn2D : MonoBehaviour
+namespace Tools_and_Scripts
+{
+    public class ShakeIn2D : MonoBehaviour
     {
         public Transform _Target;
 
@@ -60,10 +62,11 @@ public class ShakeIn2D : MonoBehaviour
         {
             var time = Time.time;
             return _NoiseMagnitude
-                * new Vector2(
-                    Mathf.PerlinNoise(_Seed.x, time) - 0.5f,
-                    Mathf.PerlinNoise(_Seed.y, time) - 0.5f
-                    );
+                   * new Vector2(
+                       Mathf.PerlinNoise(_Seed.x, time) - 0.5f,
+                       Mathf.PerlinNoise(_Seed.y, time) - 0.5f
+                   );
         }
         
     }
+}

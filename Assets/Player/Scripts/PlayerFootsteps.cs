@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using SFX;
 using UnityEngine;
 
-namespace Player
+namespace Player.Scripts
 {
     public class PlayerFootsteps : MonoBehaviour
     {
@@ -54,6 +54,9 @@ namespace Player
 
         private bool IsTimeToTakeStep()
         {
+            if (player.currentBehaviour.GetBehaviourType() == BehaviourType.Roll)
+                return false;
+            
             Vector3 horizontalVelocity = player.moveVelocity;
             horizontalVelocity.y = 0.0f;
 

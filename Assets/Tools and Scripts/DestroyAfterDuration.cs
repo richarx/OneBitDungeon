@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class DestroyAfterDuration : MonoBehaviour
+namespace Tools_and_Scripts
 {
-    [SerializeField] private float duration;
+    public class DestroyAfterDuration : MonoBehaviour
+    {
+        [SerializeField] private float duration;
     
-    private void Start()
-    {
-        Destroy(gameObject, duration);
-    }
+        private void Start()
+        {
+            Destroy(gameObject, duration);
+        }
 
-    public void SetDuration(float newDuration)
-    {
-        duration = newDuration;
-    }
+        public void SetDuration(float newDuration)
+        {
+            duration = newDuration;
+        }
 
-    private void OnDisable()
-    {
-        Destroy(gameObject);
+        private void OnDisable()
+        {
+            Destroy(gameObject);
+        }
     }
 }

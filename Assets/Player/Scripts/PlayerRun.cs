@@ -1,7 +1,6 @@
-using Player.Scripts;
 using UnityEngine;
 
-namespace Player
+namespace Player.Scripts
 {
     public class PlayerRun : IPlayerBehaviour
     {

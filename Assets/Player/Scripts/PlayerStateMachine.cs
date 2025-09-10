@@ -1,8 +1,7 @@
-using Player.Scripts;
 using Tools_and_Scripts;
 using UnityEngine;
 
-namespace Player
+namespace Player.Scripts
 {
     public class PlayerStateMachine : MonoBehaviour
     {

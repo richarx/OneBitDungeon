@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_New Shader Graph
+  m_Name: CustomSpriteLit
   m_Shader: {fileID: -6465566751694194690, guid: 66108c08b63f36e4f831a88c6e25c6da,
     type: 3}
   m_Parent: {fileID: 0}

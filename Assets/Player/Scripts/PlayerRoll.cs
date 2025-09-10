@@ -1,9 +1,14 @@
+using Tools_and_Scripts;
 using UnityEngine;
+using UnityEngine.Events;
 
-namespace Player
+namespace Player.Scripts
 {
     public class PlayerRoll : IPlayerBehaviour
     {
+        public UnityEvent OnStartRoll = new UnityEvent();
+        public UnityEvent OnStopRoll = new UnityEvent();
+        
         private Vector3 rollDirection;
         private Vector3 rollStartPosition;
         private float rollStartTimestamp;
@@ -16,6 +21,8 @@ namespace Player
             rollDirection = new Vector3(inputDirection.x, 0.0f, inputDirection.y).normalized;
             rollStartPosition = player.position;
             rollStartTimestamp = Time.time;
+            
+            OnStartRoll?.Invoke();
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)
@@ -68,6 +75,7 @@ namespace Player
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
             player.moveVelocity = Vector3.ClampMagnitude(player.moveVelocity, player.playerData.walkMaxSpeed);
+            OnStopRoll?.Invoke();
         }
 
         public BehaviourType GetBehaviourType()

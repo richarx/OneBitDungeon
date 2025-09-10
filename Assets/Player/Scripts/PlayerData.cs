@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player
+namespace Player.Scripts
 {
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PlayerData")]
     public class PlayerData : ScriptableObject

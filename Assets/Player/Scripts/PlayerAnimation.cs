@@ -1,7 +1,8 @@
 using System;
+using Tools_and_Scripts;
 using UnityEngine;
 
-namespace Player
+namespace Player.Scripts
 {
     public class PlayerAnimation : MonoBehaviour
     {

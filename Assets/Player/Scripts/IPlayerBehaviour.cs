@@ -1,4 +1,4 @@
-namespace Player
+namespace Player.Scripts
 {
     public enum BehaviourType 
     {
