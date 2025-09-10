@@ -2149,6 +2149,7 @@ GameObject:
   - component: {fileID: 880362354}
   - component: {fileID: 880362353}
   - component: {fileID: 880362355}
+  - component: {fileID: 880362356}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2188,6 +2189,7 @@ MonoBehaviour:
   moveInput: {x: 0, y: 0}
   moveVelocity: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
+  playerSword: {fileID: 0}
   lastLookDirection: {x: 0, y: 0}
 --- !u!54 &880362354
 Rigidbody:
@@ -2229,6 +2231,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1862258016}
+--- !u!114 &880362356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880362351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c9531b7fbbea245a3fc8a713b248e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasSword: 1
 --- !u!1 &893351609
 GameObject:
   m_ObjectHideFlags: 0

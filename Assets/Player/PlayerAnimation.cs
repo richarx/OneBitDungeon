@@ -37,17 +37,28 @@ namespace Player
 
         private void PlayIdleAnimation()
         {
-            animator.Play($"Idle_NoWeapon_{ComputeLookDirection()}");
+            animator.Play($"Idle_{ComputeWeaponState()}_{ComputeLookDirection()}");
         }
 
         private void PlayRunAnimation()
         {
-            animator.Play($"Walk_NoWeapon_{ComputeLookDirection()}");
+            animator.Play($"Walk_{ComputeWeaponState()}_{ComputeLookDirection()}");
         }
         
         private void PlayRollAnimation()
         {
             animator.Play($"Roll_NoWeapon_{ComputeCardinalLookDirection()}");
+        }
+
+        private string ComputeWeaponState()
+        {
+            if (!player.playerSword.CurrentlyHasSword)
+                return "NoWeapon";
+
+            if (player.playerSword.IsSwordInHand)
+                return "InHand";
+
+            return "InBack";
         }
 
         private string ComputeLookDirection()

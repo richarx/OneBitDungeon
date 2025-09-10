@@ -25,6 +25,7 @@ namespace Player
         [HideInInspector] public Vector3 moveVelocity;
 
         [HideInInspector] public Rigidbody rb;
+        [HideInInspector] public PlayerSword playerSword;
 
         [HideInInspector] public InputPacker inputPacker = new InputPacker();
         [HideInInspector] public InputPackage inputPackage;
@@ -35,6 +36,7 @@ namespace Player
         {
             instance = this;
             rb = GetComponent<Rigidbody>();
+            playerSword = GetComponent<PlayerSword>();
         }
 
         private void Start()
