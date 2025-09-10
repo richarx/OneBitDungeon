@@ -1863,6 +1863,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasSword: 1
+  OnEquipSword:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSheatheSword:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &880362357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1904,6 +1910,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 972348e1c0dea7547af2b211e18e69ab, type: 3}
   - {fileID: 8300000, guid: e3fb07cd5b8088d479363d416c22cd0d, type: 3}
   - {fileID: 8300000, guid: 3a1f8a96716bf8c4a9e3c9dad9977154, type: 3}
+  sheatheSword: {fileID: 8300000, guid: d4ac29b045d6a6343b44cf13f5285245, type: 3}
+  unsheatheSword: {fileID: 8300000, guid: c02fe9b44d961a346882ef3c8f4db880, type: 3}
+  swordSlash:
+  - {fileID: 8300000, guid: 2c374269ab854134fb91b9f45670c5b8, type: 3}
+  - {fileID: 8300000, guid: 661e9eb17b6166940b3f0fa288bd4bbe, type: 3}
+  - {fileID: 8300000, guid: 14768146dd3a4524b9a36e8b1dd460f3, type: 3}
 --- !u!135 &880362359
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3053,7 +3065,7 @@ MonoBehaviour:
   externalInfluenceStrength: 0.25
   easeInTime: 0.15
   easeOutTime: 0.15
-  velocityThreshold: 5
+  velocityThreshold: 2
 --- !u!1 &1166144877
 GameObject:
   m_ObjectHideFlags: 0

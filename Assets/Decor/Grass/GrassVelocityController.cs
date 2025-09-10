@@ -13,7 +13,7 @@ namespace Decor.Grass
 
         public void ApplyInfluence(Material material, float xVelocity)
         {
-            material.SetFloat(externalInfluenceProperty, xVelocity);
+            material.SetFloat(externalInfluenceProperty, 1.0f + xVelocity);
         }
     }
 }

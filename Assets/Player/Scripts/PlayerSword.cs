@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Player.Scripts
 {
     public class PlayerSword : MonoBehaviour
     {
         [SerializeField] private bool hasSword;
+
+        [HideInInspector] public UnityEvent OnEquipSword = new UnityEvent();
+        [HideInInspector] public UnityEvent OnSheatheSword = new UnityEvent();
 
         private PlayerStateMachine player;
         
@@ -29,7 +33,14 @@ namespace Player.Scripts
             }
 
             if (currentlyHasSword && player.inputPackage.northButton.wasPressedThisFrame)
+            {
                 isSwordInHand = !isSwordInHand;
+                
+                if (isSwordInHand)
+                    OnEquipSword?.Invoke();
+                else
+                    OnSheatheSword?.Invoke();
+            }
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Decor.Grass
                 else if (!easeInCoroutineRunning && !easeOutCoroutineRunning && isAbove)
                     grassVelocityController.ApplyInfluence(material, ComputePlayerInfluence());
                 
-                velocityLastFrame = player.moveVelocity.magnitude;
+                velocityLastFrame = player.moveVelocity.x;
             }
         }
 
@@ -70,7 +70,7 @@ namespace Decor.Grass
 
         private bool IsPlayerVelocityAboveThreshold()
         {
-            return Mathf.Abs(player.moveVelocity.magnitude) > Mathf.Abs(grassVelocityController.velocityThreshold);
+            return Mathf.Abs(player.moveVelocity.x) > Mathf.Abs(grassVelocityController.velocityThreshold);
         }
         
         private bool WasPlayerVelocityAboveThresholdLastFrame()
@@ -80,7 +80,7 @@ namespace Decor.Grass
 
         private float ComputePlayerInfluence()
         {
-            return player.moveVelocity.magnitude * grassVelocityController.externalInfluenceStrength;
+            return player.moveVelocity.x * grassVelocityController.externalInfluenceStrength;
         }
 
         private IEnumerator EaseIn(float xVelocity)
