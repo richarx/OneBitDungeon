@@ -13,5 +13,7 @@ namespace Enemies.Goon
         [Space]
         [Header("Stagger")] 
         public float staggerDuration;
+        public float stunDuration;
+        public float knockbackPower;
     }
 }

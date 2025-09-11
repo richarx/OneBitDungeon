@@ -16,3 +16,5 @@ MonoBehaviour:
   groundAcceleration: 80
   groundDeceleration: 120
   staggerDuration: 0.33
+  stunDuration: 0.1
+  knockbackPower: 15

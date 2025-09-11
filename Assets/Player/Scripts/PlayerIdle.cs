@@ -6,7 +6,7 @@ namespace Player.Scripts
     {
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-            Debug.Log("IDLE");
+//            Debug.Log("IDLE");
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)

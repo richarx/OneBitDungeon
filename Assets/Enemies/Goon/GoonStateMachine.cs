@@ -6,6 +6,8 @@ namespace Enemies.Goon
     public class GoonStateMachine : MonoBehaviour
     {
         public GoonData goonData;
+        public SpriteRenderer graphics;
+        public GameObject goonCorpsePrefab;
         
         public IGoonBehaviour currentBehaviour;
         
@@ -68,6 +70,15 @@ namespace Enemies.Goon
         public Vector3 ComputeDirectionToPlayer()
         {
             return (PlayerStateMachine.instance.position - position).normalized;
+        }
+        
+        public void SpawnCorpse()
+        {
+            Destroy(gameObject);
+
+            SpriteRenderer corpse = Instantiate(goonCorpsePrefab, position, Quaternion.identity).GetComponent<SpriteRenderer>();
+            corpse.sprite = graphics.sprite;
+            corpse.color = graphics.color;
         }
     }
 }
