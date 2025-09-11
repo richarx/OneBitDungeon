@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   walkMaxSpeed: 8
-  dialogWalkMaxSpeed: 3
   groundAcceleration: 80
   groundDeceleration: 120
   rollMaxSpeed: 30
@@ -23,3 +22,8 @@ MonoBehaviour:
   rollDeceleration: 90
   rollDecelerationDistanceThreshold: 0.5
   attackDuration: 0.3
+  attackDashDuration: 0.1
+  attackDashMaxDistance: 10
+  attackDashSpeed: 30
+  attackDashAcceleration: 300
+  attackDashDeceleration: 500

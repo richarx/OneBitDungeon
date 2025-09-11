@@ -22,5 +22,9 @@ namespace Player.Scripts
         [Header("Combat")] 
         public float attackDuration;
         public float attackDashDuration;
+        public float attackDashMaxDistance;
+        public float attackDashSpeed;
+        public float attackDashAcceleration;
+        public float attackDashDeceleration;
     }
 }
