@@ -20,15 +20,21 @@ namespace Player.Scripts
 
             ComputeDashTarget(player);
             SelectCurrentAttack(player);
+            player.SetLastLookDirection((dashTarget - player.position).ToVector2());
             
             OnPlayerAttack?.Invoke(currentAttack);
         }
 
         private void ComputeDashTarget(PlayerStateMachine player)
         {
-            if (player.playerTargeting.hasTarget && player.playerTargeting.targetDistance <= player.playerData.attackDashMaxDistance)
+            bool hasTarget = player.playerTargeting.hasTarget;
+            bool isTargetInRange = hasTarget && player.playerTargeting.targetDistance <= player.playerData.attackDashMaxDistance;
+            bool isInputPressed = player.moveInput.magnitude >= 0.15f;
+            bool isInputInTargetDirection = hasTarget && isInputPressed && Vector3.Dot(player.playerTargeting.directionToTarget, player.moveInput.ToVector3()) >= 0.5f;
+            
+            if (isTargetInRange && (!isInputPressed || isInputInTargetDirection))
                 dashTarget = player.playerTargeting.targetPosition;
-            else if (player.moveInput.magnitude >= 0.15f)
+            else if (isInputPressed)
                 dashTarget = player.position + player.moveInput.ToVector3().normalized * player.playerData.attackDashMaxDistance;
             else
                 dashTarget = player.position + player.LastLookDirection.ToVector3().normalized * player.playerData.attackDashMaxDistance;

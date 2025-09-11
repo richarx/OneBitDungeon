@@ -18,7 +18,7 @@ namespace Player.Scripts
             List<GameObject> enemies = EnemyHolder.instance.Enemies;
 
             Vector3 position = player.position;
-            float minDistance = player.playerData.attackDashMaxDistance;
+            float minDistance = float.MaxValue;
             int closestEnemy = -1;
 
             for (int i = 0; i < enemies.Count; i++)

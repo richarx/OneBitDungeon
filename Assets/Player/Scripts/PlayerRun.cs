@@ -26,13 +26,13 @@ namespace Player.Scripts
                 return;
             }
 
-            if (player.inputPackage.GetRoll.wasPressedThisFrame)
+            if (player.inputPackage.GetRoll.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerRoll);
                 return;
             }
             
-            if (player.playerAttack.CanAttack(player) && player.inputPackage.GetAttack.wasPressedThisFrame)
+            if (player.playerAttack.CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerAttack);
                 return;
