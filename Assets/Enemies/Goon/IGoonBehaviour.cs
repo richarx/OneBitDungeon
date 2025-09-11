@@ -6,7 +6,7 @@ namespace Enemies.Goon
         Walk,
         Dash,
         Attack,
-        Stunned,
+        Stagger,
         Dead
     }
     

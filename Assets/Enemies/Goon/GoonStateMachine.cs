@@ -1,3 +1,4 @@
+using Player.Scripts;
 using UnityEngine;
 
 namespace Enemies.Goon
@@ -11,19 +12,25 @@ namespace Enemies.Goon
         // Behaviour States
         public GoonIdle goonIdle = new GoonIdle();
         public GoonWalk goonWalk = new GoonWalk();
+        public GoonStagger goonStagger = new GoonStagger();
+        public GoonDead goonDead = new GoonDead();
         
         
-        public Vector3 position => transform.position;
+        [HideInInspector] public Rigidbody rb;
+        [HideInInspector] public Damageable damageable;
         
         [HideInInspector] public Vector3 moveVelocity;
-
-        [HideInInspector] public Rigidbody rb;
-        
         [HideInInspector] public Vector2 lastLookDirection = Vector2.right;
+        
+        public Vector3 position => transform.position;
 
+        
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
+            damageable = GetComponent<Damageable>();
+            
+            damageable.OnTakeDamage.AddListener(() => ChangeBehaviour(goonStagger));
             
             lastLookDirection = Vector2.right;
 
@@ -56,6 +63,11 @@ namespace Enemies.Goon
         public void ApplyMovement()
         {
             rb.velocity = moveVelocity;
+        }
+
+        public Vector3 ComputeDirectionToPlayer()
+        {
+            return (PlayerStateMachine.instance.position - position).normalized;
         }
     }
 }

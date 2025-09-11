@@ -7,6 +7,7 @@ namespace Enemies
     {
         [SerializeField] private int startingHealth;
 
+        [HideInInspector] public UnityEvent OnTakeDamage = new UnityEvent();
         [HideInInspector] public UnityEvent OnDie = new UnityEvent();
         
         private int currentHealth;
@@ -23,6 +24,7 @@ namespace Enemies
                 return;
 
             currentHealth -= damage;
+            OnTakeDamage?.Invoke();
             
             if (IsDead)
                 OnDie?.Invoke();

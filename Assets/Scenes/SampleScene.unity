@@ -542,6 +542,7 @@ GameObject:
   m_Component:
   - component: {fileID: 167817322}
   - component: {fileID: 167817323}
+  - component: {fileID: 167817324}
   m_Layer: 0
   m_Name: Goon_Sword
   m_TagString: Untagged
@@ -606,7 +607,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 1534817019, guid: b5603eab835d6614b8d94373d0c4dd9b, type: 3}
-  m_Color: {r: 1, g: 0.7688679, b: 0.3066038, a: 1}
+  m_Color: {r: 0.9528302, g: 0.93208027, b: 0.51686543, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -616,6 +617,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!95 &167817324
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167817321}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2d6369c0d52ef7443ab6e804001ae8d4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &193946699
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,6 +651,7 @@ GameObject:
   - component: {fileID: 193946705}
   - component: {fileID: 193946701}
   - component: {fileID: 193946704}
+  - component: {fileID: 193946706}
   m_Layer: 0
   m_Name: Goon_Sword
   m_TagString: Untagged
@@ -649,6 +672,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 3
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
   OnDie:
     m_PersistentCalls:
       m_Calls: []
@@ -682,7 +708,7 @@ Transform:
   m_GameObject: {fileID: 193946699}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.7, y: 0, z: 15.99}
+  m_LocalPosition: {x: 5.78, y: 0, z: 17.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -702,8 +728,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goonData: {fileID: 11400000, guid: 3efdb92f1a08d2249b0ff36cfe1c7c08, type: 2}
-  moveVelocity: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
+  damageable: {fileID: 0}
+  moveVelocity: {x: 0, y: 0, z: 0}
   lastLookDirection: {x: 1, y: 0}
 --- !u!54 &193946705
 Rigidbody:
@@ -732,6 +759,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &193946706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193946699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad447821b83a02448eddb7283aa4f95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 167817324}
 --- !u!1 &221378631
 GameObject:
   m_ObjectHideFlags: 0
@@ -4206,7 +4246,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862258013}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30070576, y: -0, z: -0, w: 0.953717}
+  m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

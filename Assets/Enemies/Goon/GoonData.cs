@@ -9,5 +9,9 @@ namespace Enemies.Goon
         public float walkMaxSpeed;
         public float groundAcceleration;
         public float groundDeceleration;
+
+        [Space]
+        [Header("Stagger")] 
+        public float staggerDuration;
     }
 }

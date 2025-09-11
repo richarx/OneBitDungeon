@@ -15,3 +15,4 @@ MonoBehaviour:
   walkMaxSpeed: 4
   groundAcceleration: 80
   groundDeceleration: 120
+  staggerDuration: 0.33
