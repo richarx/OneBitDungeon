@@ -26,7 +26,9 @@ namespace Tools_and_Scripts
         
         public Vector3 ScreenToWorld(Vector2 position)
         {
-            return mainCamera.ScreenToWorldPoint(position.ToVector3(mainCamera.nearClipPlane));
+            Vector3 screenPosition = new Vector3(position.x, position.y, mainCamera.nearClipPlane);
+            
+            return mainCamera.ScreenToWorldPoint(screenPosition);
         }
 
         public Vector2 GetScreenCenterPosition()

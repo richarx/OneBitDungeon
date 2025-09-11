@@ -17,8 +17,9 @@ namespace Player.Scripts
         {
             Debug.Log("Roll");
             
-            Vector2 inputDirection = player.moveInput.magnitude >= 0.15f ? player.moveInput : player.lastLookDirection;
-            rollDirection = new Vector3(inputDirection.x, 0.0f, inputDirection.y).normalized;
+            Vector2 inputDirection = player.moveInput.magnitude >= 0.15f ? player.moveInput.normalized : player.LastLookDirection;
+            player.SetLastLookDirection(inputDirection);
+            rollDirection = inputDirection.ToVector3();
             rollStartPosition = player.position;
             rollStartTimestamp = Time.time;
             

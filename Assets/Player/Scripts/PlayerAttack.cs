@@ -18,9 +18,7 @@ namespace Player.Scripts
         {
             attackStartTimestamp = Time.time;
 
-            dashTarget = player.position;
             ComputeDashTarget(player);
-            
             SelectCurrentAttack(player);
             
             OnPlayerAttack?.Invoke(currentAttack);
@@ -28,49 +26,12 @@ namespace Player.Scripts
 
         private void ComputeDashTarget(PlayerStateMachine player)
         {
-            Vector3 position = player.position;
-            Vector2 inputDirection = player.moveInput.magnitude >= 0.15f ? player.moveInput : player.lastLookDirection;
-            float inputAngle = inputDirection.normalized.ToDegree();
-
-            List<GameObject> enemies = EnemyHolder.instance.Enemies;
-            List<Vector3> positionsInRange = new List<Vector3>();
-
-            foreach (GameObject enemy in enemies)
-            {
-                Vector3 directionToEnemy = (enemy.transform.position - position);
-                float distanceToEnemy = directionToEnemy.magnitude;
-                directionToEnemy = directionToEnemy.normalized;
-                
-                float angleToEnemy = new Vector2(directionToEnemy.x, directionToEnemy.z).ToDegree();
-
-                if (distanceToEnemy <= 1.0f || (distanceToEnemy < player.playerData.attackDashMaxDistance && angleToEnemy <= inputAngle + 90.0f && angleToEnemy >= inputAngle - 90.0f))
-                    positionsInRange.Add(enemy.transform.position);
-            }
-
-            if (positionsInRange.Count < 1)
-            {
-                player.lastLookDirection = inputDirection.normalized;
-                return;
-            }
-            
-            float minDistance = player.playerData.attackDashMaxDistance;
-            int closestEnemy = 0;
-
-            for (int i = 0; i < positionsInRange.Count; i++)
-            {
-                Vector3 directionToEnemy = (positionsInRange[i] - position);
-                float distanceToEnemy = directionToEnemy.magnitude;
-
-                if (distanceToEnemy < minDistance)
-                {
-                    minDistance = distanceToEnemy;
-                    closestEnemy = i;
-                }
-            }
-
-            dashTarget = positionsInRange[closestEnemy];
-            Vector3 direction = (dashTarget - position).normalized;
-            player.lastLookDirection = new Vector2(direction.x, direction.z);
+            if (player.playerTargeting.hasTarget && player.playerTargeting.targetDistance <= player.playerData.attackDashMaxDistance)
+                dashTarget = player.playerTargeting.targetPosition;
+            else if (player.moveInput.magnitude >= 0.15f)
+                dashTarget = player.position + player.moveInput.ToVector3().normalized * player.playerData.attackDashMaxDistance;
+            else
+                dashTarget = player.position + player.LastLookDirection.ToVector3().normalized * player.playerData.attackDashMaxDistance;
         }
 
         private void SelectCurrentAttack(PlayerStateMachine player)
@@ -92,7 +53,8 @@ namespace Player.Scripts
             if (Time.time - attackStartTimestamp <= player.playerData.attackDashDuration && Vector3.Distance(player.position, dashTarget) >= 1.0f)
                 DashTowardTarget(player);
             else
-                Decelerate(player);
+                player.moveVelocity = Vector3.zero;
+                //Decelerate(player);
 
             player.ApplyMovement();
         }

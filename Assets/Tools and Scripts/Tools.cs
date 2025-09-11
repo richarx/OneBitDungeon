@@ -75,14 +75,14 @@ namespace Tools_and_Scripts
 
     public static class Tools
     { 
-        public static Vector3 ToVector3(this Vector2 vector, float z = 0.0f)
+        public static Vector3 ToVector3(this Vector2 vector)
         {
-            return new Vector3(vector.x, vector.y, z);
+            return new Vector3(vector.x, 0.0f, vector.y);
         }
     
         public static Vector2 ToVector2(this Vector3 vector)
         {
-            return new Vector2(vector.x, vector.y);
+            return new Vector2(vector.x, vector.z);
         }
 
         public static float Distance(this Vector2 position, Vector2 other)

@@ -28,6 +28,8 @@ namespace Player.Scripts
                 player.ChangeBehaviour(player.playerRun);
                 return;
             }
+            
+            player.ComputeLastLookDirection();
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)

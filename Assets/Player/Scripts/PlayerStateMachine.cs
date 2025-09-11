@@ -26,17 +26,20 @@ namespace Player.Scripts
 
         [HideInInspector] public Rigidbody rb;
         [HideInInspector] public PlayerSword playerSword;
+        [HideInInspector] public PlayerTargeting playerTargeting;
 
         [HideInInspector] public InputPacker inputPacker = new InputPacker();
         [HideInInspector] public InputPackage inputPackage;
 
-        [HideInInspector] public Vector2 lastLookDirection = Vector2.right;
-        
+        private Vector2 lastLookDirection = Vector2.right;
+        public Vector2 LastLookDirection => lastLookDirection;
+
         private void Awake()
         {
             instance = this;
             rb = GetComponent<Rigidbody>();
             playerSword = GetComponent<PlayerSword>();
+            playerTargeting = GetComponent<PlayerTargeting>();
         }
 
         private void Start()
@@ -53,13 +56,27 @@ namespace Player.Scripts
         private void Update()
         {
             inputPackage = inputPacker.ComputeInputPackage();
-            
+            moveInput = inputPackage.GetMove;
+
             //if (PauseMenu.instance.IsPaused)
             //    return;
             
-            moveInput = inputPackage.GetMove;
-            
+            playerTargeting.ComputeTarget(this);
+
             currentBehaviour.UpdateBehaviour(this);
+        }
+
+        public void ComputeLastLookDirection()
+        {
+            if (playerTargeting.hasTarget)
+                lastLookDirection = playerTargeting.directionToTarget.ToVector2().normalized;
+            else if (moveInput.magnitude >= 0.15f)
+                lastLookDirection = moveInput.normalized;
+        }
+
+        public void SetLastLookDirection(Vector2 direction)
+        {
+            lastLookDirection = direction.normalized;
         }
 
         private void FixedUpdate()

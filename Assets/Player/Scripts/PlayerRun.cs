@@ -43,6 +43,8 @@ namespace Player.Scripts
                 player.ChangeBehaviour(player.playerIdle);
                 return;
             }
+            
+            player.ComputeLastLookDirection();
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)
@@ -73,7 +75,6 @@ namespace Player.Scripts
             {
                 player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, move.x, player.playerData.groundAcceleration * Time.fixedDeltaTime);
                 player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, move.y, player.playerData.groundAcceleration * Time.fixedDeltaTime);
-                player.lastLookDirection = player.moveInput.normalized;
             }
         }
 
