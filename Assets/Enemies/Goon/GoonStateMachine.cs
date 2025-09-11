@@ -31,8 +31,11 @@ namespace Enemies.Goon
         {
             rb = GetComponent<Rigidbody>();
             damageable = GetComponent<Damageable>();
-            
+
             damageable.OnTakeDamage.AddListener(() => ChangeBehaviour(goonStagger));
+            
+            EnemyHolder.instance.RegisterEnemy(gameObject);
+            damageable.OnDie.AddListener(() => EnemyHolder.instance.UnRegisterEnemy(gameObject));
             
             lastLookDirection = Vector2.right;
 
