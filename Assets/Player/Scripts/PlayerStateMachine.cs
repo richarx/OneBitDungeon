@@ -67,11 +67,6 @@ namespace Player.Scripts
             currentBehaviour.FixedUpdateBehaviour(this);
         }
 
-        private void LateUpdate()
-        {
-            
-        }
-
         public void ChangeBehaviour(IPlayerBehaviour newBehaviour)
         {
             if (newBehaviour == null || newBehaviour == currentBehaviour)
@@ -87,19 +82,6 @@ namespace Player.Scripts
         public void ApplyMovement()
         {
             rb.velocity = moveVelocity;
-        }
-
-        public bool IsMoving(float maxVelocity = 0.01f)
-        {
-            return ComputeGroundMoveVelocity().magnitude >= maxVelocity;
-        }
-
-        public Vector3 ComputeGroundMoveVelocity()
-        {
-            Vector3 velocity = moveVelocity;
-            velocity.y = 0.0f;
-
-            return velocity;
         }
     }
 }

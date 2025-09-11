@@ -81,9 +81,11 @@ namespace Player.Scripts
         {
             if (player.isLocked)
             {
+                /*
                 if (player.playerLocked.GetLockState == PlayerLocked.LockState.Dialog)
                     return player.playerData.dialogWalkMaxSpeed;
                 else
+                */
                     return 0.0f;
             } 
             
