@@ -7,6 +7,7 @@ namespace Player.Scripts
     {
         public UnityEvent<string> OnPlayerAttack = new UnityEvent<string>();
 
+        private string currentAttack;
         private float attackStartTimestamp;
         
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
@@ -16,7 +17,14 @@ namespace Player.Scripts
             player.moveVelocity = Vector3.zero;
             player.ApplyMovement();
             
-            OnPlayerAttack?.Invoke("Attack_1");
+            SelectCurrentAttack(player);
+            
+            OnPlayerAttack?.Invoke(currentAttack);
+        }
+
+        private void SelectCurrentAttack(PlayerStateMachine player)
+        {
+            currentAttack = "Attack_1";
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)

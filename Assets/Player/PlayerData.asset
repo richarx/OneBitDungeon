@@ -16,10 +16,10 @@ MonoBehaviour:
   dialogWalkMaxSpeed: 3
   groundAcceleration: 80
   groundDeceleration: 120
-  rollMaxSpeed: 20
+  rollMaxSpeed: 30
   rollMaxDistance: 5
-  rollMaxDuration: 2
-  rollAcceleration: 100
-  rollDeceleration: 30
-  rollDecelerationDistanceThreshold: 0.6
+  rollMaxDuration: 0.5
+  rollAcceleration: 300
+  rollDeceleration: 90
+  rollDecelerationDistanceThreshold: 0.5
   attackDuration: 0.3

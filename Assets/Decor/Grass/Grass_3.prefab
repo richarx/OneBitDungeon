@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7686507447057793506}
   - component: {fileID: 1250259933931274542}
   - component: {fileID: 4825478218289793278}
+  - component: {fileID: -3836706161543026286}
+  - component: {fileID: 2197721163657563043}
   m_Layer: 0
   m_Name: Grass_3
   m_TagString: Untagged
@@ -119,3 +121,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42465586834f2a049b0a788f90a97cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3836706161543026286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3840772621774002060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068ca6ab120c7194b90607252bdcd524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 1
+  OnDie:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2197721163657563043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3840772621774002060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6ce74338b4d264e9f1d415f18515b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corpsePrefabs:
+  - {fileID: 1418222715720614052, guid: 90e0b4b8bf665214e97219826e467f1a, type: 3}
+  - {fileID: 1418222715720614052, guid: c30dccfeb7fd2c14c860a7467a69c20b, type: 3}
+  - {fileID: 1418222715720614052, guid: 931693974b3271e47bf4b23cd54c061e, type: 3}
+  vfxPrefabs: []

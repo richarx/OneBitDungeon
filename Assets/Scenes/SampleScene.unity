@@ -1863,6 +1863,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasSword: 1
+  hitboxPrefab: {fileID: 1002835809620756908, guid: 8e54896a02369374f83e597d34629542,
+    type: 3}
+  weaponAnimationTriggers: {fileID: 1862258017}
   OnEquipSword:
     m_PersistentCalls:
       m_Calls: []
@@ -3935,6 +3938,7 @@ GameObject:
   - component: {fileID: 1862258015}
   - component: {fileID: 1862258014}
   - component: {fileID: 1862258016}
+  - component: {fileID: 1862258017}
   m_Layer: 0
   m_Name: graphics
   m_TagString: Untagged
@@ -4030,6 +4034,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1862258017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862258013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e041d05457117334fb51699055207934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnSpawnHitbox:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRemoveHitbox:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackCanBeCanceled:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1876714769
 PrefabInstance:
   m_ObjectHideFlags: 0
