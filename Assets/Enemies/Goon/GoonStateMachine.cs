@@ -16,6 +16,7 @@ namespace Enemies.Goon
         public GoonIdle goonIdle = new GoonIdle();
         public GoonWalk goonWalk = new GoonWalk();
         public GoonStrafe goonStrafe = new GoonStrafe();
+        public GoonApproach goonApproach = new GoonApproach();
         public GoonStagger goonStagger = new GoonStagger();
         public GoonDead goonDead = new GoonDead();
 
@@ -60,12 +61,15 @@ namespace Enemies.Goon
         {
             if (distanceToPlayer > goonData.distanceToPlayerWalkThreshold)
                 ChangeBehaviour(goonWalk);
-            else if (currentBehaviour.GetBehaviourType() != BehaviourType.Strafe)
-                ChangeBehaviour(goonStrafe);
             else
-                ChangeBehaviour(goonWalk);
+            {
+                if (Tools.RandomBool())//CanAttack())
+                    ChangeBehaviour(goonApproach);
+                else
+                    ChangeBehaviour(goonStrafe);
+            }
         }
-        
+
         public void ChangeBehaviour(IGoonBehaviour newBehaviour)
         {
             if (newBehaviour == null || newBehaviour == currentBehaviour)

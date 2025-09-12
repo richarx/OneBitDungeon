@@ -24,6 +24,7 @@ namespace Enemies.Goon
                     PlayIdleAnimation();
                     break;
                 case BehaviourType.Walk:
+                case BehaviourType.Approach:
                 case BehaviourType.Strafe:
                     PlayRunAnimation();
                     break;
