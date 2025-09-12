@@ -114,9 +114,19 @@ namespace Tools_and_Scripts
             return Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         }
     
-        public static float ToDegree(this Vector2 direction)
+        public static float ToSignedDegree(this Vector2 direction)
         {
             return DirectionToDegree(direction);
+        }
+        
+        public static float ToDegree(this Vector2 direction)
+        {
+            float signed = DirectionToDegree(direction);
+
+            if (signed < 0.0f)
+                signed = 360.0f + signed;
+            
+            return signed;
         }
 
         public static Vector2 RadianToVector2(float radian, float length = 1.0f)

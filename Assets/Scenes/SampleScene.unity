@@ -6583,11 +6583,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3966566128395055840, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
-        type: 3}
-      propertyPath: freezeDelay
-      value: 0.03
-      objectReference: {fileID: 0}
     - target: {fileID: 4810649270392905735, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
         type: 3}
       propertyPath: m_LocalPosition.x

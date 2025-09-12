@@ -72,7 +72,7 @@ namespace Player.Scripts
 
         private string ComputeLookDirection()
         {
-            float angle = player.LastLookDirection.ToDegree();
+            float angle = player.LastLookDirection.ToSignedDegree();
 
             if (angle < 0)
                 angle = 360.0f + angle;
@@ -100,7 +100,7 @@ namespace Player.Scripts
         
         private string ComputeCardinalLookDirection()
         {
-            float angle = player.LastLookDirection.ToDegree();
+            float angle = player.LastLookDirection.ToSignedDegree();
 
             if (angle < 0)
                 angle = 360.0f + angle;

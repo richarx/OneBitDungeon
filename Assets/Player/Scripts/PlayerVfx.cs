@@ -15,6 +15,12 @@ namespace Player.Scripts
         [SerializeField] private GameObject hitSlashPrefab;
         [SerializeField] private float slashHeight;
         [SerializeField] private float slashDistance;
+        
+        [Space]
+        [SerializeField] private GameObject swordSlashPrefab;
+        [SerializeField] private float swordSlashDelay;
+        [SerializeField] private float swordSlashHeight;
+        [SerializeField] private float swordSlashDistance;
 
         [Space] 
         [SerializeField] private float freezeDelay;
@@ -33,6 +39,22 @@ namespace Player.Scripts
                 if (!isTimeFrozen)
                     StartCoroutine(FreezeTime());
             });
+            player.playerAttack.OnPlayerAttack.AddListener((_) =>
+            {
+                StartCoroutine(WaitAndSpawnSwordSlash());
+            });
+        }
+
+        private IEnumerator WaitAndSpawnSwordSlash()
+        {
+            yield return new WaitForSeconds(swordSlashDelay);
+
+            Vector3 position = player.position + (Vector3.up * swordSlashHeight) + (player.LastLookDirection.ToVector3() * swordSlashDistance);
+            Transform slash = Instantiate(swordSlashPrefab, position, Quaternion.identity).transform;
+
+            Debug.Log($"Degree : {player.LastLookDirection.ToDegree()}");
+            
+            slash.RotateAround(slash.position, Vector3.up, 360.0f - player.LastLookDirection.ToDegree());
         }
 
         private IEnumerator FreezeTime()

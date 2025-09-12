@@ -58,7 +58,7 @@ namespace Enemies.Goon
         
         private string ComputeLookDirection()
         {
-            float angle = goon.lastLookDirection.ToDegree();
+            float angle = goon.lastLookDirection.ToSignedDegree();
 
             if (angle < 0)
                 angle = 360.0f + angle;
