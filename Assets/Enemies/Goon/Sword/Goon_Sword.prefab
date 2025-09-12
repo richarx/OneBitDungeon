@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 2932317657178797063}
   m_Layer: 0
   m_Name: Goon_Sword
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,9 +223,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goonData: {fileID: 11400000, guid: 3efdb92f1a08d2249b0ff36cfe1c7c08, type: 2}
+  graphics: {fileID: 5071313609053062274}
   goonCorpsePrefab: {fileID: 3217964803596498505, guid: 31230364ff7b1964d8b66829d442e03c,
     type: 3}
-  graphics: {fileID: 5071313609053062274}
   rb: {fileID: 0}
   damageable: {fileID: 0}
   moveVelocity: {x: 0, y: 0, z: 0}

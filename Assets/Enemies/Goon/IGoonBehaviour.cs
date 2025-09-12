@@ -4,6 +4,7 @@ namespace Enemies.Goon
     {
         Idle,
         Walk,
+        Strafe,
         Dash,
         Attack,
         Stagger,

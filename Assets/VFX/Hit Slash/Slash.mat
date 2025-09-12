@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Spark
+  m_Name: Slash
   m_Shader: {fileID: -6465566751694194690, guid: 66108c08b63f36e4f831a88c6e25c6da,
     type: 3}
   m_Parent: {fileID: 0}
@@ -116,7 +116,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Emission: {r: 1.9999999, g: 1.9999999, b: 1.9999999, a: 0}
+    - _Emission: {r: 8, g: 8, b: 8, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

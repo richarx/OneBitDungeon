@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Player.Sword_Hitboxes;
 using SFX;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Player.Scripts
         [SerializeField] private AudioClip sheatheSword;
         [SerializeField] private AudioClip unsheatheSword;
         [SerializeField] private List<AudioClip> swordSlash;
+        [SerializeField] private List<AudioClip> hitEnemy;
 
         private PlayerStateMachine player;
         
@@ -23,6 +25,7 @@ namespace Player.Scripts
             player.playerSword.OnEquipSword.AddListener(() => SFXManager.instance.PlaySFX(unsheatheSword, 0.1f));
             player.playerSword.OnSheatheSword.AddListener(() => SFXManager.instance.PlaySFX(sheatheSword, 0.1f));
             player.playerAttack.OnPlayerAttack.AddListener((_) => SFXManager.instance.PlayRandomSFX(swordSlash));
+            WeaponDamageTrigger.OnHitEnemy.AddListener((_) => SFXManager.instance.PlayRandomSFX(hitEnemy));
         }
     }
 }
