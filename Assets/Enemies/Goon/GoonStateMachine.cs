@@ -1,4 +1,5 @@
 using Player.Scripts;
+using Tools_and_Scripts;
 using UnityEngine;
 
 namespace Enemies.Goon
@@ -14,10 +15,10 @@ namespace Enemies.Goon
         // Behaviour States
         public GoonIdle goonIdle = new GoonIdle();
         public GoonWalk goonWalk = new GoonWalk();
+        public GoonStrafe goonStrafe = new GoonStrafe();
         public GoonStagger goonStagger = new GoonStagger();
         public GoonDead goonDead = new GoonDead();
-        
-        
+
         [HideInInspector] public Rigidbody rb;
         [HideInInspector] public Damageable damageable;
         
@@ -25,8 +26,9 @@ namespace Enemies.Goon
         [HideInInspector] public Vector2 lastLookDirection = Vector2.right;
         
         public Vector3 position => transform.position;
+        public float distanceToPlayer => (PlayerStateMachine.instance.position - position).magnitude;
+        public Vector3 directionToPlayer => (PlayerStateMachine.instance.position - position).normalized;
 
-        
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
@@ -52,6 +54,16 @@ namespace Enemies.Goon
         private void FixedUpdate()
         {
             currentBehaviour.FixedUpdateBehaviour(this);
+        }
+
+        public void SelectNextBehaviour()
+        {
+            if (distanceToPlayer > goonData.distanceToPlayerWalkThreshold)
+                ChangeBehaviour(goonWalk);
+            else if (currentBehaviour.GetBehaviourType() != BehaviourType.Strafe)
+                ChangeBehaviour(goonStrafe);
+            else
+                ChangeBehaviour(goonWalk);
         }
         
         public void ChangeBehaviour(IGoonBehaviour newBehaviour)
@@ -83,6 +95,11 @@ namespace Enemies.Goon
             SpriteRenderer corpse = Instantiate(goonCorpsePrefab, position, Quaternion.identity).GetComponent<SpriteRenderer>();
             corpse.sprite = graphics.sprite;
             corpse.color = graphics.color;
+        }
+
+        public void ComputeLastLookDirection()
+        {
+            lastLookDirection = directionToPlayer.ToVector2().normalized;
         }
     }
 }

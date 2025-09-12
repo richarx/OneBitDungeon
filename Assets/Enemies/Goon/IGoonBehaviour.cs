@@ -7,6 +7,7 @@ namespace Enemies.Goon
         Strafe,
         Dash,
         Attack,
+        Approach,
         Stagger,
         Dead
     }

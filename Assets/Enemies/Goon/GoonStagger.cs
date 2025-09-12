@@ -41,7 +41,7 @@ namespace Enemies.Goon
                 if (goon.damageable.IsDead)
                     goon.ChangeBehaviour(goon.goonDead);
                 else
-                    goon.ChangeBehaviour(goon.goonIdle);
+                    goon.SelectNextBehaviour();
                 return;
             }
         }

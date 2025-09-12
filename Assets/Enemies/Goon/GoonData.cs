@@ -9,11 +9,17 @@ namespace Enemies.Goon
         public float walkMaxSpeed;
         public float groundAcceleration;
         public float groundDeceleration;
+        public float distanceToPlayerWalkThreshold;
 
         [Space]
         [Header("Stagger")] 
         public float staggerDuration;
         public float stunDuration;
         public float knockbackPower;
+        
+        [Space]
+        [Header("Approach")] 
+        public float distanceToPlayerApproachThreshold;
+
     }
 }
