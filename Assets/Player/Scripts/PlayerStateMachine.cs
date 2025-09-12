@@ -13,7 +13,7 @@ namespace Player.Scripts
         public PlayerIdle playerIdle = new PlayerIdle();
         public PlayerRun playerRun = new PlayerRun();
         public PlayerRoll playerRoll = new PlayerRoll();
-        public PlayerAttack playerAttack = new PlayerAttack();
+        public PlayerAttack playerAttack;
         public PlayerLocked playerLocked = new PlayerLocked();
 
         public IPlayerBehaviour currentBehaviour;
@@ -40,6 +40,7 @@ namespace Player.Scripts
             rb = GetComponent<Rigidbody>();
             playerSword = GetComponent<PlayerSword>();
             playerTargeting = GetComponent<PlayerTargeting>();
+            playerAttack = new PlayerAttack(this);
         }
 
         private void Start()
@@ -48,7 +49,7 @@ namespace Player.Scripts
                 Cursor.visible = false;
 
             lastLookDirection = Vector2.right;
-            
+
             currentBehaviour = playerIdle;
             currentBehaviour.StartBehaviour(this, BehaviourType.Run);
         }

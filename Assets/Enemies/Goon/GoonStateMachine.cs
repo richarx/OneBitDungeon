@@ -33,6 +33,7 @@ namespace Enemies.Goon
             damageable = GetComponent<Damageable>();
 
             damageable.OnTakeDamage.AddListener(() => ChangeBehaviour(goonStagger));
+            damageable.OnDie.AddListener(() => ChangeBehaviour(goonDead));
             
             EnemyHolder.instance.RegisterEnemy(gameObject);
             damageable.OnDie.AddListener(() => EnemyHolder.instance.UnRegisterEnemy(gameObject));

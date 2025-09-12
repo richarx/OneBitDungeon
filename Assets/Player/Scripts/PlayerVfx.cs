@@ -18,6 +18,7 @@ namespace Player.Scripts
         
         [Space]
         [SerializeField] private GameObject swordSlashPrefab;
+        [SerializeField] private GameObject swordSecondSlashPrefab;
         [SerializeField] private float swordSlashDelay;
         [SerializeField] private float swordSlashHeight;
         [SerializeField] private float swordSlashDistance;
@@ -49,11 +50,12 @@ namespace Player.Scripts
         {
             yield return new WaitForSeconds(swordSlashDelay);
 
+            bool isSecondAttack = player.playerAttack.IsSecondAttack;
+            GameObject prefab = isSecondAttack ? swordSecondSlashPrefab : swordSlashPrefab;
             Vector3 position = player.position + (Vector3.up * swordSlashHeight) + (player.LastLookDirection.ToVector3() * swordSlashDistance);
-            Transform slash = Instantiate(swordSlashPrefab, position, Quaternion.identity).transform;
-
-            Debug.Log($"Degree : {player.LastLookDirection.ToDegree()}");
             
+            Transform slash = Instantiate(prefab, position, Quaternion.identity).transform;
+
             slash.RotateAround(slash.position, Vector3.up, 360.0f - player.LastLookDirection.ToDegree());
         }
 

@@ -6583,6 +6583,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3966566128395055840, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: swordSecondSlashPrefab
+      value: 
+      objectReference: {fileID: 1936735994176848030, guid: f4537d8cc33edab4bbd17f2d43eef7b5,
+        type: 3}
     - target: {fileID: 4810649270392905735, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
         type: 3}
       propertyPath: m_LocalPosition.x

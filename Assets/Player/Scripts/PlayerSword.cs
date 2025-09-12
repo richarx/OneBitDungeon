@@ -12,7 +12,7 @@ namespace Player.Scripts
         
         [Space]
         [SerializeField] private GameObject hitboxPrefab;
-        [SerializeField] private WeaponAnimationTriggers weaponAnimationTriggers;
+        public WeaponAnimationTriggers weaponAnimationTriggers;
         
         [HideInInspector] public UnityEvent OnEquipSword = new UnityEvent();
         [HideInInspector] public UnityEvent OnSheatheSword = new UnityEvent();

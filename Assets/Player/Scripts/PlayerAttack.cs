@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Enemies;
 using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,20 +9,61 @@ namespace Player.Scripts
         public UnityEvent<string> OnPlayerAttack = new UnityEvent<string>();
 
         private Vector3 dashTarget;
-        private string currentAttack;
         private float attackStartTimestamp;
 
         private Vector3 dashVelocity;
+
+        private bool isSecondAttack;
+        public bool IsSecondAttack => isSecondAttack;
+        private bool canAttackBeCanceled;
+
+        public PlayerAttack(PlayerStateMachine player)
+        {
+            player.playerSword.weaponAnimationTriggers.OnAttackCanBeCanceled.AddListener(() => canAttackBeCanceled = true);
+        }
         
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
             attackStartTimestamp = Time.time;
+            canAttackBeCanceled = false;
+            isSecondAttack = previous == BehaviourType.Attack;
 
             ComputeDashTarget(player);
-            SelectCurrentAttack(player);
             player.SetLastLookDirection((dashTarget - player.position).ToVector2());
             
-            OnPlayerAttack?.Invoke(currentAttack);
+            OnPlayerAttack?.Invoke(SelectCurrentAttack());
+        }
+
+        public void UpdateBehaviour(PlayerStateMachine player)
+        {
+            if (Time.time - attackStartTimestamp >= player.playerData.attackDuration)
+            {
+                player.ChangeBehaviour(player.playerIdle);
+                return;
+            }
+
+            if (canAttackBeCanceled && !isSecondAttack && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
+            {
+                StartBehaviour(player, BehaviourType.Attack);
+                return;
+            }
+            
+            if (canAttackBeCanceled && player.inputPackage.GetRoll.WasPressedWithBuffer())
+            {
+                player.ChangeBehaviour(player.playerRoll);
+                return;
+            }
+        }
+
+        public void FixedUpdateBehaviour(PlayerStateMachine player)
+        {
+            if (Time.time - attackStartTimestamp <= player.playerData.attackDashDuration && Vector3.Distance(player.position, dashTarget) >= 0.1f)
+                DashTowardTarget(player);
+            else
+                player.moveVelocity = Vector3.zero;
+                //Decelerate(player);
+
+            player.ApplyMovement();
         }
 
         private void ComputeDashTarget(PlayerStateMachine player)
@@ -42,35 +81,9 @@ namespace Player.Scripts
                 dashTarget = player.position + player.LastLookDirection.ToVector3().normalized * player.playerData.attackDashMaxDistance;
         }
 
-        private void SelectCurrentAttack(PlayerStateMachine player)
+        private string SelectCurrentAttack()
         {
-            currentAttack = "Attack_1";
-        }
-
-        public void UpdateBehaviour(PlayerStateMachine player)
-        {
-            if (Time.time - attackStartTimestamp >= player.playerData.attackDuration)
-            {
-                player.ChangeBehaviour(player.playerIdle);
-                return;
-            }
-        }
-
-        public void FixedUpdateBehaviour(PlayerStateMachine player)
-        {
-            if (Time.time - attackStartTimestamp <= player.playerData.attackDashDuration && Vector3.Distance(player.position, dashTarget) >= 0.1f)
-                DashTowardTarget(player);
-            else
-                player.moveVelocity = Vector3.zero;
-                //Decelerate(player);
-
-            player.ApplyMovement();
-        }
-
-        private void Decelerate(PlayerStateMachine player)
-        {
-            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.attackDashDeceleration * Time.fixedDeltaTime);
-            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.attackDashDeceleration * Time.fixedDeltaTime);
+            return isSecondAttack ? "Attack_1" : "Attack_1";
         }
 
         private void DashTowardTarget(PlayerStateMachine player)

@@ -24,10 +24,11 @@ namespace Enemies
                 return;
 
             currentHealth -= damage;
-            OnTakeDamage?.Invoke();
             
             if (IsDead)
                 OnDie?.Invoke();
+            else
+                OnTakeDamage?.Invoke();
         }
     }
 }
