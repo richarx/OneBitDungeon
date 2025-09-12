@@ -21,9 +21,9 @@ MonoBehaviour:
   rollAcceleration: 300
   rollDeceleration: 90
   rollDecelerationDistanceThreshold: 0.5
-  attackDuration: 0.3
-  attackDashDuration: 0.1
-  attackDashMaxDistance: 10
+  attackDuration: 0.45
+  attackDashDuration: 0.15
+  attackDashMaxDistance: 6
   attackDashSpeed: 30
   attackDashAcceleration: 300
   attackDashDeceleration: 500

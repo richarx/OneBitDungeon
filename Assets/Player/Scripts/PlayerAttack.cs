@@ -13,6 +13,8 @@ namespace Player.Scripts
         private Vector3 dashTarget;
         private string currentAttack;
         private float attackStartTimestamp;
+
+        private Vector3 dashVelocity;
         
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
@@ -33,7 +35,7 @@ namespace Player.Scripts
             bool isInputInTargetDirection = hasTarget && isInputPressed && Vector3.Dot(player.playerTargeting.directionToTarget, player.moveInput.ToVector3()) >= 0.5f;
             
             if (isTargetInRange && (!isInputPressed || isInputInTargetDirection))
-                dashTarget = player.playerTargeting.targetPosition;
+                dashTarget = player.position + (player.playerTargeting.directionToTarget * Mathf.Max(player.playerTargeting.targetDistance - 1.0f, 0.0f));
             else if (isInputPressed)
                 dashTarget = player.position + player.moveInput.ToVector3().normalized * player.playerData.attackDashMaxDistance;
             else
@@ -56,7 +58,7 @@ namespace Player.Scripts
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)
         {
-            if (Time.time - attackStartTimestamp <= player.playerData.attackDashDuration && Vector3.Distance(player.position, dashTarget) >= 1.0f)
+            if (Time.time - attackStartTimestamp <= player.playerData.attackDashDuration && Vector3.Distance(player.position, dashTarget) >= 0.1f)
                 DashTowardTarget(player);
             else
                 player.moveVelocity = Vector3.zero;
@@ -73,10 +75,7 @@ namespace Player.Scripts
 
         private void DashTowardTarget(PlayerStateMachine player)
         {
-            Vector3 direction = (dashTarget - player.position).normalized * player.playerData.attackDashSpeed;
-            
-            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, direction.x, player.playerData.attackDashAcceleration * Time.fixedDeltaTime);
-            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, direction.z, player.playerData.attackDashAcceleration * Time.fixedDeltaTime);
+            player.rb.MovePosition(Vector3.SmoothDamp(player.position, dashTarget, ref dashVelocity, player.playerData.attackDashDuration));
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
