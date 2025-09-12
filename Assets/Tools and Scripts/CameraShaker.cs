@@ -1,6 +1,7 @@
 using System.Collections;
 using Player;
 using Player.Scripts;
+using Player.Sword_Hitboxes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,6 +12,7 @@ namespace Tools_and_Scripts
         [SerializeField] private float amplitudeX;
         [SerializeField] private float amplitudeY;
         [SerializeField] private float frequency;
+        [SerializeField] private float duration;
         
         private PlayerStateMachine player;
 
@@ -20,35 +22,31 @@ namespace Tools_and_Scripts
         {
             startingPosition = transform.localPosition;
             player = PlayerStateMachine.instance;
+            WeaponDamageTrigger.OnHitEnemy.AddListener((_) => StartShake());
         }
 
-        private void StartSlide()
+        private void StartShake()
         {
             StopAllCoroutines();
-            //StartCoroutine(ShakeDuringSlide());
+            StartCoroutine(Shake());
         }
 
-        /*
-        private IEnumerator ShakeDuringSlide()
+        private IEnumerator Shake()
         {
-            while (player.currentBehaviour.GetBehaviourType() == BehaviourType.Slide)
+            Vector3 newPosition = Vector3.zero;
+            
+            float timer = 0.0f;
+            while (timer <= duration)
             {
-                Vector3 newPosition = Vector3.zero;
-
-                newPosition.x = Random.Range(-amplitudeX, amplitudeX);
-                newPosition.y = Random.Range(-amplitudeY, amplitudeY);
+                newPosition.x = Mathf.Sin(timer * frequency) * amplitudeX;
+                newPosition.y = Mathf.Cos(timer * frequency) * amplitudeY;
 
                 transform.localPosition = newPosition;
 
-                yield return new WaitForSeconds(0.05f);
+                yield return null;
+                timer += Time.deltaTime;
             }
-            transform.localPosition = startingPosition;
-        }
-        */
-
-        private void StopSlide()
-        {
-            StopAllCoroutines();
+            
             transform.localPosition = startingPosition;
         }
     }

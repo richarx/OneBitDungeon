@@ -228,11 +228,13 @@ MonoBehaviour:
   slashDistance: 1
   swordSlashPrefab: {fileID: 1936735994176848030, guid: 3578cf581bb6de243a59dcbdfb91ae42,
     type: 3}
+  swordSecondSlashPrefab: {fileID: 1936735994176848030, guid: f4537d8cc33edab4bbd17f2d43eef7b5,
+    type: 3}
   swordSlashDelay: 0.1
   swordSlashHeight: 1
   swordSlashDistance: 1
   freezeDelay: 0.03
-  freezeDuration: 0.1
+  freezeDuration: 0.05
 --- !u!1 &8240938594344038892
 GameObject:
   m_ObjectHideFlags: 0
