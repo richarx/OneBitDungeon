@@ -1,5 +1,4 @@
 using Player.Scripts;
-using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,38 +13,47 @@ namespace Enemies.Goon
         private float attackStartTimestamp;
         private float attackCooldownTimestamp = -1.0f;
 
+        private bool isAnticipationPhase;
+        public bool IsAnticipationPhase => isAnticipationPhase;
+        
         private Vector3 dashVelocity;
         
         public void StartBehaviour(GoonStateMachine goon, BehaviourType previous)
         {
-            dashStartPosition = goon.position;
             attackStartTimestamp = Time.time;
+            isAnticipationPhase = true;
+        }
 
+        private void TriggerAttack(GoonStateMachine goon)
+        {
+            isAnticipationPhase = false;
+            dashStartPosition = goon.position;
             ComputeDashTarget(goon);
-            goon.SetLastLookDirection((dashTarget - goon.position).ToVector2());
-            
             OnGoonSwordAttack?.Invoke("Sword");
         }
 
         public void UpdateBehaviour(GoonStateMachine goon)
         {
+            if (isAnticipationPhase && Time.time - attackStartTimestamp >= goon.goonData.delayBeforeDash)
+            {
+                TriggerAttack(goon);
+                return;
+            }
+            
             if (Time.time - attackStartTimestamp >= goon.goonData.attackDuration)
             {
                 goon.ChangeBehaviour(goon.goonIdle);
                 return;
             }
+            
+            if (isAnticipationPhase)
+                goon.ComputeLastLookDirection();
         }
 
         public void FixedUpdateBehaviour(GoonStateMachine goon)
         {
-            float timeElapsed = Time.time - attackStartTimestamp;
-            bool isTimeToDash = timeElapsed >= goon.goonData.delayBeforeDash;
-
-            if (isTimeToDash && Vector3.Distance(dashStartPosition, goon.position) <= Vector3.Distance(dashStartPosition, dashTarget))
-            {
-                Debug.Log(timeElapsed);
+            if (!isAnticipationPhase && Vector3.Distance(dashStartPosition, goon.position) <= Vector3.Distance(dashStartPosition, dashTarget))
                 DashTowardTarget(goon);
-            }
             else
                 goon.moveVelocity = Vector3.zero;
 
@@ -54,7 +62,6 @@ namespace Enemies.Goon
         
         private void ComputeDashTarget(GoonStateMachine goon)
         {
-            Debug.Log($"Goon position : {goon.position} / Player position : {PlayerStateMachine.instance.position}");
             dashTarget = PlayerStateMachine.instance.position;
         }
         

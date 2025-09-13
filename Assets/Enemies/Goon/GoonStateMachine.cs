@@ -89,11 +89,6 @@ namespace Enemies.Goon
             rb.velocity = moveVelocity;
         }
 
-        public Vector3 ComputeDirectionToPlayer()
-        {
-            return (PlayerStateMachine.instance.position - position).normalized;
-        }
-        
         public void SpawnCorpse()
         {
             Destroy(gameObject);

@@ -35,6 +35,8 @@ namespace Enemies.Goon
                     PlayDeadAnimation();
                     break;
                 case BehaviourType.Attack:
+                    if (goon.goonSwordAttack.IsAnticipationPhase)
+                        PlayAttackAnticipation();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -59,6 +61,11 @@ namespace Enemies.Goon
         private void PlayDeadAnimation()
         {
             animator.Play($"Die_Sword_{ComputeLookDirection()}");
+        }
+
+        private void PlayAttackAnticipation()
+        {
+            animator.Play($"Attack_Anticipation_Sword_{ComputeLookDirection()}");
         }
         
         private void PlayAttackAnimation(string attackAnimation)

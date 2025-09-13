@@ -22,5 +22,5 @@ MonoBehaviour:
   distanceToPlayerApproachThreshold: 9.5
   attackDuration: 1
   delayBeforeDash: 0.5
-  attackDashDuration: 0.2
+  attackDashDuration: 0.15
   attackDashMaxDistance: 10

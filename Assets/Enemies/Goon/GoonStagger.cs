@@ -1,3 +1,4 @@
+using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,11 +17,9 @@ namespace Enemies.Goon
             Debug.Log("GOON STAGGER");
             
             startStaggerTimestamp = Time.time;
-            Vector3 playerDirection = goon.ComputeDirectionToPlayer();
-            playerDirection.y = 0.0f;
             
-            goon.SetLastLookDirection(playerDirection);
-            staggerDirection = playerDirection.normalized * -1.0f;
+            goon.SetLastLookDirection(goon.directionToPlayer.ToVector2());
+            staggerDirection = goon.directionToPlayer * -1.0f;
             
             isStun = true;
             
