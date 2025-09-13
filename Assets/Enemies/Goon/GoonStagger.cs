@@ -19,7 +19,7 @@ namespace Enemies.Goon
             Vector3 playerDirection = goon.ComputeDirectionToPlayer();
             playerDirection.y = 0.0f;
             
-            goon.lastLookDirection = playerDirection.normalized;
+            goon.SetLastLookDirection(playerDirection);
             staggerDirection = playerDirection.normalized * -1.0f;
             
             isStun = true;

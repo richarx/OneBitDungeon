@@ -40,7 +40,6 @@ namespace Enemies.Goon
             
             goon.moveVelocity.x = Mathf.MoveTowards(goon.moveVelocity.x, move.x, goon.goonData.groundAcceleration * Time.fixedDeltaTime);
             goon.moveVelocity.z = Mathf.MoveTowards(goon.moveVelocity.z, move.z, goon.goonData.groundAcceleration * Time.fixedDeltaTime);
-            goon.lastLookDirection = direction;
         }
 
         public void StopBehaviour(GoonStateMachine goon, BehaviourType next)

@@ -13,7 +13,7 @@ namespace Enemies.Goon
         {
             if (goon.distanceToPlayer <= goon.goonData.distanceToPlayerApproachThreshold)
             {
-                goon.SelectNextBehaviour();// ATTACK
+                goon.ChangeBehaviour(goon.goonSwordAttack);
                 return;
             }
             

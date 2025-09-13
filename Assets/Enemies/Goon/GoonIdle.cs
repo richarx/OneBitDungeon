@@ -4,13 +4,24 @@ namespace Enemies.Goon
 {
     public class GoonIdle : IGoonBehaviour
     {
+        private float endIdleTimestamp;
+        
         public void StartBehaviour(GoonStateMachine goon, BehaviourType previous)
         {
             Debug.Log("GOON IDLE");
+
+            endIdleTimestamp = Time.time + Random.Range(0.5f, 1.5f);
         }
 
         public void UpdateBehaviour(GoonStateMachine goon)
         {
+            if (Time.time >= endIdleTimestamp)
+            {
+                goon.SelectNextBehaviour();
+                return;
+            }
+            
+            goon.ComputeLastLookDirection();
         }
 
         public void FixedUpdateBehaviour(GoonStateMachine goon)

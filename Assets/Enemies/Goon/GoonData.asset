@@ -15,8 +15,12 @@ MonoBehaviour:
   walkMaxSpeed: 4
   groundAcceleration: 80
   groundDeceleration: 120
-  distanceToPlayerWalkThreshold: 6
+  distanceToPlayerWalkThreshold: 15
   staggerDuration: 0.33
   stunDuration: 0.1
   knockbackPower: 15
-  distanceToPlayerApproachThreshold: 3
+  distanceToPlayerApproachThreshold: 9.5
+  attackDuration: 1
+  delayBeforeDash: 0.5
+  attackDashDuration: 0.2
+  attackDashMaxDistance: 10

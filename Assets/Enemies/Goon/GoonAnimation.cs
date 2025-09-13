@@ -14,6 +14,7 @@ namespace Enemies.Goon
         {
             goon = GetComponent<GoonStateMachine>();
             goon.goonStagger.OnGetStaggered.AddListener(PlayStaggerAnimation);
+            goon.goonSwordAttack.OnGoonSwordAttack.AddListener(PlayAttackAnimation);
         }
 
         private void LateUpdate()
@@ -32,6 +33,8 @@ namespace Enemies.Goon
                     break;
                 case BehaviourType.Dead:
                     PlayDeadAnimation();
+                    break;
+                case BehaviourType.Attack:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -58,9 +61,14 @@ namespace Enemies.Goon
             animator.Play($"Die_Sword_{ComputeLookDirection()}");
         }
         
+        private void PlayAttackAnimation(string attackAnimation)
+        {
+            animator.Play($"Attack_{attackAnimation}_{ComputeLookDirection()}", 0, 0.0f);
+        }
+        
         private string ComputeLookDirection()
         {
-            float angle = goon.lastLookDirection.ToSignedDegree();
+            float angle = goon.LastLookDirection.ToSignedDegree();
 
             if (angle < 0)
                 angle = 360.0f + angle;

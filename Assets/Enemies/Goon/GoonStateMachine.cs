@@ -17,6 +17,7 @@ namespace Enemies.Goon
         public GoonWalk goonWalk = new GoonWalk();
         public GoonStrafe goonStrafe = new GoonStrafe();
         public GoonApproach goonApproach = new GoonApproach();
+        public GoonSwordAttack goonSwordAttack = new GoonSwordAttack();
         public GoonStagger goonStagger = new GoonStagger();
         public GoonDead goonDead = new GoonDead();
 
@@ -24,7 +25,8 @@ namespace Enemies.Goon
         [HideInInspector] public Damageable damageable;
         
         [HideInInspector] public Vector3 moveVelocity;
-        [HideInInspector] public Vector2 lastLookDirection = Vector2.right;
+        private Vector2 lastLookDirection = Vector2.right;
+        public Vector2 LastLookDirection => lastLookDirection;
         
         public Vector3 position => transform.position;
         public float distanceToPlayer => (PlayerStateMachine.instance.position - position).magnitude;
@@ -63,7 +65,7 @@ namespace Enemies.Goon
                 ChangeBehaviour(goonWalk);
             else
             {
-                if (Tools.RandomBool())//CanAttack())
+                if (goonSwordAttack.CanAttack())
                     ChangeBehaviour(goonApproach);
                 else
                     ChangeBehaviour(goonStrafe);
@@ -104,6 +106,11 @@ namespace Enemies.Goon
         public void ComputeLastLookDirection()
         {
             lastLookDirection = directionToPlayer.ToVector2().normalized;
+        }
+        
+        public void SetLastLookDirection(Vector2 direction)
+        {
+            lastLookDirection = direction.normalized;
         }
     }
 }

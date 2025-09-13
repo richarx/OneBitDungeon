@@ -61,7 +61,6 @@ namespace Player.Scripts
                 DashTowardTarget(player);
             else
                 player.moveVelocity = Vector3.zero;
-                //Decelerate(player);
 
             player.ApplyMovement();
         }

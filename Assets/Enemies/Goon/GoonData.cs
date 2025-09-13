@@ -21,5 +21,12 @@ namespace Enemies.Goon
         [Header("Approach")] 
         public float distanceToPlayerApproachThreshold;
 
+        [Space]
+        [Header("Attack")] 
+        public float attackDuration;
+        public float delayBeforeDash;
+        public float attackDashDuration;
+        public float attackDashMaxDistance;
+        
     }
 }
