@@ -49,6 +49,7 @@ namespace Enemies.Goon
         private void ComputeDashTarget(GoonStateMachine goon)
         {
             dashTarget = goon.position + goon.directionToPlayer * (-1.0f * goon.goonData.dashMaxDistance);
+            dashTarget.y = 0.0f;
         }
         
         private void DashTowardTarget(GoonStateMachine goon)

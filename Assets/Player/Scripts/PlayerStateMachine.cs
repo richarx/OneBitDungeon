@@ -65,8 +65,6 @@ namespace Player.Scripts
             playerTargeting.ComputeTarget(this);
 
             currentBehaviour.UpdateBehaviour(this);
-
-            transform.position += Vector3.down * transform.position.y;
         }
 
         public void ComputeLastLookDirection()
@@ -102,6 +100,7 @@ namespace Player.Scripts
         public void ApplyMovement()
         {
             rb.velocity = moveVelocity;
+            moveVelocity.y = 0.0f;
         }
     }
 }

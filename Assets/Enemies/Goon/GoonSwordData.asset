@@ -25,4 +25,4 @@ MonoBehaviour:
   attackDashMaxDistance: 10
   dashDuration: 0.5
   dashMaxDistance: 8
-  dashSpeed: 0.2
+  dashSpeed: 0.3

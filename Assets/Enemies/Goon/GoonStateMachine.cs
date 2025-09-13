@@ -53,8 +53,6 @@ namespace Enemies.Goon
         private void Update()
         {
             currentBehaviour.UpdateBehaviour(this);
-            
-            transform.position += Vector3.down * transform.position.y;
         }
         
         private void FixedUpdate()
@@ -91,6 +89,7 @@ namespace Enemies.Goon
         
         public void ApplyMovement()
         {
+            moveVelocity.y = 0.0f;
             rb.velocity = moveVelocity;
         }
 
