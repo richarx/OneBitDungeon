@@ -20,7 +20,7 @@ MonoBehaviour:
   stunDuration: 0.1
   knockbackPower: 15
   distanceToPlayerApproachThreshold: 9.5
-  attackDuration: 1
+  attackDuration: 1.3
   delayBeforeDash: 0.5
   attackDashDuration: 0.15
   attackDashMaxDistance: 10

@@ -62,7 +62,7 @@ namespace Enemies.Goon
         
         private void ComputeDashTarget(GoonStateMachine goon)
         {
-            dashTarget = PlayerStateMachine.instance.position;
+            dashTarget = goon.position + goon.directionToPlayer * Mathf.Max(goon.distanceToPlayer - 1, 1.0f);
         }
         
         private void DashTowardTarget(GoonStateMachine goon)
