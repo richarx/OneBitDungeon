@@ -230,7 +230,6 @@ MonoBehaviour:
   rb: {fileID: 0}
   damageable: {fileID: 0}
   moveVelocity: {x: 0, y: 0, z: 0}
-  lastLookDirection: {x: 1, y: 0}
 --- !u!114 &2932317657178797063
 MonoBehaviour:
   m_ObjectHideFlags: 0

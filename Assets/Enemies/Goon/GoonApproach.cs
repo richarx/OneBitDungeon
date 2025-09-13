@@ -11,7 +11,7 @@ namespace Enemies.Goon
 
         public void UpdateBehaviour(GoonStateMachine goon)
         {
-            if (goon.distanceToPlayer <= goon.goonData.distanceToPlayerApproachThreshold)
+            if (goon.distanceToPlayer <= goon.goonData.attackDashMaxDistance)
             {
                 goon.ChangeBehaviour(goon.goonSwordAttack);
                 return;

@@ -15,6 +15,7 @@ namespace Enemies.Goon
             goon = GetComponent<GoonStateMachine>();
             goon.goonStagger.OnGetStaggered.AddListener(PlayStaggerAnimation);
             goon.goonSwordAttack.OnGoonSwordAttack.AddListener(PlayAttackAnimation);
+            goon.goonDash.OnGoonDash.AddListener(PlayDashAnimation);
         }
 
         private void LateUpdate()
@@ -37,6 +38,8 @@ namespace Enemies.Goon
                 case BehaviourType.Attack:
                     if (goon.goonSwordAttack.IsAnticipationPhase)
                         PlayAttackAnticipation();
+                    break;
+                case BehaviourType.Dash:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -71,6 +74,11 @@ namespace Enemies.Goon
         private void PlayAttackAnimation(string attackAnimation)
         {
             animator.Play($"Attack_{attackAnimation}_{ComputeLookDirection()}", 0, 0.0f);
+        }
+        
+        private void PlayDashAnimation()
+        {
+            animator.Play($"Dash_Sword_{ComputeLookDirection()}");
         }
         
         private string ComputeLookDirection()

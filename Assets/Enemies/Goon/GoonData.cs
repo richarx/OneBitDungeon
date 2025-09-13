@@ -16,10 +16,6 @@ namespace Enemies.Goon
         public float staggerDuration;
         public float stunDuration;
         public float knockbackPower;
-        
-        [Space]
-        [Header("Approach")] 
-        public float distanceToPlayerApproachThreshold;
 
         [Space]
         [Header("Attack")] 
@@ -27,6 +23,10 @@ namespace Enemies.Goon
         public float delayBeforeDash;
         public float attackDashDuration;
         public float attackDashMaxDistance;
-        
+
+        [Space] [Header("Dash")] 
+        public float dashDuration;
+        public float dashMaxDistance;
+        public float dashSpeed;
     }
 }

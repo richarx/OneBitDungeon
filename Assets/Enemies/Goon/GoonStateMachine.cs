@@ -18,6 +18,7 @@ namespace Enemies.Goon
         public GoonStrafe goonStrafe = new GoonStrafe();
         public GoonApproach goonApproach = new GoonApproach();
         public GoonSwordAttack goonSwordAttack = new GoonSwordAttack();
+        public GoonDash goonDash = new GoonDash();
         public GoonStagger goonStagger = new GoonStagger();
         public GoonDead goonDead = new GoonDead();
 
@@ -52,6 +53,8 @@ namespace Enemies.Goon
         private void Update()
         {
             currentBehaviour.UpdateBehaviour(this);
+            
+            transform.position += Vector3.down * transform.position.y;
         }
         
         private void FixedUpdate()
@@ -65,7 +68,9 @@ namespace Enemies.Goon
                 ChangeBehaviour(goonWalk);
             else
             {
-                if (goonSwordAttack.CanAttack())
+                if (!damageable.IsFullLife && goonDash.CanDash(this))
+                    ChangeBehaviour(goonDash);
+                else if (goonSwordAttack.CanAttack())
                     ChangeBehaviour(goonApproach);
                 else
                     ChangeBehaviour(goonStrafe);

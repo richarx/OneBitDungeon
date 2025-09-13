@@ -12,6 +12,7 @@ namespace Enemies
         
         private int currentHealth;
         public bool IsDead => currentHealth <= 0;
+        public bool IsFullLife => currentHealth == startingHealth;
 
         private void Start()
         {

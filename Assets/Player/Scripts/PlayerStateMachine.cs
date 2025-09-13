@@ -65,6 +65,8 @@ namespace Player.Scripts
             playerTargeting.ComputeTarget(this);
 
             currentBehaviour.UpdateBehaviour(this);
+
+            transform.position += Vector3.down * transform.position.y;
         }
 
         public void ComputeLastLookDirection()
