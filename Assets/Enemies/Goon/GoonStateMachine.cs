@@ -66,7 +66,7 @@ namespace Enemies.Goon
                 ChangeBehaviour(goonWalk);
             else
             {
-                if (!damageable.IsFullLife && goonDash.CanDash(this))
+                if (!damageable.IsFullLife && goonDash.CanDash(this) && Tools.RandomBool())
                     ChangeBehaviour(goonDash);
                 else if (goonSwordAttack.CanAttack())
                     ChangeBehaviour(goonApproach);
