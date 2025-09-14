@@ -11,6 +11,7 @@ namespace Player.Scripts
         public float groundAcceleration;
         public float groundDeceleration;
         
+        [Space]
         [Header("Roll")]
         public float rollMaxSpeed;
         public float rollMaxDistance;
@@ -19,10 +20,15 @@ namespace Player.Scripts
         public float rollDeceleration;
         public float rollDecelerationDistanceThreshold;
 
+        [Space]
         [Header("Combat")] 
         public float attackDuration;
         public float attackDashDuration;
         public float attackDashMaxDistance;
         public float attackDashDeceleration;
+
+        [Space]
+        [Header("Stagger")] 
+        public float staggerDuration;
     }
 }

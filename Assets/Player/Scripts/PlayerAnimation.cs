@@ -14,6 +14,7 @@ namespace Player.Scripts
         {
             player = PlayerStateMachine.instance;
             player.playerAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
+            player.playerStagger.OnStagger.AddListener(PlayStaggerAnimation);
         }
 
         private void LateUpdate()
@@ -30,6 +31,7 @@ namespace Player.Scripts
                     PlayRollAnimation();
                     break;
                 case BehaviourType.Attack:
+                case BehaviourType.Stagger:
                     break;
                 case BehaviourType.Locked:
                     PlayIdleAnimation();
@@ -57,6 +59,11 @@ namespace Player.Scripts
         private void PlayAttackAnimation(string attackAnimation)
         {
             animator.Play($"{attackAnimation}_InHand_{ComputeLookDirection()}", 0, 0.0f);
+        }
+        
+        private void PlayStaggerAnimation()
+        {
+            animator.Play($"Hurt_{ComputeWeaponState()}_{ComputeLookDirection()}");
         }
 
         private string ComputeWeaponState()

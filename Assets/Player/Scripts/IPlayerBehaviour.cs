@@ -6,6 +6,7 @@ namespace Player.Scripts
         Run,
         Roll,
         Attack,
+        Stagger,
         Locked,
     }
     

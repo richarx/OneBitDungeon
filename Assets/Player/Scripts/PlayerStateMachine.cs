@@ -13,6 +13,7 @@ namespace Player.Scripts
         public PlayerIdle playerIdle = new PlayerIdle();
         public PlayerRun playerRun = new PlayerRun();
         public PlayerRoll playerRoll = new PlayerRoll();
+        public PlayerStagger playerStagger = new PlayerStagger();
         public PlayerAttack playerAttack;
         public PlayerLocked playerLocked = new PlayerLocked();
 
@@ -27,6 +28,7 @@ namespace Player.Scripts
         [HideInInspector] public Rigidbody rb;
         [HideInInspector] public PlayerSword playerSword;
         [HideInInspector] public PlayerTargeting playerTargeting;
+        [HideInInspector] public PlayerHealth playerHealth;
 
         [HideInInspector] public InputPacker inputPacker = new InputPacker();
         [HideInInspector] public InputPackage inputPackage;
@@ -40,6 +42,7 @@ namespace Player.Scripts
             rb = GetComponent<Rigidbody>();
             playerSword = GetComponent<PlayerSword>();
             playerTargeting = GetComponent<PlayerTargeting>();
+            playerHealth = GetComponent<PlayerHealth>();
             playerAttack = new PlayerAttack(this);
         }
 
@@ -50,6 +53,8 @@ namespace Player.Scripts
 
             lastLookDirection = Vector2.right;
 
+            playerHealth.OnPlayerTakeDamage.AddListener((direction) => playerStagger.TriggerStagger(this, direction));
+            
             currentBehaviour = playerIdle;
             currentBehaviour.StartBehaviour(this, BehaviourType.Run);
         }

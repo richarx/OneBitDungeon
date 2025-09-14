@@ -25,3 +25,4 @@ MonoBehaviour:
   attackDashDuration: 0.15
   attackDashMaxDistance: 6
   attackDashDeceleration: 500
+  staggerDuration: 0.5

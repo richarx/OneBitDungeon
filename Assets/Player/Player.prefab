@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 1576004317031373350}
   - component: {fileID: 4392527997099474862}
   - component: {fileID: 3966566128395055840}
+  - component: {fileID: 3395103977411905134}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -235,6 +236,25 @@ MonoBehaviour:
   swordSlashDistance: 1
   freezeDelay: 0.03
   freezeDuration: 0.05
+--- !u!114 &3395103977411905134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477797266677306866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63b70769f601cb44bd8214dd35f8ef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 6
+  OnPlayerTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerDie:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8240938594344038892
 GameObject:
   m_ObjectHideFlags: 0
