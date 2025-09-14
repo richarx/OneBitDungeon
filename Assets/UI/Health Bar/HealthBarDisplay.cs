@@ -31,7 +31,7 @@ namespace UI.Health_Bar
             if (current > currentlyDisplayed)
                 SpawnHealthPoint();
             else if (current < currentlyDisplayed)
-                RemoveHealthPoints(currentlyDisplayed - current);
+                RemoveHealthPoints();
         }
         
         private void SetupHealthBar()
@@ -52,14 +52,11 @@ namespace UI.Health_Bar
             nextUpdateTimestamp = Time.time + 0.1f;
         }
 
-        private void RemoveHealthPoints(int toRemoveCount)
+        private void RemoveHealthPoints()
         {
-            for (int i = 0; i < toRemoveCount; i++)
-            {
-                GameObject toBeRemoved = healthPointsHolder.GetChild(healthPointsHolder.childCount - (1 + i)).gameObject;
-                toBeRemoved.GetComponent<Animator>().Play("Remove");
-                Destroy(toBeRemoved, 0.3f);
-            }
+            GameObject toBeRemoved = healthPointsHolder.GetChild(healthPointsHolder.childCount - 1).gameObject;
+            toBeRemoved.GetComponent<Animator>().Play("Remove");
+            Destroy(toBeRemoved, 0.3f);
 
             nextUpdateTimestamp = Time.time + 0.4f;
         }

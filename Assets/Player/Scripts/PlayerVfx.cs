@@ -24,6 +24,9 @@ namespace Player.Scripts
         [SerializeField] private float swordSlashDistance;
 
         [Space] 
+        [SerializeField] private GameObject parryVfx;
+
+        [Space] 
         [SerializeField] private float freezeDelay;
         [SerializeField] private float freezeDuration;
         
@@ -40,10 +43,21 @@ namespace Player.Scripts
                 if (!isTimeFrozen)
                     StartCoroutine(FreezeTime());
             });
+            player.playerParry.OnSuccessfulParry.AddListener(() =>
+            {
+                if (!isTimeFrozen)
+                    StartCoroutine(FreezeTime());
+            });
             player.playerAttack.OnPlayerAttack.AddListener((_) =>
             {
                 StartCoroutine(WaitAndSpawnSwordSlash());
             });
+            player.playerParry.OnSuccessfulParry.AddListener(SpawnParryVfx);
+        }
+
+        private void SpawnParryVfx()
+        {
+            Instantiate(parryVfx, player.position, Quaternion.identity);
         }
 
         private IEnumerator WaitAndSpawnSwordSlash()

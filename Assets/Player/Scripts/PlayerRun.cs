@@ -38,6 +38,12 @@ namespace Player.Scripts
                 return;
             }
 
+            if (player.inputPackage.GetParry.WasPressedWithBuffer())
+            {
+                player.ChangeBehaviour(player.playerParry);
+                return;
+            }
+
             if (player.moveInput.magnitude < 0.15f)
             {
                 player.ChangeBehaviour(player.playerIdle);

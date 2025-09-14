@@ -53,6 +53,12 @@ namespace Player.Scripts
                 player.ChangeBehaviour(player.playerRoll);
                 return;
             }
+            
+            if (canAttackBeCanceled && player.inputPackage.GetParry.WasPressedWithBuffer())
+            {
+                player.ChangeBehaviour(player.playerParry);
+                return;
+            }
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)

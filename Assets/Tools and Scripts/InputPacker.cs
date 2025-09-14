@@ -39,6 +39,7 @@ namespace Tools_and_Scripts
 
         public InputData GetRoll => lastInputType == InputType.Gamepad ? eastButton : spaceKey;
         public InputData GetAttack => lastInputType == InputType.Gamepad ? westButton : leftMouse;
+        public InputData GetParry => lastInputType == InputType.Gamepad ? leftShoulder : rightMouse;
         
         public InputData GetShoot => lastInputType == InputType.Gamepad ? rightTrigger : leftMouse;
         public InputData GetAim => lastInputType == InputType.Gamepad ? leftTrigger : rightMouse;

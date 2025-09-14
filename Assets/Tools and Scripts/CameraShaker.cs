@@ -24,6 +24,7 @@ namespace Tools_and_Scripts
             player = PlayerStateMachine.instance;
             WeaponDamageTrigger.OnHitEnemy.AddListener((_) => StartShake());
             player.playerHealth.OnPlayerTakeDamage.AddListener((_) => StartShake());
+            player.playerParry.OnSuccessfulParry.AddListener(StartShake);
         }
 
         private void StartShake()

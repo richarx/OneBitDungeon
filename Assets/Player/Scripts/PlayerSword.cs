@@ -31,6 +31,7 @@ namespace Player.Scripts
             currentlyHasSword = hasSword;
             player = PlayerStateMachine.instance;
             player.playerAttack.OnPlayerAttack.AddListener((_) => isSwordInHand = true);
+            player.playerParry.OnParry.AddListener(() => isSwordInHand = true);
             weaponAnimationTriggers.OnSpawnHitbox.AddListener(SpawnHitbox);
             weaponAnimationTriggers.OnRemoveHitbox.AddListener(RemoveHitbox);
         }

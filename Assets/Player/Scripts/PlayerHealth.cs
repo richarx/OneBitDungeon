@@ -12,6 +12,8 @@ namespace Player.Scripts
 
         [HideInInspector] public UnityEvent<Vector3> OnPlayerTakeDamage = new UnityEvent<Vector3>();
         [HideInInspector] public UnityEvent OnPlayerDie = new UnityEvent();
+
+        private PlayerStateMachine player;
         
         private int currentHealth;
 
@@ -27,15 +29,16 @@ namespace Player.Scripts
 
         private void Start()
         {
+            player = PlayerStateMachine.instance;
             LevelHolder.OnRestartGame.AddListener(ResetHealth);
         }
 
         private void Update()
         {
-            if (Gamepad.current.leftShoulder.wasPressedThisFrame)
+            if (Gamepad.current.dpad.left.wasPressedThisFrame)
                 TakeDamage(1, Vector3.right);
 
-            if (Gamepad.current.rightShoulder.wasPressedThisFrame)
+            if (Gamepad.current.dpad.right.wasPressedThisFrame)
                 ResetHealth();
         }
 
@@ -44,10 +47,20 @@ namespace Player.Scripts
             currentHealth = startingHealth;
         }
 
-        public void TakeDamage(int damage, Vector3 direction)
+        public bool IsParrying()
+        {
+            return player.currentBehaviour.GetBehaviourType() == BehaviourType.Parry;
+        }
+
+        public void TriggerParry()
+        {
+            player.playerParry.TriggerSuccessfulParry();
+        }
+
+        public bool TakeDamage(int damage, Vector3 direction)
         {
             if (IsDead)
-                return;
+                return false;
 
             currentHealth -= damage;
             
@@ -55,6 +68,8 @@ namespace Player.Scripts
                 OnPlayerDie?.Invoke();
             else
                 OnPlayerTakeDamage?.Invoke(direction);
+
+            return true;
         }
     }
 }

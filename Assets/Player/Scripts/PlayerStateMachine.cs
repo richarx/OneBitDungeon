@@ -15,6 +15,7 @@ namespace Player.Scripts
         public PlayerRun playerRun = new PlayerRun();
         public PlayerRoll playerRoll = new PlayerRoll();
         public PlayerStagger playerStagger = new PlayerStagger();
+        public PlayerParry playerParry = new PlayerParry();
         public PlayerAttack playerAttack;
         public PlayerLocked playerLocked = new PlayerLocked();
 

@@ -28,3 +28,5 @@ MonoBehaviour:
   staggerDuration: 0.4
   staggerPower: 20
   staggerDeceleration: 60
+  parryDuration: 0.5
+  successfulParryDuration: 0.3

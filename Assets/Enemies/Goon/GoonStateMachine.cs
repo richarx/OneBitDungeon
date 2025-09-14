@@ -128,6 +128,12 @@ namespace Enemies.Goon
 
             currentHitbox = Instantiate(damageHitBoxPrefab, position, Quaternion.identity, transform);
             currentHitbox.transform.RotateAround(position, Vector3.up, ComputeHitboxDirection(direction));
+            currentHitbox.transform.GetChild(0).GetComponent<EnemyDealDamage>().OnHitParry.AddListener(GetParried);
+        }
+
+        private void GetParried()
+        {
+            ChangeBehaviour(goonStagger);
         }
 
         private float ComputeHitboxDirection(AttackDirection direction)

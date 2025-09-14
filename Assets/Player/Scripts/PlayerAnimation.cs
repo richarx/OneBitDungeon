@@ -30,6 +30,9 @@ namespace Player.Scripts
                 case BehaviourType.Roll:
                     PlayRollAnimation();
                     break;
+                case BehaviourType.Parry:
+                    PlayParryAnimation();
+                    break;
                 case BehaviourType.Attack:
                 case BehaviourType.Stagger:
                     break;
@@ -39,6 +42,12 @@ namespace Player.Scripts
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void PlayParryAnimation()
+        {
+            string animationName = player.playerParry.WasSuccessful ? "Parry_Success" : "Parry";
+            animator.Play($"{animationName}_InHand_{ComputeLookDirection()}");
         }
 
         private void PlayIdleAnimation()
