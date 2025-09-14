@@ -1,8 +1,9 @@
 using System;
-using Level_Holder;
 using Player.Scripts;
+using Player.Sword_Hitboxes;
 using Tools_and_Scripts;
 using UnityEngine;
+using static Player.Sword_Hitboxes.WeaponAnimationTriggers;
 
 namespace Enemies.Goon
 {
@@ -11,6 +12,8 @@ namespace Enemies.Goon
         public GoonData goonData;
         public SpriteRenderer graphics;
         public GameObject goonCorpsePrefab;
+        [SerializeField] private WeaponAnimationTriggers weaponAnimationTriggers;
+        [SerializeField] private GameObject damageHitBoxPrefab;
         
         public IGoonBehaviour currentBehaviour;
         
@@ -27,6 +30,8 @@ namespace Enemies.Goon
         [HideInInspector] public Rigidbody rb;
         [HideInInspector] public Damageable damageable;
         
+        private GameObject currentHitbox;
+        
         [HideInInspector] public Vector3 moveVelocity;
         private Vector2 lastLookDirection = Vector2.right;
         public Vector2 LastLookDirection => lastLookDirection;
@@ -42,6 +47,9 @@ namespace Enemies.Goon
 
             damageable.OnTakeDamage.AddListener(() => ChangeBehaviour(goonStagger));
             damageable.OnDie.AddListener(() => ChangeBehaviour(goonDead));
+            
+            weaponAnimationTriggers.OnSpawnHitbox.AddListener(SpawnDamageHitbox);
+            weaponAnimationTriggers.OnRemoveHitbox.AddListener(RemoveDamageHitbox);
             
             EnemyHolder.instance.RegisterEnemy(gameObject);
 
@@ -111,6 +119,45 @@ namespace Enemies.Goon
         public void SetLastLookDirection(Vector2 direction)
         {
             lastLookDirection = direction.normalized;
+        }
+        
+        private void SpawnDamageHitbox(AttackDirection direction)
+        {
+            if (currentHitbox != null)
+                RemoveDamageHitbox();
+
+            currentHitbox = Instantiate(damageHitBoxPrefab, position, Quaternion.identity, transform);
+            currentHitbox.transform.RotateAround(position, Vector3.up, ComputeHitboxDirection(direction));
+        }
+
+        private float ComputeHitboxDirection(AttackDirection direction)
+        {
+            switch (direction)
+            {
+                case AttackDirection.L:
+                    return 180.0f;
+                case AttackDirection.F:
+                    return 90.0f;
+                case AttackDirection.R:
+                    return 0.0f;
+                case AttackDirection.BR:
+                    return -45.0f;
+                case AttackDirection.B:
+                    return -100.0f;
+                case AttackDirection.BL:
+                    return -145.0f;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
+            }
+        }
+
+        public void RemoveDamageHitbox()
+        {
+            if (currentHitbox != null)
+            {
+                Destroy(currentHitbox);
+                currentHitbox = null;
+            }
         }
 
         private void OnDestroy()

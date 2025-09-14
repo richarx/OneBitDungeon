@@ -78,6 +78,7 @@ namespace Enemies.Goon
         public void StopBehaviour(GoonStateMachine goon, BehaviourType next)
         {
             attackCooldownTimestamp = Time.time + Random.Range(1.5f, 3.0f);
+            goon.RemoveDamageHitbox();
         }
 
         public BehaviourType GetBehaviourType()

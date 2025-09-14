@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2078947102036699023}
   - component: {fileID: 5071313609053062274}
   - component: {fileID: 1695218526776584420}
+  - component: {fileID: 1101606422976933254}
   m_Layer: 0
   m_Name: Goon_Sword
   m_TagString: Untagged
@@ -106,6 +107,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1101606422976933254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2495253166018751601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e041d05457117334fb51699055207934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnSpawnHitbox:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRemoveHitbox:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackCanBeCanceled:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8182171201184144234
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +249,9 @@ MonoBehaviour:
   goonData: {fileID: 11400000, guid: 3efdb92f1a08d2249b0ff36cfe1c7c08, type: 2}
   graphics: {fileID: 5071313609053062274}
   goonCorpsePrefab: {fileID: 3217964803596498505, guid: 31230364ff7b1964d8b66829d442e03c,
+    type: 3}
+  weaponAnimationTriggers: {fileID: 1101606422976933254}
+  damageHitBoxPrefab: {fileID: 1002835809620756908, guid: 2194ab68b27deb4499db81adff4049df,
     type: 3}
   rb: {fileID: 0}
   damageable: {fileID: 0}

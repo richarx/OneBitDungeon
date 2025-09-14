@@ -65,7 +65,7 @@ namespace Player.Scripts
             }
         }
 
-        private void RemoveHitbox()
+        public void RemoveHitbox()
         {
             if (currentHitbox != null)
             {

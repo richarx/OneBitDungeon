@@ -92,6 +92,7 @@ namespace Player.Scripts
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
+            player.playerSword.RemoveHitbox();
         }
 
         public bool CanAttack(PlayerStateMachine player)
