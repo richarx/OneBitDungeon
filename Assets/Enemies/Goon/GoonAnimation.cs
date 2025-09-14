@@ -20,6 +20,13 @@ namespace Enemies.Goon
 
         private void LateUpdate()
         {
+            if (goon == null)
+                Debug.Log("Goon is null");
+
+            if (goon.currentBehaviour == null)
+                Debug.Log("Goon current behaviour is null");
+
+            
             switch (goon.currentBehaviour.GetBehaviourType())
             {
                 case BehaviourType.Idle:

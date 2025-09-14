@@ -1,3 +1,4 @@
+using Level_Holder;
 using Tools_and_Scripts;
 using UnityEngine;
 
@@ -54,6 +55,9 @@ namespace Player.Scripts
             lastLookDirection = Vector2.right;
 
             playerHealth.OnPlayerTakeDamage.AddListener((direction) => playerStagger.TriggerStagger(this, direction));
+            playerHealth.OnPlayerDie.AddListener(() => playerLocked.SetLockState(this));
+            LevelHolder.OnResetGame.AddListener(() => transform.position = Vector3.zero);
+            LevelHolder.OnRestartGame.AddListener(() => ChangeBehaviour(playerIdle));
             
             currentBehaviour = playerIdle;
             currentBehaviour.StartBehaviour(this, BehaviourType.Run);

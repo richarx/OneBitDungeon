@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6104919120072542278}
   - component: {fileID: 5054634697759943561}
   - component: {fileID: 12461940102076893}
+  - component: {fileID: -1617925909503834253}
   m_Layer: 0
   m_Name: Goon_Sword_Corpse
   m_TagString: Untagged
@@ -99,3 +100,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 3
   targetColor: {r: 0.34117648, g: 0.33333334, b: 0.1882353, a: 1}
+--- !u!114 &-1617925909503834253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3217964803596498505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8110c5bf306e3429b6a1f3927d4400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

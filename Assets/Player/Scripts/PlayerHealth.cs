@@ -1,3 +1,5 @@
+using System;
+using Level_Holder;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -20,7 +22,12 @@ namespace Player.Scripts
 
         private void Awake()
         {
-            currentHealth = startingHealth;
+            ResetHealth();
+        }
+
+        private void Start()
+        {
+            LevelHolder.OnRestartGame.AddListener(ResetHealth);
         }
 
         private void Update()
@@ -29,7 +36,12 @@ namespace Player.Scripts
                 TakeDamage(1, Vector3.right);
 
             if (Gamepad.current.rightShoulder.wasPressedThisFrame)
-                currentHealth = startingHealth;
+                ResetHealth();
+        }
+
+        private void ResetHealth()
+        {
+            currentHealth = startingHealth;
         }
 
         public void TakeDamage(int damage, Vector3 direction)

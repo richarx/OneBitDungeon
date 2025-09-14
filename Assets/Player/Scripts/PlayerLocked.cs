@@ -15,10 +15,6 @@ namespace Player.Scripts
         public UnityEvent OnLockPlayer = new UnityEvent();
         public UnityEvent OnUnlockPlayer = new UnityEvent();
 
-        private Transform lookTarget;
-        public bool hasTarget => lookTarget != null;
-        public Vector3 targetPosition => lookTarget.position;
-
         private LockState lockState = LockState.Unlocked;
         public LockState GetLockState => lockState;
         
@@ -38,7 +34,6 @@ namespace Player.Scripts
         public void SetLockState(PlayerStateMachine player, LockState newLockState = LockState.Full, Transform newTarget = null)
         {
             lockState = newLockState;
-            lookTarget = newTarget;
             player.ChangeBehaviour(player.playerLocked);
         }
 
@@ -54,7 +49,6 @@ namespace Player.Scripts
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {          
-            lookTarget = null;
             OnUnlockPlayer?.Invoke();
         }
 

@@ -683,5 +683,13 @@ namespace Tools_and_Scripts
         {
             return Vector2.right.AddAngleToDirection(45 * direction);
         }
+
+        public static void DeleteAllChildren(Transform parent)
+        {
+            for (int i = parent.childCount - 1; i >= 0; i--)
+            {
+                GameObject.Destroy(parent.GetChild(i).gameObject);
+            }
+        }
     }
 }

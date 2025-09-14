@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Level_Holder;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,6 +13,7 @@ namespace Enemies
         private void Start()
         {
             SpawnEnemy();
+            LevelHolder.OnRestartGame.AddListener(SpawnEnemy);
         }
 
         private void SpawnEnemy()

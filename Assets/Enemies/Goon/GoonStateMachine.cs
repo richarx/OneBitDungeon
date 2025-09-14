@@ -1,3 +1,5 @@
+using System;
+using Level_Holder;
 using Player.Scripts;
 using Tools_and_Scripts;
 using UnityEngine;
@@ -33,7 +35,7 @@ namespace Enemies.Goon
         public float distanceToPlayer => (PlayerStateMachine.instance.position - position).magnitude;
         public Vector3 directionToPlayer => (PlayerStateMachine.instance.position - position).normalized;
 
-        private void Start()
+        private void Awake()
         {
             rb = GetComponent<Rigidbody>();
             damageable = GetComponent<Damageable>();
@@ -42,8 +44,7 @@ namespace Enemies.Goon
             damageable.OnDie.AddListener(() => ChangeBehaviour(goonDead));
             
             EnemyHolder.instance.RegisterEnemy(gameObject);
-            damageable.OnDie.AddListener(() => EnemyHolder.instance.UnRegisterEnemy(gameObject));
-            
+
             lastLookDirection = Vector2.right;
 
             currentBehaviour = goonWalk;
@@ -110,6 +111,12 @@ namespace Enemies.Goon
         public void SetLastLookDirection(Vector2 direction)
         {
             lastLookDirection = direction.normalized;
+        }
+
+        private void OnDestroy()
+        {
+            if (EnemyHolder.instance != null)
+                EnemyHolder.instance.UnRegisterEnemy(gameObject);
         }
     }
 }
