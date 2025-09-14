@@ -56,7 +56,7 @@ namespace UI.Health_Bar
         {
             for (int i = 0; i < toRemoveCount; i++)
             {
-                GameObject toBeRemoved = healthPointsHolder.GetChild(healthPointsHolder.childCount - 1).gameObject;
+                GameObject toBeRemoved = healthPointsHolder.GetChild(healthPointsHolder.childCount - (1 + i)).gameObject;
                 toBeRemoved.GetComponent<Animator>().Play("Remove");
                 Destroy(toBeRemoved, 0.3f);
             }
