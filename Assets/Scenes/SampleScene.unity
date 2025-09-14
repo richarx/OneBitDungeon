@@ -6960,11 +6960,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3395103977411905134, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
         type: 3}
-      propertyPath: startingHealth
-      value: 10
+      propertyPath: hurt.Array.size
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: hurt.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 993e67d60ed558e42ae8bdbb7e9b900e, type: 3}
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: hurt.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 819dbcb0ab4164849a4f76a1d4510e6f, type: 3}
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: hurt.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: ecad40a956acbe54497c3ac937c58919, type: 3}
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: hurt.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: ecad40a956acbe54497c3ac937c58919, type: 3}
     - target: {fileID: 4810649270392905735, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
         type: 3}
       propertyPath: m_LocalPosition.x

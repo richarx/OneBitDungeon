@@ -30,5 +30,7 @@ namespace Player.Scripts
         [Space]
         [Header("Stagger")] 
         public float staggerDuration;
+        public float staggerPower;
+        public float staggerDeceleration;
     }
 }

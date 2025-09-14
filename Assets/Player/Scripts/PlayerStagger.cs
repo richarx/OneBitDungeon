@@ -15,14 +15,22 @@ namespace Player.Scripts
         {
             startStaggerTimestamp = Time.time;
             player.SetLastLookDirection((knockBackDirection * -1.0f).ToVector2());
+
+            player.moveVelocity = knockBackDirection * player.playerData.staggerPower;
+            player.ApplyMovement();
             
             OnStagger?.Invoke();
         }
 
         public void TriggerStagger(PlayerStateMachine player, Vector3 direction)
         {
-            knockBackDirection = direction;
-            player.ChangeBehaviour(player.playerStagger);
+            direction.y = 0.0f;
+            knockBackDirection = direction.normalized;
+            
+            if (player.currentBehaviour.GetBehaviourType() == BehaviourType.Stagger)
+                StartBehaviour(player, BehaviourType.Stagger);
+            else
+                player.ChangeBehaviour(player.playerStagger);
         }
         
         public void UpdateBehaviour(PlayerStateMachine player)
@@ -33,6 +41,14 @@ namespace Player.Scripts
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)
         {
+            HandleDeceleration(player);
+            player.ApplyMovement();
+        }
+
+        private void HandleDeceleration(PlayerStateMachine player)
+        {
+            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.staggerDeceleration * Time.fixedDeltaTime);
+            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.staggerDeceleration * Time.fixedDeltaTime);
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)

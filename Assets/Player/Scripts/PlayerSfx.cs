@@ -13,6 +13,7 @@ namespace Player.Scripts
         [SerializeField] private AudioClip unsheatheSword;
         [SerializeField] private List<AudioClip> swordSlash;
         [SerializeField] private List<AudioClip> hitEnemy;
+        [SerializeField] private List<AudioClip> hurt;
 
         private PlayerStateMachine player;
         
@@ -26,6 +27,7 @@ namespace Player.Scripts
             player.playerSword.OnSheatheSword.AddListener(() => SFXManager.instance.PlaySFX(sheatheSword, 0.1f));
             player.playerAttack.OnPlayerAttack.AddListener((_) => SFXManager.instance.PlayRandomSFX(swordSlash));
             WeaponDamageTrigger.OnHitEnemy.AddListener((_) => SFXManager.instance.PlayRandomSFX(hitEnemy));
+            player.playerHealth.OnPlayerTakeDamage.AddListener((_) => SFXManager.instance.PlayRandomSFX(hurt));
         }
     }
 }

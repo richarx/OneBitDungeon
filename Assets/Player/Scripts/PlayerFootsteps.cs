@@ -68,7 +68,7 @@ namespace Player.Scripts
 
         private bool IsTimeToTakeStep()
         {
-            if (player.currentBehaviour.GetBehaviourType() == BehaviourType.Roll)
+            if (!IsBehaviourAllowed(player.currentBehaviour.GetBehaviourType()))
                 return false;
             
             Vector3 horizontalVelocity = player.moveVelocity;
@@ -85,6 +85,11 @@ namespace Player.Scripts
             }
 
             return false;
+        }
+
+        private bool IsBehaviourAllowed(BehaviourType behaviour)
+        {
+            return behaviour == BehaviourType.Run;
         }
     }
 }
