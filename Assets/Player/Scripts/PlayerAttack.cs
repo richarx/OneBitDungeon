@@ -48,7 +48,7 @@ namespace Player.Scripts
                 return;
             }
             
-            if (canAttackBeCanceled && player.inputPackage.GetRoll.WasPressedWithBuffer())
+            if (canAttackBeCanceled && player.playerRoll.CanRoll() && player.inputPackage.GetRoll.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerRoll);
                 return;

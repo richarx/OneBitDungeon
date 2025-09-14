@@ -19,6 +19,7 @@ namespace Player.Scripts
         public float rollAcceleration;
         public float rollDeceleration;
         public float rollDecelerationDistanceThreshold;
+        public float rollCooldown;
 
         [Space]
         [Header("Combat")] 

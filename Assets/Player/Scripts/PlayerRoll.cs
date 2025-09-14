@@ -12,6 +12,7 @@ namespace Player.Scripts
         private Vector3 rollDirection;
         private Vector3 rollStartPosition;
         private float rollStartTimestamp;
+        private float rollCooldownTimestamp = -1.0f;
         
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
@@ -72,9 +73,15 @@ namespace Player.Scripts
                 player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, move.z, player.playerData.rollAcceleration * Time.fixedDeltaTime);
             }
         }
+        
+        public bool CanRoll()
+        {
+            return rollCooldownTimestamp < 0.0f || Time.time >= rollCooldownTimestamp;
+        }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
+            rollCooldownTimestamp = Time.time + player.playerData.rollCooldown;
             player.moveVelocity = Vector3.ClampMagnitude(player.moveVelocity, player.playerData.walkMaxSpeed);
             OnStopRoll?.Invoke();
         }
