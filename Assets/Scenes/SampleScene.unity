@@ -6932,12 +6932,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3966566128395055840, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
         type: 3}
-      propertyPath: parryVfx
+      propertyPath: parry_2
       value: 
-      objectReference: {fileID: 2755547318002962695, guid: b425364a45397ab4ab939621c38073e7,
+      objectReference: {fileID: 8300000, guid: 20b3ae9f3ff307847bf9459ab4543ea0, type: 3}
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
         type: 3}
+      propertyPath: parrySuccess_1
+      value: 
+      objectReference: {fileID: 8300000, guid: b04c84e7fa971cb43b2d8658038e1d7a, type: 3}
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: parrySuccess_2
+      value: 
+      objectReference: {fileID: 8300000, guid: d1f956a23696708488d473b2c4c9438e, type: 3}
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: parry_1.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: parry_1.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 786b2b3003764664cb89df81efd1e054, type: 3}
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: parry_1.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4e83a0d063557314e891839f5b413142, type: 3}
+    - target: {fileID: 1576004317031373350, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: parry_1.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 71a8affa29644f149b1579bdde310892, type: 3}
     - target: {fileID: 4810649270392905735, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6988,11 +7017,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8487764772900159162, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 330585545}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -54,7 +54,7 @@ namespace Player.Scripts
                 return;
             }
             
-            if (canAttackBeCanceled && player.inputPackage.GetParry.WasPressedWithBuffer())
+            if (canAttackBeCanceled && player.playerParry.CanParry() && player.inputPackage.GetParry.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerParry);
                 return;

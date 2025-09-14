@@ -240,6 +240,8 @@ MonoBehaviour:
   swordSlashDelay: 0.1
   swordSlashHeight: 1
   swordSlashDistance: 1
+  parryVfx: {fileID: 2755547318002962695, guid: b425364a45397ab4ab939621c38073e7,
+    type: 3}
   freezeDelay: 0.03
   freezeDuration: 0.05
 --- !u!114 &3395103977411905134

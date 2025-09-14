@@ -10,6 +10,7 @@ namespace Player.Scripts
         
         private float parryStartTimestamp;
         private float successfulParryTimestamp;
+        private float parryCooldownTimestamp = -1.0f;
 
         private bool wasSuccessful;
         public bool WasSuccessful => wasSuccessful;
@@ -57,8 +58,14 @@ namespace Player.Scripts
             player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
         }
 
+        public bool CanParry()
+        {
+            return parryCooldownTimestamp < 0.0f || Time.time >= parryCooldownTimestamp;
+        }
+
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
+            parryCooldownTimestamp = Time.time + player.playerData.parryCooldown;
         }
 
         public BehaviourType GetBehaviourType()
