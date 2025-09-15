@@ -50,5 +50,6 @@ namespace Player.Scripts
         [Space] 
         public float rollStaminaCost;
         public float attackStaminaCost;
+        public float parryStaminaCost;
     }
 }

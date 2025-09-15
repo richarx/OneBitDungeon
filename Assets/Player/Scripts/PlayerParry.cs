@@ -21,6 +21,9 @@ namespace Player.Scripts
             
             wasSuccessful = false;
             parryStartTimestamp = Time.time;
+            
+            player.playerStamina.ConsumeStamina(player.playerData.parryStaminaCost);
+            
             OnParry?.Invoke();
         }
         
@@ -58,9 +61,9 @@ namespace Player.Scripts
             player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
         }
 
-        public bool CanParry()
+        public bool CanParry(PlayerStateMachine player)
         {
-            return parryCooldownTimestamp < 0.0f || Time.time >= parryCooldownTimestamp;
+            return (parryCooldownTimestamp < 0.0f || Time.time >= parryCooldownTimestamp) && (player.playerData.parryStaminaCost == 0.0f || !player.playerStamina.IsEmpty);
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)

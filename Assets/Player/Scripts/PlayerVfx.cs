@@ -25,6 +25,9 @@ namespace Player.Scripts
 
         [Space] 
         [SerializeField] private GameObject parryVfx;
+        
+        [Space] 
+        [SerializeField] private GameObject rollVfx;
 
         [Space] 
         [SerializeField] private float freezeDelay;
@@ -53,6 +56,14 @@ namespace Player.Scripts
                 StartCoroutine(WaitAndSpawnSwordSlash());
             });
             player.playerParry.OnSuccessfulParry.AddListener(SpawnParryVfx);
+            player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
+        }
+
+        private void SpawnRollVfx()
+        {
+            GameObject roll = Instantiate(rollVfx, player.position, Quaternion.identity);
+            if (!player.playerRoll.IsRollingLeft)
+                roll.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
         }
 
         private void SpawnParryVfx()

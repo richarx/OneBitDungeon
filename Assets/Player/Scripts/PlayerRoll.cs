@@ -13,6 +13,8 @@ namespace Player.Scripts
         private Vector3 rollStartPosition;
         private float rollStartTimestamp;
         private float rollCooldownTimestamp = -1.0f;
+
+        public bool IsRollingLeft => rollDirection.x >= 0.0f;
         
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {

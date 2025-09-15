@@ -23,7 +23,7 @@ namespace Player.Scripts
                 return;
             }
             
-            if (player.playerParry.CanParry() && player.inputPackage.GetParry.WasPressedWithBuffer())
+            if (player.playerParry.CanParry(player) && player.inputPackage.GetParry.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerParry);
                 return;

@@ -6350,10 +6350,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3990981814217575767, guid: 2c2054bd953c1fa419ced1d16e8363af,
+        type: 3}
+      propertyPath: m_text
+      value: '- Camera loosely follow player
+
+        - Second Range enemy (shoots
+        projectiles or spawn aoe under player)
+
+        - Wave spawner
+
+        -
+        Third enemy (rush player but takes time to turn)
+
+        - Scene transition
+        (lock arena)'
+      objectReference: {fileID: 0}
     - target: {fileID: 6679277294097082049, guid: 2c2054bd953c1fa419ced1d16e8363af,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6942,6 +6958,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3966566128395055840, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
+        type: 3}
+      propertyPath: rollVfx
+      value: 
+      objectReference: {fileID: 7980137014980868513, guid: dc0d24dd083978742ad4e8c585baf8d2,
+        type: 3}
     - target: {fileID: 4810649270392905735, guid: 5ad9c010c2879cd4d9b75ee73a87518b,
         type: 3}
       propertyPath: m_LocalPosition.x
