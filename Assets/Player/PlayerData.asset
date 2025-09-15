@@ -36,5 +36,5 @@ MonoBehaviour:
   staminaCooldown: 0.75
   staminaEmptyCooldown: 1.5
   refillRate: 30
-  rollStaminaCost: 25
+  rollStaminaCost: 10
   attackStaminaCost: 20

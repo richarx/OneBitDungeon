@@ -105,7 +105,6 @@ namespace Player.Scripts
 
         public bool CanAttack(PlayerStateMachine player)
         {
-            Debug.Log($"Can Attack : {player.playerStamina.CurrentStamina}");
             return player.playerSword.CurrentlyHasSword && !player.playerStamina.IsEmpty;
         }
 

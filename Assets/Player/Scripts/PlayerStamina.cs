@@ -38,8 +38,6 @@ namespace Player.Scripts
         {
             currentStamina = Mathf.Max(0.0f, currentStamina - amount);
             lastStaminaUseTimestamp = Time.time;
-            
-            Debug.Log($"Consume Stamina : {currentStamina}");
         }
     }
 }

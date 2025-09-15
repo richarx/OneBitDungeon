@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 4392527997099474862}
   - component: {fileID: 3966566128395055840}
   - component: {fileID: 3395103977411905134}
+  - component: {fileID: 4003467449974197128}
   - component: {fileID: 5024070479638163698}
   m_Layer: 0
   m_Name: Player
@@ -110,6 +111,7 @@ MonoBehaviour:
   playerSword: {fileID: 0}
   playerTargeting: {fileID: 0}
   playerHealth: {fileID: 0}
+  playerStamina: {fileID: 0}
 --- !u!114 &3678963154384364653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +203,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 993e67d60ed558e42ae8bdbb7e9b900e, type: 3}
   - {fileID: 8300000, guid: 819dbcb0ab4164849a4f76a1d4510e6f, type: 3}
   - {fileID: 8300000, guid: ecad40a956acbe54497c3ac937c58919, type: 3}
+  parry_1:
+  - {fileID: 8300000, guid: 786b2b3003764664cb89df81efd1e054, type: 3}
+  - {fileID: 8300000, guid: 4e83a0d063557314e891839f5b413142, type: 3}
+  - {fileID: 8300000, guid: 71a8affa29644f149b1579bdde310892, type: 3}
+  parry_2: {fileID: 8300000, guid: 20b3ae9f3ff307847bf9459ab4543ea0, type: 3}
+  parrySuccess_1: {fileID: 8300000, guid: b04c84e7fa971cb43b2d8658038e1d7a, type: 3}
+  parrySuccess_2: {fileID: 8300000, guid: d1f956a23696708488d473b2c4c9438e, type: 3}
 --- !u!114 &4392527997099474862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +272,18 @@ MonoBehaviour:
   OnPlayerDie:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4003467449974197128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477797266677306866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc8fb717040955f4b871c977178d17d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5024070479638163698
 MonoBehaviour:
   m_ObjectHideFlags: 0
