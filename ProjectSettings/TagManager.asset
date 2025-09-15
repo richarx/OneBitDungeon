@@ -13,12 +13,12 @@ TagManager:
   - Water
   - UI
   - IgnoreMainCamera
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - PlayerDamage
+  - Enemy
+  - EnemyDamage
+  - Wall
+  - PlayerWall
   - 
   - 
   - 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5071313609053062274}
   - component: {fileID: 1695218526776584420}
   - component: {fileID: 1101606422976933254}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Goon_Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 2932317657178797063}
   - component: {fileID: 1456940899514601322}
   - component: {fileID: -4198923487247797988}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Goon_Sword
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

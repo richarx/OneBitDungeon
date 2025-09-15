@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 3395103977411905134}
   - component: {fileID: 4003467449974197128}
   - component: {fileID: 5024070479638163698}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -251,6 +251,7 @@ MonoBehaviour:
   swordSlashDistance: 1
   parryVfx: {fileID: 2755547318002962695, guid: b425364a45397ab4ab939621c38073e7,
     type: 3}
+  rollVfx: {fileID: 7980137014980868513, guid: dc0d24dd083978742ad4e8c585baf8d2, type: 3}
   freezeDelay: 0.03
   freezeDuration: 0.05
 --- !u!114 &3395103977411905134
@@ -311,7 +312,7 @@ GameObject:
   - component: {fileID: 6381137782234144877}
   - component: {fileID: 4810165762676821475}
   - component: {fileID: 3559281672393221403}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
