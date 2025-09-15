@@ -31,6 +31,7 @@ namespace Player.Scripts
         [HideInInspector] public PlayerSword playerSword;
         [HideInInspector] public PlayerTargeting playerTargeting;
         [HideInInspector] public PlayerHealth playerHealth;
+        [HideInInspector] public PlayerStamina playerStamina;
 
         [HideInInspector] public InputPacker inputPacker = new InputPacker();
         [HideInInspector] public InputPackage inputPackage;
@@ -45,6 +46,7 @@ namespace Player.Scripts
             playerSword = GetComponent<PlayerSword>();
             playerTargeting = GetComponent<PlayerTargeting>();
             playerHealth = GetComponent<PlayerHealth>();
+            playerStamina = GetComponent<PlayerStamina>();
             playerAttack = new PlayerAttack(this);
         }
 

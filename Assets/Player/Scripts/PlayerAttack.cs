@@ -31,6 +31,8 @@ namespace Player.Scripts
             ComputeDashTarget(player);
             player.SetLastLookDirection((dashTarget - player.position).ToVector2());
             
+            player.playerStamina.ConsumeStamina(player.playerData.attackStaminaCost);
+
             OnPlayerAttack?.Invoke(SelectCurrentAttack());
         }
 
@@ -48,7 +50,7 @@ namespace Player.Scripts
                 return;
             }
             
-            if (canAttackBeCanceled && player.playerRoll.CanRoll() && player.inputPackage.GetRoll.WasPressedWithBuffer())
+            if (canAttackBeCanceled && player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerRoll);
                 return;
@@ -103,7 +105,8 @@ namespace Player.Scripts
 
         public bool CanAttack(PlayerStateMachine player)
         {
-            return player.playerSword.CurrentlyHasSword;
+            Debug.Log($"Can Attack : {player.playerStamina.CurrentStamina}");
+            return player.playerSword.CurrentlyHasSword && !player.playerStamina.IsEmpty;
         }
 
         public BehaviourType GetBehaviourType()

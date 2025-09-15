@@ -26,7 +26,7 @@ namespace Player.Scripts
                 return;
             }
 
-            if (player.playerRoll.CanRoll() && player.inputPackage.GetRoll.WasPressedWithBuffer())
+            if (player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerRoll);
                 return;

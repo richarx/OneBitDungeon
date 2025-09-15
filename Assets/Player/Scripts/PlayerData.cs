@@ -39,5 +39,16 @@ namespace Player.Scripts
         public float parryDuration;
         public float successfulParryDuration;
         public float parryCooldown;
+        
+        [Space]
+        [Header("Stamina")]
+        public float maxStamina;
+        public float staminaCooldown;
+        public float staminaEmptyCooldown;
+        public float refillRate;
+
+        [Space] 
+        public float rollStaminaCost;
+        public float attackStaminaCost;
     }
 }

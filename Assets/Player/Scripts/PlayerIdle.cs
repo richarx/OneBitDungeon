@@ -11,7 +11,7 @@ namespace Player.Scripts
 
         public void UpdateBehaviour(PlayerStateMachine player)
         {
-            if (player.playerRoll.CanRoll() && player.inputPackage.GetRoll.WasPressedWithBuffer())
+            if (player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerRoll);
                 return;

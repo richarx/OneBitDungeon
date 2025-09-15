@@ -32,3 +32,9 @@ MonoBehaviour:
   parryDuration: 0.3
   successfulParryDuration: 0.3
   parryCooldown: 0.5
+  maxStamina: 100
+  staminaCooldown: 0.75
+  staminaEmptyCooldown: 1.5
+  refillRate: 30
+  rollStaminaCost: 25
+  attackStaminaCost: 20

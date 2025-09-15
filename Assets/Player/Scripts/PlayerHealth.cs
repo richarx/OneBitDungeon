@@ -35,11 +35,14 @@ namespace Player.Scripts
 
         private void Update()
         {
-            if (Gamepad.current.dpad.left.wasPressedThisFrame)
-                TakeDamage(1, Vector3.right);
+            if (Application.isEditor)
+            {
+                if (Gamepad.current.dpad.left.wasPressedThisFrame)
+                    TakeDamage(1, Vector3.right);
 
-            if (Gamepad.current.dpad.right.wasPressedThisFrame)
-                ResetHealth();
+                if (Gamepad.current.dpad.right.wasPressedThisFrame)
+                    ResetHealth();    
+            }
         }
 
         private void ResetHealth()
