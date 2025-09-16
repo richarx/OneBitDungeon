@@ -18,6 +18,7 @@ namespace Enemies.Goon
         public IGoonBehaviour currentBehaviour;
         
         // Behaviour States
+        public GoonSpawn goonSpawn = new GoonSpawn();
         public GoonIdle goonIdle = new GoonIdle();
         public GoonWalk goonWalk = new GoonWalk();
         public GoonStrafe goonStrafe = new GoonStrafe();
@@ -55,7 +56,7 @@ namespace Enemies.Goon
 
             lastLookDirection = Vector2.right;
 
-            currentBehaviour = goonWalk;
+            currentBehaviour = goonSpawn;
             currentBehaviour.StartBehaviour(this, BehaviourType.Idle);
         }
 

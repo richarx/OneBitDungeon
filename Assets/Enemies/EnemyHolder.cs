@@ -9,6 +9,8 @@ namespace Enemies
 
         private List<GameObject> enemies = new List<GameObject>();
         public List<GameObject> Enemies => enemies;
+
+        public bool isAtLeastAnEnemyAlive => enemies.Count > 0;
         
         private void Awake()
         {

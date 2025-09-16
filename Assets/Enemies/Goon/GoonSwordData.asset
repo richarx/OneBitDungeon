@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088f2556f7986f94cb532da61d79e534, type: 3}
   m_Name: GoonSwordData
   m_EditorClassIdentifier: 
+  spawnDelay: 0.5
+  spawnWalkDuration: 1
   walkMaxSpeed: 4
   groundAcceleration: 80
   groundDeceleration: 120

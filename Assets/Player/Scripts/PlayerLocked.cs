@@ -31,10 +31,15 @@ namespace Player.Scripts
             OnLockPlayer?.Invoke();
         }
 
-        public void SetLockState(PlayerStateMachine player, LockState newLockState = LockState.Full, Transform newTarget = null)
+        public void SetLockState(PlayerStateMachine player, LockState newLockState = LockState.Full)
         {
             lockState = newLockState;
             player.ChangeBehaviour(player.playerLocked);
+        }
+
+        public void SetLockState(LockState newLockState)
+        {
+            lockState = newLockState;
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)

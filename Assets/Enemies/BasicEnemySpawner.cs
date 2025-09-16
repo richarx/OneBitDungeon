@@ -1,31 +1,72 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using Level_Holder;
+using Decor.Door;
+using Game_Manager;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Enemies
 {
+    [Serializable]
+    public class Wave
+    {
+        public float timeToSpawn;
+        public List<GameObject> enemies;
+    }
+    
     public class BasicEnemySpawner : MonoBehaviour
     {
-        [SerializeField] private GameObject enemyPrefab;
-        [SerializeField] private List<Transform> spawnPositions;
+        [SerializeField] private List<Wave> waves;
+        [SerializeField] private List<DoorController> spawnPositions;
+
+        public static BasicEnemySpawner instance;
+
+        private bool isSpawning;
         
-        private void Start()
+        private void Awake()
         {
-            SpawnEnemy();
-            LevelHolder.OnRestartGame.AddListener(SpawnEnemy);
+            instance = this;
         }
 
-        private void SpawnEnemy()
+        public void StartSpawning()
         {
-            Damageable enemy = Instantiate(enemyPrefab, ComputeSpawnPosition(), Quaternion.identity).GetComponent<Damageable>();
-            enemy.OnDie.AddListener(SpawnEnemy);
+            if (isSpawning)
+                return;
+
+            isSpawning = true;
+            StartCoroutine(SpawnWaves());
         }
 
-        private Vector3 ComputeSpawnPosition()
+        private IEnumerator SpawnWaves()
+        {
+            foreach (Wave wave in waves)
+            {
+                yield return new WaitForSeconds(wave.timeToSpawn);
+
+                foreach (GameObject enemy in wave.enemies)
+                {
+                    SpawnEnemy(enemy);
+                }
+            }
+
+            yield return new WaitWhile(() => EnemyHolder.instance.isAtLeastAnEnemyAlive);
+            GameManager.OnKillLastEnemy.Invoke();
+        }
+
+        private void SpawnEnemy(GameObject enemy)
+        {
+            DoorController door = ChooseRandomDoor();
+            
+            Instantiate(enemy, door.ComputeSpawnPosition(), Quaternion.identity);
+            door.OpenForEnemy();
+        }
+
+        private DoorController ChooseRandomDoor()
         {
             int index = Random.Range(0, spawnPositions.Count);
-            return spawnPositions[index].position;
+            return spawnPositions[index];
         }
     }
 }

@@ -6,6 +6,10 @@ namespace Enemies.Goon
     public class GoonData : ScriptableObject
     {
         [Header("Movement")]
+        public float spawnDelay;
+        public float spawnWalkDuration;
+
+        [Header("Movement")]
         public float walkMaxSpeed;
         public float groundAcceleration;
         public float groundDeceleration;

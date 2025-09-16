@@ -29,6 +29,9 @@ namespace Enemies.Goon
             
             switch (goon.currentBehaviour.GetBehaviourType())
             {
+                case BehaviourType.Spawn:
+                    PlaySpawnAnimation();
+                    break;
                 case BehaviourType.Idle:
                     PlayIdleAnimation();
                     break;
@@ -51,6 +54,14 @@ namespace Enemies.Goon
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void PlaySpawnAnimation()
+        {
+            if (goon.goonSpawn.isLocked)
+                PlayIdleAnimation();
+            else
+                PlayRunAnimation();
         }
 
         private void PlayIdleAnimation()

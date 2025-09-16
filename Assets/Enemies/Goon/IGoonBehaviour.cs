@@ -2,6 +2,7 @@ namespace Enemies.Goon
 {
     public enum BehaviourType 
     {
+        Spawn,
         Idle,
         Walk,
         Strafe,

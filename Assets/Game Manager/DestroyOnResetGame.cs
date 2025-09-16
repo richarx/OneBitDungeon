@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace Level_Holder
+namespace Game_Manager
 {
     public class DestroyOnResetGame : MonoBehaviour
     {
         private void Start()
         {
-            LevelHolder.OnResetGame.AddListener(() => Destroy(gameObject));
+            //LevelHolder.OnResetGame.AddListener(() => Destroy(gameObject));
         }
     }
 }
