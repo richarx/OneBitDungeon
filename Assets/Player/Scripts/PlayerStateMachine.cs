@@ -78,6 +78,15 @@ namespace Player.Scripts
             playerTargeting.ComputeTarget(this);
 
             currentBehaviour.UpdateBehaviour(this);
+
+            KeepOnGround();
+        }
+
+        private void KeepOnGround()
+        {
+            Vector3 currentPosition = transform.position;
+            currentPosition.y = 0.0f;
+            transform.position = currentPosition;
         }
 
         public void ComputeLastLookDirection()

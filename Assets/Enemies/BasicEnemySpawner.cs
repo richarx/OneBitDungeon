@@ -20,6 +20,7 @@ namespace Enemies
     {
         [SerializeField] private List<Wave> waves;
         [SerializeField] private List<DoorController> spawnPositions;
+        [SerializeField] private bool isDisabled;
 
         public static BasicEnemySpawner instance;
 
@@ -40,7 +41,7 @@ namespace Enemies
 
         public void StartSpawning()
         {
-            if (isSpawning)
+            if (isSpawning || isDisabled)
                 return;
 
             isSpawning = true;

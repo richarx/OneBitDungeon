@@ -38,7 +38,12 @@ namespace Player.Scripts
             if (Application.isEditor)
             {
                 if (Gamepad.current.dpad.left.wasPressedThisFrame)
-                    TakeDamage(1, Vector3.right);
+                {
+                    if (IsParrying())
+                        TriggerParry();
+                    else
+                        TakeDamage(1, Vector3.right);
+                }
 
                 if (Gamepad.current.dpad.right.wasPressedThisFrame)
                     ResetHealth();    

@@ -42,6 +42,12 @@ namespace Player.Scripts
                 return;
             }
 
+            if (wasSuccessful && player.inputPackage.GetParry.WasPressedWithBuffer())
+            {
+                StartBehaviour(player, BehaviourType.Parry);
+                return;
+            }
+
             if (wasSuccessful && Time.time - successfulParryTimestamp >= player.playerData.successfulParryDuration)
             {
                 player.ChangeBehaviour(player.playerIdle);
@@ -68,7 +74,7 @@ namespace Player.Scripts
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
-            parryCooldownTimestamp = Time.time + player.playerData.parryCooldown;
+            parryCooldownTimestamp = Time.time + (wasSuccessful ? 0.0f : player.playerData.parryCooldown);
         }
 
         public BehaviourType GetBehaviourType()
