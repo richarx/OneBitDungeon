@@ -1,3 +1,4 @@
+using Game_Manager;
 using Tools_and_Scripts;
 using UnityEngine;
 
@@ -58,8 +59,8 @@ namespace Player.Scripts
 
             playerHealth.OnPlayerTakeDamage.AddListener((direction) => playerStagger.TriggerStagger(this, direction));
             playerHealth.OnPlayerDie.AddListener(() => playerLocked.SetLockState(this));
-            //LevelHolder.OnResetGame.AddListener(() => transform.position = Vector3.zero);
-            //LevelHolder.OnRestartGame.AddListener(() => ChangeBehaviour(playerIdle));
+            GameManager.OnResetLevel.AddListener(() => transform.position = Vector3.zero);
+            GameManager.OnRestartLevel.AddListener(() => ChangeBehaviour(playerIdle));
             
             playerLocked.SetLockState(PlayerLocked.LockState.Full);
             currentBehaviour = playerLocked;

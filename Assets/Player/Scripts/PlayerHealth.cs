@@ -1,4 +1,5 @@
 using System;
+using Game_Manager;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -29,7 +30,7 @@ namespace Player.Scripts
         private void Start()
         {
             player = PlayerStateMachine.instance;
-            //LevelHolder.OnRestartGame.AddListener(ResetHealth);
+            GameManager.OnRestartLevel.AddListener(ResetHealth);
         }
 
         private void Update()

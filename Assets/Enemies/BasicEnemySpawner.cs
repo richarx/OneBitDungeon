@@ -28,6 +28,14 @@ namespace Enemies
         private void Awake()
         {
             instance = this;
+            
+            GameManager.OnResetLevel.AddListener(StopSpawning);
+        }
+
+        private void StopSpawning()
+        {
+            StopAllCoroutines();
+            isSpawning = false;
         }
 
         public void StartSpawning()
@@ -36,6 +44,7 @@ namespace Enemies
                 return;
 
             isSpawning = true;
+            StopAllCoroutines();
             StartCoroutine(SpawnWaves());
         }
 
@@ -50,6 +59,7 @@ namespace Enemies
                     SpawnEnemy(enemy);
                 }
             }
+            isSpawning = false;
 
             yield return new WaitWhile(() => EnemyHolder.instance.isAtLeastAnEnemyAlive);
             GameManager.OnKillLastEnemy.Invoke();

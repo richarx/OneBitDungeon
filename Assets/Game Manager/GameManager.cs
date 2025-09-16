@@ -15,7 +15,9 @@ namespace Game_Manager
         public static UnityEvent OnKillLastEnemy = new UnityEvent();
         public static UnityEvent OnLockLevel = new UnityEvent();
         public static UnityEvent OnUnlockLevel = new UnityEvent();
-
+        public static UnityEvent OnResetLevel = new UnityEvent();
+        public static UnityEvent OnRestartLevel = new UnityEvent();
+        
         public static GameManager instance;
 
         private bool isLevelLocked = false;
@@ -30,6 +32,8 @@ namespace Game_Manager
 
         private IEnumerator Start()
         {
+            PlayerStateMachine.instance.playerHealth.OnPlayerDie.AddListener(RestartLevel);
+            
             blackScreen.gameObject.SetActive(true);
             yield return Tools.Fade(blackScreen, 1.0f, false);
             yield return new WaitForSeconds(0.5f);
@@ -61,6 +65,23 @@ namespace Game_Manager
             
             isLevelLocked = false;
             OnUnlockLevel?.Invoke();
+        }
+
+        private void RestartLevel()
+        {
+            StopAllCoroutines();
+            StartCoroutine(RestartLevelCoroutine());
+        }
+
+        private IEnumerator RestartLevelCoroutine()
+        {
+            yield return new WaitForSeconds(1.0f);
+            yield return Tools.Fade(blackScreen, 1.0f, true);
+            OnResetLevel?.Invoke();
+            yield return new WaitForSeconds(0.1f);
+            yield return Tools.Fade(blackScreen, 1.0f, false);
+            OnRestartLevel?.Invoke();
+            BasicEnemySpawner.instance.StartSpawning();
         }
     }
 }
