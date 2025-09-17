@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Decor.Door;
 using Game_Manager;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,6 +12,7 @@ namespace Enemies
     public class Wave
     {
         public float timeToSpawn;
+        public bool waitUntilPreviousWaveIsDead;
         public List<GameObject> enemies;
     }
     
@@ -53,6 +53,8 @@ namespace Enemies
         {
             foreach (Wave wave in waves)
             {
+                if (wave.waitUntilPreviousWaveIsDead)
+                    yield return new WaitWhile(() => EnemyHolder.instance.isAtLeastAnEnemyAlive);
                 yield return new WaitForSeconds(wave.timeToSpawn);
 
                 foreach (GameObject enemy in wave.enemies)
