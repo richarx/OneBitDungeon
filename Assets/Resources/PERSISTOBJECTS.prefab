@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8961395701228924512}
   - component: {fileID: 5153850562909639192}
   - component: {fileID: 5569112748657742894}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4672297116528927478}
   - component: {fileID: 3686238566109664134}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,6 +234,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: f1e822e992950f34ab56e9a3333cbc63, type: 2}
+  obstaclesLayer:
+    serializedVersion: 2
+    m_Bits: 6144
   moveInput: {x: 0, y: 0}
   moveVelocity: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
@@ -440,7 +443,7 @@ GameObject:
   - component: {fileID: 8520580839861482171}
   - component: {fileID: 7966677480946582768}
   - component: {fileID: 2604682072982649374}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Blood Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +517,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2347355311991204768}
   - component: {fileID: 5402306661676498573}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Health Points Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -575,7 +578,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6936680747847662569}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PERSISTOBJECTS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -610,7 +613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4996292678184669035}
   - component: {fileID: 7370076727892221065}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Blood Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -667,7 +670,7 @@ GameObject:
   - component: {fileID: 1901524825357388999}
   - component: {fileID: 1822019044066748956}
   - component: {fileID: 4713894097630385386}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -809,7 +812,7 @@ GameObject:
   - component: {fileID: 6290042719379423616}
   - component: {fileID: 7727910100909469286}
   - component: {fileID: 7372591546650755384}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Player Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -897,7 +900,7 @@ GameObject:
   - component: {fileID: 929587843793076974}
   - component: {fileID: 5257726785397965602}
   - component: {fileID: 2383530531606986525}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -971,7 +974,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2892046594153899155}
   - component: {fileID: 5109332170508423197}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1006,7 +1009,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blackScreen: {fileID: 2338604358838513622}
-  instance: {fileID: 0}
 --- !u!1 &6624717715826508805
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,7 +1020,7 @@ GameObject:
   - component: {fileID: 4150128698196523892}
   - component: {fileID: 3038990393951531845}
   - component: {fileID: 283406289492698198}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1093,7 +1095,7 @@ GameObject:
   - component: {fileID: 5878643741616659172}
   - component: {fileID: 79418971899786131}
   - component: {fileID: 2338604358838513622}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Black Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1296,7 +1298,7 @@ GameObject:
   - component: {fileID: 7341561010480886557}
   - component: {fileID: 244554453880812685}
   - component: {fileID: 1291603376484217238}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1371,7 +1373,7 @@ GameObject:
   - component: {fileID: 4488415164607310435}
   - component: {fileID: 8308156386881220624}
   - component: {fileID: 5528421310681937954}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1445,7 +1447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4536065913821206255}
   - component: {fileID: 791058324416725588}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Stamina
   m_TagString: Untagged
   m_Icon: {fileID: 0}

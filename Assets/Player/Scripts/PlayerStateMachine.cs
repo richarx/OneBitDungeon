@@ -7,6 +7,7 @@ namespace Player.Scripts
     public class PlayerStateMachine : MonoBehaviour
     {
         public PlayerData playerData;
+        public LayerMask obstaclesLayer;
 
         public static PlayerStateMachine instance;
 

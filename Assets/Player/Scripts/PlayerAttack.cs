@@ -12,6 +12,7 @@ namespace Player.Scripts
         private float attackStartTimestamp;
 
         private Vector3 dashVelocity;
+        private bool hasHitObstacle;
 
         private bool isSecondAttack;
         public bool IsSecondAttack => isSecondAttack;
@@ -26,6 +27,7 @@ namespace Player.Scripts
         {
             attackStartTimestamp = Time.time;
             canAttackBeCanceled = false;
+            hasHitObstacle = false;
             isSecondAttack = previous == BehaviourType.Attack;
 
             ComputeDashTarget(player);
@@ -65,12 +67,26 @@ namespace Player.Scripts
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)
         {
-            if (Time.time - attackStartTimestamp <= player.playerData.attackDashDuration && Vector3.Distance(player.position, dashTarget) >= 0.1f)
+            if (!hasHitObstacle && Time.time - attackStartTimestamp <= player.playerData.attackDashDuration && Vector3.Distance(player.position, dashTarget) >= 0.1f)
+            {
+                CheckForObstacle(player);
                 DashTowardTarget(player);
+            }
             else
                 player.moveVelocity = Vector3.zero;
 
             player.ApplyMovement();
+        }
+
+        private void CheckForObstacle(PlayerStateMachine player)
+        {
+            Vector3 position = player.position + Vector3.up * 0.5f;
+            Vector3 direction = (dashTarget - player.position).normalized;
+
+            bool hasHit = Physics.Raycast(position, direction, 1.0f, player.obstaclesLayer);
+
+            if (hasHit)
+                hasHitObstacle = true;
         }
 
         private void ComputeDashTarget(PlayerStateMachine player)
@@ -95,6 +111,9 @@ namespace Player.Scripts
 
         private void DashTowardTarget(PlayerStateMachine player)
         {
+            if (hasHitObstacle)
+                return;
+            
             player.rb.MovePosition(Vector3.SmoothDamp(player.position, dashTarget, ref dashVelocity, player.playerData.attackDashDuration));
         }
 
