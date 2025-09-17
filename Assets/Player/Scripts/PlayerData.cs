@@ -33,6 +33,7 @@ namespace Player.Scripts
         public float staggerDuration;
         public float staggerPower;
         public float staggerDeceleration;
+        public float invincibilityDuration;
         
         [Space]
         [Header("Parry")] 

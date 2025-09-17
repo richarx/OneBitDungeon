@@ -16,12 +16,15 @@ namespace Player.Scripts
         private PlayerStateMachine player;
         
         private int currentHealth;
+        private float lastHitTimestamp;
 
         public int CurrentHealth => currentHealth;
         public int StartingHealth => startingHealth;
         public bool IsDead => currentHealth <= 0;
         public bool IsFullLife => currentHealth == startingHealth;
+        public bool IsInvincibleFromLastHit => Time.time - lastHitTimestamp <= player.playerData.invincibilityDuration;
 
+        
         private void Awake()
         {
             ResetHealth();
@@ -70,7 +73,11 @@ namespace Player.Scripts
             if (IsDead)
                 return false;
 
+            if (IsInvincibleFromLastHit)
+                return false;
+
             currentHealth -= damage;
+            lastHitTimestamp = Time.time;
             
             if (IsDead)
                 OnPlayerDie?.Invoke();
