@@ -1,4 +1,5 @@
 using System.Collections;
+using Decor.Door;
 using Enemies;
 using Player.Scripts;
 using Tools_and_Scripts;
@@ -40,7 +41,6 @@ namespace Game_Manager
             yield return Tools.Fade(blackScreen, 1.0f, false);
             yield return new WaitForSeconds(0.5f);
             LockLevel();
-            yield return new WaitForSeconds(1.5f);
             UnlockPlayer();
             yield return new WaitForSeconds(1.5f);
             BasicEnemySpawner.instance.StartSpawning();
@@ -94,15 +94,32 @@ namespace Game_Manager
 
         private IEnumerator ChangeSceneCoroutine(string targetSceneName, DoorSide targetDoor)
         {
+            PlayerStateMachine player = PlayerStateMachine.instance;
+            
+            player.playerLocked.SetLockState(player);
             yield return Tools.Fade(blackScreen, 0.5f, true);
 
             AsyncOperation operation = SceneManager.LoadSceneAsync(targetSceneName);
 
             yield return new WaitUntil(() => operation.isDone);
-            
-            
+            isLevelLocked = false;
+            yield return null;
+
+            DoorController door = DoorsHolder.instance.GetDoor(targetDoor);
+            player.transform.position = door.ComputeSpawnPosition();
             
             yield return Tools.Fade(blackScreen, 0.5f, false);
+
+            yield return new WaitForSeconds(0.5f);
+
+            UnlockPlayer();
+            
+            if (BasicEnemySpawner.instance != null && !BasicEnemySpawner.instance.IsDisabled)
+            {
+                LockLevel();
+                yield return new WaitForSeconds(1.5f);
+                BasicEnemySpawner.instance.StartSpawning();
+            }
         }
     }
 }

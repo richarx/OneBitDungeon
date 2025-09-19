@@ -19,11 +19,12 @@ namespace Enemies
     public class BasicEnemySpawner : MonoBehaviour
     {
         [SerializeField] private List<Wave> waves;
-        [SerializeField] private List<DoorController> spawnPositions;
         [SerializeField] private bool isDisabled;
 
         public static BasicEnemySpawner instance;
 
+        public bool IsDisabled => isDisabled;
+        
         private bool isSpawning;
         
         private void Awake()
@@ -70,16 +71,10 @@ namespace Enemies
 
         private void SpawnEnemy(GameObject enemy)
         {
-            DoorController door = ChooseRandomDoor();
+            DoorController door = DoorsHolder.instance.GetRandomDoor();
             
             Instantiate(enemy, door.ComputeSpawnPosition(), Quaternion.identity);
             door.OpenForEnemy();
-        }
-
-        private DoorController ChooseRandomDoor()
-        {
-            int index = Random.Range(0, spawnPositions.Count);
-            return spawnPositions[index];
         }
     }
 }

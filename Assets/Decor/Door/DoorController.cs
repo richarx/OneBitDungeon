@@ -23,6 +23,8 @@ namespace Decor.Door
         [SerializeField] private GameObject hitbox;
 
         private bool isLocked;
+
+        public DoorSide doorDirection => doorSide;
         
         private void Start()
         {
