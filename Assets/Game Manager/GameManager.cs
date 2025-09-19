@@ -4,7 +4,9 @@ using Player.Scripts;
 using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static Decor.Door.DoorController;
 
 namespace Game_Manager
 {
@@ -82,6 +84,25 @@ namespace Game_Manager
             yield return Tools.Fade(blackScreen, 1.0f, false);
             OnRestartLevel?.Invoke();
             BasicEnemySpawner.instance.StartSpawning();
+        }
+
+        public void ChangeScene(string targetSceneName, DoorSide targetDoor)
+        {
+            StopAllCoroutines();
+            StartCoroutine(ChangeSceneCoroutine(targetSceneName, targetDoor));
+        }
+
+        private IEnumerator ChangeSceneCoroutine(string targetSceneName, DoorSide targetDoor)
+        {
+            yield return Tools.Fade(blackScreen, 0.5f, true);
+
+            AsyncOperation operation = SceneManager.LoadSceneAsync(targetSceneName);
+
+            yield return new WaitUntil(() => operation.isDone);
+            
+            
+            
+            yield return Tools.Fade(blackScreen, 0.5f, false);
         }
     }
 }

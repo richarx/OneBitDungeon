@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using static Decor.Door.DoorController;
 using Random = UnityEngine.Random;
 
 namespace Tools_and_Scripts
@@ -689,6 +690,23 @@ namespace Tools_and_Scripts
             for (int i = parent.childCount - 1; i >= 0; i--)
             {
                 GameObject.Destroy(parent.GetChild(i).gameObject);
+            }
+        }
+        
+        public static DoorSide Opposite(this DoorSide current)
+        {
+            switch (current)
+            {
+                case DoorSide.North:
+                    return DoorSide.South;
+                case DoorSide.East:
+                    return DoorSide.West;
+                case DoorSide.South:
+                    return DoorSide.North;
+                case DoorSide.West:
+                    return DoorSide.East;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(current), current, null);
             }
         }
     }
