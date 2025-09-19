@@ -35,7 +35,7 @@ namespace Player.Scripts
         [HideInInspector] public PlayerStamina playerStamina;
 
         [HideInInspector] public InputPacker inputPacker = new InputPacker();
-        [HideInInspector] public InputPackage inputPackage;
+        [HideInInspector] public InputPackage inputPackage = new InputPackage();
 
         private Vector2 lastLookDirection = Vector2.right;
         public Vector2 LastLookDirection => lastLookDirection;
@@ -53,6 +53,8 @@ namespace Player.Scripts
 
         private void Start()
         {
+            currentBehaviour = playerLocked;
+
             if (!Application.isEditor)
                 Cursor.visible = false;
 

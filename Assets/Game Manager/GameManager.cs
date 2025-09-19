@@ -36,14 +36,23 @@ namespace Game_Manager
         private IEnumerator Start()
         {
             PlayerStateMachine.instance.playerHealth.OnPlayerDie.AddListener(RestartLevel);
-            
+
             blackScreen.gameObject.SetActive(true);
-            yield return Tools.Fade(blackScreen, 1.0f, false);
+
             yield return new WaitForSeconds(0.5f);
-            LockLevel();
+            
+            if (PlayerStateMachine.instance != null && PlayerSpawnPosition.instance != null)
+                PlayerStateMachine.instance.transform.position = PlayerSpawnPosition.instance.GetPosition;
+
+            yield return Tools.Fade(blackScreen, 1.0f, false);
             UnlockPlayer();
-            yield return new WaitForSeconds(1.5f);
-            BasicEnemySpawner.instance.StartSpawning();
+            
+            if (BasicEnemySpawner.instance != null && !BasicEnemySpawner.instance.IsDisabled)
+            {
+                LockLevel();
+                yield return new WaitForSeconds(1.5f);
+                BasicEnemySpawner.instance.StartSpawning();
+            }
         }
 
         private static void UnlockPlayer()

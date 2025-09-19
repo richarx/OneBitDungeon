@@ -16,8 +16,8 @@ MonoBehaviour:
   groundAcceleration: 80
   groundDeceleration: 120
   rollMaxSpeed: 30
-  rollMaxDistance: 5
-  rollMaxDuration: 0.5
+  rollMaxDistance: 4.5
+  rollMaxDuration: 0.2
   rollAcceleration: 300
   rollDeceleration: 90
   rollDecelerationDistanceThreshold: 0.5

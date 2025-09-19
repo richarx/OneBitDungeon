@@ -15,6 +15,12 @@ namespace Player.Scripts
         
         public void ComputeTarget(PlayerStateMachine player)
         {
+            if (EnemyHolder.instance == null)
+            {
+                target = null;
+                return;
+            }
+        
             List<GameObject> enemies = EnemyHolder.instance.Enemies;
 
             Vector3 position = player.position;
