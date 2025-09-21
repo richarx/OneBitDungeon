@@ -40,26 +40,11 @@ namespace Tools_and_Scripts
         public InputData GetRoll => lastInputType == InputType.Gamepad ? eastButton : spaceKey;
         public InputData GetAttack => lastInputType == InputType.Gamepad ? westButton : leftMouse;
         public InputData GetParry => lastInputType == InputType.Gamepad ? leftShoulder : rightMouse;
-        
-        public InputData GetShoot => lastInputType == InputType.Gamepad ? rightTrigger : leftMouse;
-        public InputData GetAim => lastInputType == InputType.Gamepad ? leftTrigger : rightMouse;
-        public InputData GetReload => lastInputType == InputType.Gamepad ? westButton : rKey;
-        public InputData GetSwapWeapon => lastInputType == InputType.Gamepad ? northButton : middleMouse;
-        
-        public InputData GetBackpack => lastInputType == InputType.Gamepad ? startButton : bKey;
-        
+
         public InputData GetMenuLeft => lastInputType == InputType.Gamepad ? leftArrowButton : leftKey;
         public InputData GetMenuUp => lastInputType == InputType.Gamepad ? upArrowButton : upKey;
         public InputData GetMenuRight => lastInputType == InputType.Gamepad ? rightArrowButton : rightKey;
         public InputData GetMenuDown => lastInputType == InputType.Gamepad ? downArrowButton : downKey;
-        
-        public InputData GetToolLeft => lastInputType == InputType.Gamepad ? leftArrowButton : key_1;
-        public InputData GetToolUp => lastInputType == InputType.Gamepad ? upArrowButton : key_2;
-        public InputData GetToolRight => lastInputType == InputType.Gamepad ? rightArrowButton : key_3;
-        public InputData GetToolDown => lastInputType == InputType.Gamepad ? downArrowButton : key_4;
-
-        public InputData GetSettingsMenu => lastInputType == InputType.Gamepad ? selectButton : tabKey;
-        public InputData GetInteract => lastInputType == InputType.Gamepad ? rightShoulder : eKey;
 
         //Gamepad raw
         public Vector2 gamepadMove;
