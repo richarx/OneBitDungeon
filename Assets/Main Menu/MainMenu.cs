@@ -2,6 +2,7 @@ using System.Collections;
 using SFX;
 using Tools_and_Scripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Main_Menu
@@ -22,7 +23,7 @@ namespace Main_Menu
             yield return new WaitForSeconds(1.0f);
             SFXManager.instance.PlaySFX(startSound);
         
-            Coroutine fadeBlackScreen = StartCoroutine(Tools.Fade(blackScreen, 5.0f, false));
+            Coroutine fadeBlackScreen = StartCoroutine(Tools.Fade(blackScreen, 4.0f, false));
             yield return new WaitForSeconds(2.0f);
             
             DisplayButton();
@@ -32,7 +33,7 @@ namespace Main_Menu
             if (fadeBlackScreen != null)
                 StopCoroutine(fadeBlackScreen);
             yield return Tools.Fade(blackScreen, 2.0f, true);
-            yield return GoToIntroScene();
+            GoToIntroScene();
         }
 
         private void DisplayButton()
@@ -66,10 +67,9 @@ namespace Main_Menu
             newGameButton.Hide();
         }
 
-        private IEnumerator GoToIntroScene()
+        private void GoToIntroScene()
         {
-            Debug.Log("Go to next scene");
-            yield break;
+            SceneManager.LoadScene("Intro");
         }
     }
 }
