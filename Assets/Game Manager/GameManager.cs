@@ -25,6 +25,8 @@ namespace Game_Manager
 
         private bool isLevelLocked = false;
         public bool IsLevelLocked => isLevelLocked;
+
+        private bool isInMainMenu;
         
         private void Awake()
         {
@@ -35,10 +37,19 @@ namespace Game_Manager
 
         private IEnumerator Start()
         {
+            Scene scene = SceneManager.GetActiveScene();
+            if (scene.name.Contains("MainMenu") || scene.name.Contains("Intro"))
+            {
+                Debug.Log("[Game Manager] : excluded scene detected - Waiting For trigger at the end of intro.");
+                isInMainMenu = true;
+                PlayerStateMachine.instance.playerLocked.SetLockState(PlayerStateMachine.instance, PlayerLocked.LockState.Hidden);
+                yield return new WaitWhile(() => isInMainMenu);
+                Debug.Log("[Game Manager] : Trigger detected - setting up.");
+                PlayerStateMachine.instance.playerLocked.SetLockState(PlayerStateMachine.instance);
+            }
+
             PlayerStateMachine.instance.playerHealth.OnPlayerDie.AddListener(RestartLevel);
-
             blackScreen.gameObject.SetActive(true);
-
             yield return new WaitForSeconds(0.5f);
             
             if (PlayerStateMachine.instance != null && PlayerSpawnPosition.instance != null)
@@ -53,6 +64,8 @@ namespace Game_Manager
                 yield return new WaitForSeconds(1.5f);
                 BasicEnemySpawner.instance.StartSpawning();
             }
+            else 
+                UnlockLevel();
         }
 
         private static void UnlockPlayer()
@@ -129,6 +142,11 @@ namespace Game_Manager
                 yield return new WaitForSeconds(1.5f);
                 BasicEnemySpawner.instance.StartSpawning();
             }
+        }
+
+        public void SetMenuState(bool state)
+        {
+            isInMainMenu = state;
         }
     }
 }

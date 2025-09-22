@@ -8,6 +8,7 @@ namespace Player.Scripts
     {
         public PlayerData playerData;
         public LayerMask obstaclesLayer;
+        public GameObject graphics;
 
         public static PlayerStateMachine instance;
 
@@ -49,25 +50,21 @@ namespace Player.Scripts
             playerHealth = GetComponent<PlayerHealth>();
             playerStamina = GetComponent<PlayerStamina>();
             playerAttack = new PlayerAttack(this);
+            
+            lastLookDirection = Vector2.right;
+            currentBehaviour = playerIdle;
+            currentBehaviour.StartBehaviour(this, BehaviourType.Idle);
         }
 
         private void Start()
         {
-            currentBehaviour = playerLocked;
-
             if (!Application.isEditor)
                 Cursor.visible = false;
-
-            lastLookDirection = Vector2.right;
 
             playerHealth.OnPlayerTakeDamage.AddListener((direction) => playerStagger.TriggerStagger(this, direction));
             playerHealth.OnPlayerDie.AddListener(() => playerLocked.SetLockState(this));
             GameManager.OnResetLevel.AddListener(() => transform.position = Vector3.zero);
             GameManager.OnRestartLevel.AddListener(() => ChangeBehaviour(playerIdle));
-            
-            playerLocked.SetLockState(PlayerLocked.LockState.Full);
-            currentBehaviour = playerLocked;
-            currentBehaviour.StartBehaviour(this, BehaviourType.Idle);
         }
         
         private void Update()

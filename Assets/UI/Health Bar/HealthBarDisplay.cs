@@ -1,4 +1,3 @@
-using System.Collections;
 using Player.Scripts;
 using UnityEngine;
 
@@ -8,16 +7,33 @@ namespace UI.Health_Bar
     {
         [SerializeField] private GameObject healthPointPrefab;
         [SerializeField] private Transform healthPointsHolder;
+        [SerializeField] private GameObject pivot;
         
         private PlayerHealth playerHealth;
-
         private float nextUpdateTimestamp = -1.0f;
+
+        private bool isDisplayed = true;
+        
+        private void Awake()
+        {
+            PlayerLocked.OnLockPlayer.AddListener(() =>
+            {
+                if (isDisplayed && PlayerStateMachine.instance.playerLocked.GetLockState == PlayerLocked.LockState.Hidden)
+                    HideInstant();
+            });
+            PlayerLocked.OnUnlockPlayer.AddListener(() =>
+            {
+                if (!isDisplayed)
+                    DisplayHealthBar();
+            });
+        }
 
         private void Start()
         {
             playerHealth = PlayerStateMachine.instance.playerHealth;
             
-            SetupHealthBar();
+            if (isDisplayed)
+                SetupHealthBar();
         }
 
         private void Update()
@@ -59,6 +75,18 @@ namespace UI.Health_Bar
             Destroy(toBeRemoved, 0.3f);
 
             nextUpdateTimestamp = Time.time + 0.4f;
+        }
+        
+        private void DisplayHealthBar()
+        {
+            pivot.SetActive(true);
+            isDisplayed = true;
+        }
+
+        private void HideInstant()
+        {
+            pivot.SetActive(false);
+            isDisplayed = false;
         }
     }
 }

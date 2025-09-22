@@ -1228,6 +1228,18 @@ MonoBehaviour:
   text: {fileID: 217840124}
   dogImage: {fileID: 1976180346}
   bossImage: {fileID: 1008320555}
+  typingSounds:
+  - {fileID: 8300000, guid: 53c81439ddbf00349b5a721bc4489c39, type: 3}
+  - {fileID: 8300000, guid: 42b009f2ddfeda64cb1e3c57ec809a09, type: 3}
+  - {fileID: 8300000, guid: 58598c2630893c34080b98107666b119, type: 3}
+  - {fileID: 8300000, guid: 87f0733eabf47af4793e8847ea634955, type: 3}
+  introMusic: {fileID: 8300000, guid: 19dda023699abc440b248aadbb5432c7, type: 3}
+  introMusicVolume: 0.1
+  dogSounds:
+  - {fileID: 8300000, guid: 1c15b3e6d921b024cbba79982b67110b, type: 3}
+  - {fileID: 8300000, guid: a96a34c0c7053fc498c99c063a2b6692, type: 3}
+  - {fileID: 8300000, guid: 423d6ab460fdd744e89b9fffa38a6aac, type: 3}
+  bossSound: {fileID: 8300000, guid: 8c36d7a270969394b8730c54b3064bf2, type: 3}
 --- !u!1 &2062961433
 GameObject:
   m_ObjectHideFlags: 0

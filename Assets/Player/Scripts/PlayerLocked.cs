@@ -9,11 +9,12 @@ namespace Player.Scripts
         {
             Dialog,
             Full,
+            Hidden,
             Unlocked
         }
         
-        public UnityEvent OnLockPlayer = new UnityEvent();
-        public UnityEvent OnUnlockPlayer = new UnityEvent();
+        public static UnityEvent OnLockPlayer = new UnityEvent();
+        public static UnityEvent OnUnlockPlayer = new UnityEvent();
 
         private LockState lockState = LockState.Unlocked;
         public LockState GetLockState => lockState;
@@ -22,26 +23,30 @@ namespace Player.Scripts
         {
             Debug.Log("LOCKED");
             
-            if (lockState == LockState.Full)
+            if (lockState == LockState.Full || lockState == LockState.Hidden)
             {
                 player.moveVelocity = Vector3.zero;
                 player.ApplyMovement();
             }
-            
+
+            if (lockState == LockState.Hidden)
+                player.graphics.SetActive(false);
+
             OnLockPlayer?.Invoke();
         }
 
         public void SetLockState(PlayerStateMachine player, LockState newLockState = LockState.Full)
         {
+            if (newLockState == lockState)
+                return;
+            
+            if (lockState == LockState.Hidden)
+                player.graphics.SetActive(true);
+            
             lockState = newLockState;
             player.ChangeBehaviour(player.playerLocked);
         }
-
-        public void SetLockState(LockState newLockState)
-        {
-            lockState = newLockState;
-        }
-
+        
         public void UpdateBehaviour(PlayerStateMachine player)
         {
         }
@@ -53,7 +58,9 @@ namespace Player.Scripts
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
-        {          
+        {
+            if (lockState == LockState.Hidden)
+                player.graphics.SetActive(true);
             OnUnlockPlayer?.Invoke();
         }
 
