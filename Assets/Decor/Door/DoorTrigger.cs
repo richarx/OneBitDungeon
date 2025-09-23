@@ -1,3 +1,4 @@
+using Game_Manager;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,9 +8,16 @@ namespace Decor.Door
     {
         [HideInInspector] public UnityEvent OnTrigger = new UnityEvent();
 
+        private bool isSetup = false;
+
+        private void Start()
+        {
+            GameManager.OnChangeScene.AddListener(() => isSetup = true);
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (isSetup && other.CompareTag("Player"))
                 OnTrigger?.Invoke();
         }
     }

@@ -20,6 +20,7 @@ namespace Game_Manager
         public static UnityEvent OnUnlockLevel = new UnityEvent();
         public static UnityEvent OnResetLevel = new UnityEvent();
         public static UnityEvent OnRestartLevel = new UnityEvent();
+        public static UnityEvent OnChangeScene = new UnityEvent();
         
         public static GameManager instance;
 
@@ -63,14 +64,14 @@ namespace Game_Manager
             
             player.playerSit.Unlock();
             
+            OnChangeScene?.Invoke();
+            
             if (BasicEnemySpawner.instance != null && !BasicEnemySpawner.instance.IsDisabled)
             {
                 LockLevel();
                 yield return new WaitForSeconds(1.5f);
                 BasicEnemySpawner.instance.StartSpawning();
             }
-            else 
-                UnlockLevel();
         }
 
         private static void UnlockPlayer()
@@ -89,9 +90,6 @@ namespace Game_Manager
 
         private void UnlockLevel()
         {
-            if (!isLevelLocked)
-                return;
-            
             isLevelLocked = false;
             OnUnlockLevel?.Invoke();
         }
@@ -133,13 +131,14 @@ namespace Game_Manager
             yield return null;
 
             DoorController door = DoorsHolder.instance.GetDoor(targetDoor);
-            player.transform.position = door.ComputeSpawnPosition();
+            Vector3 spawnPosition = door.ComputeSpawnPosition();
+            player.rb.position = spawnPosition;
             
             yield return Tools.Fade(blackScreen, 0.5f, false);
-
-            yield return new WaitForSeconds(0.5f);
-
+            
             UnlockPlayer();
+            
+            OnChangeScene?.Invoke();
             
             if (BasicEnemySpawner.instance != null && !BasicEnemySpawner.instance.IsDisabled)
             {

@@ -37,9 +37,6 @@ namespace Player.Scripts
 
         public void SetLockState(PlayerStateMachine player, LockState newLockState = LockState.Full)
         {
-            if (newLockState == lockState)
-                return;
-            
             if (lockState == LockState.Hidden)
                 player.graphics.SetActive(true);
             
