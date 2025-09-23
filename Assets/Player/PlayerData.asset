@@ -30,8 +30,8 @@ MonoBehaviour:
   staggerPower: 20
   staggerDeceleration: 60
   invincibilityDuration: 0.3
-  parryDuration: 0.3
-  successfulParryDuration: 0.3
+  parryDuration: 0.4
+  successfulParryDuration: 0.4
   parryCooldown: 0.5
   maxStamina: 100
   staminaCooldown: 0.5

@@ -8,6 +8,7 @@ namespace Player.Scripts
         Attack,
         Stagger,
         Parry,
+        Sit,
         Locked,
     }
     

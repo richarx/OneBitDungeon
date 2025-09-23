@@ -45,18 +45,23 @@ namespace Game_Manager
                 PlayerStateMachine.instance.playerLocked.SetLockState(PlayerStateMachine.instance, PlayerLocked.LockState.Hidden);
                 yield return new WaitWhile(() => isInMainMenu);
                 Debug.Log("[Game Manager] : Trigger detected - setting up.");
-                PlayerStateMachine.instance.playerLocked.SetLockState(PlayerStateMachine.instance);
             }
 
-            PlayerStateMachine.instance.playerHealth.OnPlayerDie.AddListener(RestartLevel);
+            PlayerStateMachine player = PlayerStateMachine.instance;
+            player.ChangeBehaviour(player.playerSit);
+            
+            player.playerHealth.OnPlayerDie.AddListener(RestartLevel);
             blackScreen.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.5f);
             
-            if (PlayerStateMachine.instance != null && PlayerSpawnPosition.instance != null)
-                PlayerStateMachine.instance.transform.position = PlayerSpawnPosition.instance.GetPosition;
+            if (PlayerSpawnPosition.instance != null)
+                player.transform.position = PlayerSpawnPosition.instance.GetPosition;
 
+            yield return new WaitForSeconds(0.5f);
+            
             yield return Tools.Fade(blackScreen, 1.0f, false);
-            UnlockPlayer();
+            
+            player.playerSit.Unlock();
             
             if (BasicEnemySpawner.instance != null && !BasicEnemySpawner.instance.IsDisabled)
             {

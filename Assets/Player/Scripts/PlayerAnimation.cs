@@ -33,6 +33,9 @@ namespace Player.Scripts
                 case BehaviourType.Parry:
                     PlayParryAnimation();
                     break;
+                case BehaviourType.Sit:
+                    PlaySitAnimation();
+                    break;
                 case BehaviourType.Attack:
                 case BehaviourType.Stagger:
                     break;
@@ -42,6 +45,12 @@ namespace Player.Scripts
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void PlaySitAnimation()
+        {
+            string animationName = player.playerSit.IsGettingUp ? "GetUp" : "Sit";
+            animator.Play($"{animationName}_InBack_L");
         }
 
         private void PlayParryAnimation()
