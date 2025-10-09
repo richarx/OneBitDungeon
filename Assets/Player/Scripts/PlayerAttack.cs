@@ -1,6 +1,7 @@
 using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
+using Warning_Boxes;
 
 namespace Player.Scripts
 {
@@ -125,6 +126,11 @@ namespace Player.Scripts
         public bool CanAttack(PlayerStateMachine player)
         {
             return player.playerSword.CurrentlyHasSword && !player.playerStamina.IsEmpty;
+        }
+
+        private Vector2 ComputeDashDirection(PlayerStateMachine player)
+        {
+            return (dashTarget - player.position).ToVector2().normalized;
         }
 
         public BehaviourType GetBehaviourType()

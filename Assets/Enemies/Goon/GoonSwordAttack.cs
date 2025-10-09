@@ -1,5 +1,7 @@
+using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
+using Warning_Boxes;
 
 namespace Enemies.Goon
 {
@@ -16,15 +18,20 @@ namespace Enemies.Goon
         public bool IsAnticipationPhase => isAnticipationPhase;
         
         private Vector3 dashVelocity;
+
+        private RectangularWarning warningBox;
         
         public void StartBehaviour(GoonStateMachine goon, BehaviourType previous)
         {
             attackStartTimestamp = Time.time;
             isAnticipationPhase = true;
+
+            warningBox = WarningBoxes.instance.SpawnRectangularWarning(goon.position.ToVector2(), goon.directionToPlayer.ToVector2(), 1.5f, goon.goonData.attackDashMaxDistance, goon.goonData.delayBeforeDash / 2.0f);
         }
 
         private void TriggerAttack(GoonStateMachine goon)
         {
+            warningBox.Trigger();
             isAnticipationPhase = false;
             dashStartPosition = goon.position;
             ComputeDashTarget(goon);
@@ -44,9 +51,12 @@ namespace Enemies.Goon
                 goon.ChangeBehaviour(goon.goonIdle);
                 return;
             }
-            
+
             if (isAnticipationPhase)
+            {
+                warningBox.UpdateDirection(goon.directionToPlayer.ToVector2());
                 goon.ComputeLastLookDirection();
+            }
         }
 
         public void FixedUpdateBehaviour(GoonStateMachine goon)
@@ -77,6 +87,9 @@ namespace Enemies.Goon
 
         public void StopBehaviour(GoonStateMachine goon, BehaviourType next)
         {
+            if (isAnticipationPhase && warningBox != null)
+                warningBox.Cancel();
+            
             attackCooldownTimestamp = Time.time + Random.Range(1.5f, 3.0f);
             goon.RemoveDamageHitbox();
         }

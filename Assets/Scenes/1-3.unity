@@ -998,7 +998,7 @@ Transform:
   m_GameObject: {fileID: 325725111}
   serializedVersion: 2
   m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
-  m_LocalPosition: {x: 0, y: 19, z: -24}
+  m_LocalPosition: {x: 0, y: 13.4, z: -19.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2666,6 +2666,52 @@ Transform:
   - {fileID: 2058240318}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &692357429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 692357430}
+  - component: {fileID: 692357431}
+  m_Layer: 0
+  m_Name: WarningBoxSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &692357430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692357429}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.5207992, y: -47.540104, z: 81.75675}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &692357431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692357429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69832601bb517cc4782c9bd50c548aa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectangularPrefab: {fileID: 6991359401695792672, guid: 2a9114827e4a9c040946ab68780da74d,
+    type: 3}
 --- !u!1001 &706889875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4402,7 +4448,11 @@ MonoBehaviour:
     waitUntilPreviousWaveIsDead: 0
     enemies:
     - {fileID: 8182171201184144234, guid: 5f650f47df9104c47a62564c271991dd, type: 3}
-  isDisabled: 1
+  - timeToSpawn: 2
+    waitUntilPreviousWaveIsDead: 1
+    enemies:
+    - {fileID: 8182171201184144234, guid: 5f650f47df9104c47a62564c271991dd, type: 3}
+  isDisabled: 0
 --- !u!114 &975633451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9747,3 +9797,4 @@ SceneRoots:
   - {fileID: 1671784120}
   - {fileID: 1160794518}
   - {fileID: 677050381}
+  - {fileID: 692357430}

@@ -80,7 +80,7 @@ namespace Player.Scripts
 
             currentBehaviour.UpdateBehaviour(this);
 
-            KeepOnGround();
+            //KeepOnGround();
         }
 
         private void KeepOnGround()

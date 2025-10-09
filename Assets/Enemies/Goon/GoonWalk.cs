@@ -30,9 +30,11 @@ namespace Enemies.Goon
         {
             Vector3 direction = goon.directionToPlayer;
             Vector3 move = direction * goon.goonData.walkMaxSpeed;
-            
+
             goon.moveVelocity.x = Mathf.MoveTowards(goon.moveVelocity.x, move.x, goon.goonData.groundAcceleration * Time.fixedDeltaTime);
             goon.moveVelocity.z = Mathf.MoveTowards(goon.moveVelocity.z, move.z, goon.goonData.groundAcceleration * Time.fixedDeltaTime);
+            
+            Debug.Log($"Move : {move} / moveVelocity : {goon.moveVelocity} / velocity : {goon.rb.velocity}");
         }
 
         public void StopBehaviour(GoonStateMachine goon, BehaviourType next)

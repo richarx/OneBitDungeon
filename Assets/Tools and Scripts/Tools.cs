@@ -202,14 +202,14 @@ namespace Tools_and_Scripts
             Gizmos.DrawLine(position, position + (direction.AddAngleToDirection(-angle) * distance));
         }
 
-        public static IEnumerator Fade(SpriteRenderer sprite, float duration, bool fadeIn, float delay = -1.0f)
+        public static IEnumerator Fade(SpriteRenderer sprite, float duration, bool fadeIn, float maxFade = 1.0f, float delay = -1.0f)
         {
             if (delay > 0.0f)
                 yield return new WaitForSeconds(delay);
         
-            float fade = fadeIn ? 0.0f : 1.0f;
+            float fade = fadeIn ? 0.0f : maxFade;
             float timer = duration;
-            float increment = 1.0f / timer;
+            float increment = maxFade / timer;
             Color color = sprite.color;
         
             while (timer > 0.0f)
@@ -224,17 +224,20 @@ namespace Tools_and_Scripts
                 yield return null;
             }
         
-            color.a = fadeIn ? 1.0f : 0.0f;
+            color.a = fadeIn ? maxFade : 0.0f;
             sprite.color = color;
         }
     
-        public static IEnumerator Fade(LineRenderer line, float duration, bool fadeIn)
+        public static IEnumerator Fade(LineRenderer line, float duration, bool fadeIn, float maxFade = 1.0f, float delay = -1.0f)
         {
-            float fade = fadeIn ? 0.0f : 1.0f;
+            float fade = fadeIn ? 0.0f : maxFade;
             float timer = duration;
-            float increment = 1.0f / timer;
+            float increment = maxFade / timer;
             Color color = line.startColor;
         
+            if (delay > 0.0f)
+                yield return new WaitForSeconds(delay);
+            
             while (timer > 0.0f)
             {
                 color.a = fade;
@@ -248,7 +251,7 @@ namespace Tools_and_Scripts
                 yield return null;
             }
         
-            color.a = fadeIn ? 1.0f : 0.0f;
+            color.a = fadeIn ? maxFade : 0.0f;
             line.startColor = color;
             line.endColor = color;
         }

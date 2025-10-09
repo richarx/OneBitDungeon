@@ -63,9 +63,8 @@ namespace Enemies.Goon
         private void Update()
         {
             currentBehaviour.UpdateBehaviour(this);
-            KeepOnGround();
         }
-        
+
         private void KeepOnGround()
         {
             Vector3 currentPosition = transform.position;
