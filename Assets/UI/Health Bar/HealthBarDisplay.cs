@@ -8,8 +8,8 @@ namespace UI.Health_Bar
         [SerializeField] private GameObject healthPointPrefab;
         [SerializeField] private Transform healthPointsHolder;
         [SerializeField] private GameObject pivot;
-        
-        private PlayerHealth playerHealth;
+
+        private PlayerStateMachine player;
         private float nextUpdateTimestamp = -1.0f;
 
         private bool isDisplayed = true;
@@ -30,7 +30,7 @@ namespace UI.Health_Bar
 
         private void Start()
         {
-            playerHealth = PlayerStateMachine.instance.playerHealth;
+            player = PlayerStateMachine.instance;
             
             if (isDisplayed)
                 SetupHealthBar();
@@ -41,7 +41,7 @@ namespace UI.Health_Bar
             if (nextUpdateTimestamp > 0.0f && Time.time <= nextUpdateTimestamp)
                 return;
             
-            int current = playerHealth.CurrentHealth;
+            int current = player.playerHealth.CurrentHealth;
             int currentlyDisplayed = healthPointsHolder.childCount;
             
             if (current > currentlyDisplayed)
@@ -52,7 +52,7 @@ namespace UI.Health_Bar
         
         private void SetupHealthBar()
         {
-            int current = playerHealth.CurrentHealth;
+            int current = player.playerHealth.CurrentHealth;
 
             for (int i = 0; i < current; i++)
             {
@@ -63,7 +63,8 @@ namespace UI.Health_Bar
         private void SpawnHealthPoint()
         {
             GameObject healthPoint = Instantiate(healthPointPrefab, Vector3.zero, Quaternion.identity, healthPointsHolder);
-            healthPoint.GetComponent<Animator>().Play("Spawn");
+            if (!player.isLockedAndHidden)
+                healthPoint.GetComponent<Animator>().Play("Spawn");
 
             nextUpdateTimestamp = Time.time + 0.1f;
         }

@@ -26,6 +26,7 @@ namespace Player.Scripts
         
         public Vector3 position => transform.position;
         public bool isLocked => currentBehaviour.GetBehaviourType() == BehaviourType.Locked || playerRun.IsSkippingFrame;
+        public bool isLockedAndHidden => currentBehaviour.GetBehaviourType() == BehaviourType.Locked && playerLocked.GetLockState == PlayerLocked.LockState.Hidden;
 
         [HideInInspector] public Vector2 moveInput;
         [HideInInspector] public Vector3 moveVelocity;

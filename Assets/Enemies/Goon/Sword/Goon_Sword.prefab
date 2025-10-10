@@ -144,6 +144,8 @@ GameObject:
   - component: {fileID: 2932317657178797063}
   - component: {fileID: 1456940899514601322}
   - component: {fileID: -4198923487247797988}
+  - component: {fileID: -4113429146054699780}
+  - component: {fileID: 4140119741989902898}
   m_Layer: 9
   m_Name: Goon_Sword
   m_TagString: Enemy
@@ -159,14 +161,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8182171201184144234}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
   m_LocalPosition: {x: 5.78, y: 0, z: 17.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2078947102036699023}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
 --- !u!135 &7157533160469046583
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -296,3 +298,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8110c5bf306e3429b6a1f3927d4400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4113429146054699780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171201184144234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5533e4481997d824dbd9ca806e1690bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodPrefabs:
+  - {fileID: 5063538953177112610, guid: a7a1048a19a01c94c80057fe041c83e7, type: 3}
+  - {fileID: 4911692183084685825, guid: e129de1d7fc536a4aa76b6863c9d5f7a, type: 3}
+  - {fileID: 1542460621297348672, guid: b96ab708257473b4a8f5907672ba1ec1, type: 3}
+  - {fileID: 4255322036948636394, guid: 41cf67743b1a34c488a5669d38d4713a, type: 3}
+  - {fileID: 1444417450081223438, guid: 0d9bf9ca325bc1f49b81bc27807c7cf6, type: 3}
+  offset: 1.5
+--- !u!114 &4140119741989902898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171201184144234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19426e376000ae044aee365b1c032ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathSound: {fileID: 0}
+  hitSound: {fileID: 0}

@@ -40,7 +40,8 @@ namespace Player.Scripts
                 case BehaviourType.Stagger:
                     break;
                 case BehaviourType.Locked:
-                    PlayIdleAnimation();
+                    if (!player.isLockedAndHidden)
+                        PlayIdleAnimation();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

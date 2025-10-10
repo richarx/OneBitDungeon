@@ -1,5 +1,6 @@
 using System;
 using Game_Manager;
+using SFX;
 using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -22,6 +23,10 @@ namespace Decor.Door
         [SerializeField] private DoorTrigger trigger;
         [SerializeField] private GameObject hitbox;
 
+        [Space] 
+        [SerializeField] private AudioClip openSound;
+        [SerializeField] private AudioClip closeSound;
+
         private bool isLocked;
 
         public DoorSide doorDirection => doorSide;
@@ -41,6 +46,7 @@ namespace Decor.Door
             isLocked = false;
             hitbox.SetActive(isLocked);
             trigger.gameObject.SetActive(!isLocked);
+            SFXManager.instance.PlaySFX(openSound, 0.1f);
         }
 
         private void LockDoor()
@@ -49,11 +55,14 @@ namespace Decor.Door
             isLocked = true;
             hitbox.SetActive(isLocked);
             trigger.gameObject.SetActive(!isLocked);
+            SFXManager.instance.PlaySFX(closeSound, 0.1f);
         }
 
         public void OpenForEnemy()
         {
             animator.Play("QuickOpen");
+            SFXManager.instance.PlaySFX(openSound);
+            SFXManager.instance.PlaySFX(closeSound, 0.1f, delay:1.0f);
         }
 
         public Vector3 ComputeSpawnPosition()
