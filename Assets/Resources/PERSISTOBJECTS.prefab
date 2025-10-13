@@ -373,6 +373,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 993e67d60ed558e42ae8bdbb7e9b900e, type: 3}
   - {fileID: 8300000, guid: 819dbcb0ab4164849a4f76a1d4510e6f, type: 3}
   - {fileID: 8300000, guid: ecad40a956acbe54497c3ac937c58919, type: 3}
+  hurt_2:
+  - {fileID: 8300000, guid: 882382c3ca010774abfb26067a0d6ca0, type: 3}
+  - {fileID: 8300000, guid: 8664cce5f03943347a7850fdf40af522, type: 3}
+  - {fileID: 8300000, guid: 5272d40c452de2340a06d2cf9cafac3e, type: 3}
   parry_1:
   - {fileID: 8300000, guid: 786b2b3003764664cb89df81efd1e054, type: 3}
   - {fileID: 8300000, guid: 4e83a0d063557314e891839f5b413142, type: 3}
@@ -422,6 +426,7 @@ MonoBehaviour:
   parryVfx: {fileID: 2755547318002962695, guid: b425364a45397ab4ab939621c38073e7,
     type: 3}
   rollVfx: {fileID: 7980137014980868513, guid: dc0d24dd083978742ad4e8c585baf8d2, type: 3}
+  hurtVfx: {fileID: 4296958320210530305, guid: 4b923a4ea4a2b474288adc18114c7a0f, type: 3}
   freezeDelay: 0.03
   freezeDuration: 0.05
 --- !u!114 &2030788969785190425
@@ -535,7 +540,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 067cf6cb62350404c8fabab092e32abc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 115e1aec12eed684fb91f8aefa366ff0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -695,8 +700,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 067cf6cb62350404c8fabab092e32abc, type: 3}
   - {fileID: 21300000, guid: db2f00f36ea37d849bc612ca57df17be, type: 3}
   - {fileID: 21300000, guid: 9f9f4d32e31a97842b350975169cc5de, type: 3}
-  maxFade: 0.1
-  duration: 0.25
+  maxFade: 0.3
+  duration: 0.5
 --- !u!1 &3167386695689792846
 GameObject:
   m_ObjectHideFlags: 0

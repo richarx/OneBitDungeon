@@ -14,6 +14,7 @@ namespace Player.Scripts
         [SerializeField] private List<AudioClip> swordSlash;
         [SerializeField] private List<AudioClip> hitEnemy;
         [SerializeField] private List<AudioClip> hurt;
+        [SerializeField] private List<AudioClip> hurt_2;
         [SerializeField] private List<AudioClip> parry_1;
         [SerializeField] private AudioClip parry_2;
         [SerializeField] private AudioClip parrySuccess_1;
@@ -31,11 +32,21 @@ namespace Player.Scripts
             player.playerSword.OnSheatheSword.AddListener(() => SFXManager.instance.PlaySFX(sheatheSword, 0.1f));
             player.playerAttack.OnPlayerAttack.AddListener((_) => SFXManager.instance.PlayRandomSFX(swordSlash));
             WeaponDamageTrigger.OnHitEnemy.AddListener((_) => SFXManager.instance.PlayRandomSFX(hitEnemy));
-            player.playerHealth.OnPlayerTakeDamage.AddListener((_) => SFXManager.instance.PlayRandomSFX(hurt));
-            player.playerParry.OnParry.AddListener(() => SFXManager.instance.PlayRandomSFX(parry_1, 0.05f));
-            player.playerParry.OnParry.AddListener(() => SFXManager.instance.PlaySFX(parry_2, 0.03f));
-            player.playerParry.OnSuccessfulParry.AddListener(() => SFXManager.instance.PlaySFX(parrySuccess_1));
-            player.playerParry.OnSuccessfulParry.AddListener(() => SFXManager.instance.PlaySFX(parrySuccess_2));
+            player.playerHealth.OnPlayerTakeDamage.AddListener((_) =>
+            {
+                SFXManager.instance.PlayRandomSFX(hurt, delay:0.05f);
+                SFXManager.instance.PlayRandomSFX(hurt_2, 0.05f);
+            });
+            player.playerParry.OnParry.AddListener(() =>
+            {
+                SFXManager.instance.PlayRandomSFX(parry_1, 0.05f);
+                SFXManager.instance.PlaySFX(parry_2, 0.03f);
+            });
+            player.playerParry.OnSuccessfulParry.AddListener(() =>
+            {
+                SFXManager.instance.PlaySFX(parrySuccess_1);
+                SFXManager.instance.PlaySFX(parrySuccess_2);
+            });
         }
     }
 }

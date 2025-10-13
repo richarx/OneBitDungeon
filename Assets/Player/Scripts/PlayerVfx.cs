@@ -28,6 +28,9 @@ namespace Player.Scripts
         
         [Space] 
         [SerializeField] private GameObject rollVfx;
+        
+        [Space] 
+        [SerializeField] private GameObject hurtVfx;
 
         [Space] 
         [SerializeField] private float freezeDelay;
@@ -40,23 +43,34 @@ namespace Player.Scripts
         private void Start()
         {
             player = PlayerStateMachine.instance;
-            WeaponDamageTrigger.OnHitEnemy.AddListener(SpawnSwordHit);
             WeaponDamageTrigger.OnHitEnemy.AddListener((position) =>
             {
-                if (!isTimeFrozen)
-                    StartCoroutine(FreezeTime());
+                SpawnSwordHit(position);
+                FreezeTime();
             });
-            player.playerParry.OnSuccessfulParry.AddListener(() =>
+            player.playerHealth.OnPlayerTakeDamage.AddListener((direction) =>
             {
-                if (!isTimeFrozen)
-                    StartCoroutine(FreezeTime());
+                FreezeTime();
+                SpawnHurtVfx(direction);
             });
             player.playerAttack.OnPlayerAttack.AddListener((_) =>
             {
                 StartCoroutine(WaitAndSpawnSwordSlash());
             });
-            player.playerParry.OnSuccessfulParry.AddListener(SpawnParryVfx);
+            player.playerParry.OnSuccessfulParry.AddListener(() =>
+            {
+                SpawnParryVfx();
+                FreezeTime();
+            });
             player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
+        }
+
+        private void SpawnHurtVfx(Vector3 direction)
+        {
+            Vector3 position = player.position + Vector3.up + (direction * 3.0f);
+            GameObject hurt = Instantiate(hurtVfx, position, Quaternion.identity);
+            if (direction.x < 0.0f)
+                hurt.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
         }
 
         private void SpawnRollVfx()
@@ -84,7 +98,13 @@ namespace Player.Scripts
             slash.RotateAround(slash.position, Vector3.up, 360.0f - player.LastLookDirection.ToDegree());
         }
 
-        private IEnumerator FreezeTime()
+        private void FreezeTime()
+        {
+            if (!isTimeFrozen)
+                StartCoroutine(FreezeTimeCoroutine());
+        }
+        
+        private IEnumerator FreezeTimeCoroutine()
         {
             isTimeFrozen = true;
             yield return new WaitForSecondsRealtime(freezeDelay);
