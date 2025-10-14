@@ -1,3 +1,4 @@
+using Decor.Bonfire;
 using Game_Manager;
 using Tools_and_Scripts;
 using UnityEngine;
@@ -80,15 +81,12 @@ namespace Player.Scripts
             playerTargeting.ComputeTarget(this);
 
             currentBehaviour.UpdateBehaviour(this);
-
-            //KeepOnGround();
         }
 
         private void KeepOnGround()
         {
-            Vector3 currentPosition = transform.position;
-            currentPosition.y = 0.0f;
-            transform.position = currentPosition;
+            Vector3 rbPosition = rb.position;
+            rb.MovePosition(rbPosition + Vector3.up * -rbPosition.y);
         }
 
         public void ComputeLastLookDirection()
@@ -106,6 +104,7 @@ namespace Player.Scripts
 
         private void FixedUpdate()
         {
+            KeepOnGround();
             currentBehaviour.FixedUpdateBehaviour(this);
         }
 
@@ -125,6 +124,26 @@ namespace Player.Scripts
         {
             rb.velocity = moveVelocity;
             moveVelocity.y = 0.0f;
+        }
+
+        public bool CheckForInteraction()
+        {
+            if (inputPackage.northButton.wasPressedThisFrame)
+            {
+                if (Bonfire.instance != null && Bonfire.instance.position.ToVector2().Distance(position.ToVector2()) <= 5.0f)
+                    SitAtBonfire();
+                else
+                    playerSword.SwapSword();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void SitAtBonfire()
+        {
+            ChangeBehaviour(playerSit);
         }
     }
 }

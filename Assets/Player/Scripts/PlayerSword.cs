@@ -82,8 +82,11 @@ namespace Player.Scripts
                 currentlyHasSword = hasSword;
                 isSwordInHand = false;
             }
+        }
 
-            if (currentlyHasSword && player.inputPackage.northButton.wasPressedThisFrame)
+        public void SwapSword()
+        {
+            if (currentlyHasSword)
             {
                 isSwordInHand = !isSwordInHand;
                 

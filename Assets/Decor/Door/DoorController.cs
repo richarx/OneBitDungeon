@@ -46,7 +46,6 @@ namespace Decor.Door
             isLocked = false;
             hitbox.SetActive(isLocked);
             trigger.gameObject.SetActive(!isLocked);
-            SFXManager.instance.PlaySFX(openSound, 0.1f);
         }
 
         private void LockDoor()
@@ -55,7 +54,6 @@ namespace Decor.Door
             isLocked = true;
             hitbox.SetActive(isLocked);
             trigger.gameObject.SetActive(!isLocked);
-            SFXManager.instance.PlaySFX(closeSound, 0.1f);
         }
 
         public void OpenForEnemy()

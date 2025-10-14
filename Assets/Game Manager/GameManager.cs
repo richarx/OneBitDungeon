@@ -50,6 +50,7 @@ namespace Game_Manager
 
             PlayerStateMachine player = PlayerStateMachine.instance;
             player.ChangeBehaviour(player.playerSit);
+            player.playerSit.Lock();
             
             player.playerHealth.OnPlayerDie.AddListener(RestartLevel);
             blackScreen.gameObject.SetActive(true);

@@ -34,7 +34,8 @@ namespace Player.Scripts
                 player.ChangeBehaviour(player.playerRun);
                 return;
             }
-            
+
+            player.CheckForInteraction();
             player.ComputeLastLookDirection();
         }
 

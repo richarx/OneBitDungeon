@@ -331,3 +331,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathSound: {fileID: 0}
   hitSound: {fileID: 0}
+  attackAnticipation_1: {fileID: 8300000, guid: afe028f60dfa0354cbe99c19cf13f52b,
+    type: 3}
+  attackAnticipation_2: {fileID: 8300000, guid: e2d2678496c9fbf4e8eb3fded5908100,
+    type: 3}
+  attackStart: {fileID: 8300000, guid: 9d4c149713430c74f97cf323c793e342, type: 3}

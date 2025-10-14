@@ -845,18 +845,18 @@ PrefabInstance:
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: targetScene.m_SceneName
-      value: 1-1
+      value: 1-4
       objectReference: {fileID: 0}
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: targetScene.m_SceneAsset
       value: 
-      objectReference: {fileID: 102900000, guid: bbd2504d09d9f6f47bd4eb87e551cbea,
+      objectReference: {fileID: 102900000, guid: a914001bf14605d4b93c18eb2e0b9837,
         type: 3}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_Name
-      value: Doorway (6)
+      value: Doorway South
       objectReference: {fileID: 0}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
@@ -1814,7 +1814,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &458845385
 Transform:
   m_ObjectHideFlags: 0
@@ -2490,7 +2490,7 @@ PrefabInstance:
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_Name
-      value: Doorway (5)
+      value: Doorway West
       objectReference: {fileID: 0}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
@@ -2523,18 +2523,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 633184587}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &633184589 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
-    type: 3}
-  m_PrefabInstance: {fileID: 633184587}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e54130f1b2a39f64fbdf12f9d6f629ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &654567946
 GameObject:
   m_ObjectHideFlags: 0
@@ -7145,15 +7133,26 @@ PrefabInstance:
       propertyPath: doorSide
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: targetScene.m_SceneName
+      value: 1-4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: targetScene.m_SceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: a914001bf14605d4b93c18eb2e0b9837,
+        type: 3}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_Name
-      value: Doorway (4)
+      value: Doorway East
       objectReference: {fileID: 0}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5491111979708006484, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
@@ -7229,8 +7228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12814c1900895804883275a88bbea5d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doors:
-  - {fileID: 633184589}
+  openSound: {fileID: 8300000, guid: 8b2b34bad5851ce4f80d5d8560fd514a, type: 3}
+  closeSound: {fileID: 8300000, guid: a0785d6cb28133449925b388181e94a6, type: 3}
 --- !u!1001 &1471497327
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9743,7 +9742,7 @@ PrefabInstance:
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_Name
-      value: Doorway
+      value: Doorway North
       objectReference: {fileID: 0}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}

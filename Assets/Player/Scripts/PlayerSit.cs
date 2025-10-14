@@ -12,8 +12,11 @@ namespace Player.Scripts
         
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-            isLocked = true;
             getUpTimestamp = -1.0f;
+            
+            player.moveVelocity = Vector3.zero;
+            player.ApplyMovement();
+            
             player.SetLastLookDirection(Vector2.left);
         }
 
@@ -49,6 +52,11 @@ namespace Player.Scripts
         private void GetUp()
         {
             getUpTimestamp = Time.time;
+        }
+
+        public void Lock()
+        {
+            isLocked = true;
         }
         
         public void Unlock()

@@ -7,10 +7,13 @@ namespace Enemies.Goon
 {
     public class GoonSwordAttack : IGoonBehaviour
     {
-        public UnityEvent<string> OnGoonSwordAttack = new UnityEvent<string>();
+        public UnityEvent<string, Vector2> OnGoonSwordAttack = new UnityEvent<string, Vector2>();
+        public UnityEvent OnGoonSwordAttackAnticipation = new UnityEvent();
 
         private Vector3 dashStartPosition;
         private Vector3 dashTarget;
+        private Vector2 dashDirection => (dashTarget - dashStartPosition).normalized.ToVector2();
+        
         private float attackStartTimestamp;
         private float attackCooldownTimestamp = -1.0f;
 
@@ -27,6 +30,7 @@ namespace Enemies.Goon
             isAnticipationPhase = true;
 
             warningBox = WarningBoxes.instance.SpawnRectangularWarning(goon.position.ToVector2(), goon.directionToPlayer.ToVector2(), 1.5f, goon.goonData.attackDashMaxDistance, goon.goonData.delayBeforeDash / 2.0f);
+            OnGoonSwordAttackAnticipation?.Invoke();
         }
 
         private void TriggerAttack(GoonStateMachine goon)
@@ -35,7 +39,7 @@ namespace Enemies.Goon
             isAnticipationPhase = false;
             dashStartPosition = goon.position;
             ComputeDashTarget(goon);
-            OnGoonSwordAttack?.Invoke("Sword");
+            OnGoonSwordAttack?.Invoke("Sword", dashDirection);
         }
 
         public void UpdateBehaviour(GoonStateMachine goon)
@@ -74,7 +78,7 @@ namespace Enemies.Goon
             dashTarget = goon.position + goon.directionToPlayer * Mathf.Max(goon.distanceToPlayer - 1, 1.0f);
             dashTarget.y = 0.0f;
         }
-        
+
         private void DashTowardTarget(GoonStateMachine goon)
         {
             goon.rb.MovePosition(Vector3.SmoothDamp(goon.position, dashTarget, ref dashVelocity, goon.goonData.attackDashDuration));

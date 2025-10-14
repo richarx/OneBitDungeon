@@ -14,7 +14,7 @@ namespace Enemies.Goon
         {
             goon = GetComponent<GoonStateMachine>();
             goon.goonStagger.OnGetStaggered.AddListener(PlayStaggerAnimation);
-            goon.goonSwordAttack.OnGoonSwordAttack.AddListener(PlayAttackAnimation);
+            goon.goonSwordAttack.OnGoonSwordAttack.AddListener((animationName, direction) => PlayAttackAnimation(animationName));
             goon.goonDash.OnGoonDash.AddListener(PlayDashAnimation);
         }
 
