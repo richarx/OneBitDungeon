@@ -206,6 +206,8 @@ namespace Tools_and_Scripts
         {
             if (delay > 0.0f)
                 yield return new WaitForSeconds(delay);
+            
+            sprite.gameObject.SetActive(true);
         
             float fade = fadeIn ? 0.0f : maxFade;
             float timer = duration;
@@ -237,6 +239,8 @@ namespace Tools_and_Scripts
         
             if (delay > 0.0f)
                 yield return new WaitForSeconds(delay);
+            
+            line.gameObject.SetActive(true);
             
             while (timer > 0.0f)
             {

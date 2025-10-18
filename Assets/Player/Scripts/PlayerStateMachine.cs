@@ -1,5 +1,5 @@
-using Decor.Bonfire;
 using Game_Manager;
+using Interactable;
 using Tools_and_Scripts;
 using UnityEngine;
 
@@ -37,6 +37,7 @@ namespace Player.Scripts
         [HideInInspector] public PlayerTargeting playerTargeting;
         [HideInInspector] public PlayerHealth playerHealth;
         [HideInInspector] public PlayerStamina playerStamina;
+        [HideInInspector] public PlayerInteraction playerInteraction;
 
         [HideInInspector] public InputPacker inputPacker = new InputPacker();
         [HideInInspector] public InputPackage inputPackage = new InputPackage();
@@ -52,6 +53,7 @@ namespace Player.Scripts
             playerTargeting = GetComponent<PlayerTargeting>();
             playerHealth = GetComponent<PlayerHealth>();
             playerStamina = GetComponent<PlayerStamina>();
+            playerInteraction = GetComponent<PlayerInteraction>();
             playerAttack = new PlayerAttack(this);
             
             lastLookDirection = Vector2.right;
@@ -130,8 +132,8 @@ namespace Player.Scripts
         {
             if (inputPackage.northButton.wasPressedThisFrame)
             {
-                if (Bonfire.instance != null && Bonfire.instance.position.ToVector2().Distance(position.ToVector2()) <= 5.0f)
-                    SitAtBonfire();
+                if (playerInteraction.IsInteractableInRange)
+                    playerInteraction.InteractWithItem();
                 else
                     playerSword.SwapSword();
 
@@ -141,7 +143,14 @@ namespace Player.Scripts
             return false;
         }
 
-        private void SitAtBonfire()
+        public bool IsAllowedToInteract()
+        {
+            BehaviourType current = currentBehaviour.GetBehaviourType();
+
+            return current != BehaviourType.Sit;
+        }
+
+        public void SitAtBonfire()
         {
             ChangeBehaviour(playerSit);
         }

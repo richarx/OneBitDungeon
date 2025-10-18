@@ -1,16 +1,14 @@
-using UnityEngine;
+using Interactable;
+using Player.Scripts;
 
 namespace Decor.Bonfire
 {
-    public class Bonfire : MonoBehaviour
+    public class Bonfire : InteractableItem
     {
-        public static Bonfire instance;
-
-        public Vector3 position => transform.position;
-        
-        private void Awake()
+        public override void Interact()
         {
-            instance = this;
+            base.Interact();
+            PlayerStateMachine.instance.SitAtBonfire();
         }
     }
 }
