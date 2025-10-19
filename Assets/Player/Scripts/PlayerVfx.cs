@@ -100,7 +100,7 @@ namespace Player.Scripts
 
         private void FreezeTime()
         {
-            if (!isTimeFrozen)
+            if (!isTimeFrozen && !player.playerHealth.IsDead)
                 StartCoroutine(FreezeTimeCoroutine());
         }
         

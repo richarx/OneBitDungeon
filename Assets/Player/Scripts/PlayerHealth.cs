@@ -11,7 +11,6 @@ namespace Player.Scripts
         [SerializeField] private int startingHealth;
 
         [HideInInspector] public UnityEvent<Vector3> OnPlayerTakeDamage = new UnityEvent<Vector3>();
-        [HideInInspector] public UnityEvent OnPlayerDie = new UnityEvent();
 
         private PlayerStateMachine player;
         
@@ -79,10 +78,7 @@ namespace Player.Scripts
             currentHealth -= damage;
             lastHitTimestamp = Time.time;
             
-            if (IsDead)
-                OnPlayerDie?.Invoke();
-            else
-                OnPlayerTakeDamage?.Invoke(direction);
+            OnPlayerTakeDamage?.Invoke(direction);
 
             return true;
         }

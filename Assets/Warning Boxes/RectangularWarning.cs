@@ -48,8 +48,6 @@ namespace Warning_Boxes
             background.size = new Vector2(width, 0.0f);
             
             isSetup = true;
-            
-            Debug.Log($"position : {position}");
         }
 
         private void Update()

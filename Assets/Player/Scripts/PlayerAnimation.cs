@@ -1,4 +1,5 @@
 using System;
+using Game_Manager;
 using Tools_and_Scripts;
 using UnityEngine;
 
@@ -36,6 +37,9 @@ namespace Player.Scripts
                 case BehaviourType.Sit:
                     PlaySitAnimation();
                     break;
+                case BehaviourType.Dead:
+                    PlayDeathAnimation();
+                    break;
                 case BehaviourType.Attack:
                 case BehaviourType.Stagger:
                     break;
@@ -46,6 +50,11 @@ namespace Player.Scripts
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void PlayDeathAnimation()
+        {
+            animator.Play($"Death_NoWeapon_{ComputeLeftRightLookDirection()}");
         }
 
         private void PlaySitAnimation()
@@ -144,6 +153,11 @@ namespace Player.Scripts
                 return "R";
 
             return "F";
+        }
+
+        private string ComputeLeftRightLookDirection()
+        {
+            return player.LastLookDirection.x <= 0.0f ? "L" : "R";
         }
     }
 }

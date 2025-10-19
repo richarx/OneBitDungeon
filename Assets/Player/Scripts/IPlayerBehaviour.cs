@@ -9,6 +9,7 @@ namespace Player.Scripts
         Stagger,
         Parry,
         Sit,
+        Dead,
         Locked,
     }
     

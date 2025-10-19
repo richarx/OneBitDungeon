@@ -19,6 +19,9 @@ namespace Player.Scripts
             player.moveVelocity = knockBackDirection * player.playerData.staggerPower;
             player.ApplyMovement();
             
+            if (player.playerHealth.IsDead)
+                player.playerDead.OnPlayerDies?.Invoke();
+
             OnStagger?.Invoke();
         }
 
@@ -36,7 +39,12 @@ namespace Player.Scripts
         public void UpdateBehaviour(PlayerStateMachine player)
         {
             if (Time.time - startStaggerTimestamp >= player.playerData.staggerDuration)
-                player.ChangeBehaviour(player.playerIdle);
+            {
+                if (player.playerHealth.IsDead)
+                    player.ChangeBehaviour(player.playerDead);
+                else    
+                    player.ChangeBehaviour(player.playerIdle);
+            }
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)

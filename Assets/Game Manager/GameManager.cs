@@ -28,6 +28,8 @@ namespace Game_Manager
         public bool IsLevelLocked => isLevelLocked;
 
         private bool isInMainMenu;
+
+        private string currentRespawnScene;
         
         private void Awake()
         {
@@ -51,8 +53,9 @@ namespace Game_Manager
             PlayerStateMachine player = PlayerStateMachine.instance;
             player.ChangeBehaviour(player.playerSit);
             player.playerSit.Lock();
+            SetRespawnPosition();
             
-            player.playerHealth.OnPlayerDie.AddListener(RestartLevel);
+            player.playerDead.OnPlayerDies.AddListener(RestartLevelOnPlayerDeath);
             blackScreen.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.5f);
             
@@ -95,21 +98,38 @@ namespace Game_Manager
             OnUnlockLevel?.Invoke();
         }
 
-        private void RestartLevel()
+        private void RestartLevelOnPlayerDeath()
         {
             StopAllCoroutines();
-            StartCoroutine(RestartLevelCoroutine());
+            StartCoroutine(RestartLevelOnPlayerDeathCoroutine());
         }
 
-        private IEnumerator RestartLevelCoroutine()
+        private IEnumerator RestartLevelOnPlayerDeathCoroutine()
         {
-            yield return new WaitForSeconds(1.0f);
-            yield return Tools.Fade(blackScreen, 1.0f, true);
-            OnResetLevel?.Invoke();
+            Time.timeScale = 0.2f;
+            yield return new WaitForSecondsRealtime(2.0f);
+            Time.timeScale = 0.1f;
+            yield return Tools.Fade(blackScreen, 5.0f, true, scaledTime:false);
+           
+            PlayerStateMachine player = PlayerStateMachine.instance;
+            player.ChangeBehaviour(player.playerSit);
+            player.playerSit.Lock();
+            
+            AsyncOperation operation = SceneManager.LoadSceneAsync(currentRespawnScene);
+
+            yield return new WaitUntil(() => operation.isDone);
+            isLevelLocked = false;
             yield return new WaitForSeconds(0.1f);
+            
+            if (PlayerSpawnPosition.instance != null)
+                player.transform.position = PlayerSpawnPosition.instance.GetPosition;
+            
+            Time.timeScale = 1.0f;
             yield return Tools.Fade(blackScreen, 1.0f, false);
+            
+            player.playerSit.Unlock();
+            
             OnRestartLevel?.Invoke();
-            BasicEnemySpawner.instance.StartSpawning();
         }
 
         public void ChangeScene(string targetSceneName, DoorSide targetDoor)
@@ -152,6 +172,11 @@ namespace Game_Manager
         public void SetMenuState(bool state)
         {
             isInMainMenu = state;
+        }
+
+        public void SetRespawnPosition()
+        {
+            currentRespawnScene = SceneManager.GetActiveScene().name;
         }
     }
 }

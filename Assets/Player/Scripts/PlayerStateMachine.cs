@@ -20,6 +20,7 @@ namespace Player.Scripts
         public PlayerStagger playerStagger = new PlayerStagger();
         public PlayerParry playerParry = new PlayerParry();
         public PlayerSit playerSit = new PlayerSit();
+        public PlayerDead playerDead = new PlayerDead();
         public PlayerAttack playerAttack;
         public PlayerLocked playerLocked = new PlayerLocked();
 
@@ -67,7 +68,6 @@ namespace Player.Scripts
                 Cursor.visible = false;
 
             playerHealth.OnPlayerTakeDamage.AddListener((direction) => playerStagger.TriggerStagger(this, direction));
-            playerHealth.OnPlayerDie.AddListener(() => playerLocked.SetLockState(this));
             GameManager.OnResetLevel.AddListener(() => transform.position = Vector3.zero);
             GameManager.OnRestartLevel.AddListener(() => ChangeBehaviour(playerIdle));
         }
@@ -153,6 +153,7 @@ namespace Player.Scripts
         public void SitAtBonfire()
         {
             ChangeBehaviour(playerSit);
+            GameManager.instance.SetRespawnPosition();
         }
     }
 }
