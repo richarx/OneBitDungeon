@@ -5,6 +5,7 @@ namespace Warning_Boxes
     public class WarningBoxes : MonoBehaviour
     {
         [SerializeField] private RectangularWarning rectangularPrefab;
+        [SerializeField] private CircularWarning circularPrefab;
         
         public static WarningBoxes instance;
 
@@ -17,6 +18,14 @@ namespace Warning_Boxes
         {
             RectangularWarning warning = Instantiate(rectangularPrefab);
             warning.Setup(position, direction, width, length, duration);
+
+            return warning;
+        }
+        
+        public CircularWarning SpawnCircularWarning(Vector2 position, float radius, float duration)
+        {
+            CircularWarning warning = Instantiate(circularPrefab);
+            warning.Setup(position, radius, duration);
 
             return warning;
         }
