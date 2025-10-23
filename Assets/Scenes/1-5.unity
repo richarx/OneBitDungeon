@@ -4529,11 +4529,12 @@ MonoBehaviour:
   - timeToSpawn: 0
     waitUntilPreviousWaveIsDead: 0
     enemies:
-    - {fileID: 8182171201184144234, guid: 5f650f47df9104c47a62564c271991dd, type: 3}
+    - {fileID: 8182171201184144234, guid: 94e0da14e0a388446bdb73cfc307022a, type: 3}
   - timeToSpawn: 2
     waitUntilPreviousWaveIsDead: 1
     enemies:
     - {fileID: 8182171201184144234, guid: 5f650f47df9104c47a62564c271991dd, type: 3}
+    - {fileID: 8182171201184144234, guid: 94e0da14e0a388446bdb73cfc307022a, type: 3}
   isDisabled: 0
 --- !u!114 &975633451
 MonoBehaviour:

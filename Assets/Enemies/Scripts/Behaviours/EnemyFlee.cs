@@ -3,14 +3,12 @@ using UnityEngine;
 
 namespace Enemies.Scripts.Behaviours
 {
-    public class EnemyStrafe : IEnemyBehaviour
+    public class EnemyFlee : IEnemyBehaviour
     {
-        private bool isGoingLeft;
         private float endStrafeTimestamp;
         
         public void StartBehaviour(EnemyStateMachine enemy, BehaviourType previous)
         {
-            isGoingLeft = Tools.RandomBool();
             endStrafeTimestamp = Time.time + Random.Range(0.5f, 1.5f);
         }
 
@@ -33,8 +31,10 @@ namespace Enemies.Scripts.Behaviours
         
         private void HandleDirection(EnemyStateMachine enemy)
         {
-            Vector3 direction = enemy.directionToPlayer.ToVector2().AddAngleToDirection(isGoingLeft ? 90.0f : -90.0f).ToVector3();
+            Vector3 direction = enemy.directionToPlayer * -1.0f;
             Vector3 move = direction * enemy.enemyData.walkMaxSpeed;
+            
+            Debug.Log($"Flee : {direction}");
             
             enemy.moveVelocity.x = Mathf.MoveTowards(enemy.moveVelocity.x, move.x, enemy.enemyData.groundAcceleration * Time.fixedDeltaTime);
             enemy.moveVelocity.z = Mathf.MoveTowards(enemy.moveVelocity.z, move.z, enemy.enemyData.groundAcceleration * Time.fixedDeltaTime);
@@ -46,7 +46,7 @@ namespace Enemies.Scripts.Behaviours
 
         public BehaviourType GetBehaviourType()
         {
-            return BehaviourType.Strafe;
+            return BehaviourType.Flee;
         }
     }
 }

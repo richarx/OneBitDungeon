@@ -37,6 +37,7 @@ namespace Enemies.Scripts
                     break;
                 case BehaviourType.Walk:
                 case BehaviourType.Approach:
+                case BehaviourType.Flee:
                 case BehaviourType.Strafe:
                     PlayRunAnimation();
                     break;

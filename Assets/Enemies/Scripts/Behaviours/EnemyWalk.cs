@@ -6,7 +6,6 @@ namespace Enemies.Scripts.Behaviours
     {
         public void StartBehaviour(EnemyStateMachine enemy, BehaviourType previous)
         {
-            Debug.Log("GOON WALK");
         }
 
         public void UpdateBehaviour(EnemyStateMachine enemy)

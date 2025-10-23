@@ -26,7 +26,6 @@ namespace Enemies.Scripts.Behaviours
         public EnemySpawn enemySpawn = new EnemySpawn();
         public EnemyIdle enemyIdle = new EnemyIdle();
         public EnemyWalk enemyWalk = new EnemyWalk();
-        public EnemyStrafe enemyStrafe = new EnemyStrafe();
         public EnemyApproach enemyApproach = new EnemyApproach();
         public EnemyStagger enemyStagger = new EnemyStagger();
         public EnemyDead enemyDead = new EnemyDead();

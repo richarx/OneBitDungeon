@@ -1,18 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
+using Enemies.Scripts.Behaviours;
 using UnityEngine;
 
-public class GoonMagicZoneAttack : MonoBehaviour
+namespace Enemies.Goon.MagicZoner
 {
-    // Start is called before the first frame update
-    void Start()
+    public class GoonMagicZoneAttack : MonoBehaviour, IEnemyBehaviour
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        private EnemyFlee enemyFlee;
         
+        private void Start()
+        {
+            enemyFlee = new EnemyFlee();
+        }
+
+        private void SelectNextBehaviour(EnemyStateMachine enemy)
+        {
+            if (enemy.distanceToPlayer > enemy.enemyData.distanceToPlayerWalkThreshold)
+                enemy.ChangeBehaviour(enemy.enemyWalk);
+            else
+            {
+                enemy.ChangeBehaviour(enemyFlee);
+            }
+        }
+
+        public void StartBehaviour(EnemyStateMachine enemy, BehaviourType previous)
+        {
+            SelectNextBehaviour(enemy);
+        }
+
+        public void UpdateBehaviour(EnemyStateMachine enemy)
+        {
+        }
+
+        public void FixedUpdateBehaviour(EnemyStateMachine enemy)
+        {
+        }
+
+        public void StopBehaviour(EnemyStateMachine enemy, BehaviourType next)
+        {
+        }
+
+        public BehaviourType GetBehaviourType()
+        {
+            return BehaviourType.Attack;
+        }
     }
 }

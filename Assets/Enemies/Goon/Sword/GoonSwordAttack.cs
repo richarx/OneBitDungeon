@@ -21,11 +21,13 @@ namespace Enemies.Goon.Sword
         
         private GoonSwordDashAttack goonSwordDashAttack;
         private GoonSwordDash goonSwordDash;
+        private EnemyStrafe enemyStrafe;
 
         private void Start()
         {
             goonSwordDashAttack = new GoonSwordDashAttack(this);
             goonSwordDash = new GoonSwordDash(this);
+            enemyStrafe = new EnemyStrafe();
         }
 
         private void SelectNextBehaviour(EnemyStateMachine enemy)
@@ -44,7 +46,7 @@ namespace Enemies.Goon.Sword
                         enemy.ChangeBehaviour(enemy.enemyApproach);
                 }
                 else
-                    enemy.ChangeBehaviour(enemy.enemyStrafe);
+                    enemy.ChangeBehaviour(enemyStrafe);
             }
         }
 

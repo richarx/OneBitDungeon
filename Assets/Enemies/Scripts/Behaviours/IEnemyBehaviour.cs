@@ -6,6 +6,7 @@ namespace Enemies.Scripts.Behaviours
         Idle,
         Walk,
         Strafe,
+        Flee,
         Dash,
         Attack,
         Approach,
