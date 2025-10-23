@@ -23,10 +23,6 @@ namespace Decor.Door
         [SerializeField] private DoorTrigger trigger;
         [SerializeField] private GameObject hitbox;
 
-        [Space] 
-        [SerializeField] private AudioClip openSound;
-        [SerializeField] private AudioClip closeSound;
-
         private bool isLocked;
 
         public DoorSide doorDirection => doorSide;
@@ -59,8 +55,6 @@ namespace Decor.Door
         public void OpenForEnemy()
         {
             animator.Play("QuickOpen");
-            SFXManager.instance.PlaySFX(openSound);
-            SFXManager.instance.PlaySFX(closeSound, 0.1f, delay:1.0f);
         }
 
         public Vector3 ComputeSpawnPosition()

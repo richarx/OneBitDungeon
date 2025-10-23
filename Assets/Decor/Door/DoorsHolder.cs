@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game_Manager;
@@ -55,6 +54,12 @@ namespace Decor.Door
         {
             int index = Random.Range(0, doors.Count);
             return doors[index];
+        }
+
+        public void PlayQuickOpenSound()
+        {
+            SFXManager.instance.PlaySFX(openSound);
+            SFXManager.instance.PlaySFX(closeSound, 0.1f, delay:1.0f);
         }
     }
 }

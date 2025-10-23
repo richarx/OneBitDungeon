@@ -61,6 +61,7 @@ namespace Enemies.Spawner
                 {
                     SpawnEnemy(enemy);
                 }
+                DoorsHolder.instance.PlayQuickOpenSound();
             }
             isSpawning = false;
 
