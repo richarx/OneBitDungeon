@@ -13,20 +13,14 @@ namespace Enemies.Goon.Sword
         public float attackDashDuration;
         public float attackDashMaxDistance;
 
-        [Space] 
-        [Header("Dash")] 
-        public float dashDuration;
-        public float dashMaxDistance;
-        public float dashSpeed;
-        
         private GoonSwordDashAttack goonSwordDashAttack;
-        private GoonSwordDash goonSwordDash;
+        private EnemyDash enemyDash;
         private EnemyStrafe enemyStrafe;
 
         private void Start()
         {
             goonSwordDashAttack = new GoonSwordDashAttack(this);
-            goonSwordDash = new GoonSwordDash(this);
+            enemyDash = new EnemyDash(new EnemyDash.EnemyDashData(0.5f, 8.0f, 0.3f));
             enemyStrafe = new EnemyStrafe();
         }
 
@@ -36,8 +30,8 @@ namespace Enemies.Goon.Sword
                 enemy.ChangeBehaviour(enemy.enemyWalk);
             else
             {
-                if (!enemy.damageable.IsFullLife && goonSwordDash.CanDash(enemy) && Tools.RandomBool())
-                    enemy.ChangeBehaviour(goonSwordDash);
+                if (!enemy.damageable.IsFullLife && enemyDash.CanDash(enemy) && Tools.RandomBool())
+                    enemy.ChangeBehaviour(enemyDash);
                 else if (goonSwordDashAttack.CanAttack())
                 {
                     if (enemy.distanceToPlayer <= enemy.enemyData.distanceToPlayerApproachThreshold)

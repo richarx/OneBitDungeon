@@ -1,13 +1,23 @@
 using Enemies.Goon.Sword;
-using Enemies.Scripts.Behaviours;
 using UnityEngine;
 
-namespace Enemies.Goon
+namespace Enemies.Scripts.Behaviours
 {
-    public class GoonSwordDash : IEnemyBehaviour
+    public class EnemyDash : IEnemyBehaviour
     {
-        
-        private GoonSwordAttack goonSwordAttack;
+        public class EnemyDashData
+        {
+            public float dashDuration;
+            public float dashMaxDistance;
+            public float dashSpeed;
+
+            public EnemyDashData(float dashDuration, float dashMaxDistance, float dashSpeed)
+            {
+                this.dashDuration = dashDuration;
+                this.dashMaxDistance = dashMaxDistance;
+                this.dashSpeed = dashSpeed;
+            }
+        }
         
         private float startDashTimestamp;
         private float dashCooldownTimestamp;
@@ -16,25 +26,25 @@ namespace Enemies.Goon
         private Vector3 dashTarget;
         private Vector3 dashVelocity;
 
-        public GoonSwordDash(GoonSwordAttack _goonSwordAttack)
+        private EnemyDashData data;
+        
+        public EnemyDash(EnemyDashData enemyDashData)
         {
-            goonSwordAttack = _goonSwordAttack;
+            data = enemyDashData;
         }
 
         public void StartBehaviour(EnemyStateMachine enemy, BehaviourType previous)
         {
-            Debug.Log("GOON DASH");
-
             dashStartPosition = enemy.position;
             ComputeDashTarget(enemy);
             startDashTimestamp = Time.time;
             
-            enemy.enemyAnimation.PlayAnimation("Dash_Sword");
+            enemy.enemyAnimation.PlayAnimation("Dash");
         }
 
         public void UpdateBehaviour(EnemyStateMachine enemy)
         {
-            if (Time.time - startDashTimestamp >= goonSwordAttack.dashDuration)
+            if (Time.time - startDashTimestamp >= data.dashDuration)
             {
                 enemy.SelectNextBehaviour();
                 return;
@@ -55,13 +65,13 @@ namespace Enemies.Goon
         
         private void ComputeDashTarget(EnemyStateMachine enemy)
         {
-            dashTarget = enemy.position + enemy.directionToPlayer * (-1.0f * goonSwordAttack.dashMaxDistance);
+            dashTarget = enemy.position + enemy.directionToPlayer * (-1.0f * data.dashMaxDistance);
             dashTarget.y = 0.0f;
         }
         
         private void DashTowardTarget(EnemyStateMachine enemy)
         {
-            enemy.rb.MovePosition(Vector3.SmoothDamp(enemy.position, dashTarget, ref dashVelocity, goonSwordAttack.dashSpeed));
+            enemy.rb.MovePosition(Vector3.SmoothDamp(enemy.position, dashTarget, ref dashVelocity, data.dashSpeed));
         }
 
         public bool CanDash(EnemyStateMachine enemy)
