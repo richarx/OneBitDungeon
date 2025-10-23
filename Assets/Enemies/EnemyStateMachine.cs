@@ -1,35 +1,41 @@
 using System;
+using Enemies.Goon;
 using Player.Scripts;
 using Player.Sword_Hitboxes;
 using Tools_and_Scripts;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using static Player.Sword_Hitboxes.WeaponAnimationTriggers;
+using BehaviourType = Enemies.Goon.BehaviourType;
 
-namespace Enemies.Goon
+namespace Enemies
 {
-    public class GoonStateMachine : MonoBehaviour
+    public class EnemyStateMachine : MonoBehaviour
     {
-        public GoonData goonData;
+        public EnemyData enemyData;
         public SpriteRenderer graphics;
-        public GameObject goonCorpsePrefab;
+        public GameObject corpsePrefab;
         [SerializeField] private WeaponAnimationTriggers weaponAnimationTriggers;
         [SerializeField] private GameObject damageHitBoxPrefab;
         
-        public IGoonBehaviour currentBehaviour;
+        [HideInInspector] public UnityEvent<string, Vector2> OnAttack = new UnityEvent<string, Vector2>();
+        
+        public IEnemyBehaviour currentBehaviour;
         
         // Behaviour States
-        public GoonSpawn goonSpawn = new GoonSpawn();
-        public GoonIdle goonIdle = new GoonIdle();
-        public GoonWalk goonWalk = new GoonWalk();
-        public GoonStrafe goonStrafe = new GoonStrafe();
-        public GoonApproach goonApproach = new GoonApproach();
-        public GoonSwordAttack goonSwordAttack = new GoonSwordAttack();
-        public GoonDash goonDash = new GoonDash();
-        public GoonStagger goonStagger = new GoonStagger();
-        public GoonDead goonDead = new GoonDead();
+        public EnemySpawn enemySpawn = new EnemySpawn();
+        public EnemyIdle enemyIdle = new EnemyIdle();
+        public EnemyWalk enemyWalk = new EnemyWalk();
+        public EnemyStrafe enemyStrafe = new EnemyStrafe();
+        public EnemyApproach enemyApproach = new EnemyApproach();
+        public EnemyStagger enemyStagger = new EnemyStagger();
+        public EnemyDead enemyDead = new EnemyDead();
+        public IEnemyBehaviour enemyAttack;
 
         [HideInInspector] public Rigidbody rb;
         [HideInInspector] public Damageable damageable;
+        [HideInInspector] public EnemyAnimation enemyAnimation;
         
         private GameObject currentHitbox;
         
@@ -45,9 +51,11 @@ namespace Enemies.Goon
         {
             rb = GetComponent<Rigidbody>();
             damageable = GetComponent<Damageable>();
+            enemyAnimation = GetComponent<EnemyAnimation>();
+            enemyAttack = GetComponent<IEnemyBehaviour>();
 
-            damageable.OnTakeDamage.AddListener(() => ChangeBehaviour(goonStagger));
-            damageable.OnDie.AddListener(() => ChangeBehaviour(goonDead));
+            damageable.OnTakeDamage.AddListener(() => ChangeBehaviour(enemyStagger));
+            damageable.OnDie.AddListener(() => ChangeBehaviour(enemyDead));
             
             weaponAnimationTriggers.OnSpawnHitbox.AddListener(SpawnDamageHitbox);
             weaponAnimationTriggers.OnRemoveHitbox.AddListener(RemoveDamageHitbox);
@@ -56,7 +64,7 @@ namespace Enemies.Goon
 
             lastLookDirection = Vector2.right;
 
-            currentBehaviour = goonSpawn;
+            currentBehaviour = enemySpawn;
             currentBehaviour.StartBehaviour(this, BehaviourType.Idle);
         }
 
@@ -65,34 +73,20 @@ namespace Enemies.Goon
             currentBehaviour.UpdateBehaviour(this);
         }
 
-        private void KeepOnGround()
-        {
-            Vector3 currentPosition = transform.position;
-            currentPosition.y = 0.0f;
-            transform.position = currentPosition;
-        }
-        
         private void FixedUpdate()
         {
             currentBehaviour.FixedUpdateBehaviour(this);
         }
 
-        public void SelectNextBehaviour()
+        public virtual void SelectNextBehaviour()
         {
-            if (distanceToPlayer > goonData.distanceToPlayerWalkThreshold)
-                ChangeBehaviour(goonWalk);
-            else
-            {
-                if (!damageable.IsFullLife && goonDash.CanDash(this) && Tools.RandomBool())
-                    ChangeBehaviour(goonDash);
-                else if (goonSwordAttack.CanAttack())
-                    ChangeBehaviour(goonApproach);
-                else
-                    ChangeBehaviour(goonStrafe);
-            }
+            if (distanceToPlayer > enemyData.distanceToPlayerWalkThreshold)
+                ChangeBehaviour(enemyWalk);
+            else 
+                ChangeBehaviour(enemyAttack);
         }
 
-        public void ChangeBehaviour(IGoonBehaviour newBehaviour)
+        public void ChangeBehaviour(IEnemyBehaviour newBehaviour)
         {
             if (newBehaviour == null || newBehaviour == currentBehaviour)
                 return;
@@ -114,7 +108,7 @@ namespace Enemies.Goon
         {
             Destroy(gameObject);
 
-            SpriteRenderer corpse = Instantiate(goonCorpsePrefab, position, Quaternion.identity).GetComponent<SpriteRenderer>();
+            SpriteRenderer corpse = Instantiate(corpsePrefab, position, Quaternion.identity).GetComponent<SpriteRenderer>();
             corpse.sprite = graphics.sprite;
             corpse.color = graphics.color;
         }
@@ -141,7 +135,7 @@ namespace Enemies.Goon
 
         private void GetParried()
         {
-            ChangeBehaviour(goonStagger);
+            ChangeBehaviour(enemyStagger);
         }
 
         private float ComputeHitboxDirection(AttackDirection direction)

@@ -3,34 +3,34 @@ using UnityEngine;
 
 namespace Enemies.Goon
 {
-    public class GoonDead : IGoonBehaviour
+    public class EnemyDead : IEnemyBehaviour
     {
         private float startDieTimestamp;
         private bool hasSpawnedCorpse;
         
-        public void StartBehaviour(GoonStateMachine goon, BehaviourType previous)
+        public void StartBehaviour(EnemyStateMachine enemy, BehaviourType previous)
         {
             hasSpawnedCorpse = false;
             startDieTimestamp = Time.time;
             
-            goon.moveVelocity = Vector3.zero;
-            goon.ApplyMovement();
+            enemy.moveVelocity = Vector3.zero;
+            enemy.ApplyMovement();
         }
 
-        public void UpdateBehaviour(GoonStateMachine goon)
+        public void UpdateBehaviour(EnemyStateMachine enemy)
         {
             if (!hasSpawnedCorpse && Time.time - startDieTimestamp >= 0.5f)
             {
-                goon.SpawnCorpse();
+                enemy.SpawnCorpse();
                 hasSpawnedCorpse = true;
             }
         }
 
-        public void FixedUpdateBehaviour(GoonStateMachine goon)
+        public void FixedUpdateBehaviour(EnemyStateMachine enemy)
         {
         }
 
-        public void StopBehaviour(GoonStateMachine goon, BehaviourType next)
+        public void StopBehaviour(EnemyStateMachine enemy, BehaviourType next)
         {
         }
 

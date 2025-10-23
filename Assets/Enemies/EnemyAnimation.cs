@@ -1,33 +1,33 @@
 using System;
+using Enemies.Goon;
 using Tools_and_Scripts;
 using UnityEngine;
 
-namespace Enemies.Goon
+namespace Enemies
 {
-    public class GoonAnimation : MonoBehaviour
+    public class EnemyAnimation : MonoBehaviour
     {
         [SerializeField] private Animator animator;
 
-        private GoonStateMachine goon;
+        private EnemyStateMachine enemy;
 
         private void Start()
         {
-            goon = GetComponent<GoonStateMachine>();
-            goon.goonStagger.OnGetStaggered.AddListener(PlayStaggerAnimation);
-            goon.goonSwordAttack.OnGoonSwordAttack.AddListener((animationName, direction) => PlayAttackAnimation(animationName));
-            goon.goonDash.OnGoonDash.AddListener(PlayDashAnimation);
+            enemy = GetComponent<EnemyStateMachine>();
+            enemy.enemyStagger.OnGetStaggered.AddListener(PlayStaggerAnimation);
+            enemy.OnAttack.AddListener((animationName, direction) => PlayAttackAnimation(animationName));
         }
 
         private void LateUpdate()
         {
-            if (goon == null)
+            if (enemy == null)
                 Debug.Log("Goon is null");
 
-            if (goon.currentBehaviour == null)
+            if (enemy.currentBehaviour == null)
                 Debug.Log("Goon current behaviour is null");
 
             
-            switch (goon.currentBehaviour.GetBehaviourType())
+            switch (enemy.currentBehaviour.GetBehaviourType())
             {
                 case BehaviourType.Spawn:
                     PlaySpawnAnimation();
@@ -46,8 +46,6 @@ namespace Enemies.Goon
                     PlayDeadAnimation();
                     break;
                 case BehaviourType.Attack:
-                    if (goon.goonSwordAttack.IsAnticipationPhase)
-                        PlayAttackAnticipation();
                     break;
                 case BehaviourType.Dash:
                     break;
@@ -58,7 +56,7 @@ namespace Enemies.Goon
 
         private void PlaySpawnAnimation()
         {
-            if (goon.goonSpawn.isLocked)
+            if (enemy.enemySpawn.isLocked)
                 PlayIdleAnimation();
             else
                 PlayRunAnimation();
@@ -84,24 +82,19 @@ namespace Enemies.Goon
             animator.Play($"Die_Sword_{ComputeLookDirection()}");
         }
 
-        private void PlayAttackAnticipation()
-        {
-            animator.Play($"Attack_Anticipation_Sword_{ComputeLookDirection()}");
-        }
-        
         private void PlayAttackAnimation(string attackAnimation)
         {
             animator.Play($"Attack_{attackAnimation}_{ComputeLookDirection()}", 0, 0.0f);
         }
         
-        private void PlayDashAnimation()
+        public void PlayAnimation(string animationName)
         {
-            animator.Play($"Dash_Sword_{ComputeLookDirection()}");
+            animator.Play($"{animationName}_{ComputeLookDirection()}");
         }
         
         private string ComputeLookDirection()
         {
-            float angle = goon.LastLookDirection.ToSignedDegree();
+            float angle = enemy.LastLookDirection.ToSignedDegree();
 
             if (angle < 0)
                 angle = 360.0f + angle;

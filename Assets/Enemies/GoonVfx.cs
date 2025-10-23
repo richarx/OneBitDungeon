@@ -8,13 +8,13 @@ namespace Enemies.Goon
         [SerializeField] private List<GameObject> bloodPrefabs;
         [SerializeField] private float offset;
 
-        private GoonStateMachine goon;
+        private EnemyStateMachine _enemy;
 
         private void Start()
         {
-            goon = GetComponent<GoonStateMachine>();
+            _enemy = GetComponent<EnemyStateMachine>();
             
-            goon.damageable.OnDie.AddListener(SpawnDeathVfx);
+            _enemy.damageable.OnDie.AddListener(SpawnDeathVfx);
         }
 
         private void SpawnDeathVfx()

@@ -139,13 +139,13 @@ GameObject:
   - component: {fileID: 5611415529131889590}
   - component: {fileID: 7157533160469046583}
   - component: {fileID: 774514632331222006}
-  - component: {fileID: 1959238934010002594}
-  - component: {fileID: 7244117164946726690}
-  - component: {fileID: 2932317657178797063}
-  - component: {fileID: 1456940899514601322}
-  - component: {fileID: -4198923487247797988}
-  - component: {fileID: -4113429146054699780}
-  - component: {fileID: 4140119741989902898}
+  - component: {fileID: 6454322192940160016}
+  - component: {fileID: 588601916735717286}
+  - component: {fileID: 7647917830408944447}
+  - component: {fileID: 4687748904817308930}
+  - component: {fileID: 3992247429226112370}
+  - component: {fileID: 133443658844726704}
+  - component: {fileID: 6422878394676500870}
   m_Layer: 9
   m_Name: Goon_Sword
   m_TagString: Enemy
@@ -217,7 +217,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &1959238934010002594
+--- !u!114 &6454322192940160016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,7 +236,26 @@ MonoBehaviour:
   OnDie:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7244117164946726690
+--- !u!114 &588601916735717286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171201184144234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 405e620d40937b04ba0a7168bde55272, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDuration: 1.3
+  delayBeforeDash: 0.5
+  attackDashDuration: 0.15
+  attackDashMaxDistance: 10
+  dashDuration: 0.5
+  dashMaxDistance: 8
+  dashSpeed: 0.3
+--- !u!114 &7647917830408944447
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -248,17 +267,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1c9bbbd6c779543bc916b1f7335714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goonData: {fileID: 11400000, guid: 3efdb92f1a08d2249b0ff36cfe1c7c08, type: 2}
+  enemyData: {fileID: 11400000, guid: 3efdb92f1a08d2249b0ff36cfe1c7c08, type: 2}
   graphics: {fileID: 5071313609053062274}
-  goonCorpsePrefab: {fileID: 3217964803596498505, guid: 31230364ff7b1964d8b66829d442e03c,
+  corpsePrefab: {fileID: 3217964803596498505, guid: 31230364ff7b1964d8b66829d442e03c,
     type: 3}
   weaponAnimationTriggers: {fileID: 1101606422976933254}
   damageHitBoxPrefab: {fileID: 1002835809620756908, guid: 2194ab68b27deb4499db81adff4049df,
     type: 3}
+  OnAttack:
+    m_PersistentCalls:
+      m_Calls: []
   rb: {fileID: 0}
   damageable: {fileID: 0}
+  enemyAnimation: {fileID: 0}
   moveVelocity: {x: 0, y: 0, z: 0}
---- !u!114 &2932317657178797063
+--- !u!114 &4687748904817308930
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,38 +290,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 8182171201184144234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ad447821b83a02448eddb7283aa4f95, type: 3}
+  m_Script: {fileID: 11500000, guid: 19426e376000ae044aee365b1c032ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1695218526776584420}
---- !u!114 &1456940899514601322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8182171201184144234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d1ab092a12a7574e836139a884ecccc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 5071313609053062274}
-  targetColor: {r: 1, g: 0, b: 0, a: 1}
-  duration: 0.2
---- !u!114 &-4198923487247797988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8182171201184144234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed8110c5bf306e3429b6a1f3927d4400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-4113429146054699780
+  deathSound:
+  - {fileID: 8300000, guid: 3d047a9cf84724f4d85ebaf5ecde7ae6, type: 3}
+  - {fileID: 8300000, guid: 84d6410cbd66ec644aa4865896211ee0, type: 3}
+  hitSound:
+  - {fileID: 8300000, guid: 596b89b4c5efd624a90444cc41c22faa, type: 3}
+  - {fileID: 8300000, guid: d21a6ee78d4c85f4aa4514fc50bd42e5, type: 3}
+  - {fileID: 8300000, guid: 006f5e8c89ae3e04fb06e7e179e27099, type: 3}
+  attackAnticipation_1: {fileID: 8300000, guid: afe028f60dfa0354cbe99c19cf13f52b,
+    type: 3}
+  attackAnticipation_2: {fileID: 8300000, guid: 374f10d7ead35bc4989ec326ed2fa33a,
+    type: 3}
+  attackStart: {fileID: 8300000, guid: 9d4c149713430c74f97cf323c793e342, type: 3}
+--- !u!114 &3992247429226112370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -316,8 +323,8 @@ MonoBehaviour:
   - {fileID: 1542460621297348672, guid: b96ab708257473b4a8f5907672ba1ec1, type: 3}
   - {fileID: 4255322036948636394, guid: 41cf67743b1a34c488a5669d38d4713a, type: 3}
   - {fileID: 1444417450081223438, guid: 0d9bf9ca325bc1f49b81bc27807c7cf6, type: 3}
-  offset: 1.5
---- !u!114 &4140119741989902898
+  offset: 1.3
+--- !u!114 &133443658844726704
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,13 +333,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 8182171201184144234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19426e376000ae044aee365b1c032ddc, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d1ab092a12a7574e836139a884ecccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSound: {fileID: 0}
-  hitSound: {fileID: 0}
-  attackAnticipation_1: {fileID: 8300000, guid: afe028f60dfa0354cbe99c19cf13f52b,
-    type: 3}
-  attackAnticipation_2: {fileID: 8300000, guid: e2d2678496c9fbf4e8eb3fded5908100,
-    type: 3}
-  attackStart: {fileID: 8300000, guid: 9d4c149713430c74f97cf323c793e342, type: 3}
+  spriteRenderer: {fileID: 5071313609053062274}
+  targetColor: {r: 1, g: 0, b: 0, a: 1}
+  duration: 0.2
+--- !u!114 &6422878394676500870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171201184144234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad447821b83a02448eddb7283aa4f95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1695218526776584420}
