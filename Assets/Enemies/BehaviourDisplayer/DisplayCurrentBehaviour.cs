@@ -17,10 +17,10 @@ namespace Enemies.BehaviourDisplayer
             EnemyStateMachine enemy = transform.parent.GetComponent<EnemyStateMachine>();
             Assert.IsNotNull(enemy, $"[{nameof(DisplayCurrentBehaviour)}] : error : should be instantiated as children of an EnemyStateMachine.");
             
-            enemy.OnChangeBehaviour.AddListener(() => DisplayBehaviour(enemy.currentBehaviour.GetBehaviourType()));
+            enemy.OnChangeBehaviour.AddListener(() => DisplayBehaviour(enemy.currentBehaviour.GetType().Name));
         }
 
-        private void DisplayBehaviour(BehaviourType behaviourType)
+        private void DisplayBehaviour(string behaviourType)
         {
             textMeshPro.text = $"{behaviourType}";
         }

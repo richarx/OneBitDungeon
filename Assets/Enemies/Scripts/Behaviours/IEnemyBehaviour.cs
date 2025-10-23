@@ -5,11 +5,8 @@ namespace Enemies.Scripts.Behaviours
         Spawn,
         Idle,
         Walk,
-        Strafe,
-        Flee,
         Dash,
         Attack,
-        Approach,
         Stagger,
         Dead
     }

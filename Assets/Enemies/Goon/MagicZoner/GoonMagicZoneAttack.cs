@@ -5,21 +5,25 @@ namespace Enemies.Goon.MagicZoner
 {
     public class GoonMagicZoneAttack : MonoBehaviour, IEnemyBehaviour
     {
-
         private EnemyFlee enemyFlee;
+        private EnemyWait enemyWait;
         
         private void Start()
         {
             enemyFlee = new EnemyFlee();
+            enemyWait = new EnemyWait();
         }
 
         private void SelectNextBehaviour(EnemyStateMachine enemy)
         {
             if (enemy.distanceToPlayer > enemy.enemyData.distanceToPlayerWalkThreshold)
                 enemy.ChangeBehaviour(enemy.enemyWalk);
-            else
+            else 
             {
-                enemy.ChangeBehaviour(enemyFlee);
+                if (enemy.damageable.IsFullLife)
+                    enemy.ChangeBehaviour(enemyWait);
+                else
+                    enemy.ChangeBehaviour(enemyFlee);
             }
         }
 

@@ -1,20 +1,19 @@
-using Tools_and_Scripts;
 using UnityEngine;
 
 namespace Enemies.Scripts.Behaviours
 {
     public class EnemyFlee : IEnemyBehaviour
     {
-        private float endStrafeTimestamp;
+        private float endFleeTimestamp;
         
         public void StartBehaviour(EnemyStateMachine enemy, BehaviourType previous)
         {
-            endStrafeTimestamp = Time.time + Random.Range(0.5f, 1.5f);
+            endFleeTimestamp = Time.time + Random.Range(0.5f, 1.5f);
         }
 
         public void UpdateBehaviour(EnemyStateMachine enemy)
         {
-            if (Time.time >= endStrafeTimestamp)
+            if (Time.time >= endFleeTimestamp)
             {
                 enemy.SelectNextBehaviour();
                 return;
@@ -46,7 +45,7 @@ namespace Enemies.Scripts.Behaviours
 
         public BehaviourType GetBehaviourType()
         {
-            return BehaviourType.Flee;
+            return BehaviourType.Walk;
         }
     }
 }

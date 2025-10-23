@@ -46,7 +46,7 @@ namespace Enemies.Scripts.Behaviours
 
         public BehaviourType GetBehaviourType()
         {
-            return BehaviourType.Strafe;
+            return BehaviourType.Walk;
         }
     }
 }

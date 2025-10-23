@@ -36,18 +36,13 @@ namespace Enemies.Scripts
                     PlayIdleAnimation();
                     break;
                 case BehaviourType.Walk:
-                case BehaviourType.Approach:
-                case BehaviourType.Flee:
-                case BehaviourType.Strafe:
                     PlayRunAnimation();
-                    break;
-                case BehaviourType.Stagger:
                     break;
                 case BehaviourType.Dead:
                     PlayDeadAnimation();
                     break;
+                case BehaviourType.Stagger:
                 case BehaviourType.Attack:
-                    break;
                 case BehaviourType.Dash:
                     break;
                 default:
