@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hurt_Sword_BL
+  m_Name: Hurt_BL
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -34,7 +34,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Anticipation_Sword_BR
+  m_Name: DashAttackAnticipation_BR
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -104,7 +104,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hurt_Sword_F
+  m_Name: Hurt_F
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -158,7 +158,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walk_Sword_BL
+  m_Name: Walk_BL
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -211,7 +211,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hurt_Sword_R
+  m_Name: Hurt_R
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -238,7 +238,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Sword_BR
+  m_Name: Idle_BR
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -264,7 +264,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Sword_R
+  m_Name: DashAttack_R
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -291,7 +291,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walk_Sword_L
+  m_Name: Walk_L
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -437,7 +437,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Anticipation_Sword_B
+  m_Name: DashAttackAnticipation_B
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -463,7 +463,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Sword_B
+  m_Name: Idle_B
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -511,7 +511,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hurt_Sword_BR
+  m_Name: Hurt_BR
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -538,7 +538,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hurt_Sword_L
+  m_Name: Hurt_L
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -565,7 +565,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Sword_BL
+  m_Name: Idle_BL
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -591,7 +591,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Sword_R
+  m_Name: Idle_R
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -617,7 +617,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Sword_BR
+  m_Name: DashAttack_BR
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -644,7 +644,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walk_Sword_BR
+  m_Name: Walk_BR
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -697,7 +697,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Anticipation_Sword_F
+  m_Name: DashAttackAnticipation_F
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -723,7 +723,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Die_Sword_R
+  m_Name: Die_R
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -749,7 +749,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Sword_F
+  m_Name: Idle_F
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -797,7 +797,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Die_Sword_F
+  m_Name: Die_F
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -823,7 +823,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Die_Sword_B
+  m_Name: Die_B
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -893,7 +893,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Die_Sword_L
+  m_Name: Die_L
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -919,7 +919,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Die_Sword_BR
+  m_Name: Die_BR
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -945,7 +945,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walk_Sword_F
+  m_Name: Walk_F
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -993,7 +993,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walk_Sword_R
+  m_Name: Walk_R
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1063,7 +1063,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Sword_L
+  m_Name: Idle_L
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1256,7 +1256,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Anticipation_Sword_L
+  m_Name: DashAttackAnticipation_L
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1304,7 +1304,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Sword_L
+  m_Name: DashAttack_L
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1358,7 +1358,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Sword_BL
+  m_Name: DashAttack_BL
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1385,7 +1385,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Sword_B
+  m_Name: DashAttack_B
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1478,7 +1478,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Anticipation_Sword_R
+  m_Name: DashAttackAnticipation_R
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1504,7 +1504,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Anticipation_Sword_BL
+  m_Name: DashAttackAnticipation_BL
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1530,7 +1530,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Sword_F
+  m_Name: DashAttack_F
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1557,7 +1557,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hurt_Sword_B
+  m_Name: Hurt_B
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1606,7 +1606,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Die_Sword_BL
+  m_Name: Die_BL
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1632,7 +1632,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walk_Sword_B
+  m_Name: Walk_B
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

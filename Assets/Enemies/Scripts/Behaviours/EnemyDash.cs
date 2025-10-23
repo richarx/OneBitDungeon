@@ -18,6 +18,7 @@ namespace Enemies.Scripts.Behaviours
                 this.dashSpeed = dashSpeed;
             }
         }
+        private EnemyDashData data;
         
         private float startDashTimestamp;
         private float dashCooldownTimestamp;
@@ -26,8 +27,6 @@ namespace Enemies.Scripts.Behaviours
         private Vector3 dashTarget;
         private Vector3 dashVelocity;
 
-        private EnemyDashData data;
-        
         public EnemyDash(EnemyDashData enemyDashData)
         {
             data = enemyDashData;

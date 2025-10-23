@@ -60,27 +60,27 @@ namespace Enemies.Scripts
 
         private void PlayIdleAnimation()
         {
-            animator.Play($"Idle_Sword_{ComputeLookDirection()}");
+            animator.Play($"Idle_{ComputeLookDirection()}");
         }
 
         private void PlayRunAnimation()
         {
-            animator.Play($"Walk_Sword_{ComputeLookDirection()}");
+            animator.Play($"Walk_{ComputeLookDirection()}");
         }
         
         private void PlayStaggerAnimation()
         {
-            animator.Play($"Hurt_Sword_{ComputeLookDirection()}", 0, 0.0f);
+            animator.Play($"Hurt_{ComputeLookDirection()}", 0, 0.0f);
         }
         
         private void PlayDeadAnimation()
         {
-            animator.Play($"Die_Sword_{ComputeLookDirection()}");
+            animator.Play($"Die_{ComputeLookDirection()}");
         }
 
         private void PlayAttackAnimation(string attackAnimation)
         {
-            animator.Play($"Attack_{attackAnimation}_{ComputeLookDirection()}", 0, 0.0f);
+            animator.Play($"{attackAnimation}_{ComputeLookDirection()}", 0, 0.0f);
         }
         
         public void PlayAnimation(string animationName)
