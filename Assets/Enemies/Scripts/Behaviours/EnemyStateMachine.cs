@@ -18,6 +18,7 @@ namespace Enemies.Scripts.Behaviours
         [SerializeField] private GameObject damageHitBoxPrefab;
         
         [HideInInspector] public UnityEvent<string, Vector2> OnAttack = new UnityEvent<string, Vector2>();
+        [HideInInspector] public UnityEvent OnChangeBehaviour = new UnityEvent();
         
         public IEnemyBehaviour currentBehaviour;
         
@@ -92,6 +93,7 @@ namespace Enemies.Scripts.Behaviours
             BehaviourType previous = currentBehaviour.GetBehaviourType();
             currentBehaviour.StopBehaviour(this, newBehaviour.GetBehaviourType());
             currentBehaviour = newBehaviour;
+            OnChangeBehaviour?.Invoke();
             
             currentBehaviour.StartBehaviour(this, previous);
         }
