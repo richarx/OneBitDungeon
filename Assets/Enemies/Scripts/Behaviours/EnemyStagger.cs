@@ -2,7 +2,7 @@ using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Enemies.Goon
+namespace Enemies.Scripts.Behaviours
 {
     public class EnemyStagger : IEnemyBehaviour
     {

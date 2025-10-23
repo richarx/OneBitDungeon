@@ -2,7 +2,7 @@ using Player.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Enemies
+namespace Enemies.Scripts
 {
     public class EnemyDealDamage : MonoBehaviour
     {

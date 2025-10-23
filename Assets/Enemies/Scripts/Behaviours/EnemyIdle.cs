@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Enemies.Goon
+namespace Enemies.Scripts.Behaviours
 {
     public class EnemyIdle : IEnemyBehaviour
     {

@@ -1,9 +1,9 @@
 using System;
-using Enemies.Goon;
+using Enemies.Scripts.Behaviours;
 using Tools_and_Scripts;
 using UnityEngine;
 
-namespace Enemies
+namespace Enemies.Scripts
 {
     public class EnemyAnimation : MonoBehaviour
     {

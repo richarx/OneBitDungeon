@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Enemies
+namespace Enemies.Scripts
 {
     public class SwapColorOnHit : MonoBehaviour
     {

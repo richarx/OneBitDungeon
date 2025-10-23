@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Enemies.Scripts.Behaviours;
 using UnityEngine;
 
-namespace Enemies.Goon
+namespace Enemies.Scripts
 {
-    public class GoonVfx : MonoBehaviour
+    public class EnemyVfx : MonoBehaviour
     {
         [SerializeField] private List<GameObject> bloodPrefabs;
         [SerializeField] private float offset;

@@ -1,4 +1,5 @@
 using Enemies.Goon.Sword;
+using Enemies.Scripts.Behaviours;
 using UnityEngine;
 
 namespace Enemies.Goon

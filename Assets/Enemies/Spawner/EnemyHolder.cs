@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Enemies
+namespace Enemies.Spawner
 {
     public class EnemyHolder : MonoBehaviour
     {

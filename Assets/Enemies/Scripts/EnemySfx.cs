@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Enemies.Scripts.Behaviours;
 using SFX;
 using UnityEngine;
 
-namespace Enemies
+namespace Enemies.Scripts
 {
     public class EnemySfx : MonoBehaviour
     {

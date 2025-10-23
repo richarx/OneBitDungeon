@@ -1,10 +1,10 @@
-using Enemies.Goon;
 using Enemies.Goon.Sword;
+using Enemies.Scripts.Behaviours;
 using Tools_and_Scripts;
 using UnityEngine;
 using Warning_Boxes;
 
-namespace Enemies
+namespace Enemies.Goon
 {
     public class GoonSwordDashAttack : IEnemyBehaviour
     {

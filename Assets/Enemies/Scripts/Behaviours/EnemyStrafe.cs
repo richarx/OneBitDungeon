@@ -1,7 +1,7 @@
 using Tools_and_Scripts;
 using UnityEngine;
 
-namespace Enemies.Goon
+namespace Enemies.Scripts.Behaviours
 {
     public class EnemyStrafe : IEnemyBehaviour
     {

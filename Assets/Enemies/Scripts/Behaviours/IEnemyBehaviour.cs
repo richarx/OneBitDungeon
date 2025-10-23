@@ -1,4 +1,4 @@
-namespace Enemies.Goon
+namespace Enemies.Scripts.Behaviours
 {
     public enum BehaviourType 
     {

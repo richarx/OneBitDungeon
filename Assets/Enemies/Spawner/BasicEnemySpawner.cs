@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using Decor.Door;
 using Game_Manager;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace Enemies
+namespace Enemies.Spawner
 {
     [Serializable]
     public class Wave

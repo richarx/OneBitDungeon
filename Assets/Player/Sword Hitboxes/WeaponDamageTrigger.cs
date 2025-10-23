@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Enemies;
+using Enemies.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 

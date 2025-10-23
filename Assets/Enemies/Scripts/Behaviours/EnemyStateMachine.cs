@@ -1,15 +1,13 @@
 using System;
-using Enemies.Goon;
+using Enemies.Spawner;
 using Player.Scripts;
 using Player.Sword_Hitboxes;
 using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using static Player.Sword_Hitboxes.WeaponAnimationTriggers;
-using BehaviourType = Enemies.Goon.BehaviourType;
 
-namespace Enemies
+namespace Enemies.Scripts.Behaviours
 {
     public class EnemyStateMachine : MonoBehaviour
     {

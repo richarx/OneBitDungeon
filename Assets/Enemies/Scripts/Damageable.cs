@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Enemies
+namespace Enemies.Scripts
 {
     public class Damageable : MonoBehaviour
     {
