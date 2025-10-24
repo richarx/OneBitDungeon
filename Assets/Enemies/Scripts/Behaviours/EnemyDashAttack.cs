@@ -1,3 +1,4 @@
+using Player.Sword_Hitboxes;
 using Tools_and_Scripts;
 using UnityEngine;
 using Warning_Boxes;
@@ -12,13 +13,15 @@ namespace Enemies.Scripts.Behaviours
             public float delayBeforeDash;
             public float attackDashDuration;
             public float attackDashMaxDistance;
+            public GameObject damageHitBoxPrefab;
 
-            public EnemyDashAttackData(float attackDuration, float delayBeforeDash, float attackDashDuration, float attackDashMaxDistance)
+            public EnemyDashAttackData(float attackDuration, float delayBeforeDash, float attackDashDuration, float attackDashMaxDistance, GameObject damageHitBoxPrefab)
             {
                 this.attackDuration = attackDuration;
                 this.delayBeforeDash = delayBeforeDash;
                 this.attackDashDuration = attackDashDuration;
                 this.attackDashMaxDistance = attackDashMaxDistance;
+                this.damageHitBoxPrefab = damageHitBoxPrefab;
             }
         }
         private EnemyDashAttackData data;
@@ -36,10 +39,14 @@ namespace Enemies.Scripts.Behaviours
         private Vector3 dashVelocity;
 
         private RectangularWarning warningBox;
+        private GameObject currentHitbox;
 
-        public EnemyDashAttack(EnemyDashAttackData enemyDashAttackData)
+        public EnemyDashAttack(EnemyDashAttackData enemyDashAttackData, EnemyStateMachine enemy)
         {
             data = enemyDashAttackData;
+            
+            enemy.weaponAnimationTriggers.OnSpawnHitbox.AddListener((direction) => SpawnDamageHitbox(enemy, direction));
+            enemy.weaponAnimationTriggers.OnRemoveHitbox.AddListener(RemoveDamageHitbox);
         }
 
         public void StartBehaviour(EnemyStateMachine enemy, BehaviourType previous)
@@ -58,6 +65,28 @@ namespace Enemies.Scripts.Behaviours
             dashStartPosition = enemy.position;
             ComputeDashTarget(enemy);
             enemy.OnAttack?.Invoke("DashAttack", dashDirection);
+        }
+        
+        private void SpawnDamageHitbox(EnemyStateMachine enemy, WeaponAnimationTriggers.AttackDirection direction)
+        {
+            if (enemy.currentBehaviour != this)
+                return;
+            
+            if (currentHitbox != null)
+                RemoveDamageHitbox();
+
+            currentHitbox = Object.Instantiate(data.damageHitBoxPrefab, enemy.position, Quaternion.identity, enemy.transform);
+            currentHitbox.transform.RotateAround(enemy.position, Vector3.up, enemy.ComputeHitboxDirection(direction));
+            currentHitbox.transform.GetChild(0).GetComponent<EnemyDealDamage>().OnHitParry.AddListener(enemy.GetParried);
+        }
+
+        private void RemoveDamageHitbox()
+        {
+            if (currentHitbox != null)
+            {
+                Object.Destroy(currentHitbox);
+                currentHitbox = null;
+            }
         }
 
         public void UpdateBehaviour(EnemyStateMachine enemy)
@@ -112,8 +141,11 @@ namespace Enemies.Scripts.Behaviours
             if (isAnticipationPhase && warningBox != null)
                 warningBox.Cancel();
             
+            if (currentHitbox != null)
+                RemoveDamageHitbox();
+            
             attackCooldownTimestamp = Time.time + Random.Range(1.5f, 3.0f);
-            enemy.RemoveDamageHitbox();
+            enemy.weaponAnimationTriggers.OnRemoveHitbox.Invoke();
         }
 
         public BehaviourType GetBehaviourType()

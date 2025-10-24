@@ -14,8 +14,7 @@ namespace Enemies.Scripts.Behaviours
         public EnemyData enemyData;
         public SpriteRenderer graphics;
         public GameObject corpsePrefab;
-        [SerializeField] private WeaponAnimationTriggers weaponAnimationTriggers;
-        [SerializeField] private GameObject damageHitBoxPrefab;
+        public WeaponAnimationTriggers weaponAnimationTriggers;
         
         [HideInInspector] public UnityEvent<string, Vector2> OnAttack = new UnityEvent<string, Vector2>();
         [HideInInspector] public UnityEvent OnChangeBehaviour = new UnityEvent();
@@ -34,9 +33,7 @@ namespace Enemies.Scripts.Behaviours
         [HideInInspector] public Rigidbody rb;
         [HideInInspector] public Damageable damageable;
         [HideInInspector] public EnemyAnimation enemyAnimation;
-        
-        private GameObject currentHitbox;
-        
+
         [HideInInspector] public Vector3 moveVelocity;
         private Vector2 lastLookDirection = Vector2.right;
         public Vector2 LastLookDirection => lastLookDirection;
@@ -54,10 +51,7 @@ namespace Enemies.Scripts.Behaviours
 
             damageable.OnTakeDamage.AddListener(() => ChangeBehaviour(enemyStagger));
             damageable.OnDie.AddListener(() => ChangeBehaviour(enemyDead));
-            
-            weaponAnimationTriggers.OnSpawnHitbox.AddListener(SpawnDamageHitbox);
-            weaponAnimationTriggers.OnRemoveHitbox.AddListener(RemoveDamageHitbox);
-            
+
             EnemyHolder.instance.RegisterEnemy(gameObject);
 
             lastLookDirection = Vector2.right;
@@ -122,22 +116,7 @@ namespace Enemies.Scripts.Behaviours
             lastLookDirection = direction.normalized;
         }
         
-        private void SpawnDamageHitbox(AttackDirection direction)
-        {
-            if (currentHitbox != null)
-                RemoveDamageHitbox();
-
-            currentHitbox = Instantiate(damageHitBoxPrefab, position, Quaternion.identity, transform);
-            currentHitbox.transform.RotateAround(position, Vector3.up, ComputeHitboxDirection(direction));
-            currentHitbox.transform.GetChild(0).GetComponent<EnemyDealDamage>().OnHitParry.AddListener(GetParried);
-        }
-
-        private void GetParried()
-        {
-            ChangeBehaviour(enemyStagger);
-        }
-
-        private float ComputeHitboxDirection(AttackDirection direction)
+        public float ComputeHitboxDirection(AttackDirection direction)
         {
             switch (direction)
             {
@@ -158,13 +137,9 @@ namespace Enemies.Scripts.Behaviours
             }
         }
 
-        public void RemoveDamageHitbox()
+        public void GetParried()
         {
-            if (currentHitbox != null)
-            {
-                Destroy(currentHitbox);
-                currentHitbox = null;
-            }
+            ChangeBehaviour(enemyStagger);
         }
 
         private void OnDestroy()

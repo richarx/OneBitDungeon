@@ -32,6 +32,8 @@ namespace Warning_Boxes
         private bool isCanceled;
 
         private bool isSetup;
+
+        public bool isFull => currentBackgroundDistance >= radius;
         
         public void Setup(Vector2 _position, float _radius, float _duration)
         {

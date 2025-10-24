@@ -6,13 +6,16 @@ namespace Enemies.Goon.Sword
 {
     public class GoonSwordAttack : MonoBehaviour, IEnemyBehaviour
     {
+        [SerializeField] private GameObject damageHitBoxPrefab;
+        
         private EnemyDashAttack enemyDashAttack;
         private EnemyDash enemyDash;
         private EnemyStrafe enemyStrafe;
 
         private void Start()
         {
-            enemyDashAttack = new EnemyDashAttack(new EnemyDashAttack.EnemyDashAttackData(1.3f, 0.5f, 0.15f, 10.0f));
+            EnemyStateMachine enemy = GetComponent<EnemyStateMachine>();
+            enemyDashAttack = new EnemyDashAttack(new EnemyDashAttack.EnemyDashAttackData(1.3f, 0.5f, 0.15f, 10.0f, damageHitBoxPrefab), enemy);
             enemyDash = new EnemyDash(new EnemyDash.EnemyDashData(0.5f, 8.0f, 0.3f));
             enemyStrafe = new EnemyStrafe();
         }

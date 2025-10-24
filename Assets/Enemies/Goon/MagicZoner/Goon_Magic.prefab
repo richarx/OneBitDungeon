@@ -254,8 +254,6 @@ MonoBehaviour:
   corpsePrefab: {fileID: 3217964803596498505, guid: 31230364ff7b1964d8b66829d442e03c,
     type: 3}
   weaponAnimationTriggers: {fileID: 1101606422976933254}
-  damageHitBoxPrefab: {fileID: 1002835809620756908, guid: 2194ab68b27deb4499db81adff4049df,
-    type: 3}
   OnAttack:
     m_PersistentCalls:
       m_Calls: []
@@ -349,6 +347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a04eec947cc23244a79114a6498c2ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageHitBoxPrefab: {fileID: 4226645505238222679, guid: cc24728a3260fc64394a23f81dd64ea2,
+    type: 3}
 --- !u!1001 &3351416821682097549
 PrefabInstance:
   m_ObjectHideFlags: 0

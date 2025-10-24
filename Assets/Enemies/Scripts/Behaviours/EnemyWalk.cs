@@ -32,8 +32,6 @@ namespace Enemies.Scripts.Behaviours
 
             enemy.moveVelocity.x = Mathf.MoveTowards(enemy.moveVelocity.x, move.x, enemy.enemyData.groundAcceleration * Time.fixedDeltaTime);
             enemy.moveVelocity.z = Mathf.MoveTowards(enemy.moveVelocity.z, move.z, enemy.enemyData.groundAcceleration * Time.fixedDeltaTime);
-            
-            Debug.Log($"Move : {move} / moveVelocity : {enemy.moveVelocity} / velocity : {enemy.rb.velocity}");
         }
 
         public void StopBehaviour(EnemyStateMachine enemy, BehaviourType next)

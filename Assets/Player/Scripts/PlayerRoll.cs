@@ -27,8 +27,6 @@ namespace Player.Scripts
             rollStartTimestamp = Time.time;
             
             player.playerStamina.ConsumeStamina(player.playerData.rollStaminaCost);
-
-            Warning_Boxes.WarningBoxes.instance.SpawnCircularWarning(player.position.ToVector2(), 2.0f, 1.0f);
             
             OnStartRoll?.Invoke();
         }
