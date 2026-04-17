@@ -1,0 +1,17 @@
+using PrimeTween;
+using UnityEngine;
+
+public class CameraBossRoom : MonoBehaviour
+{
+    [SerializeField] private Transform target;
+    [SerializeField] private float duration;
+    [SerializeField] private Ease ease;
+    [SerializeField] private float delay;
+
+    private void Start()
+    {
+        Sequence.Create()
+            .Group(Tween.Position(transform, target.position, duration, ease, startDelay: delay))
+            .Group(Tween.Rotation(transform, target.rotation, duration, ease, startDelay: delay));
+    }
+}

@@ -15,12 +15,12 @@ namespace Enemies.Scripts.Behaviours
         public SpriteRenderer graphics;
         public GameObject corpsePrefab;
         public WeaponAnimationTriggers weaponAnimationTriggers;
-        
+
         [HideInInspector] public UnityEvent<string, Vector2> OnAttack = new UnityEvent<string, Vector2>();
         [HideInInspector] public UnityEvent OnChangeBehaviour = new UnityEvent();
-        
+
         public IEnemyBehaviour currentBehaviour;
-        
+
         // Behaviour States
         public EnemySpawn enemySpawn = new EnemySpawn();
         public EnemyIdle enemyIdle = new EnemyIdle();
@@ -37,7 +37,7 @@ namespace Enemies.Scripts.Behaviours
         [HideInInspector] public Vector3 moveVelocity;
         private Vector2 lastLookDirection = Vector2.right;
         public Vector2 LastLookDirection => lastLookDirection;
-        
+
         public Vector3 position => transform.position;
         public float distanceToPlayer => (PlayerStateMachine.instance.position - position).magnitude;
         public Vector3 directionToPlayer => (PlayerStateMachine.instance.position - position).normalized;
@@ -52,7 +52,8 @@ namespace Enemies.Scripts.Behaviours
             damageable.OnTakeDamage.AddListener(() => ChangeBehaviour(enemyStagger));
             damageable.OnDie.AddListener(() => ChangeBehaviour(enemyDead));
 
-            EnemyHolder.instance.RegisterEnemy(gameObject);
+            if (EnemyHolder.instance != null)
+                EnemyHolder.instance.RegisterEnemy(gameObject);
 
             lastLookDirection = Vector2.right;
 
@@ -74,7 +75,7 @@ namespace Enemies.Scripts.Behaviours
         {
             if (distanceToPlayer > enemyData.distanceToPlayerWalkThreshold)
                 ChangeBehaviour(enemyWalk);
-            else 
+            else
                 ChangeBehaviour(enemyAttack);
         }
 
@@ -87,10 +88,10 @@ namespace Enemies.Scripts.Behaviours
             currentBehaviour.StopBehaviour(this, newBehaviour.GetBehaviourType());
             currentBehaviour = newBehaviour;
             OnChangeBehaviour?.Invoke();
-            
+
             currentBehaviour.StartBehaviour(this, previous);
         }
-        
+
         public void ApplyMovement()
         {
             moveVelocity.y = 0.0f;
@@ -110,12 +111,12 @@ namespace Enemies.Scripts.Behaviours
         {
             lastLookDirection = directionToPlayer.ToVector2().normalized;
         }
-        
+
         public void SetLastLookDirection(Vector2 direction)
         {
             lastLookDirection = direction.normalized;
         }
-        
+
         public float ComputeHitboxDirection(AttackDirection direction)
         {
             switch (direction)

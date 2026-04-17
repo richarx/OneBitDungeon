@@ -447,9 +447,6 @@ MonoBehaviour:
   OnPlayerTakeDamage:
     m_PersistentCalls:
       m_Calls: []
-  OnPlayerDie:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &6536872301985836359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +486,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58e2e2ee6e3a6844f80fb96126cf29db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnUnregisterItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnInteractWithItem:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2589086241912612217
 GameObject:
   m_ObjectHideFlags: 0
@@ -1308,7 +1311,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 10172a16dde3c49459d4a6da73bea70f, type: 2}
+  - {fileID: 2100000, guid: 41044f904fe60da479433b27d1203f47, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

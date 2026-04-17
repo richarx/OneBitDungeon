@@ -1,6 +1,5 @@
 using System.Collections;
 using Decor.Door;
-using Enemies;
 using Enemies.Spawner;
 using Player.Scripts;
 using Tools_and_Scripts;
@@ -15,14 +14,14 @@ namespace Game_Manager
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private Image blackScreen;
-        
+
         public static UnityEvent OnKillLastEnemy = new UnityEvent();
         public static UnityEvent OnLockLevel = new UnityEvent();
         public static UnityEvent OnUnlockLevel = new UnityEvent();
         public static UnityEvent OnResetLevel = new UnityEvent();
         public static UnityEvent OnRestartLevel = new UnityEvent();
         public static UnityEvent OnChangeScene = new UnityEvent();
-        
+
         public static GameManager instance;
 
         private bool isLevelLocked = false;
@@ -31,11 +30,11 @@ namespace Game_Manager
         private bool isInMainMenu;
 
         private string currentRespawnScene;
-        
+
         private void Awake()
         {
             instance = this;
-            
+
             OnKillLastEnemy?.AddListener(UnlockLevel);
         }
 
@@ -55,22 +54,22 @@ namespace Game_Manager
             player.ChangeBehaviour(player.playerSit);
             player.playerSit.Lock();
             SetRespawnPosition();
-            
+
             player.playerDead.OnPlayerDies.AddListener(RestartLevelOnPlayerDeath);
             blackScreen.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.5f);
-            
+
             if (PlayerSpawnPosition.instance != null)
                 player.transform.position = PlayerSpawnPosition.instance.GetPosition;
 
             yield return new WaitForSeconds(0.5f);
-            
+
             yield return Tools.Fade(blackScreen, 1.0f, false);
-            
+
             player.playerSit.Unlock();
-            
+
             OnChangeScene?.Invoke();
-            
+
             if (BasicEnemySpawner.instance != null && !BasicEnemySpawner.instance.IsDisabled)
             {
                 LockLevel();
@@ -88,7 +87,7 @@ namespace Game_Manager
         {
             if (isLevelLocked)
                 return;
-            
+
             isLevelLocked = true;
             OnLockLevel?.Invoke();
         }
@@ -110,26 +109,26 @@ namespace Game_Manager
             Time.timeScale = 0.2f;
             yield return new WaitForSecondsRealtime(2.0f);
             Time.timeScale = 0.1f;
-            yield return Tools.Fade(blackScreen, 5.0f, true, scaledTime:false);
-           
+            yield return Tools.Fade(blackScreen, 5.0f, true, scaledTime: false);
+
             PlayerStateMachine player = PlayerStateMachine.instance;
             player.ChangeBehaviour(player.playerSit);
             player.playerSit.Lock();
-            
+
             AsyncOperation operation = SceneManager.LoadSceneAsync(currentRespawnScene);
 
             yield return new WaitUntil(() => operation.isDone);
             isLevelLocked = false;
             yield return new WaitForSeconds(0.1f);
-            
+
             if (PlayerSpawnPosition.instance != null)
                 player.transform.position = PlayerSpawnPosition.instance.GetPosition;
-            
+
             Time.timeScale = 1.0f;
             yield return Tools.Fade(blackScreen, 1.0f, false);
-            
+
             player.playerSit.Unlock();
-            
+
             OnRestartLevel?.Invoke();
         }
 
@@ -142,7 +141,7 @@ namespace Game_Manager
         private IEnumerator ChangeSceneCoroutine(string targetSceneName, DoorSide targetDoor)
         {
             PlayerStateMachine player = PlayerStateMachine.instance;
-            
+
             player.playerLocked.SetLockState(player);
             yield return Tools.Fade(blackScreen, 0.5f, true);
 
@@ -155,13 +154,13 @@ namespace Game_Manager
             DoorController door = DoorsHolder.instance.GetDoor(targetDoor);
             Vector3 spawnPosition = door.ComputeSpawnPosition();
             player.rb.position = spawnPosition;
-            
+
             yield return Tools.Fade(blackScreen, 0.5f, false);
-            
+
             UnlockPlayer();
-            
+
             OnChangeScene?.Invoke();
-            
+
             if (BasicEnemySpawner.instance != null && !BasicEnemySpawner.instance.IsDisabled)
             {
                 LockLevel();

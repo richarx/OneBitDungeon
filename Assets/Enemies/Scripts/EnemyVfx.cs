@@ -9,13 +9,9 @@ namespace Enemies.Scripts
         [SerializeField] private List<GameObject> bloodPrefabs;
         [SerializeField] private float offset;
 
-        private EnemyStateMachine _enemy;
-
         private void Start()
         {
-            _enemy = GetComponent<EnemyStateMachine>();
-            
-            _enemy.damageable.OnDie.AddListener(SpawnDeathVfx);
+            GetComponent<Damageable>().OnDie.AddListener(SpawnDeathVfx);
         }
 
         private void SpawnDeathVfx()
