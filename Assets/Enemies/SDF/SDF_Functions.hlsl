@@ -1,10 +1,3 @@
-/*
-If the shapes had different colors I think you'd have to do some Lerp between them depending on the distances.
-But in this tutorial both shapes are same color, so the simple way would be to just Add relevant shapes together first 
-(main with main, outline with outline and inline with inline)
-Saturate the results and only after that apply colors
-*/
-
 void CircleSDF_float(float2 uv, float radius, out float distance) 
 {
     distance = length(uv) - radius;
