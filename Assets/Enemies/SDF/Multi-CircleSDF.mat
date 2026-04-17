@@ -44,17 +44,17 @@ Material:
     m_Ints: []
     m_Floats:
     - _COMBINE: 2
-    - _InlineThickness: 0
+    - _InlineThickness: 0.055
     - _OutlineThickness: 0.01
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Radius: 0.292
-    - _Shape1Radius: 0.297
-    - _Shape2Radius: 0.241
+    - _Shape1Radius: 0.3
+    - _Shape2Radius: 0.2
     - _SmoothingFactor: 0.02
     - _alpha: 1
     m_Colors:
-    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _Emission: {r: 2.670157, g: 0.02563708, b: 0, a: 1}
     - _InlineColor: {r: 0.30196077, g: 0, b: 0.02352941, a: 1}
     - _MainColor: {r: 0.043137237, g: 0.058823504, b: 0.13725486, a: 1}
     - _OutlineColor: {r: 1, g: 0.5882353, b: 0, a: 1}

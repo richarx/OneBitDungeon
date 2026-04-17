@@ -1,22 +1,10 @@
 namespace Enemies.Scripts.Behaviours
 {
-    public enum BehaviourType 
-    {
-        Spawn,
-        Idle,
-        Walk,
-        Dash,
-        Attack,
-        Stagger,
-        Dead
-    }
-    
     public interface IEnemyBehaviour
     {
-        public void StartBehaviour(EnemyStateMachine enemy, BehaviourType previous);
-        public void UpdateBehaviour(EnemyStateMachine enemy);
-        public void FixedUpdateBehaviour(EnemyStateMachine enemy);
-        public void StopBehaviour(EnemyStateMachine enemy, BehaviourType next);
-        public BehaviourType GetBehaviourType();
+        public void StartBehaviour(EnemyController enemy);
+        public void UpdateBehaviour(EnemyController enemy);
+        public void FixedUpdateBehaviour(EnemyController enemy);
+        public void StopBehaviour(EnemyController enemy);
     }
 }
