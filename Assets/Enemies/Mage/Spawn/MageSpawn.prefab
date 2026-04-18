@@ -44,3 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 493ade47a017a854b94aa859bf595a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radius: 0.25
+  duration: 2
+  circleDamageZonePrefab: {fileID: 5892917051957619975, guid: e091f3ccc2b118c42bbdd3ee9772c31e,
+    type: 3}
