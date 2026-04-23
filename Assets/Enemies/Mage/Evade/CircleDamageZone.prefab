@@ -98,10 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0bd6e772bcf9c64b9853e08e5c22f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.25
-  spawnDuration: 3
+  radius: 0.2
+  spawnDuration: 0.5
   spawnEase: 16
-  fillDuration: 2
+  fillDuration: 0.5
   fillEase: 6
   despawnDuration: 0.3
   flashColor: {r: 0.4627451, g: 0.45490196, b: 0.45490196, a: 1}

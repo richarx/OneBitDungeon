@@ -19,10 +19,12 @@ public class MageSpawn : MonoBehaviour, IEnemyBehaviour
         Sequence.Create()
             .ChainDelay(2.0f)
             .ChainCallback(() => SpawnDamageZone(enemy.transform.position))
-            .ChainDelay(6f)
+            .ChainDelay(5.5f)
             .Chain(Tween.Alpha(enemy.shadowSprite, 1.0f, 1.0f))
             .Group(Tween.Scale(enemy.shadowSprite.transform, new Vector3(0.1f, 0.1f, 1.0f), Vector3.one, 0.5f))
-            .Group(Tween.LocalPositionY(enemy.sprite.transform, 30.0f, 0.0f, 0.5f, Ease.OutBounce));
+            .Group(Tween.LocalPositionY(enemy.sprite.transform, 30.0f, 0.0f, 0.5f, Ease.OutBounce))
+            .ChainDelay(1.0f)
+            .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
     private void SpawnDamageZone(Vector3 position)

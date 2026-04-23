@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2596505831890940935
+--- !u!114 &-4104347217752390232
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,12 +20,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RectangleSDF
-  m_Shader: {fileID: -6465566751694194690, guid: 6c086b3ed8c13aa428990e3418b8ab13,
+  m_Name: 3-CircleSDF
+  m_Shader: {fileID: -6465566751694194690, guid: 4c7e17c1c34179e48b9592f827e5ff9b,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _COMBINE_UNION
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
@@ -55,15 +56,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _COMBINE: 0
     - _InlineThickness: 0
     - _OutlineThickness: 0.01
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Shape1Radius: 0
+    - _Shape2Radius: 0
+    - _Shape3Radius: 0
+    - _SmoothingFactor: 0.03
     - _alpha: 1
     m_Colors:
-    - _Emission: {r: 0, g: 0, b: 0, a: 1}
-    - _InlineColor: {r: 0.3019608, g: 0, b: 0.023529412, a: 1}
-    - _MainColor: {r: 0.043137256, g: 0.05882353, b: 0.13725491, a: 1}
+    - _Emission: {r: 0.1, g: 0, b: 0, a: 1}
+    - _InlineColor: {r: 0.36862746, g: 0, b: 0.02745098, a: 1}
+    - _MainColor: {r: 0.043137237, g: 0.058823504, b: 0.13725486, a: 1}
     - _OutlineColor: {r: 1, g: 0.5882353, b: 0, a: 1}
-    - _Size: {r: 0.1, g: 0.49, b: 0, a: 0}
+    - _Shape1Position: {r: 10, g: 0, b: 0, a: 0}
+    - _Shape2Position: {r: 10, g: 0, b: 0, a: 0}
+    - _Shape3Position: {r: 10, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
