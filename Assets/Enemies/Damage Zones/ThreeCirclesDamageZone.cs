@@ -1,4 +1,7 @@
+using System;
+using Player.Scripts;
 using PrimeTween;
+using Tools_and_Scripts;
 using UnityEngine;
 
 public class ThreeCirclesDamageZone : MonoBehaviour
@@ -18,6 +21,10 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private bool isInit;
+
+    private Vector3 circlePosition1;
+    private Vector3 circlePosition2;
+    private Vector3 circlePosition3;
 
     private void Initialize()
     {
@@ -40,7 +47,6 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         spriteRenderer.material.SetFloat($"_Shape{circleIndex + 1}Radius", 0.0f);
 
         int rasiusId = Shader.PropertyToID($"_Shape{circleIndex + 1}Radius");
-        int inlineId = Shader.PropertyToID("_InlineThickness");
 
         Sequence.Create()
         .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId, radius, spawnDuration, spawnEase));
@@ -63,6 +69,7 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
+        .ChainCallback(() => CheckForPlayerHit())
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
         .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_1, 0.0f, despawnDuration, Ease.InBack))
@@ -75,19 +82,46 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         });
     }
 
+    private void CheckForPlayerHit()
+    {
+        Vector3 playerPosition = PlayerStateMachine.instance.position;
+        Vector3 direction1 = playerPosition - circlePosition1;
+        Vector3 direction2 = playerPosition - circlePosition2;
+        Vector3 direction3 = playerPosition - circlePosition3;
+        float damageDistance = (radius * transform.localScale.x) + PlayerStateMachine.instance.hitBoxRadius;
+
+        if (direction1.magnitude <= damageDistance)
+            PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction1.normalized);
+
+        if (direction2.magnitude <= damageDistance)
+            PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction2.normalized);
+
+        if (direction3.magnitude <= damageDistance)
+            PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction3.normalized);
+    }
+
     public void MoveCircle(int circleIndex, Vector2 position)
     {
         if (!isInit)
             Initialize();
 
-        position = ComputePosition(position);
+        Vector2 convertedPosition = ComputePosition(position);
 
         if (circleIndex == 0)
-            spriteRenderer.material.SetVector("_Shape1Position", position);
+        {
+            circlePosition1 = position.ToVector3();
+            spriteRenderer.material.SetVector("_Shape1Position", convertedPosition);
+        }
         else if (circleIndex == 1)
-            spriteRenderer.material.SetVector("_Shape2Position", position);
+        {
+            circlePosition2 = position.ToVector3();
+            spriteRenderer.material.SetVector("_Shape2Position", convertedPosition);
+        }
         else if (circleIndex == 2)
-            spriteRenderer.material.SetVector("_Shape3Position", position);
+        {
+            circlePosition3 = position.ToVector3();
+            spriteRenderer.material.SetVector("_Shape3Position", convertedPosition);
+        }
     }
 
     private Vector2 ComputePosition(Vector2 position)

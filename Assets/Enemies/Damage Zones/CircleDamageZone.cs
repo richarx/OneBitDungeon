@@ -1,3 +1,5 @@
+using System;
+using Player.Scripts;
 using PrimeTween;
 using UnityEngine;
 
@@ -39,10 +41,20 @@ public class CircleDamageZone : MonoBehaviour
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
+        .ChainCallback(() => CheckForPlayerHit())
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
         .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration * 0.9f))
         .Group(Tween.Scale(transform, 0.0f, despawnDuration, Ease.InBack))
         .ChainCallback(() => Destroy(gameObject));
+    }
+
+    private void CheckForPlayerHit()
+    {
+        Vector3 direction = PlayerStateMachine.instance.position - transform.position;
+        float damageDistance = (radius * transform.localScale.x) + PlayerStateMachine.instance.hitBoxRadius;
+
+        if (direction.magnitude <= damageDistance)
+            PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction.normalized);
     }
 }

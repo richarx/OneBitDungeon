@@ -9,8 +9,8 @@ namespace Enemies.Scripts
 
         [HideInInspector] public UnityEvent OnTakeDamage = new UnityEvent();
         [HideInInspector] public UnityEvent OnDie = new UnityEvent();
-        
-        private int currentHealth;
+
+        public int currentHealth { get; private set; }
         public bool IsDead => currentHealth <= 0;
         public bool IsFullLife => currentHealth == startingHealth;
 
@@ -25,7 +25,7 @@ namespace Enemies.Scripts
                 return;
 
             currentHealth -= damage;
-            
+
             if (IsDead)
                 OnDie?.Invoke();
             else

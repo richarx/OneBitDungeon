@@ -9,8 +9,6 @@ namespace Player.Scripts
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-            Debug.Log("RUN");
-
             if (previous == BehaviourType.Locked)
             {
                 isSkippingFrame = true;
@@ -31,7 +29,7 @@ namespace Player.Scripts
                 player.ChangeBehaviour(player.playerRoll);
                 return;
             }
-            
+
             if (player.playerAttack.CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerAttack);
@@ -58,7 +56,7 @@ namespace Player.Scripts
         {
             if (CanPlayerControlDirection(player))
                 HandleDirection(player);
-            
+
             player.ApplyMovement();
         }
 
@@ -72,7 +70,7 @@ namespace Player.Scripts
             Vector3 move = player.moveInput;
             float speed = ComputeMoveSpeed(player);
             move *= speed;
-            
+
             if (player.moveInput.magnitude <= 0.05f)
             {
                 player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
@@ -94,15 +92,15 @@ namespace Player.Scripts
                     return player.playerData.dialogWalkMaxSpeed;
                 else
                 */
-                    return 0.0f;
-            } 
-            
+                return 0.0f;
+            }
+
             return player.playerData.walkMaxSpeed;
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
-           
+
         }
 
         public BehaviourType GetBehaviourType()

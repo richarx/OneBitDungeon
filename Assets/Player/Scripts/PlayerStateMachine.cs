@@ -25,8 +25,9 @@ namespace Player.Scripts
         public PlayerLocked playerLocked = new PlayerLocked();
 
         public IPlayerBehaviour currentBehaviour;
-        
+
         public Vector3 position => transform.position;
+        public float hitBoxRadius => 0.15f;
         public bool isLocked => currentBehaviour.GetBehaviourType() == BehaviourType.Locked || playerRun.IsSkippingFrame;
         public bool isLockedAndHidden => currentBehaviour.GetBehaviourType() == BehaviourType.Locked && playerLocked.GetLockState == PlayerLocked.LockState.Hidden;
 
@@ -56,7 +57,7 @@ namespace Player.Scripts
             playerStamina = GetComponent<PlayerStamina>();
             playerInteraction = GetComponent<PlayerInteraction>();
             playerAttack = new PlayerAttack(this);
-            
+
             lastLookDirection = Vector2.right;
             currentBehaviour = playerIdle;
             currentBehaviour.StartBehaviour(this, BehaviourType.Idle);
@@ -71,7 +72,7 @@ namespace Player.Scripts
             GameManager.OnResetLevel.AddListener(() => transform.position = Vector3.zero);
             GameManager.OnRestartLevel.AddListener(() => ChangeBehaviour(playerIdle));
         }
-        
+
         private void Update()
         {
             inputPackage = inputPacker.ComputeInputPackage();
@@ -79,7 +80,7 @@ namespace Player.Scripts
 
             //if (PauseMenu.instance.IsPaused)
             //    return;
-            
+
             playerTargeting.ComputeTarget(this);
 
             currentBehaviour.UpdateBehaviour(this);
@@ -118,10 +119,10 @@ namespace Player.Scripts
             BehaviourType previous = currentBehaviour.GetBehaviourType();
             currentBehaviour.StopBehaviour(this, newBehaviour.GetBehaviourType());
             currentBehaviour = newBehaviour;
-            
+
             currentBehaviour.StartBehaviour(this, previous);
         }
-        
+
         public void ApplyMovement()
         {
             rb.velocity = moveVelocity;

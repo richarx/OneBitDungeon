@@ -1,0 +1,75 @@
+using System;
+using Enemies.Scripts.Behaviours;
+using Player.Scripts;
+using PrimeTween;
+using Tools_and_Scripts;
+using UnityEngine;
+
+public class MageThrow : MonoBehaviour, IEnemyBehaviour
+{
+    [SerializeField] private float rotationDampening;
+    [SerializeField] private float rotationDuration;
+    [SerializeField] private GameObject rectangleDamageZonePrefab;
+
+    private Transform rightThrow;
+    private float rightThrowTimestamp;
+
+    private Transform leftThrow;
+    private float leftThrowTimestamp;
+
+    public void StartBehaviour(EnemyController enemy)
+    {
+        Vector3 enemyPosition = new Vector3(0.0f, 0.0f, 8.5f);
+        Vector3 rightPosition = new Vector3(3.0f, 0.0f, 9.0f);
+        Vector3 leftPosition = new Vector3(-3.0f, 0.0f, 9.0f);
+
+        Sequence.Create()
+            .Group(Tween.Position(enemy.transform, enemyPosition, 1.0f, Ease.InOutCubic))
+            .ChainCallback(() =>
+            {
+                rightThrow = SpawnDamageZone(rightPosition);
+                rightThrowTimestamp = Time.time;
+            })
+            .ChainDelay(0.6f)
+            .ChainCallback(() =>
+            {
+                leftThrow = SpawnDamageZone(leftPosition);
+                leftThrowTimestamp = Time.time;
+            })
+            .ChainDelay(1.5f)
+            .ChainCallback(() => enemy.SelectNewBehaviour());
+    }
+
+    private Transform SpawnDamageZone(Vector3 position)
+    {
+        Transform rectangle = Instantiate(rectangleDamageZonePrefab, position, Quaternion.identity).transform;
+        rectangle.GetChild(0).GetComponent<RectangleDamageZone>().Setup(Vector2.right);
+
+        return rectangle;
+    }
+
+    public void UpdateBehaviour(EnemyController enemy)
+    {
+        if (rightThrow != null && Time.time - rightThrowTimestamp <= rotationDuration)
+            RotateThrowTowardPlayer(rightThrow);
+
+        if (leftThrow != null && Time.time - leftThrowTimestamp <= rotationDuration)
+            RotateThrowTowardPlayer(leftThrow);
+    }
+
+    private void RotateThrowTowardPlayer(Transform rectangle)
+    {
+        Vector3 position = rectangle.position;
+        Vector3 direction = (PlayerStateMachine.instance.position - position).normalized.ToVector2().AddAngleToDirection(90.0f).ToVector3();
+
+        rectangle.rotation = Quaternion.Slerp(rectangle.rotation, Quaternion.LookRotation(direction), Time.deltaTime / rotationDampening);
+    }
+
+    public void FixedUpdateBehaviour(EnemyController enemy)
+    {
+    }
+
+    public void StopBehaviour(EnemyController enemy)
+    {
+    }
+}

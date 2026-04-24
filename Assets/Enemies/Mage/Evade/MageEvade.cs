@@ -22,7 +22,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
             .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))
             .ChainCallback(() => enemy.transform.position = evadePosition)
             .Chain(Tween.ScaleX(enemy.transform, 1.0f, 0.3f, Ease.OutBack))
-            .ChainDelay(1.5f)
+            .ChainDelay(0.75f)
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
