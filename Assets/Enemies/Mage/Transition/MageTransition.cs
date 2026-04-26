@@ -57,6 +57,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
         Sequence.Create()
             .Chain(Tween.LocalPosition(enemy.transform, Vector3.zero, 0.5f, Ease.InOutCubic))
             .Chain(Tween.LocalPosition(enemy.sprite.transform, Vector3.up * 3.0f, 0.5f, Ease.OutBack))
+            .ChainCallback(() => enemy.animator.Play("Charge"))
             .ChainCallback(() => SpawnInitialDamageZone(upperPillarPosition))
             .ChainDelay(0.6f)
             .Chain(Tween.PositionY(topPillar, 0.0f, 0.3f, Ease.OutBounce))
@@ -103,6 +104,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
 
             Sequence.Create()
                 .Group(Tween.LocalPositionY(enemy.sprite.transform, 0.0f, 0.15f, Ease.OutBounce))
+                .ChainCallback(() => enemy.animator.Play("Stun"))
                 .ChainCallback(() => enemy.ActivateHitbox());
         }
     }
@@ -134,6 +136,8 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
     {
         currentPhase = TransitionPhase.Rage;
         lastAttackTimestamp = Time.time;
+
+        enemy.animator.Play("Charge");
 
         IEnemyBehaviour rageBehaviour_1 = rageBehaviourObject_1.GetComponent<IEnemyBehaviour>();
         rageBehaviour_1.SetSubBehaviourState(true);

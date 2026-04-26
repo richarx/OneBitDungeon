@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     public List<GameObject> behaviours;
     public SpriteRenderer sprite;
     public SpriteRenderer shadowSprite;
+    public Animator animator { get; private set; }
 
 
     [HideInInspector] public UnityEvent OnChangeBehaviour = new UnityEvent();
@@ -30,6 +31,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void Start()
     {
+        animator = sprite.GetComponent<Animator>();
         sphereCollider = GetComponent<SphereCollider>();
 
         phaseTransitionBehaviour = phaseTransitionBehaviourObject.GetComponent<IEnemyBehaviour>();

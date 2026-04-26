@@ -16,6 +16,11 @@ public class MageSpawn : MonoBehaviour, IEnemyBehaviour
         enemy.sprite.transform.position = Vector3.up * 30.0f;
         enemy.shadowSprite.transform.localScale = Vector3.zero;
         enemy.DeactivateHitbox();
+        enemy.animator.Play("Ball");
+
+        Sequence.Create()
+            .ChainDelay(7.45f)
+            .ChainCallback(() => enemy.animator.Play("Blast"));
 
         Sequence.Create()
             .ChainDelay(2.0f)

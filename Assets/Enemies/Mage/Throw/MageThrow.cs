@@ -31,12 +31,14 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
             .Group(Tween.Position(enemy.transform, enemyPosition, 1.0f, Ease.InOutCubic))
             .ChainCallback(() =>
             {
+                enemy.animator.Play("Shoot_Right");
                 rightThrow = SpawnDamageZone(rightPosition);
                 rightThrowTimestamp = Time.time;
             })
             .ChainDelay(0.6f)
             .ChainCallback(() =>
             {
+                enemy.animator.Play("Shoot_Left");
                 leftThrow = SpawnDamageZone(leftPosition);
                 leftThrowTimestamp = Time.time;
             })

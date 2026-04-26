@@ -22,6 +22,7 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
         if (!isSubBehaviour)
         {
             moveSequence = Sequence.Create()
+                .ChainCallback(() => enemy.animator.Play("Cast"))
                 .ChainDelay(0.5f)
                 .Chain(Tween.Position(enemy.transform, randomPosition, 1.0f, Ease.InOutCubic));
         }

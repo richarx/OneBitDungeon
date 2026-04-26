@@ -21,6 +21,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
         currentSequence = Sequence.Create()
             .ChainCallback(() => SpawnDamageZone(targetPosition))
             .Group(Tween.Position(enemy.transform, targetPosition, 0.5f, Ease.InOutCubic))
+            .ChainCallback(() => enemy.animator.Play("Blast"))
             .ChainDelay(0.1f)
             .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))
             .ChainCallback(() => enemy.transform.position = evadePosition)
