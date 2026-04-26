@@ -29,7 +29,7 @@ MonoBehaviour:
   staggerDuration: 0.4
   staggerPower: 20
   staggerDeceleration: 60
-  invincibilityDuration: 0.3
+  invincibilityDuration: 0.5
   parryDuration: 0.4
   successfulParryDuration: 0.4
   parryCooldown: 0.5
@@ -37,6 +37,6 @@ MonoBehaviour:
   staminaCooldown: 0.5
   staminaEmptyCooldown: 1
   refillRate: 50
-  rollStaminaCost: 15
+  rollStaminaCost: 30
   attackStaminaCost: 20
   parryStaminaCost: 0

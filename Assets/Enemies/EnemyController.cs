@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour
     public SpriteRenderer sprite;
     public SpriteRenderer shadowSprite;
 
+
     [HideInInspector] public UnityEvent OnChangeBehaviour = new UnityEvent();
 
     public List<IEnemyBehaviour> enemyBehaviours;
@@ -24,20 +25,24 @@ public class EnemyController : MonoBehaviour
 
     public bool isSecondPhase { get; private set; }
 
+    private SphereCollider sphereCollider;
+    public Damageable damageable;
+
     protected virtual void Start()
     {
-        /*
+        sphereCollider = GetComponent<SphereCollider>();
+
         phaseTransitionBehaviour = phaseTransitionBehaviourObject.GetComponent<IEnemyBehaviour>();
-        Damageable damageable = GetComponent<Damageable>();
+        damageable = GetComponent<Damageable>();
         damageable.OnTakeDamage.AddListener(() =>
         {
             if (!isSecondPhase && damageable.currentHealth <= phaseTransitionHealthThreshold)
             {
+                Debug.Log("Trigger second phase !");
                 isSecondPhase = true;
                 ChangeBehaviour(phaseTransitionBehaviour);
             }
         });
-        */
 
         enemyBehaviours = new List<IEnemyBehaviour>();
 
@@ -80,5 +85,15 @@ public class EnemyController : MonoBehaviour
             randomBehaviourIndex += 1;
 
         ChangeBehaviour(enemyBehaviours[randomBehaviourIndex]);
+    }
+
+    public void DeactivateHitbox()
+    {
+        sphereCollider.enabled = false;
+    }
+
+    public void ActivateHitbox()
+    {
+        sphereCollider.enabled = true;
     }
 }

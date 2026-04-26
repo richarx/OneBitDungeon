@@ -18,6 +18,8 @@ public class CircleDamageZone : MonoBehaviour
     [SerializeField] private Color filledColor;
     [SerializeField] private Color filledOutlineColor;
 
+    private Sequence currentSequence;
+
     public void Setup()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -33,7 +35,7 @@ public class CircleDamageZone : MonoBehaviour
         int inlineColorId = Shader.PropertyToID("_InlineColor");
         int outlineColorId = Shader.PropertyToID("_OutlineColor");
 
-        Sequence.Create()
+        currentSequence = Sequence.Create()
         .Chain(Tween.MaterialProperty(spriteRenderer.material, alphaId, 1.0f, spawnDuration))
         .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId, radius, spawnDuration, spawnEase))
         .Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, radius, fillDuration, fillEase))
@@ -47,6 +49,15 @@ public class CircleDamageZone : MonoBehaviour
         .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration * 0.9f))
         .Group(Tween.Scale(transform, 0.0f, despawnDuration, Ease.InBack))
         .ChainCallback(() => Destroy(gameObject));
+    }
+
+    public void Cancel()
+    {
+        if (!currentSequence.isAlive)
+            return;
+
+        currentSequence.Stop();
+        Destroy(gameObject);
     }
 
     private void CheckForPlayerHit()

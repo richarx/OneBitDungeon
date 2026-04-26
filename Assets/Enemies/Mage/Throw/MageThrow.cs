@@ -11,11 +11,15 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
     [SerializeField] private float rotationDuration;
     [SerializeField] private GameObject rectangleDamageZonePrefab;
 
+    private bool isSubBehaviour;
+
     private Transform rightThrow;
     private float rightThrowTimestamp;
 
     private Transform leftThrow;
     private float leftThrowTimestamp;
+
+    private Sequence attackSequence;
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -23,7 +27,7 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
         Vector3 rightPosition = new Vector3(3.0f, 0.0f, 9.0f);
         Vector3 leftPosition = new Vector3(-3.0f, 0.0f, 9.0f);
 
-        Sequence.Create()
+        attackSequence = Sequence.Create()
             .Group(Tween.Position(enemy.transform, enemyPosition, 1.0f, Ease.InOutCubic))
             .ChainCallback(() =>
             {
@@ -36,7 +40,7 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
                 leftThrow = SpawnDamageZone(leftPosition);
                 leftThrowTimestamp = Time.time;
             })
-            .ChainDelay(1.5f)
+            .ChainDelay(enemy.isSecondPhase ? 0.5f : 1.5f)
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
@@ -71,5 +75,12 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
 
     public void StopBehaviour(EnemyController enemy)
     {
+        if (attackSequence.isAlive)
+            attackSequence.Stop();
+    }
+
+    public void SetSubBehaviourState(bool state)
+    {
+        isSubBehaviour = state;
     }
 }

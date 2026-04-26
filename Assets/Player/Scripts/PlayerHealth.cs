@@ -13,7 +13,7 @@ namespace Player.Scripts
         [HideInInspector] public UnityEvent<Vector3> OnPlayerTakeDamage = new UnityEvent<Vector3>();
 
         private PlayerStateMachine player;
-        
+
         private int currentHealth;
         private float lastHitTimestamp;
 
@@ -23,7 +23,7 @@ namespace Player.Scripts
         public bool IsFullLife => currentHealth == startingHealth;
         public bool IsInvincibleFromLastHit => Time.time - lastHitTimestamp <= player.playerData.invincibilityDuration;
 
-        
+
         private void Awake()
         {
             ResetHealth();
@@ -48,7 +48,7 @@ namespace Player.Scripts
                 }
 
                 if (Gamepad.current.dpad.right.wasPressedThisFrame)
-                    ResetHealth();    
+                    ResetHealth();
             }
         }
 
@@ -75,9 +75,12 @@ namespace Player.Scripts
             if (IsInvincibleFromLastHit)
                 return false;
 
+            if (player.currentBehaviour.GetBehaviourType() == BehaviourType.Roll)
+                return false;
+
             currentHealth -= damage;
             lastHitTimestamp = Time.time;
-            
+
             OnPlayerTakeDamage?.Invoke(direction);
 
             return true;

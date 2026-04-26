@@ -1,3 +1,4 @@
+using System;
 using Player.Scripts;
 using PrimeTween;
 using Tools_and_Scripts;
@@ -21,6 +22,7 @@ public class RectangleDamageZone : MonoBehaviour
     [Space]
     [SerializeField] private bool alsoDestroyParent;
 
+    private Sequence currentSequence;
 
     public void Setup(Vector2 moveDirection)
     {
@@ -41,7 +43,7 @@ public class RectangleDamageZone : MonoBehaviour
         float targetPositionX = transform.localPosition.x + size.x * transform.localScale.x * moveDirection.x;
         float targetPositionZ = transform.localPosition.z + size.y * transform.localScale.y * moveDirection.y;
 
-        Sequence.Create()
+        currentSequence = Sequence.Create()
         .Chain(Tween.MaterialProperty(spriteRenderer.material, alphaId, 1.0f, spawnDuration))
         .Group(Tween.MaterialProperty(spriteRenderer.material, sizeId, size, spawnDuration, spawnEase))
         .Group(Tween.LocalPositionX(transform, targetPositionX, spawnDuration, spawnEase))
@@ -122,8 +124,16 @@ public class RectangleDamageZone : MonoBehaviour
     }
     */
 
-    private float TriangleArea(Vector2 A, Vector2 B, Vector2 C)
+    public void Cancel()
     {
-        return Mathf.Abs((B.x * A.y - A.x * B.y) + (C.x * B.y - B.x * C.y) + (A.x * C.y - C.x * A.y)) / 2;
+        if (!currentSequence.isAlive)
+            return;
+
+        currentSequence.Stop();
+
+        if (alsoDestroyParent)
+            Destroy(transform.parent.gameObject);
+        else
+            Destroy(gameObject);
     }
 }

@@ -58,7 +58,7 @@ Material:
     - _OutlineThickness: 0.01
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Radius: 0.25
+    - _Radius: 0.1
     - _ReceiveShadows: 0
     - _SHAPE: 0
     - _SrcBlend: 1

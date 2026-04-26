@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8934140663497945167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 294299194984882138}
+  - component: {fileID: -8790931840251824337}
+  m_Layer: 0
+  m_Name: MageTransition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &294299194984882138
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934140663497945167}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8790931840251824337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934140663497945167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 561a21227c042ea48b97d5a5bef247a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleDamageZonePrefab: {fileID: 5892917051957619975, guid: 5201496f559050a45a4cfcfed0533fa7,
+    type: 3}
+  hollowCircleDamageZonePrefab: {fileID: 98420874541946916, guid: 3b7ff99e14c93ad4881a7bf8835f9ea2,
+    type: 3}
+  pillarPrefab: {fileID: 7121939905893168461, guid: bb2b62b24bf434848ad835df00e26f2c,
+    type: 3}
+  attackBehaviourObject: {fileID: 8934140663497945167, guid: a2faebc49bcb1a34596342fe7887da22,
+    type: 3}
+  attackCooldown: 2
+  rageAttackCooldown: 3
+  rageBehaviourObject_1: {fileID: 8934140663497945167, guid: f1bea5ab9b735494595e3bd9cf9b8f17,
+    type: 3}
+  rageBehaviourObject_2: {fileID: 8934140663497945167, guid: f4aec56d1d8e8a945baab1ae4155b0b6,
+    type: 3}

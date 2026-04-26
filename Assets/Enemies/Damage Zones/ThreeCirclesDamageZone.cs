@@ -26,6 +26,8 @@ public class ThreeCirclesDamageZone : MonoBehaviour
     private Vector3 circlePosition2;
     private Vector3 circlePosition3;
 
+    private Sequence currentSequence;
+
     private void Initialize()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -63,7 +65,7 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         int inlineColorId = Shader.PropertyToID("_InlineColor");
         int outlineColorId = Shader.PropertyToID("_OutlineColor");
 
-        Sequence.Create()
+        currentSequence = Sequence.Create()
         .Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, radius, fillDuration, fillEase))
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
@@ -130,5 +132,34 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         position.y /= transform.localScale.y;
 
         return position;
+    }
+
+    public void Cancel()
+    {
+        Debug.Log("Zuzu circle cancel !");
+
+        if (!currentSequence.isAlive)
+            return;
+
+        int rasiusId_1 = Shader.PropertyToID($"_Shape1Radius");
+        int rasiusId_2 = Shader.PropertyToID($"_Shape2Radius");
+        int rasiusId_3 = Shader.PropertyToID($"_Shape3Radius");
+
+        int alphaId = Shader.PropertyToID("_alpha");
+        int inlineColorId = Shader.PropertyToID("_InlineColor");
+        int outlineColorId = Shader.PropertyToID("_OutlineColor");
+
+        currentSequence.Stop();
+        currentSequence = Sequence.Create()
+        .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
+        .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
+        .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_1, 0.0f, despawnDuration, Ease.InBack))
+        .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_2, 0.0f, despawnDuration, Ease.InBack))
+        .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_3, 0.0f, despawnDuration, Ease.InBack))
+        .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration))
+        .ChainCallback(() =>
+        {
+            Destroy(gameObject);
+        });
     }
 }

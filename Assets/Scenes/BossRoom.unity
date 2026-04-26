@@ -10619,6 +10619,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingBehaviourObject: {fileID: 8934140663497945167, guid: 3c18a3d88cba3d24a9013132ee2b302b,
     type: 3}
+  phaseTransitionBehaviourObject: {fileID: 8934140663497945167, guid: 35e516530f9688b4c8fc5ab41756d726,
+    type: 3}
+  phaseTransitionHealthThreshold: 25
   behaviours:
   - {fileID: 8934140663497945167, guid: a2faebc49bcb1a34596342fe7887da22, type: 3}
   - {fileID: 8934140663497945167, guid: 84d72bc1c524c784281b6d2d0ab932cd, type: 3}

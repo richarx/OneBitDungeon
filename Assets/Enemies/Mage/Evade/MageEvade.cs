@@ -7,6 +7,9 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 {
     [SerializeField] private CircleDamageZone circleDamageZonePrefab;
 
+    private CircleDamageZone circle;
+    private Sequence currentSequence;
+
     public void StartBehaviour(EnemyController enemy)
     {
         Vector3 currentPosition = enemy.transform.position;
@@ -15,20 +18,20 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 
         Vector3 evadePosition = targetPosition.magnitude <= 0.01f ? Vector3.forward * 7.0f : (targetPosition * -1.0f).normalized * 7.0f;
 
-        Sequence.Create()
+        currentSequence = Sequence.Create()
             .ChainCallback(() => SpawnDamageZone(targetPosition))
             .Group(Tween.Position(enemy.transform, targetPosition, 0.5f, Ease.InOutCubic))
             .ChainDelay(0.1f)
             .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))
             .ChainCallback(() => enemy.transform.position = evadePosition)
             .Chain(Tween.ScaleX(enemy.transform, 1.0f, 0.3f, Ease.OutBack))
-            .ChainDelay(0.75f)
+            .ChainDelay(enemy.isSecondPhase ? 0.5f : 0.75f)
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
     private void SpawnDamageZone(Vector3 position)
     {
-        CircleDamageZone circle = Instantiate(circleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+        circle = Instantiate(circleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
         circle.Setup();
     }
 
@@ -42,5 +45,13 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 
     public void StopBehaviour(EnemyController enemy)
     {
+        if (currentSequence.isAlive)
+            currentSequence.Stop();
+    }
+
+    public bool isSubBehaviour;
+    public void SetSubBehaviourState(bool state)
+    {
+        isSubBehaviour = state;
     }
 }
