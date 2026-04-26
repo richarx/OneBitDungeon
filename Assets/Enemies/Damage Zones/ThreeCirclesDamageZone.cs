@@ -21,6 +21,7 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private bool isInit;
+    private bool hasDetonated;
 
     private Vector3 circlePosition1;
     private Vector3 circlePosition2;
@@ -56,6 +57,11 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     public void Detonate()
     {
+        if (hasDetonated)
+            return;
+
+        hasDetonated = true;
+
         int rasiusId_1 = Shader.PropertyToID($"_Shape1Radius");
         int rasiusId_2 = Shader.PropertyToID($"_Shape2Radius");
         int rasiusId_3 = Shader.PropertyToID($"_Shape3Radius");
@@ -136,8 +142,6 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     public void Cancel()
     {
-        Debug.Log("Zuzu circle cancel !");
-
         if (!currentSequence.isAlive)
             return;
 

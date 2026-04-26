@@ -11,10 +11,12 @@ public class EnemyController : MonoBehaviour
     public GameObject startingBehaviourObject;
     public GameObject phaseTransitionBehaviourObject;
     public int phaseTransitionHealthThreshold;
+    public GameObject deathBehaviourObject;
     public List<GameObject> behaviours;
     public SpriteRenderer sprite;
     public SpriteRenderer shadowSprite;
     public Animator animator { get; private set; }
+    public Damageable damageable { get; private set; }
 
 
     [HideInInspector] public UnityEvent OnChangeBehaviour = new UnityEvent();
@@ -27,15 +29,29 @@ public class EnemyController : MonoBehaviour
     public bool isSecondPhase { get; private set; }
 
     private SphereCollider sphereCollider;
-    public Damageable damageable;
 
     protected virtual void Start()
     {
         animator = sprite.GetComponent<Animator>();
         sphereCollider = GetComponent<SphereCollider>();
-
-        phaseTransitionBehaviour = phaseTransitionBehaviourObject.GetComponent<IEnemyBehaviour>();
         damageable = GetComponent<Damageable>();
+
+        SetupPhaseTransition();
+
+        damageable.OnDie.AddListener(() =>
+        {
+            ChangeBehaviour(deathBehaviourObject.GetComponent<IEnemyBehaviour>());
+        });
+
+        SetupBehaviours();
+
+        startingBehaviour = startingBehaviourObject.GetComponent<IEnemyBehaviour>();
+        ChangeBehaviour(startingBehaviour);
+    }
+
+    private void SetupPhaseTransition()
+    {
+        phaseTransitionBehaviour = phaseTransitionBehaviourObject.GetComponent<IEnemyBehaviour>();
         damageable.OnTakeDamage.AddListener(() =>
         {
             if (!isSecondPhase && damageable.currentHealth <= phaseTransitionHealthThreshold)
@@ -45,18 +61,16 @@ public class EnemyController : MonoBehaviour
                 ChangeBehaviour(phaseTransitionBehaviour);
             }
         });
+    }
 
+    private void SetupBehaviours()
+    {
         enemyBehaviours = new List<IEnemyBehaviour>();
 
         foreach (GameObject behaviour in behaviours)
         {
             enemyBehaviours.Add(behaviour.GetComponent<IEnemyBehaviour>());
         }
-
-        startingBehaviour = startingBehaviourObject.GetComponent<IEnemyBehaviour>();
-        ChangeBehaviour(startingBehaviour);
-
-
     }
 
     protected virtual void Update()

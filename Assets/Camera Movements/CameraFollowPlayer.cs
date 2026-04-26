@@ -8,7 +8,7 @@ namespace Camera_Movements
         [Header("Vertical")]
         [SerializeField] private float amplitude;
         [SerializeField] private float frequency;
-        
+
         [Space]
         [Header("Horizontal")]
         [SerializeField] private float maxDistanceFromCenter;
@@ -17,7 +17,9 @@ namespace Camera_Movements
         private PlayerStateMachine player;
 
         private float velocity;
-        
+
+        private bool isLocked;
+
         private void Start()
         {
             player = PlayerStateMachine.instance;
@@ -25,6 +27,9 @@ namespace Camera_Movements
 
         private void LateUpdate()
         {
+            if (isLocked)
+                return;
+
             float x = UpdateHorizontalPosition();
             float y = UpdateVerticalPosition();
 
@@ -35,12 +40,20 @@ namespace Camera_Movements
         {
             return amplitude * Mathf.Sin(Time.time * frequency);
         }
-        
+
         private float UpdateHorizontalPosition()
         {
             float target = Mathf.Clamp(player.position.x, -maxDistanceFromCenter, maxDistanceFromCenter);
 
             return Mathf.SmoothDamp(transform.position.x, target, ref velocity, smoothTime);
+        }
+
+        public void SetLockState(bool state)
+        {
+            isLocked = state;
+
+            if (isLocked)
+                transform.localPosition = Vector3.zero;
         }
     }
 }

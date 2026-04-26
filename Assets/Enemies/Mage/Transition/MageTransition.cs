@@ -128,7 +128,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
             lastAttackTimestamp = Time.time;
         }
 
-        if (currentPhase == TransitionPhase.Stun && (enemy.damageable.currentHealth <= stunStartHealth - 3 || Time.time - stunStartTimestamp >= 3.0f))
+        if (currentPhase == TransitionPhase.Stun && (enemy.damageable.currentHealth <= stunStartHealth - 5 || Time.time - stunStartTimestamp >= 5.0f))
             StartRageSequence(enemy);
     }
 
