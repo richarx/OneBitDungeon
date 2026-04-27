@@ -15,7 +15,6 @@ namespace Game_Manager
     {
         [SerializeField] private Image blackScreen;
 
-        public static UnityEvent OnKillLastEnemy = new UnityEvent();
         public static UnityEvent OnLockLevel = new UnityEvent();
         public static UnityEvent OnUnlockLevel = new UnityEvent();
         public static UnityEvent OnResetLevel = new UnityEvent();
@@ -24,9 +23,6 @@ namespace Game_Manager
 
         public static GameManager instance;
 
-        private bool isLevelLocked = false;
-        public bool IsLevelLocked => isLevelLocked;
-
         private bool isInMainMenu;
 
         private string currentRespawnScene;
@@ -34,8 +30,6 @@ namespace Game_Manager
         private void Awake()
         {
             instance = this;
-
-            OnKillLastEnemy?.AddListener(UnlockLevel);
         }
 
         private IEnumerator Start()
@@ -69,33 +63,12 @@ namespace Game_Manager
             player.playerSit.Unlock();
 
             OnChangeScene?.Invoke();
-
-            if (BasicEnemySpawner.instance != null && !BasicEnemySpawner.instance.IsDisabled)
-            {
-                LockLevel();
-                yield return new WaitForSeconds(1.5f);
-                BasicEnemySpawner.instance.StartSpawning();
-            }
+            OnLockLevel?.Invoke();
         }
 
         private static void UnlockPlayer()
         {
             PlayerStateMachine.instance.ChangeBehaviour(PlayerStateMachine.instance.playerIdle);
-        }
-
-        private void LockLevel()
-        {
-            if (isLevelLocked)
-                return;
-
-            isLevelLocked = true;
-            OnLockLevel?.Invoke();
-        }
-
-        private void UnlockLevel()
-        {
-            isLevelLocked = false;
-            OnUnlockLevel?.Invoke();
         }
 
         private void RestartLevelOnPlayerDeath()
@@ -118,7 +91,6 @@ namespace Game_Manager
             AsyncOperation operation = SceneManager.LoadSceneAsync(currentRespawnScene);
 
             yield return new WaitUntil(() => operation.isDone);
-            isLevelLocked = false;
             yield return new WaitForSeconds(0.1f);
 
             if (PlayerSpawnPosition.instance != null)
@@ -148,7 +120,6 @@ namespace Game_Manager
             AsyncOperation operation = SceneManager.LoadSceneAsync(targetSceneName);
 
             yield return new WaitUntil(() => operation.isDone);
-            isLevelLocked = false;
             yield return null;
 
             DoorController door = DoorsHolder.instance.GetDoor(targetDoor);
@@ -160,13 +131,7 @@ namespace Game_Manager
             UnlockPlayer();
 
             OnChangeScene?.Invoke();
-
-            if (BasicEnemySpawner.instance != null && !BasicEnemySpawner.instance.IsDisabled)
-            {
-                LockLevel();
-                yield return new WaitForSeconds(1.5f);
-                BasicEnemySpawner.instance.StartSpawning();
-            }
+            OnLockLevel?.Invoke();
         }
 
         public void SetMenuState(bool state)

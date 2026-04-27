@@ -950,7 +950,7 @@ PrefabInstance:
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: targetScene.m_SceneName
-      value: 1-1
+      value: FireRoom
       objectReference: {fileID: 0}
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
@@ -4595,7 +4595,7 @@ GameObject:
   - component: {fileID: 975633449}
   - component: {fileID: 975633451}
   m_Layer: 0
-  m_Name: Spawner
+  m_Name: EnemyHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7384,8 +7384,7 @@ PrefabInstance:
         type: 3}
       propertyPath: targetScene.m_SceneAsset
       value: 
-      objectReference: {fileID: 102900000, guid: 89046e5fe8355294ca2738e8b967682a,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_Name
@@ -7470,6 +7469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12814c1900895804883275a88bbea5d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRoomLocking: 1
   openSound: {fileID: 8300000, guid: 8b2b34bad5851ce4f80d5d8560fd514a, type: 3}
   closeSound: {fileID: 8300000, guid: a0785d6cb28133449925b388181e94a6, type: 3}
 --- !u!1001 &1471497327
@@ -10610,6 +10610,11 @@ PrefabInstance:
       propertyPath: trigger
       value: 
       objectReference: {fileID: 1321858879}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: targetScene.m_SceneAsset
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_Name

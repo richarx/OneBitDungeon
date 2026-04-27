@@ -10,10 +10,12 @@ namespace Decor.Door
 {
     public class DoorsHolder : MonoBehaviour
     {
-        [Space] 
+        [SerializeField] private bool isRoomLocking;
+
+        [Space]
         [SerializeField] private AudioClip openSound;
         [SerializeField] private AudioClip closeSound;
-        
+
         private List<DoorController> doors;
         public static DoorsHolder instance;
 
@@ -21,13 +23,35 @@ namespace Decor.Door
         {
             instance = this;
 
+            GameManager.OnLockLevel.AddListener(LockLevel);
+            GameManager.OnUnlockLevel.AddListener(UnLockLevel);
             SetupDoors();
         }
 
-        private void Start()
+        private void UnLockLevel()
         {
-            GameManager.OnLockLevel.AddListener(() => SFXManager.instance.PlaySFX(closeSound, 0.1f));
-            GameManager.OnUnlockLevel.AddListener(() => SFXManager.instance.PlaySFX(openSound, 0.1f));
+            if (!isRoomLocking)
+                return;
+
+            SFXManager.instance.PlaySFX(openSound, 0.1f, delay: 2.0f);
+
+            foreach (DoorController door in doors)
+            {
+                door.UnlockDoor();
+            }
+        }
+
+        private void LockLevel()
+        {
+            if (!isRoomLocking)
+                return;
+
+            SFXManager.instance.PlaySFX(closeSound, 0.1f);
+
+            foreach (DoorController door in doors)
+            {
+                door.LockDoor();
+            }
         }
 
         private void SetupDoors()
@@ -43,7 +67,7 @@ namespace Decor.Door
         public DoorController GetDoor(DoorSide direction)
         {
             DoorController door = doors.First(d => d.doorDirection == direction);
-            
+
             if (door == null)
                 Debug.LogError($"Error in DoorHolder : no door of direction {direction} found.");
 
@@ -59,7 +83,7 @@ namespace Decor.Door
         public void PlayQuickOpenSound()
         {
             SFXManager.instance.PlaySFX(openSound);
-            SFXManager.instance.PlaySFX(closeSound, 0.1f, delay:1.0f);
+            SFXManager.instance.PlaySFX(closeSound, 0.1f, delay: 1.0f);
         }
     }
 }

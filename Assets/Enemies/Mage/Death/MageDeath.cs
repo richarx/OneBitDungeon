@@ -1,4 +1,5 @@
 using Enemies.Scripts.Behaviours;
+using Game_Manager;
 using PrimeTween;
 using UnityEngine;
 
@@ -13,15 +14,15 @@ public class MageDeath : MonoBehaviour, IEnemyBehaviour
         CamerasHolder.instance.cameraFollowPlayer.SetLockState(true);
         enemy.animator.Play("Death");
 
-        Sequence.Create()
-            .Group(Tween.GlobalTimeScale(0.3f, 0.3f, Ease.OutCirc))
-            .Group(Tween.CameraFieldOfView(CamerasHolder.instance.mainCamera, 45.0f, 0.5f, Ease.InOutBack, useUnscaledTime: true))
-            .Group(Tween.CameraFieldOfView(CamerasHolder.instance.decorCamera, 45.0f, 0.5f, Ease.InOutBack, useUnscaledTime: true))
+        Sequence.Create(useUnscaledTime: true)
+            .Group(Tween.GlobalTimeScale(0.25f, 0.3f, Ease.OutCirc))
+            .Group(Tween.CameraFieldOfView(CamerasHolder.instance.mainCamera, 45.0f, 0.5f, Ease.InOutBack))
+            .Group(Tween.CameraFieldOfView(CamerasHolder.instance.decorCamera, 45.0f, 0.5f, Ease.InOutBack))
             .Group(Tween.PositionY(camera, 9.0f, 0.5f, Ease.OutBack))
             .Group(Tween.PositionX(camera, enemy.transform.position.x, 0.5f, Ease.OutCirc))
             .Group(Tween.PositionZ(camera, enemy.transform.position.z - 6.0f, 0.5f, Ease.OutCirc))
             .Group(Tween.Rotation(camera, new Vector3(40.0f, 0.0f, 0.0f), 0.5f, Ease.OutCirc))
-            .ChainDelay(0.1f)
+            .ChainDelay(0.15f)
             .Chain(Tween.GlobalTimeScale(1.0f, 0.3f, Ease.InOutExpo))
             .Group(Tween.CameraFieldOfView(CamerasHolder.instance.mainCamera, 60.0f, 0.3f, Ease.InOutBack))
             .Group(Tween.CameraFieldOfView(CamerasHolder.instance.decorCamera, 60.0f, 0.3f, Ease.InOutBack))
@@ -33,6 +34,7 @@ public class MageDeath : MonoBehaviour, IEnemyBehaviour
             .Chain(Tween.Rotation(enemy.sprite.transform, new Vector3(90.0f, 0.0f, 0.0f), 0.5f, Ease.OutBounce))
             .ChainCallback(() => enemy.sprite.sortingOrder = -1)
             .ChainCallback(() => enemy.DeactivateHitbox())
+            .ChainCallback(() => GameManager.OnUnlockLevel?.Invoke())
             ;
     }
 

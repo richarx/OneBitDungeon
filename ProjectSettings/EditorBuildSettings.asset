@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/1-1.unity
+    path: Assets/Scenes/FireRoom.unity
     guid: bbd2504d09d9f6f47bd4eb87e551cbea
   - enabled: 1
     path: Assets/Scenes/BossRoom.unity
