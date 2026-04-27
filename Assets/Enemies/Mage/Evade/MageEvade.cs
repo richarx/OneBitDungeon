@@ -18,9 +18,16 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 
         Vector3 evadePosition = targetPosition.magnitude <= 0.01f ? Vector3.forward * 7.0f : (targetPosition * -1.0f).normalized * 7.0f;
 
+        float moveDuration = enemy.isSecondPhase ? 0.3f : 0.5f;
+
         currentSequence = Sequence.Create()
             .ChainCallback(() => SpawnDamageZone(targetPosition))
-            .Group(Tween.Position(enemy.transform, targetPosition, 0.5f, Ease.InOutCubic))
+            .ChainCallback(() =>
+            {
+                if (enemy.isSecondPhase)
+                    enemy.afterImage.Trigger(moveDuration);
+            })
+            .Group(Tween.Position(enemy.transform, targetPosition, moveDuration, Ease.InOutCubic))
             .ChainCallback(() => enemy.animator.Play("Blast"))
             .ChainDelay(0.1f)
             .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))

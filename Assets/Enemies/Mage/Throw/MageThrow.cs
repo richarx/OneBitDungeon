@@ -27,8 +27,15 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
         Vector3 rightPosition = new Vector3(3.0f, 0.0f, 9.0f);
         Vector3 leftPosition = new Vector3(-3.0f, 0.0f, 9.0f);
 
+        float moveDuration = enemy.isSecondPhase ? 0.5f : 1.0f;
+
         attackSequence = Sequence.Create()
-            .Group(Tween.Position(enemy.transform, enemyPosition, 1.0f, Ease.InOutCubic))
+            .ChainCallback(() =>
+            {
+                if (enemy.isSecondPhase)
+                    enemy.afterImage.Trigger(moveDuration);
+            })
+            .Group(Tween.Position(enemy.transform, enemyPosition, moveDuration, Ease.InOutCubic))
             .ChainCallback(() =>
             {
                 enemy.animator.Play("Shoot_Right");

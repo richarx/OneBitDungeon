@@ -21,10 +21,17 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
 
         if (!isSubBehaviour)
         {
+            float moveDuration = enemy.isSecondPhase ? 0.5f : 1.0f;
+
             moveSequence = Sequence.Create()
                 .ChainCallback(() => enemy.animator.Play("Cast"))
                 .ChainDelay(0.5f)
-                .Chain(Tween.Position(enemy.transform, randomPosition, 1.0f, Ease.InOutCubic));
+                .ChainCallback(() =>
+                {
+                    if (enemy.isSecondPhase)
+                        enemy.afterImage.Trigger(moveDuration);
+                })
+                .Chain(Tween.Position(enemy.transform, randomPosition, moveDuration, Ease.InOutCubic));
         }
 
         SpawnDamageZone();

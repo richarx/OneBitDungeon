@@ -17,12 +17,19 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
 
+        float moveDuration = enemy.isSecondPhase ? 0.5f : 1.0f;
+
         if (!isSubBehaviour)
         {
             moveSequence = Sequence.Create()
             .ChainCallback(() => enemy.animator.Play("Cast"))
             .ChainDelay(0.5f)
-            .Chain(Tween.Position(enemy.transform, randomPosition, 1.0f, Ease.InOutCubic));
+            .ChainCallback(() =>
+            {
+                if (enemy.isSecondPhase)
+                    enemy.afterImage.Trigger(moveDuration);
+            })
+            .Chain(Tween.Position(enemy.transform, randomPosition, moveDuration, Ease.InOutCubic));
         }
 
         attackSequence = Sequence.Create()

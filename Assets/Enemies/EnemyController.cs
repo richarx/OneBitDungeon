@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour
     public SpriteRenderer shadowSprite;
     public Animator animator { get; private set; }
     public Damageable damageable { get; private set; }
+    public AfterImage afterImage { get; private set; }
 
 
     [HideInInspector] public UnityEvent OnChangeBehaviour = new UnityEvent();
@@ -35,6 +36,7 @@ public class EnemyController : MonoBehaviour
         animator = sprite.GetComponent<Animator>();
         sphereCollider = GetComponent<SphereCollider>();
         damageable = GetComponent<Damageable>();
+        afterImage = GetComponent<AfterImage>();
 
         SetupPhaseTransition();
 

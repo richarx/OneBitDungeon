@@ -10669,6 +10669,7 @@ GameObject:
   - component: {fileID: 8182171200824653875}
   - component: {fileID: 8182171200824653876}
   - component: {fileID: 8182171200824653877}
+  - component: {fileID: 8182171200824653879}
   m_Layer: 9
   m_Name: Mage
   m_TagString: Enemy
@@ -10751,6 +10752,23 @@ MonoBehaviour:
   strength: {x: -0.5, y: 0.5, z: 0}
   duration: 0.3
   frequency: 7
+--- !u!114 &8182171200824653879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171200824653874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5948384fcccef7e46b5769aa0fe781ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 5071313608623843290}
+  afterImagePrefab: {fileID: 2796021990896187510, guid: 2a6df096adee6614eb23a2929557fb63,
+    type: 3}
+  frequency: 20
+  fadeDuration: 0.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
