@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Player.Scripts;
 using PrimeTween;
+using Tools_and_Scripts;
 using UnityEngine;
 
 public class HollowCircleDamageZone : MonoBehaviour
@@ -69,7 +70,12 @@ public class HollowCircleDamageZone : MonoBehaviour
         float maxDamageDistance = (outerRadius * transform.localScale.x) + PlayerStateMachine.instance.hitBoxRadius;
         float minDamageDistance = (innerRadius * transform.localScale.x) - PlayerStateMachine.instance.hitBoxRadius;
 
+        bool damageApplied = false;
+
         if (direction.magnitude <= maxDamageDistance && direction.magnitude >= minDamageDistance)
-            PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction.normalized);
+            damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction.normalized);
+
+        if (!damageApplied)
+            CameraShaker.instance.StartShake();
     }
 }

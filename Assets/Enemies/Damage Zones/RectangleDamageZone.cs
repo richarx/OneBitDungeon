@@ -79,10 +79,13 @@ public class RectangleDamageZone : MonoBehaviour
         Vector2 C = (position + transform.right * X - transform.up * Y).ToVector2();
         Vector2 D = (position - transform.right * X - transform.up * Y).ToVector2();
 
+        bool damageApplied = false;
+
         if (PointInTriangle(P, A, B, C) || PointInTriangle(P, A, C, D))
-        {
-            PlayerStateMachine.instance.playerHealth.TakeDamage(1, (P.ToVector3() - position).normalized);
-        }
+            damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, (P.ToVector3() - position).normalized);
+
+        if (!damageApplied)
+            CameraShaker.instance.StartShake();
     }
 
     public static bool PointInTriangle(Vector2 p, Vector2 p0, Vector2 p1, Vector2 p2)

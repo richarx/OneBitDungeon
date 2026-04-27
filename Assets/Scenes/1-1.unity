@@ -1233,7 +1233,7 @@ MonoBehaviour:
   amplitudeX: 0.3
   amplitudeY: 0.1
   frequency: 100
-  duration: 0.1
+  duration: 0.3
 --- !u!1001 &340690141
 PrefabInstance:
   m_ObjectHideFlags: 0

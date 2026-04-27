@@ -1,6 +1,7 @@
 using System;
 using Player.Scripts;
 using PrimeTween;
+using Tools_and_Scripts;
 using UnityEngine;
 
 public class CircleDamageZone : MonoBehaviour
@@ -65,7 +66,12 @@ public class CircleDamageZone : MonoBehaviour
         Vector3 direction = PlayerStateMachine.instance.position - transform.position;
         float damageDistance = (radius * transform.localScale.x) + PlayerStateMachine.instance.hitBoxRadius;
 
+        bool damageApplied = false;
+
         if (direction.magnitude <= damageDistance)
-            PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction.normalized);
+            damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction.normalized);
+
+        if (!damageApplied)
+            CameraShaker.instance.StartShake(1 + radius / 10.0f);
     }
 }

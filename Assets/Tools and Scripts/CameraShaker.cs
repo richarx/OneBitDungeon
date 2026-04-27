@@ -13,11 +13,18 @@ namespace Tools_and_Scripts
         [SerializeField] private float amplitudeY;
         [SerializeField] private float frequency;
         [SerializeField] private float duration;
-        
+
+        public static CameraShaker instance;
+
         private PlayerStateMachine player;
 
         private Vector3 startingPosition;
-        
+
+        private void Awake()
+        {
+            instance = this;
+        }
+
         private void Start()
         {
             startingPosition = transform.localPosition;
@@ -27,16 +34,18 @@ namespace Tools_and_Scripts
             player.playerParry.OnSuccessfulParry.AddListener(() => StartShake());
         }
 
-        private void StartShake(float amplitudePower = 1.0f, float frequencyPower = 1.0f, float timePower = 1.0f)
+        public void StartShake(float amplitudePower = 1.0f, float frequencyPower = 1.0f, float timePower = 1.0f)
         {
+            Debug.Log("Start Shake");
+
             StopAllCoroutines();
             StartCoroutine(Shake(amplitudePower, frequencyPower, timePower));
         }
 
-        private IEnumerator Shake(float amplitudePower = 1.0f, float frequencyPower = 1.0f, float timePower = 1.0f)
+        private IEnumerator Shake(float amplitudePower, float frequencyPower, float timePower)
         {
             Vector3 newPosition = Vector3.zero;
-            
+
             float timer = 0.0f;
             while (timer <= duration * timePower)
             {
@@ -48,7 +57,7 @@ namespace Tools_and_Scripts
                 yield return null;
                 timer += Time.deltaTime;
             }
-            
+
             transform.localPosition = startingPosition;
         }
     }

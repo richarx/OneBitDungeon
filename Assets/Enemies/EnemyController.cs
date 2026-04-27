@@ -91,6 +91,7 @@ public class EnemyController : MonoBehaviour
         if (currentBehaviour != null)
             currentBehaviour.StopBehaviour(this);
         currentBehaviour = newBehaviour;
+        currentBehaviour.SetSubBehaviourState(false);
         currentBehaviour.StartBehaviour(this);
 
         OnChangeBehaviour?.Invoke();

@@ -75,15 +75,12 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
     public void StopBehaviour(EnemyController enemy)
     {
         if (attackSequence.isAlive)
-        {
             attackSequence.Stop();
-            circles.Cancel();
-        }
 
         if (moveSequence.isAlive)
             moveSequence.Stop();
 
-        if (isSubBehaviour && circles != null)
+        if (circles != null && !circles.hasDetonated)
             circles.Cancel();
     }
 

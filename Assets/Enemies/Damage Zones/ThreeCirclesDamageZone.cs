@@ -21,12 +21,12 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private bool isInit;
-    private bool hasDetonated;
 
     private Vector3 circlePosition1;
     private Vector3 circlePosition2;
     private Vector3 circlePosition3;
 
+    public bool hasDetonated { get; private set; }
     private Sequence currentSequence;
 
     private void Initialize()
@@ -93,19 +93,25 @@ public class ThreeCirclesDamageZone : MonoBehaviour
     private void CheckForPlayerHit()
     {
         Vector3 playerPosition = PlayerStateMachine.instance.position;
+        playerPosition.y = 0.0f;
         Vector3 direction1 = playerPosition - circlePosition1;
         Vector3 direction2 = playerPosition - circlePosition2;
         Vector3 direction3 = playerPosition - circlePosition3;
         float damageDistance = (radius * transform.localScale.x) + PlayerStateMachine.instance.hitBoxRadius;
 
+        bool damageApplied = false;
+
         if (direction1.magnitude <= damageDistance)
-            PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction1.normalized);
+            damageApplied |= PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction1.normalized);
 
         if (direction2.magnitude <= damageDistance)
-            PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction2.normalized);
+            damageApplied |= PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction2.normalized);
 
         if (direction3.magnitude <= damageDistance)
-            PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction3.normalized);
+            damageApplied |= PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction3.normalized);
+
+        if (!damageApplied)
+            CameraShaker.instance.StartShake();
     }
 
     public void MoveCircle(int circleIndex, Vector2 position)
@@ -113,21 +119,22 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         if (!isInit)
             Initialize();
 
+        Vector3 rawPosition = new Vector3(position.x, 0.0f, position.y);
         Vector2 convertedPosition = ComputePosition(position);
 
         if (circleIndex == 0)
         {
-            circlePosition1 = position.ToVector3();
+            circlePosition1 = rawPosition;
             spriteRenderer.material.SetVector("_Shape1Position", convertedPosition);
         }
         else if (circleIndex == 1)
         {
-            circlePosition2 = position.ToVector3();
+            circlePosition2 = rawPosition;
             spriteRenderer.material.SetVector("_Shape2Position", convertedPosition);
         }
         else if (circleIndex == 2)
         {
-            circlePosition3 = position.ToVector3();
+            circlePosition3 = rawPosition;
             spriteRenderer.material.SetVector("_Shape3Position", convertedPosition);
         }
     }
