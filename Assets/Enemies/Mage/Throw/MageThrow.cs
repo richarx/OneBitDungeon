@@ -23,6 +23,8 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
 
     public void StartBehaviour(EnemyController enemy)
     {
+        Debug.Log("Mage THROW");
+
         Vector3 enemyPosition = new Vector3(0.0f, 0.0f, 8.5f);
         Vector3 rightPosition = new Vector3(3.0f, 0.0f, 9.0f);
         Vector3 leftPosition = new Vector3(-3.0f, 0.0f, 9.0f);

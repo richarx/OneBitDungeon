@@ -63,12 +63,14 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
             .Chain(Tween.PositionY(topPillar, 0.0f, 0.3f, Ease.OutBounce))
             .ChainCallback(() => SpawnHollowCircle(upperPillarPosition))
             .Group(Tween.PunchScale(topPillar, new Vector3(0.5f, -0.5f, 0.0f), 0.15f, 3.0f))
+            .ChainCallback(() => topPillar.GetComponent<MagePillarLine>().SetTarget(enemy.transform, new Vector3(7.21f, 3.87f, 8.76f)))
             .ChainDelay(2.0f)
             .ChainCallback(() => SpawnInitialDamageZone(lowerPillarPosition))
             .ChainDelay(0.6f)
             .Chain(Tween.PositionY(botPillar, 0.0f, 0.3f, Ease.OutBounce))
             .ChainCallback(() => SpawnHollowCircle(lowerPillarPosition))
             .Group(Tween.PunchScale(botPillar, new Vector3(0.5f, -0.5f, 0.0f), 0.15f, 3.0f))
+            .ChainCallback(() => botPillar.GetComponent<MagePillarLine>().SetTarget(enemy.transform, new Vector3(-7.12f, 3.87f, -5.73f)))
             .ChainCallback(() => StartSecondaryBehaviour(enemy));
     }
 

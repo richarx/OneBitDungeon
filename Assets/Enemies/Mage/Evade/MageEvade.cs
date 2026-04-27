@@ -12,6 +12,8 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 
     public void StartBehaviour(EnemyController enemy)
     {
+        Debug.Log("Mage EVADE");
+
         Vector3 currentPosition = enemy.transform.position;
         Vector3 playerPosition = PlayerStateMachine.instance.position;
         Vector3 targetPosition = playerPosition + (currentPosition - playerPosition).normalized * 0.5f;

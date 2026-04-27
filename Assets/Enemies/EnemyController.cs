@@ -71,7 +71,9 @@ public class EnemyController : MonoBehaviour
 
         foreach (GameObject behaviour in behaviours)
         {
-            enemyBehaviours.Add(behaviour.GetComponent<IEnemyBehaviour>());
+            IEnemyBehaviour behaviourPrefab = behaviour.GetComponent<IEnemyBehaviour>();
+            behaviourPrefab.SetSubBehaviourState(false);
+            enemyBehaviours.Add(behaviourPrefab);
         }
     }
 

@@ -14,6 +14,8 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
 
     public void StartBehaviour(EnemyController enemy)
     {
+        Debug.Log("Mage SWIPE HORIZONTAL");
+
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
 
