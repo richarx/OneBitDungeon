@@ -23,7 +23,7 @@ public class RockOrbiter : MonoBehaviour
 
     private void SetupRockList()
     {
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 50; i++)
         {
             int index = Random.Range(0, rockPrefabs.Count);
             float distance = Random.Range(15.0f, 25.0f);
@@ -35,7 +35,10 @@ public class RockOrbiter : MonoBehaviour
 
     public SpinRock GetRandomRock()
     {
-        int index = Random.Range(0, rocks.Count);
+        if (rocks.Count < 1)
+            return Instantiate(rockPrefabs[Random.Range(0, rockPrefabs.Count)], Vector3.right * 20.0f, Quaternion.identity, transform);
+
+        int index = 0;
         SpinRock rock = rocks[index];
 
         rocks.RemoveAt(index);

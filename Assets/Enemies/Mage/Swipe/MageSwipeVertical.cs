@@ -158,7 +158,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
 
     public void StopBehaviour(EnemyController enemy)
     {
-        if (attackSequence.isAlive)
+        if (attackSequence.isAlive && !isSubBehaviour)
             attackSequence.Stop();
 
         if (moveSequence.isAlive)

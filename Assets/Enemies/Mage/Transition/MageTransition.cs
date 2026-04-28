@@ -192,13 +192,15 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
             .ChainDelay(0.1f)
             .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy))
             .ChainDelay(1.0f)
-
-            .ChainCallback(() => lastAttackTimestamp = Time.time)
-            .ChainDelay(1.0f)
             .ChainCallback(() =>
             {
                 attackBehaviour.StopBehaviour(enemy);
                 attackBehaviour.SetSubBehaviourState(false);
+                attackBehaviour = null;
+            })
+            .ChainDelay(3.0f)
+            .ChainCallback(() =>
+            {
                 rageBehaviour_1.SetSubBehaviourState(false);
                 rageBehaviour_2.SetSubBehaviourState(false);
                 enemy.SelectNewBehaviour();

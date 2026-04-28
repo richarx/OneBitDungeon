@@ -36,8 +36,6 @@ namespace Tools_and_Scripts
 
         public void StartShake(float amplitudePower = 1.0f, float frequencyPower = 1.0f, float timePower = 1.0f)
         {
-            Debug.Log("Start Shake");
-
             StopAllCoroutines();
             StartCoroutine(Shake(amplitudePower, frequencyPower, timePower));
         }
