@@ -30,6 +30,9 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
 
     private IEnemyBehaviour attackBehaviour;
     private float lastAttackTimestamp = 0.0f;
+    private IEnemyBehaviour rageBehaviour_1;
+    private IEnemyBehaviour rageBehaviour_2;
+
 
     private int stunStartHealth;
     private float stunStartTimestamp;
@@ -40,6 +43,11 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
     private Transform botPillar;
 
     private int brokenPillarCount;
+
+
+    private Sequence immuneSequence;
+    private Sequence stunSequence;
+    private Sequence rageSequence;
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -54,7 +62,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
 
         brokenPillarCount = 0;
 
-        Sequence.Create()
+        immuneSequence = Sequence.Create()
             .Chain(Tween.LocalPosition(enemy.transform, Vector3.zero, 0.5f, Ease.InOutCubic))
             .Chain(Tween.LocalPosition(enemy.sprite.transform, Vector3.up * 3.0f, 0.5f, Ease.OutBack))
             .ChainCallback(() => enemy.animator.Play("Charge"))
@@ -104,7 +112,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
             stunStartHealth = enemy.damageable.currentHealth;
             stunStartTimestamp = Time.time;
 
-            Sequence.Create()
+            stunSequence = Sequence.Create()
                 .Group(Tween.LocalPositionY(enemy.sprite.transform, 0.0f, 0.15f, Ease.OutBounce))
                 .ChainCallback(() => enemy.animator.Play("Stun"))
                 .ChainCallback(() => enemy.ActivateHitbox());
@@ -141,13 +149,13 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
 
         enemy.animator.Play("Charge");
 
-        IEnemyBehaviour rageBehaviour_1 = rageBehaviourObject_1.GetComponent<IEnemyBehaviour>();
+        rageBehaviour_1 = rageBehaviourObject_1.GetComponent<IEnemyBehaviour>();
         rageBehaviour_1.SetSubBehaviourState(true);
 
-        IEnemyBehaviour rageBehaviour_2 = rageBehaviourObject_2.GetComponent<IEnemyBehaviour>();
+        rageBehaviour_2 = rageBehaviourObject_2.GetComponent<IEnemyBehaviour>();
         rageBehaviour_2.SetSubBehaviourState(true);
 
-        Sequence.Create()
+        rageSequence = Sequence.Create()
             .ChainCallback(() => rageBehaviour_1.StartBehaviour(enemy))
             .ChainDelay(0.1f)
             .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy))
@@ -175,22 +183,42 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
 
             .ChainCallback(() => lastAttackTimestamp = Time.time)
             .ChainDelay(0.5f)
-            .ChainCallback(() =>
-            {
-                attackBehaviour.CancelBehaviour(enemy);
-                attackBehaviour.SetSubBehaviourState(false);
-                attackBehaviour = null;
-            })
+            .ChainCallback(() => ResetAttackBehaviour(enemy))
             .ChainDelay(3.0f)
             .ChainCallback(() =>
             {
-                rageBehaviour_1.CancelBehaviour(enemy);
-                rageBehaviour_1.SetSubBehaviourState(false);
-                rageBehaviour_2.CancelBehaviour(enemy);
-                rageBehaviour_2.SetSubBehaviourState(false);
+                ResetRageBehaviours(enemy);
                 enemy.SelectNewBehaviour();
             });
     }
+
+    private void ResetAttackBehaviour(EnemyController enemy)
+    {
+        if (attackBehaviour != null)
+        {
+            attackBehaviour.CancelBehaviour(enemy);
+            attackBehaviour.SetSubBehaviourState(false);
+            attackBehaviour = null;
+        }
+    }
+
+    private void ResetRageBehaviours(EnemyController enemy)
+    {
+        if (rageBehaviour_1 != null)
+        {
+            rageBehaviour_1.CancelBehaviour(enemy);
+            rageBehaviour_1.SetSubBehaviourState(false);
+            rageBehaviour_1 = null;
+        }
+
+        if (rageBehaviour_2 != null)
+        {
+            rageBehaviour_2.CancelBehaviour(enemy);
+            rageBehaviour_2.SetSubBehaviourState(false);
+            rageBehaviour_2 = null;
+        }
+    }
+
 
     public void SetSubBehaviourState(bool state)
     {
@@ -207,5 +235,16 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
 
     public void CancelBehaviour(EnemyController enemy)
     {
+        if (immuneSequence.isAlive)
+            immuneSequence.Stop();
+
+        if (stunSequence.isAlive)
+            stunSequence.Stop();
+
+        if (rageSequence.isAlive)
+            rageSequence.Stop();
+
+        ResetAttackBehaviour(enemy);
+        ResetRageBehaviours(enemy);
     }
 }

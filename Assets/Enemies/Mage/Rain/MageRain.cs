@@ -3,7 +3,6 @@ using Player.Scripts;
 using PrimeTween;
 using Tools_and_Scripts;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MageRain : MonoBehaviour, IEnemyBehaviour
 {
@@ -52,28 +51,22 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
             {
                 lastKnownPosition = PlayerStateMachine.instance.position;
                 SetupCircle(0, lastKnownPosition.ToVector2());
-
-                rock_1.SetLockState(true);
             })
-            .ChainCallback(() => MoveRockToStartingPosition(rock_1.transform))
+            .ChainCallback(() => MoveRockToStartingPosition(rock_1))
             .ChainDelay(0.5f)
             .ChainCallback(() =>
             {
                 lastKnownPosition = PlayerStateMachine.instance.position;
                 SetupCircle(1, lastKnownPosition.ToVector2());
-
-                rock_2.SetLockState(true);
             })
-            .ChainCallback(() => MoveRockToStartingPosition(rock_2.transform))
+            .ChainCallback(() => MoveRockToStartingPosition(rock_2))
             .ChainDelay(0.5f)
             .ChainCallback(() =>
             {
                 lastKnownPosition = PlayerStateMachine.instance.position;
                 SetupCircle(2, lastKnownPosition.ToVector2());
-
-                rock_3.SetLockState(true);
             })
-            .ChainCallback(() => MoveRockToStartingPosition(rock_3.transform))
+            .ChainCallback(() => MoveRockToStartingPosition(rock_3))
             .ChainDelay(0.5f)
             .ChainCallback(() => circles.Detonate())
             .ChainCallback(() => DetonateRocks())
@@ -85,10 +78,12 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
             });
     }
 
-    private void MoveRockToStartingPosition(Transform rock)
+    private void MoveRockToStartingPosition(SpinRock rock)
     {
+        rock.SetLockState(true);
+
         moveRockSequence = Sequence.Create()
-            .Chain(Tween.LocalPosition(rock, GetLastKnownPosition(), 0.5f, Ease.OutBack));
+            .Chain(Tween.LocalPosition(rock.transform, GetLastKnownPosition(), 0.5f, Ease.OutBack));
     }
 
     private void DetonateRocks()
@@ -190,8 +185,8 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
         if (circles != null)
             circles.Cancel();
 
-        ReturnRocksToOrbiter();
         SpawnDebris();
+        ReturnRocksToOrbiter();
     }
 
     public void SetSubBehaviourState(bool state)
