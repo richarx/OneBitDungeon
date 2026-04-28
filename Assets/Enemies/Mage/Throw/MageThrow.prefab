@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationDampening: 0.1
+  fastRotationDampening: 0.05
   rotationDuration: 1.3
   rectangleDamageZonePrefab: {fileID: 227854228040328757, guid: 986f59cec969d9d4fb352a06792ece97,
+    type: 3}
+  secondPhaseRectangleDamageZonePrefab: {fileID: 227854228040328757, guid: c4071b6254e971c4ea63a4be60895759,
     type: 3}

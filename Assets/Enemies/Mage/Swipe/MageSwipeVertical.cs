@@ -30,7 +30,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
         if (!isSubBehaviour)
         {
             moveSequence = Sequence.Create()
-            .ChainCallback(() => enemy.animator.Play("Cast"))
+            .ChainCallback(() => enemy.animator.Play("Cast_Left"))
             .ChainDelay(0.5f)
             .ChainCallback(() =>
             {

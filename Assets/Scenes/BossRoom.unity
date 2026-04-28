@@ -10782,9 +10782,8 @@ MonoBehaviour:
   deathBehaviourObject: {fileID: 8934140663497945167, guid: 26d7ad74cab4cac4cafb9409cf191194,
     type: 3}
   behaviours:
-  - {fileID: 8934140663497945167, guid: a2faebc49bcb1a34596342fe7887da22, type: 3}
+  - {fileID: 8934140663497945167, guid: 84d72bc1c524c784281b6d2d0ab932cd, type: 3}
   - {fileID: 8934140663497945167, guid: f1bea5ab9b735494595e3bd9cf9b8f17, type: 3}
-  - {fileID: 8934140663497945167, guid: f4aec56d1d8e8a945baab1ae4155b0b6, type: 3}
   sprite: {fileID: 5071313608623843290}
   shadowSprite: {fileID: 2063661912}
   OnChangeBehaviour:
