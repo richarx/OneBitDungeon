@@ -149,9 +149,6 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     public void Cancel()
     {
-        if (!currentSequence.isAlive)
-            return;
-
         int rasiusId_1 = Shader.PropertyToID($"_Shape1Radius");
         int rasiusId_2 = Shader.PropertyToID($"_Shape2Radius");
         int rasiusId_3 = Shader.PropertyToID($"_Shape3Radius");
@@ -160,7 +157,8 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         int inlineColorId = Shader.PropertyToID("_InlineColor");
         int outlineColorId = Shader.PropertyToID("_OutlineColor");
 
-        currentSequence.Stop();
+        if (currentSequence.isAlive)
+            currentSequence.Stop();
         currentSequence = Sequence.Create()
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))

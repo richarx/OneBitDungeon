@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using Game_Manager;
 using Tools_and_Scripts;
 using UnityEngine;
 
@@ -19,6 +21,28 @@ public class RockOrbiter : MonoBehaviour
     private void Start()
     {
         SetupRockList();
+
+        GameManager.OnUnlockLevel.AddListener(DestroyRocks);
+    }
+
+    private void DestroyRocks()
+    {
+        StartCoroutine(DestroyRocksCoroutine());
+    }
+
+    private IEnumerator DestroyRocksCoroutine()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+
+        int rockCount = rocks.Count;
+
+        for (int i = rockCount - 1; i >= 0; i--)
+        {
+            SpawnDebris(rocks[i].transform.position);
+            Destroy(rocks[i].gameObject);
+            yield return new WaitForSeconds(0.05f);
+        }
     }
 
     private void SetupRockList()

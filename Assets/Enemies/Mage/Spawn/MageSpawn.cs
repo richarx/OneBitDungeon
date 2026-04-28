@@ -53,4 +53,9 @@ public class MageSpawn : MonoBehaviour, IEnemyBehaviour
     {
         isSubBehaviour = state;
     }
+
+    public void CancelBehaviour(EnemyController enemy)
+    {
+
+    }
 }

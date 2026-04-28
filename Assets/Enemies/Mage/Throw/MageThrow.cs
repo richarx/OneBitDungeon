@@ -8,10 +8,8 @@ using UnityEngine;
 public class MageThrow : MonoBehaviour, IEnemyBehaviour
 {
     [SerializeField] private float rotationDampening;
-    [SerializeField] private float fastRotationDampening;
     [SerializeField] private float rotationDuration;
     [SerializeField] private GameObject rectangleDamageZonePrefab;
-    [SerializeField] private GameObject secondPhaseRectangleDamageZonePrefab;
 
     private bool isSubBehaviour;
 
@@ -24,6 +22,10 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
     private float leftThrowTimestamp;
 
     private Sequence attackSequence;
+    private Sequence moveSequence1;
+    private Sequence moveSequence2;
+    private Sequence detonationSequence1;
+    private Sequence detonationSequence2;
 
     private SpinRock rock_1;
     private SpinRock rock_2;
@@ -42,8 +44,6 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
         rock_1 = RockOrbiter.instance.GetRandomRock();
         rock_2 = RockOrbiter.instance.GetRandomRock();
 
-
-
         attackSequence = Sequence.Create()
             .ChainCallback(() =>
             {
@@ -54,35 +54,35 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() =>
             {
                 enemy.animator.Play("Cast");
-                rightThrow = SpawnDamageZone(rightPosition, enemy.isSecondPhase);
+                rightThrow = SpawnDamageZone(rightPosition);
                 rightThrowTimestamp = Time.time;
             })
-            .ChainCallback(() => MoveRockToStartingPosition(rock_1, rightPosition))
-            .ChainDelay(enemy.isSecondPhase ? 0.3f : 0.6f)
+            .ChainCallback(() => moveSequence1 = MoveRockToStartingPosition(rock_1, rightPosition))
+            .ChainDelay(0.6f)
             .ChainCallback(() =>
             {
                 enemy.animator.Play("Cast_Left");
-                leftThrow = SpawnDamageZone(leftPosition, enemy.isSecondPhase);
+                leftThrow = SpawnDamageZone(leftPosition);
                 leftThrowTimestamp = Time.time;
             })
-            .ChainCallback(() => MoveRockToStartingPosition(rock_2, leftPosition))
-            .ChainDelay(enemy.isSecondPhase ? 0.45f : 0.9f)
-            .ChainCallback(() => DetonateRock(rock_1, rightPosition, true, enemy.animator))
-            .ChainDelay(enemy.isSecondPhase ? 0.3f : 0.6f)
-            .ChainCallback(() => DetonateRock(rock_2, leftPosition, false, enemy.animator))
-            .ChainDelay(enemy.isSecondPhase ? 0.3f : 0.6f)
+            .ChainCallback(() => moveSequence2 = MoveRockToStartingPosition(rock_2, leftPosition))
+            .ChainDelay(0.9f)
+            .ChainCallback(() => detonationSequence1 = DetonateRock(rock_1, rightPosition, true, enemy.animator))
+            .ChainDelay(0.6f)
+            .ChainCallback(() => detonationSequence2 = DetonateRock(rock_2, leftPosition, false, enemy.animator))
+            .ChainDelay(0.6f)
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
-    private void MoveRockToStartingPosition(SpinRock rock, Vector3 position)
+    private Sequence MoveRockToStartingPosition(SpinRock rock, Vector3 position)
     {
         rock.SetLockState(true);
 
-        Sequence.Create()
+        return Sequence.Create()
             .Chain(Tween.LocalPosition(rock.transform, position, 0.5f, Ease.OutBack));
     }
 
-    private void DetonateRock(SpinRock rock, Vector3 position, bool isRight, Animator animator)
+    private Sequence DetonateRock(SpinRock rock, Vector3 position, bool isRight, Animator animator)
     {
         float targetDistance = 20.0f;
         Vector3 punchScale = new Vector3(1.3f, 0.7f, 1.0f);
@@ -94,7 +94,7 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
 
         animator.Play(isRight ? "Shoot_Right" : "Shoot_Left");
 
-        Sequence.Create()
+        return Sequence.Create()
                     .Chain(Tween.LocalPosition(rock.transform, target1, 0.5f, Ease.InOutBack))
                     .Chain(Tween.PunchScale(rock.transform, punchScale, 0.1f, 3.0f, startDelay: 0.5f))
                     .ChainCallback(() => SpawnDebris(rock))
@@ -119,12 +119,13 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
 
     private void SpawnDebris(SpinRock rock)
     {
-        RockOrbiter.instance.SpawnDebris(rock.transform.position);
+        if (rock != null)
+            RockOrbiter.instance.SpawnDebris(rock.transform.position);
     }
 
-    private Transform SpawnDamageZone(Vector3 position, bool isSecondPhase)
+    private Transform SpawnDamageZone(Vector3 position)
     {
-        Transform rectangle = Instantiate(isSecondPhase ? secondPhaseRectangleDamageZonePrefab : rectangleDamageZonePrefab, position, Quaternion.identity).transform;
+        Transform rectangle = Instantiate(rectangleDamageZonePrefab, position, Quaternion.identity).transform;
         rectangle.GetChild(0).GetComponent<RectangleDamageZone>().Setup(Vector2.right);
 
         return rectangle;
@@ -133,18 +134,18 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
     public void UpdateBehaviour(EnemyController enemy)
     {
         if (rightThrow != null && Time.time - rightThrowTimestamp <= rotationDuration)
-            rightDirection = RotateThrowTowardPlayer(rightThrow, enemy.isSecondPhase ? fastRotationDampening : rotationDampening);
+            rightDirection = RotateThrowTowardPlayer(rightThrow);
 
         if (leftThrow != null && Time.time - leftThrowTimestamp <= rotationDuration)
-            leftDirection = RotateThrowTowardPlayer(leftThrow, enemy.isSecondPhase ? fastRotationDampening : rotationDampening);
+            leftDirection = RotateThrowTowardPlayer(leftThrow);
     }
 
-    private Vector3 RotateThrowTowardPlayer(Transform rectangle, float dampening)
+    private Vector3 RotateThrowTowardPlayer(Transform rectangle)
     {
         Vector3 position = rectangle.position;
         Vector3 direction = (PlayerStateMachine.instance.position - position).normalized.ToVector2().AddAngleToDirection(90.0f).ToVector3();
 
-        rectangle.rotation = Quaternion.Slerp(rectangle.rotation, Quaternion.LookRotation(direction), Time.deltaTime / dampening);
+        rectangle.rotation = Quaternion.Slerp(rectangle.rotation, Quaternion.LookRotation(direction), Time.deltaTime / rotationDampening);
 
         return direction;
     }
@@ -157,6 +158,35 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
     {
         if (attackSequence.isAlive)
             attackSequence.Stop();
+    }
+
+    public void CancelBehaviour(EnemyController enemy)
+    {
+        if (attackSequence.isAlive)
+            attackSequence.Stop();
+
+        if (moveSequence1.isAlive)
+            moveSequence1.Stop();
+
+        if (moveSequence2.isAlive)
+            moveSequence2.Stop();
+
+        if (detonationSequence1.isAlive)
+            detonationSequence1.Stop();
+
+        if (detonationSequence2.isAlive)
+            detonationSequence2.Stop();
+
+        if (rightThrow != null)
+            rightThrow.GetChild(0).GetComponent<RectangleDamageZone>().Cancel();
+
+        if (leftThrow != null)
+            leftThrow.GetChild(0).GetComponent<RectangleDamageZone>().Cancel();
+
+        SpawnDebris(rock_1);
+        SpawnDebris(rock_2);
+        ReturnRocksToOrbiter(rock_1);
+        ReturnRocksToOrbiter(rock_2);
     }
 
     public void SetSubBehaviourState(bool state)

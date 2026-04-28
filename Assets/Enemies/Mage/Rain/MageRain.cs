@@ -14,6 +14,8 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
     private ThreeCirclesDamageZone circles;
     private Sequence attackSequence;
     private Sequence moveSequence;
+    private Sequence moveRockSequence;
+    private Sequence detonateRockSequence;
 
     private SpinRock rock_1;
     private SpinRock rock_2;
@@ -85,13 +87,13 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
 
     private void MoveRockToStartingPosition(Transform rock)
     {
-        Sequence.Create()
+        moveRockSequence = Sequence.Create()
             .Chain(Tween.LocalPosition(rock, GetLastKnownPosition(), 0.5f, Ease.OutBack));
     }
 
     private void DetonateRocks()
     {
-        Sequence.Create()
+        detonateRockSequence = Sequence.Create()
             .Group(Tween.LocalPositionY(rock_1.transform, 0.0f, 0.3f, Ease.InOutBack))
             .Group(Tween.LocalPositionY(rock_2.transform, 0.0f, 0.3f, Ease.InOutBack))
             .Group(Tween.LocalPositionY(rock_3.transform, 0.0f, 0.3f, Ease.InOutBack))
@@ -104,9 +106,15 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
 
     private void SpawnDebris()
     {
-        RockOrbiter.instance.SpawnDebris(rock_1.transform.position);
-        RockOrbiter.instance.SpawnDebris(rock_2.transform.position);
-        RockOrbiter.instance.SpawnDebris(rock_3.transform.position);
+        SpawnSingleDebris(rock_1);
+        SpawnSingleDebris(rock_2);
+        SpawnSingleDebris(rock_3);
+    }
+
+    private void SpawnSingleDebris(SpinRock rock)
+    {
+        if (rock != null)
+            RockOrbiter.instance.SpawnDebris(rock.transform.position);
     }
 
     Vector3 lastKnownPosition = Vector3.zero;
@@ -163,12 +171,27 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
 
         if (moveSequence.isAlive)
             moveSequence.Stop();
+    }
 
-        if (circles != null && !circles.hasDetonated)
-        {
+    public void CancelBehaviour(EnemyController enemy)
+    {
+        if (attackSequence.isAlive)
+            attackSequence.Stop();
+
+        if (moveSequence.isAlive)
+            moveSequence.Stop();
+
+        if (moveRockSequence.isAlive)
+            moveRockSequence.Stop();
+
+        if (detonateRockSequence.isAlive)
+            detonateRockSequence.Stop();
+
+        if (circles != null)
             circles.Cancel();
-            ReturnRocksToOrbiter();
-        }
+
+        ReturnRocksToOrbiter();
+        SpawnDebris();
     }
 
     public void SetSubBehaviourState(bool state)

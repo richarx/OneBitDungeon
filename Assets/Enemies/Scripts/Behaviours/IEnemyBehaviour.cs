@@ -6,6 +6,7 @@ namespace Enemies.Scripts.Behaviours
         public void UpdateBehaviour(EnemyController enemy);
         public void FixedUpdateBehaviour(EnemyController enemy);
         public void StopBehaviour(EnemyController enemy);
+        public void CancelBehaviour(EnemyController enemy);
         public void SetSubBehaviourState(bool state);
     }
 }

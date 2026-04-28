@@ -37,6 +37,6 @@ public class AfterImage : MonoBehaviour
 
         Sequence.Create()
             .Chain(Tween.Alpha(afterImage, 0.0f, fadeDuration))
-            .ChainCallback(() => Destroy(afterImage));
+            .ChainCallback(() => Destroy(afterImage.gameObject));
     }
 }

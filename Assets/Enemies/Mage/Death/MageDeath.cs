@@ -15,14 +15,14 @@ public class MageDeath : MonoBehaviour, IEnemyBehaviour
         enemy.animator.Play("Death");
 
         Sequence.Create(useUnscaledTime: true)
-            .Group(Tween.GlobalTimeScale(0.25f, 0.3f, Ease.OutCirc))
+            .Group(Tween.GlobalTimeScale(0.15f, 0.5f, Ease.OutCirc))
             .Group(Tween.CameraFieldOfView(CamerasHolder.instance.mainCamera, 45.0f, 0.5f, Ease.InOutBack))
             .Group(Tween.CameraFieldOfView(CamerasHolder.instance.decorCamera, 45.0f, 0.5f, Ease.InOutBack))
             .Group(Tween.PositionY(camera, 9.0f, 0.5f, Ease.OutBack))
             .Group(Tween.PositionX(camera, enemy.transform.position.x, 0.5f, Ease.OutCirc))
             .Group(Tween.PositionZ(camera, enemy.transform.position.z - 6.0f, 0.5f, Ease.OutCirc))
             .Group(Tween.Rotation(camera, new Vector3(40.0f, 0.0f, 0.0f), 0.5f, Ease.OutCirc))
-            .ChainDelay(0.15f)
+            .ChainDelay(3.5f)
             .Chain(Tween.GlobalTimeScale(1.0f, 0.3f, Ease.InOutExpo))
             .Group(Tween.CameraFieldOfView(CamerasHolder.instance.mainCamera, 60.0f, 0.3f, Ease.InOutBack))
             .Group(Tween.CameraFieldOfView(CamerasHolder.instance.decorCamera, 60.0f, 0.3f, Ease.InOutBack))
@@ -30,7 +30,6 @@ public class MageDeath : MonoBehaviour, IEnemyBehaviour
             .Group(Tween.Rotation(camera, cameraStartingRotation, 0.3f, Ease.OutBack))
             .ChainCallback(() => CamerasHolder.instance.cameraFollowPlayer.SetLockState(false))
             .ChainCallback(() => enemy.shadowSprite.gameObject.SetActive(false))
-            .ChainDelay(0.5f)
             .Chain(Tween.Rotation(enemy.sprite.transform, new Vector3(90.0f, 0.0f, 0.0f), 0.5f, Ease.OutBounce))
             .ChainCallback(() => enemy.sprite.sortingOrder = -1)
             .ChainCallback(() => enemy.DeactivateHitbox())
@@ -52,6 +51,10 @@ public class MageDeath : MonoBehaviour, IEnemyBehaviour
 
 
     public void SetSubBehaviourState(bool state)
+    {
+    }
+
+    public void CancelBehaviour(EnemyController enemy)
     {
     }
 }

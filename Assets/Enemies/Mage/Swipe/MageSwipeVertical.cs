@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Enemies.Scripts.Behaviours;
 using PrimeTween;
 using UnityEngine;
@@ -8,9 +9,11 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
 
     private bool isSubBehaviour;
 
-    private RectangleDamageZone rectangle;
+    private List<RectangleDamageZone> rectangles;
     private Sequence attackSequence;
     private Sequence moveSequence;
+    private Sequence detonationSequence;
+    private List<Sequence> moveRockSequences;
 
     private SpinRock rock_1;
     private SpinRock rock_2;
@@ -21,6 +24,9 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
     public void StartBehaviour(EnemyController enemy)
     {
         Debug.Log("Mage SWIPE VERTICAL");
+
+        rectangles = new List<RectangleDamageZone>();
+        moveRockSequences = new List<Sequence>();
 
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
@@ -62,7 +68,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() => SpawnDamageZone(new Vector3(-9.11f, 0.0f, 10.0f), Vector2.down))
             .ChainCallback(() => MoveRockToStartingPosition(rock_5, new Vector3(-9.11f, 0.0f, 10.0f)))
             .ChainCallback(() => DetonateRocks())
-            .ChainDelay(enemy.isSecondPhase ? 0.5f : 2.5f)
+            .ChainDelay(enemy.isSecondPhase ? 1.3f : 2.5f)
             .ChainCallback(() =>
             {
                 if (!isSubBehaviour)
@@ -75,7 +81,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
         float targetDistance = 12.0f;
         Vector3 punchScale = new Vector3(1.3f, 0.7f, 1.0f);
 
-        Sequence.Create()
+        detonationSequence = Sequence.Create()
             .ChainDelay(1.3f)
             .Chain(Tween.LocalPositionZ(rock_1.transform, -targetDistance, 0.5f, Ease.InOutBack))
             .Group(Tween.LocalPositionZ(rock_2.transform, targetDistance, 0.5f, Ease.InOutBack, startDelay: 0.05f))
@@ -94,11 +100,17 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
 
     private void SpawnDebris()
     {
-        RockOrbiter.instance.SpawnDebris(rock_1.transform.position);
-        RockOrbiter.instance.SpawnDebris(rock_2.transform.position);
-        RockOrbiter.instance.SpawnDebris(rock_3.transform.position);
-        RockOrbiter.instance.SpawnDebris(rock_4.transform.position);
-        RockOrbiter.instance.SpawnDebris(rock_5.transform.position);
+        SpawnSingleDebris(rock_1);
+        SpawnSingleDebris(rock_2);
+        SpawnSingleDebris(rock_3);
+        SpawnSingleDebris(rock_4);
+        SpawnSingleDebris(rock_5);
+    }
+
+    private void SpawnSingleDebris(SpinRock rock)
+    {
+        if (rock != null)
+            RockOrbiter.instance.SpawnDebris(rock.transform.position);
     }
 
     private void ReturnRocksToOrbiter()
@@ -138,14 +150,16 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
     {
         rock.SetLockState(true);
 
-        Sequence.Create()
-            .Chain(Tween.LocalPosition(rock.transform, position, 0.5f, Ease.OutBack));
+        moveRockSequences.Add(Sequence.Create()
+            .Chain(Tween.LocalPosition(rock.transform, position, 0.5f, Ease.OutBack)));
     }
 
     private void SpawnDamageZone(Vector3 position, Vector2 direction)
     {
-        rectangle = Instantiate(rectangleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+        RectangleDamageZone rectangle = Instantiate(rectangleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
         rectangle.Setup(direction);
+
+        rectangles.Add(rectangle);
     }
 
     public void UpdateBehaviour(EnemyController enemy)
@@ -163,6 +177,33 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
 
         if (moveSequence.isAlive)
             moveSequence.Stop();
+    }
+
+    public void CancelBehaviour(EnemyController enemy)
+    {
+        if (attackSequence.isAlive)
+            attackSequence.Stop();
+
+        if (moveSequence.isAlive)
+            moveSequence.Stop();
+
+        if (detonationSequence.isAlive)
+            detonationSequence.Stop();
+
+        foreach (RectangleDamageZone rectangle in rectangles)
+        {
+            if (rectangle != null)
+                rectangle.Cancel();
+        }
+
+        foreach (Sequence moveRock in moveRockSequences)
+        {
+            if (moveRock.isAlive)
+                moveRock.Stop();
+        }
+
+        SpawnDebris();
+        ReturnRocksToOrbiter();
     }
 
     public void SetSubBehaviourState(bool state)

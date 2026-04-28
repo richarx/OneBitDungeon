@@ -42,6 +42,7 @@ public class EnemyController : MonoBehaviour
 
         damageable.OnDie.AddListener(() =>
         {
+            currentBehaviour.CancelBehaviour(this);
             ChangeBehaviour(deathBehaviourObject.GetComponent<IEnemyBehaviour>());
         });
 
@@ -60,6 +61,7 @@ public class EnemyController : MonoBehaviour
             {
                 Debug.Log("Trigger second phase !");
                 isSecondPhase = true;
+                currentBehaviour.CancelBehaviour(this);
                 ChangeBehaviour(phaseTransitionBehaviour);
             }
         });

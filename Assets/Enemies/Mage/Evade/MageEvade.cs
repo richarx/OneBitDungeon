@@ -59,6 +59,15 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
             currentSequence.Stop();
     }
 
+    public void CancelBehaviour(EnemyController enemy)
+    {
+        if (currentSequence.isAlive)
+            currentSequence.Stop();
+
+        if (circle != null)
+            circle.Cancel();
+    }
+
     public bool isSubBehaviour;
     public void SetSubBehaviourState(bool state)
     {
