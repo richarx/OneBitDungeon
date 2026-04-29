@@ -69,8 +69,6 @@ namespace Player.Scripts
                 Cursor.visible = false;
 
             playerHealth.OnPlayerTakeDamage.AddListener((direction) => playerStagger.TriggerStagger(this, direction));
-            GameManager.OnResetLevel.AddListener(() => transform.position = Vector3.zero);
-            GameManager.OnRestartLevel.AddListener(() => ChangeBehaviour(playerIdle));
         }
 
         private void Update()
@@ -84,6 +82,12 @@ namespace Player.Scripts
             playerTargeting.ComputeTarget(this);
 
             currentBehaviour.UpdateBehaviour(this);
+        }
+
+        public void TeleportPlayer(Vector3 newPosition)
+        {
+            newPosition.y = 0.0f;
+            rb.MovePosition(newPosition);
         }
 
         private void KeepOnGround()

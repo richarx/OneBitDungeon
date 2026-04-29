@@ -52,7 +52,7 @@ namespace Player.Scripts
             }
         }
 
-        private void ResetHealth()
+        public void ResetHealth()
         {
             currentHealth = startingHealth;
         }

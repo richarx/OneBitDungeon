@@ -2,6 +2,7 @@ using System.Collections;
 using Decor.Door;
 using Enemies.Spawner;
 using Player.Scripts;
+using PrimeTween;
 using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
@@ -83,10 +84,12 @@ namespace Game_Manager
             yield return new WaitForSecondsRealtime(2.0f);
             Time.timeScale = 0.1f;
             yield return Tools.Fade(blackScreen, 5.0f, true, scaledTime: false);
+            Tween.StopAll();
 
             PlayerStateMachine player = PlayerStateMachine.instance;
             player.ChangeBehaviour(player.playerSit);
             player.playerSit.Lock();
+            yield return new WaitForSeconds(0.1f);
 
             AsyncOperation operation = SceneManager.LoadSceneAsync(currentRespawnScene);
 
@@ -94,7 +97,7 @@ namespace Game_Manager
             yield return new WaitForSeconds(0.1f);
 
             if (PlayerSpawnPosition.instance != null)
-                player.transform.position = PlayerSpawnPosition.instance.GetPosition;
+                player.TeleportPlayer(PlayerSpawnPosition.instance.GetPosition);
 
             Time.timeScale = 1.0f;
             yield return Tools.Fade(blackScreen, 1.0f, false);
@@ -102,6 +105,8 @@ namespace Game_Manager
             player.playerSit.Unlock();
 
             OnRestartLevel?.Invoke();
+            OnChangeScene?.Invoke();
+            OnLockLevel?.Invoke();
         }
 
         public void ChangeScene(string targetSceneName, DoorSide targetDoor)

@@ -6,17 +6,19 @@ namespace Player.Scripts
     public class PlayerSit : IPlayerBehaviour
     {
         private bool isLocked;
-        
+
         private float getUpTimestamp = -1.0f;
         public bool IsGettingUp => getUpTimestamp >= 0.0f;
-        
+
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
+            player.playerHealth.ResetHealth();
+
             getUpTimestamp = -1.0f;
-            
+
             player.moveVelocity = Vector3.zero;
             player.ApplyMovement();
-            
+
             player.SetLastLookDirection(Vector2.left);
         }
 
@@ -24,7 +26,7 @@ namespace Player.Scripts
         {
             if (!isLocked && !IsGettingUp && CheckForInput(player))
                 GetUp();
-            
+
             if (IsGettingUp && Time.time - getUpTimestamp >= 0.5f)
                 player.ChangeBehaviour(player.playerIdle);
         }
@@ -42,7 +44,7 @@ namespace Player.Scripts
 
             if (player.inputPackage.GetRoll.wasPressedThisFrame)
                 return true;
-            
+
             if (player.inputPackage.lastInputType == InputType.Gamepad && player.inputPackage.southButton.wasPressedThisFrame)
                 return true;
 
@@ -58,7 +60,7 @@ namespace Player.Scripts
         {
             isLocked = true;
         }
-        
+
         public void Unlock()
         {
             isLocked = false;
