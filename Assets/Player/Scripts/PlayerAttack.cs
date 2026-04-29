@@ -23,7 +23,7 @@ namespace Player.Scripts
         {
             player.playerSword.weaponAnimationTriggers.OnAttackCanBeCanceled.AddListener(() => canAttackBeCanceled = true);
         }
-        
+
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
             attackStartTimestamp = Time.time;
@@ -33,7 +33,7 @@ namespace Player.Scripts
 
             ComputeDashTarget(player);
             player.SetLastLookDirection((dashTarget - player.position).ToVector2());
-            
+
             player.playerStamina.ConsumeStamina(player.playerData.attackStaminaCost);
 
             OnPlayerAttack?.Invoke(SelectCurrentAttack());
@@ -52,13 +52,13 @@ namespace Player.Scripts
                 StartBehaviour(player, BehaviourType.Attack);
                 return;
             }
-            
+
             if (canAttackBeCanceled && player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerRoll);
                 return;
             }
-            
+
             if (canAttackBeCanceled && player.playerParry.CanParry(player) && player.inputPackage.GetParry.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerParry);
@@ -96,7 +96,7 @@ namespace Player.Scripts
             bool isTargetInRange = hasTarget && player.playerTargeting.targetDistance <= player.playerData.attackDashMaxDistance;
             bool isInputPressed = player.moveInput.magnitude >= 0.15f;
             bool isInputInTargetDirection = hasTarget && isInputPressed && Vector3.Dot(player.playerTargeting.directionToTarget, player.moveInput.ToVector3()) >= 0.5f;
-            
+
             if (isTargetInRange && (!isInputPressed || isInputInTargetDirection))
                 dashTarget = player.position + (player.playerTargeting.directionToTarget * Mathf.Max(player.playerTargeting.targetDistance - 1.0f, 0.0f));
             else if (isInputPressed)
@@ -114,7 +114,7 @@ namespace Player.Scripts
         {
             if (hasHitObstacle)
                 return;
-            
+
             player.rb.MovePosition(Vector3.SmoothDamp(player.position, dashTarget, ref dashVelocity, player.playerData.attackDashDuration));
         }
 

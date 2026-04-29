@@ -13,7 +13,7 @@ namespace Player.Scripts
         public bool IsFull => currentStamina >= playerData.maxStamina;
 
         private float lastStaminaUseTimestamp;
-        
+
         private void Start()
         {
             playerData = PlayerStateMachine.instance.playerData;
@@ -24,7 +24,7 @@ namespace Player.Scripts
         {
             if (!IsEmpty && !IsFull && Time.time - lastStaminaUseTimestamp >= playerData.staminaCooldown)
                 RefillStamina();
-            
+
             if (IsEmpty && Time.time - lastStaminaUseTimestamp >= playerData.staminaEmptyCooldown)
                 RefillStamina();
         }

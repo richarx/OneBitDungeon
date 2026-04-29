@@ -7,26 +7,26 @@ namespace Player.Scripts
     {
         public UnityEvent OnParry = new UnityEvent();
         public UnityEvent OnSuccessfulParry = new UnityEvent();
-        
+
         private float parryStartTimestamp;
         private float successfulParryTimestamp;
         private float parryCooldownTimestamp = -1.0f;
 
         private bool wasSuccessful;
         public bool WasSuccessful => wasSuccessful;
-        
+
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
             Debug.Log("PARRY");
-            
+
             wasSuccessful = false;
             parryStartTimestamp = Time.time;
-            
+
             player.playerStamina.ConsumeStamina(player.playerData.parryStaminaCost);
-            
+
             OnParry?.Invoke();
         }
-        
+
         public void TriggerSuccessfulParry()
         {
             wasSuccessful = true;
@@ -69,7 +69,7 @@ namespace Player.Scripts
 
         public bool CanParry(PlayerStateMachine player)
         {
-            return (parryCooldownTimestamp < 0.0f || Time.time >= parryCooldownTimestamp) && (player.playerData.parryStaminaCost == 0.0f || !player.playerStamina.IsEmpty);
+            return (parryCooldownTimestamp < 0.0f || Time.time >= parryCooldownTimestamp) && (player.playerData.parryStaminaCost == 0.0f || (!player.playerStamina.IsEmpty));
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
