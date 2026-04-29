@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Enemies.Scripts;
 using Enemies.Scripts.Behaviours;
+using Enemies.Spawner;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -112,11 +113,13 @@ public class EnemyController : MonoBehaviour
 
     public void DeactivateHitbox()
     {
+        EnemyHolder.instance.UnRegisterEnemy(gameObject);
         sphereCollider.enabled = false;
     }
 
     public void ActivateHitbox()
     {
+        EnemyHolder.instance.RegisterEnemy(gameObject);
         sphereCollider.enabled = true;
     }
 }

@@ -7,12 +7,12 @@ public class MageDeath : MonoBehaviour, IEnemyBehaviour
 {
     public void StartBehaviour(EnemyController enemy)
     {
-
         Transform camera = CamerasHolder.instance.transform;
         Vector3 cameraStartingPosition = camera.position;
         Quaternion cameraStartingRotation = camera.rotation;
         CamerasHolder.instance.cameraFollowPlayer.SetLockState(true);
         enemy.animator.Play("Death");
+        enemy.afterImage.Cancel();
 
         Sequence.Create(useUnscaledTime: true)
             .Group(Tween.GlobalTimeScale(0.15f, 0.5f, Ease.OutCirc))

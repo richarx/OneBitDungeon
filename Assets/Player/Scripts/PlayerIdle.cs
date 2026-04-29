@@ -6,7 +6,7 @@ namespace Player.Scripts
     {
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-//            Debug.Log("IDLE");
+            //            Debug.Log("IDLE");
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)
@@ -16,13 +16,13 @@ namespace Player.Scripts
                 player.ChangeBehaviour(player.playerRoll);
                 return;
             }
-            
+
             if (player.playerAttack.CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerAttack);
                 return;
             }
-            
+
             if (player.playerParry.CanParry(player) && player.inputPackage.GetParry.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerParry);
@@ -53,7 +53,7 @@ namespace Player.Scripts
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
-           
+
         }
 
         public BehaviourType GetBehaviourType()

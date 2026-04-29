@@ -1,15 +1,19 @@
 using System.Collections;
-using PrimeTween;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AfterImage : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer target;
-    [SerializeField] private SpriteRenderer afterImagePrefab;
+    [SerializeField] private AfterImageFader afterImagePrefab;
 
     [Space]
     [SerializeField] private float frequency;
     [SerializeField] private float fadeDuration;
+
+    [HideInInspector] public UnityEvent OnTriggerCancel = new UnityEvent();
+
+    private bool isCancel;
 
     public void Trigger(float duration)
     {
@@ -17,12 +21,19 @@ public class AfterImage : MonoBehaviour
         StartCoroutine(TriggerCoroutine(duration));
     }
 
+    public void Cancel()
+    {
+        isCancel = true;
+        StopAllCoroutines();
+        OnTriggerCancel?.Invoke();
+    }
+
     private IEnumerator TriggerCoroutine(float duration)
     {
         float timer = 0.0f;
         float increment = 1.0f / frequency;
 
-        while (timer <= duration)
+        while (timer <= duration && !isCancel)
         {
             SpawnAfterImage();
             yield return new WaitForSeconds(increment);
@@ -32,11 +43,7 @@ public class AfterImage : MonoBehaviour
 
     private void SpawnAfterImage()
     {
-        SpriteRenderer afterImage = Instantiate(afterImagePrefab, target.transform.position, target.transform.rotation);
-        afterImage.sprite = target.sprite;
-
-        Sequence.Create()
-            .Chain(Tween.Alpha(afterImage, 0.0f, fadeDuration))
-            .ChainCallback(() => Destroy(afterImage.gameObject));
+        Instantiate(afterImagePrefab, target.transform.position, target.transform.rotation)
+            .Setup(this, target.sprite, fadeDuration);
     }
 }
