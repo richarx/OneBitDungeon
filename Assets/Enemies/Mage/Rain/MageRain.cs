@@ -36,6 +36,8 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
                 {
                     if (enemy.isSecondPhase)
                         enemy.afterImage.Trigger(moveDuration);
+
+                    MageSFX.instance.PlayMageMove();
                 })
                 .Chain(Tween.Position(enemy.transform, randomPosition, moveDuration, Ease.InOutCubic));
         }
@@ -84,6 +86,8 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
 
         moveRockSequence = Sequence.Create()
             .Chain(Tween.LocalPosition(rock.transform, GetLastKnownPosition(), 0.5f, Ease.OutBack));
+
+        MageSFX.instance.PlayRockMove();
     }
 
     private void DetonateRocks()

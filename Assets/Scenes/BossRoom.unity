@@ -10565,7 +10565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068ca6ab120c7194b90607252bdcd524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 65
+  startingHealth: 10
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -10726,6 +10726,7 @@ GameObject:
   - component: {fileID: 8182171200824653876}
   - component: {fileID: 8182171200824653877}
   - component: {fileID: 8182171200824653879}
+  - component: {fileID: 8182171200824653880}
   m_Layer: 9
   m_Name: Mage
   m_TagString: Enemy
@@ -10778,7 +10779,7 @@ MonoBehaviour:
     type: 3}
   phaseTransitionBehaviourObject: {fileID: 8934140663497945167, guid: 35e516530f9688b4c8fc5ab41756d726,
     type: 3}
-  phaseTransitionHealthThreshold: 25
+  phaseTransitionHealthThreshold: 5
   deathBehaviourObject: {fileID: 8934140663497945167, guid: 26d7ad74cab4cac4cafb9409cf191194,
     type: 3}
   behaviours:
@@ -10827,6 +10828,38 @@ MonoBehaviour:
     type: 3}
   frequency: 20
   fadeDuration: 0.5
+--- !u!114 &8182171200824653880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171200824653874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c62bd9bcb083342834b9477c983713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockMovement:
+  - {fileID: 8300000, guid: 61aeada204451b3479b81fb5df7869c2, type: 3}
+  - {fileID: 8300000, guid: a7e44bd9e6af2924bbc39d4c37ba8f47, type: 3}
+  - {fileID: 8300000, guid: 99524f83b0e7471418781377e0b5944e, type: 3}
+  rockBreak:
+  - {fileID: 8300000, guid: 33d87818534b67844acd946ec854dbf7, type: 3}
+  - {fileID: 8300000, guid: 76a8d491147a5c34eb672b40fd538d44, type: 3}
+  - {fileID: 8300000, guid: eb216feb57d248d47ba0674e1bc99dec, type: 3}
+  rockThrow:
+  - {fileID: 8300000, guid: 00bda2261f3cb024a9edeecd1ab81948, type: 3}
+  - {fileID: 8300000, guid: 180d22477f637c54c9a544bd0c2ad604, type: 3}
+  - {fileID: 8300000, guid: 41ef9bb730e7c45478ad53535a0313b2, type: 3}
+  mageMovement:
+  - {fileID: 8300000, guid: 30174fba57ee72048a86f7fa4af5c798, type: 3}
+  - {fileID: 8300000, guid: 51a420a5106527b4482e07a16318585b, type: 3}
+  - {fileID: 8300000, guid: 1310d0d09d974534796531632e7f2d34, type: 3}
+  mageFastMovement:
+  - {fileID: 8300000, guid: 6f4f460b5035680498cdb3645b10a423, type: 3}
+  - {fileID: 8300000, guid: 647128b1c0494db489d1ee6af6f4c502, type: 3}
+  - {fileID: 8300000, guid: 0e41a64337928994ca04b8180874ef8d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

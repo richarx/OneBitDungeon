@@ -39,6 +39,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
             {
                 if (enemy.isSecondPhase)
                     enemy.afterImage.Trigger(moveDuration);
+                MageSFX.instance.PlayMageMove();
             })
             .ChainCallback(() => MoveRocksToStartingPosition(targetPosition))
             .Group(Tween.Position(enemy.transform, targetPosition, moveDuration, Ease.InOutCubic))
@@ -72,6 +73,8 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
             .Group(Tween.LocalPosition(rock_2.transform, rockPosition + Vector2.right.AddAngleToDirection(angle + 120.0f).ToVector3() * distanceFromCenter, 0.5f, Ease.InOutBack))
             .Group(Tween.LocalPosition(rock_3.transform, rockPosition + Vector2.right.AddAngleToDirection(angle + 240.0f).ToVector3() * distanceFromCenter, 0.5f, Ease.InOutBack))
             ;
+
+        MageSFX.instance.PlayRockMove();
     }
 
     private void DetonateRocks(float moveDuration)

@@ -42,6 +42,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
             {
                 if (enemy.isSecondPhase)
                     enemy.afterImage.Trigger(moveDuration);
+                MageSFX.instance.PlayMageMove();
             })
             .Chain(Tween.Position(enemy.transform, randomPosition, moveDuration, Ease.InOutCubic));
         }
@@ -152,6 +153,8 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
 
         moveRockSequences.Add(Sequence.Create()
             .Chain(Tween.LocalPosition(rock.transform, position, 0.5f, Ease.OutBack)));
+
+        MageSFX.instance.PlayRockMove();
     }
 
     private void SpawnDamageZone(Vector3 position, Vector2 direction)

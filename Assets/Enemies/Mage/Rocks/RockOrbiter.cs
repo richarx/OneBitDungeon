@@ -84,5 +84,7 @@ public class RockOrbiter : MonoBehaviour
     public void SpawnDebris(Vector3 position)
     {
         Instantiate(rockDebrisPrefab, position, Quaternion.identity);
+
+        MageSFX.instance.PlayRockBreak();
     }
 }

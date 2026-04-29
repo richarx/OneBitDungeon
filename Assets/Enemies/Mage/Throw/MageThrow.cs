@@ -49,6 +49,7 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
             {
                 if (enemy.isSecondPhase)
                     enemy.afterImage.Trigger(moveDuration);
+                MageSFX.instance.PlayMageMove();
             })
             .Group(Tween.Position(enemy.transform, enemyPosition, moveDuration, Ease.InOutCubic))
             .ChainCallback(() =>
@@ -78,6 +79,8 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
     {
         rock.SetLockState(true);
 
+        MageSFX.instance.PlayRockMove();
+
         return Sequence.Create()
             .Chain(Tween.LocalPosition(rock.transform, position, 0.5f, Ease.OutBack));
     }
@@ -93,10 +96,11 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
         Vector3 target1 = position + direction * targetDistance;
 
         animator.Play(isRight ? "Shoot_Right" : "Shoot_Left");
+        MageSFX.instance.PlayRockThrow();
 
         return Sequence.Create()
                     .Chain(Tween.LocalPosition(rock.transform, target1, 0.5f, Ease.InOutBack))
-                    .Chain(Tween.PunchScale(rock.transform, punchScale, 0.1f, 3.0f, startDelay: 0.5f))
+                    .Group(Tween.PunchScale(rock.transform, punchScale, 0.1f, 3.0f, startDelay: 0.5f))
                     .ChainCallback(() => SpawnDebris(rock))
                     .ChainCallback(() => ReturnRocksToOrbiter(isRight))
                     ;
