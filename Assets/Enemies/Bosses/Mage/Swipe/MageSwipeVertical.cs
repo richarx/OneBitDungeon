@@ -27,11 +27,12 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
 
         rectangles = new List<RectangleDamageZone>();
         moveRockSequences = new List<Sequence>();
+        bool isSecondPhase = enemy.currentPhase > 0;
 
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
 
-        float moveDuration = enemy.isSecondPhase ? 0.5f : 1.0f;
+        float moveDuration = isSecondPhase ? 0.5f : 1.0f;
 
         if (!isSubBehaviour)
         {
@@ -40,7 +41,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
             .ChainDelay(0.5f)
             .ChainCallback(() =>
             {
-                if (enemy.isSecondPhase)
+                if (isSecondPhase)
                     enemy.afterImage.Trigger(moveDuration);
                 MageSFX.instance.PlayMageMove();
             })
@@ -69,7 +70,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() => SpawnDamageZone(new Vector3(-9.11f, 0.0f, 10.0f), Vector2.down))
             .ChainCallback(() => MoveRockToStartingPosition(rock_5, new Vector3(-9.11f, 0.0f, 10.0f)))
             .ChainCallback(() => DetonateRocks())
-            .ChainDelay(enemy.isSecondPhase ? 1.3f : 2.5f)
+            .ChainDelay(isSecondPhase ? 1.3f : 2.5f)
             .ChainCallback(() =>
             {
                 if (!isSubBehaviour)
@@ -149,7 +150,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
 
     private void MoveRockToStartingPosition(SpinRock rock, Vector3 position)
     {
-        rock.SetLockState(true);
+        rock.SetState(SpinRock.RockState.Locked);
 
         moveRockSequences.Add(Sequence.Create()
             .Chain(Tween.LocalPosition(rock.transform, position, 0.5f, Ease.OutBack)));

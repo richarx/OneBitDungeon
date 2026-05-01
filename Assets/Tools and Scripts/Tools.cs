@@ -47,40 +47,40 @@ namespace Tools_and_Scripts
             Vector2 newSize = targetBounds2.size + new Vector2(f * 2.0f, f * 2.0f);
             return new Bounds2(targetBounds2.position, newSize);
         }
-    
+
         public static Vector2 ConstraintBounds(Bounds2 inBound, Bounds2 outBound)
         {
             float rightConstraint = (outBound.position.x + (outBound.size.x / 2.0f)) - (inBound.position.x + (inBound.size.x / 2.0f));
-            float leftConstraint =  (outBound.position.x - (outBound.size.x / 2.0f)) - (inBound.position.x - (inBound.size.x / 2.0f));
-        
+            float leftConstraint = (outBound.position.x - (outBound.size.x / 2.0f)) - (inBound.position.x - (inBound.size.x / 2.0f));
+
             float upConstraint = (outBound.position.y + (outBound.size.y / 2.0f)) - (inBound.position.y + (inBound.size.y / 2.0f));
             float downConstraint = (outBound.position.y - (outBound.size.y / 2.0f)) - (inBound.position.y - (inBound.size.y / 2.0f));
 
             Vector2 direction = Vector2.zero;
-        
+
             if (rightConstraint < 0)
                 direction.x -= rightConstraint;
 
             if (leftConstraint > 0)
                 direction.x -= leftConstraint;
-        
+
             if (upConstraint < 0)
                 direction.y -= upConstraint;
 
             if (downConstraint > 0)
                 direction.y -= downConstraint;
-        
+
             return direction;
         }
     }
 
     public static class Tools
-    { 
+    {
         public static Vector3 ToVector3(this Vector2 vector)
         {
             return new Vector3(vector.x, 0.0f, vector.y);
         }
-    
+
         public static Vector2 ToVector2(this Vector3 vector)
         {
             return new Vector2(vector.x, vector.z);
@@ -102,7 +102,7 @@ namespace Tools_and_Scripts
             float newAngle = directionAngle + angle;
             return DegreeToVector2(newAngle).normalized;
         }
-    
+
         public static Vector2 AddRandomAngleToDirection(this Vector2 direction, float minInclusive, float maxInclusive)
         {
             float directionAngle = DirectionToDegree(direction);
@@ -114,19 +114,19 @@ namespace Tools_and_Scripts
         {
             return Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         }
-    
+
         public static float ToSignedDegree(this Vector2 direction)
         {
             return DirectionToDegree(direction);
         }
-        
+
         public static float ToDegree(this Vector2 direction)
         {
             float signed = DirectionToDegree(direction);
 
             if (signed < 0.0f)
                 signed = 360.0f + signed;
-            
+
             return signed;
         }
 
@@ -139,7 +139,7 @@ namespace Tools_and_Scripts
         {
             return RadianToVector2(degree * Mathf.Deg2Rad).normalized * length;
         }
-    
+
         public static float DegreeToRadian(float degrees)
         {
             return (Mathf.PI / 180.0f) * degrees;
@@ -165,12 +165,12 @@ namespace Tools_and_Scripts
         {
             return position + (Random.insideUnitCircle * range);
         }
-    
+
         public static Vector2 RandomPositionAtRange(Vector2 position, float range)
         {
             return position + (Random.insideUnitCircle * range);
         }
-    
+
         public static List<T> GetRandomElements<T>(this IEnumerable<T> list, int elementsCount = 1)
         {
             return list.OrderBy(arg => Guid.NewGuid()).Take(elementsCount).ToList();
@@ -180,7 +180,7 @@ namespace Tools_and_Scripts
         {
             return (value - min) / (max - min);
         }
-    
+
         public static float NormalizeValueInRange(float value, float min, float max, float rangeMin, float rangeMax)
         {
             return ((rangeMax - rangeMin) * ((value - min) / (max - min))) + rangeMin;
@@ -194,7 +194,7 @@ namespace Tools_and_Scripts
             Gizmos.DrawLine(bound.topRight, bound.topRight + (Vector2.down * bound.size.y));
             Gizmos.DrawLine(bound.topRight, bound.topRight + (Vector2.left * bound.size.x));
         }
-    
+
         public static void DrawCone(Vector2 position, Vector2 direction, float angle, float distance, Color color)
         {
             Gizmos.color = color;
@@ -206,60 +206,60 @@ namespace Tools_and_Scripts
         {
             if (delay > 0.0f)
                 yield return new WaitForSeconds(delay);
-            
+
             sprite.gameObject.SetActive(true);
-        
+
             float fade = fadeIn ? 0.0f : maxFade;
             float timer = duration;
             float increment = maxFade / timer;
             Color color = sprite.color;
-        
+
             while (timer > 0.0f)
             {
                 color.a = fade;
                 sprite.color = color;
-            
+
                 float delta = Time.deltaTime;
                 fade += fadeIn ? delta * increment : -delta * increment;
                 timer -= delta;
-            
+
                 yield return null;
             }
-        
+
             color.a = fadeIn ? maxFade : 0.0f;
             sprite.color = color;
         }
-    
+
         public static IEnumerator Fade(LineRenderer line, float duration, bool fadeIn, float maxFade = 1.0f, float delay = -1.0f)
         {
             float fade = fadeIn ? 0.0f : maxFade;
             float timer = duration;
             float increment = maxFade / timer;
             Color color = line.startColor;
-        
+
             if (delay > 0.0f)
                 yield return new WaitForSeconds(delay);
-            
+
             line.gameObject.SetActive(true);
-            
+
             while (timer > 0.0f)
             {
                 color.a = fade;
                 line.startColor = color;
                 line.endColor = color;
-            
+
                 float delta = Time.deltaTime;
                 fade += fadeIn ? delta * increment : -delta * increment;
                 timer -= delta;
-            
+
                 yield return null;
             }
-        
+
             color.a = fadeIn ? maxFade : 0.0f;
             line.startColor = color;
             line.endColor = color;
         }
-    
+
         public static IEnumerator Fade(Image sprite, float duration, bool fadeIn, float maxFade = 1.0f, bool scaledTime = true, float delay = -1.0f)
         {
             float fade = fadeIn ? 0.0f : maxFade;
@@ -269,28 +269,28 @@ namespace Tools_and_Scripts
 
             if (delay > 0.0f)
                 yield return new WaitForSeconds(delay);
-            
+
             sprite.gameObject.SetActive(true);
-        
+
             while (timer > 0.0f)
             {
                 color.a = fade;
                 sprite.color = color;
-            
+
                 float delta = scaledTime ? Time.deltaTime : Time.unscaledDeltaTime;
                 fade += fadeIn ? delta * increment : -delta * increment;
                 timer -= delta;
-            
+
                 yield return null;
             }
-        
+
             color.a = fadeIn ? maxFade : 0.0f;
             sprite.color = color;
-        
+
             if (!fadeIn)
                 sprite.gameObject.SetActive(false);
         }
-    
+
         public static IEnumerator Fade(List<Image> sprites, float duration, bool fadeIn, float maxFade = 1.0f, bool scaledTime = true, float delay = -1.0f)
         {
             float fade = fadeIn ? 0.0f : maxFade;
@@ -307,19 +307,19 @@ namespace Tools_and_Scripts
 
                 foreach (Image sprite in sprites)
                     sprite.color = color;
-            
+
                 float delta = scaledTime ? Time.deltaTime : Time.unscaledDeltaTime;
                 fade += fadeIn ? delta * increment : -delta * increment;
                 timer -= delta;
-            
+
                 yield return null;
             }
-        
+
             color.a = fadeIn ? maxFade : 0.0f;
             foreach (Image sprite in sprites)
                 sprite.color = color;
         }
-    
+
         public static IEnumerator Fade(Light light, float duration, bool fadeIn, float maxFade = 1.0f, bool scaledTime = true)
         {
             float fade = fadeIn ? 0.0f : maxFade;
@@ -327,24 +327,24 @@ namespace Tools_and_Scripts
             float increment = maxFade / timer;
 
             light.gameObject.SetActive(true);
-        
+
             while (timer > 0.0f)
             {
                 light.intensity = fade;
-            
+
                 float delta = scaledTime ? Time.deltaTime : Time.unscaledDeltaTime;
                 fade += fadeIn ? delta * increment : -delta * increment;
                 timer -= delta;
-            
+
                 yield return null;
             }
-        
-            light.intensity = fadeIn ? maxFade : 0.0f;;
-        
+
+            light.intensity = fadeIn ? maxFade : 0.0f; ;
+
             if (!fadeIn)
                 light.gameObject.SetActive(false);
         }
-    
+
         public static IEnumerator Fade(Light2D light, float duration, bool fadeIn, float maxFade = 1.0f, bool scaledTime = true)
         {
             float fade = fadeIn ? 0.0f : maxFade;
@@ -352,50 +352,50 @@ namespace Tools_and_Scripts
             float increment = maxFade / timer;
 
             light.gameObject.SetActive(true);
-        
+
             while (timer > 0.0f)
             {
                 light.intensity = fade;
-            
+
                 float delta = scaledTime ? Time.deltaTime : Time.unscaledDeltaTime;
                 fade += fadeIn ? delta * increment : -delta * increment;
                 timer -= delta;
-            
+
                 yield return null;
             }
-        
-            light.intensity = fadeIn ? maxFade : 0.0f;;
-        
+
+            light.intensity = fadeIn ? maxFade : 0.0f; ;
+
             if (!fadeIn)
                 light.gameObject.SetActive(false);
         }
-    
+
         public static IEnumerator Fade(RawImage sprite, float duration, bool fadeIn, float maxFade = 1.0f)
         {
             float fade = fadeIn ? 0.0f : maxFade;
             float timer = duration;
             float increment = maxFade / timer;
             Color color = sprite.color;
-        
+
             while (timer > 0.0f)
             {
                 color.a = fade;
                 sprite.color = color;
-            
+
                 float delta = Time.deltaTime;
                 fade += fadeIn ? delta * increment : -delta * increment;
                 timer -= delta;
-            
+
                 yield return null;
             }
-        
+
             color.a = fadeIn ? maxFade : 0.0f;
             sprite.color = color;
-        
+
             if (!fadeIn)
                 sprite.gameObject.SetActive(false);
         }
-    
+
         public static IEnumerator Fade(TextMeshProUGUI text, float duration, bool fadeIn, float maxFade = 1.0f)
         {
             if (duration == 0.0f)
@@ -405,29 +405,29 @@ namespace Tools_and_Scripts
                 text.color = tmp;
                 yield break;
             }
-        
+
             text.gameObject.SetActive(true);
 
             float fade = fadeIn ? 0.0f : maxFade;
             float timer = duration;
             float increment = maxFade / timer;
             Color color = text.color;
-        
+
             while (timer > 0.0f)
             {
                 color.a = fade;
                 text.color = color;
-            
+
                 float delta = Time.deltaTime;
                 fade += fadeIn ? delta * increment : -delta * increment;
                 timer -= delta;
-            
+
                 yield return null;
             }
-        
+
             if (!fadeIn)
                 text.gameObject.SetActive(false);
-        
+
             color.a = fadeIn ? maxFade : 0.0f;
             text.color = color;
         }
@@ -444,7 +444,7 @@ namespace Tools_and_Scripts
                 timer -= Time.deltaTime;
             }
         }
-    
+
         public static IEnumerator FillImage(Image image, float duration, bool fillIn, float maxFill = 1.0f, bool scaledTime = true)
         {
             float fill = fillIn ? 0.0f : maxFill;
@@ -452,20 +452,20 @@ namespace Tools_and_Scripts
             float increment = maxFill / timer;
 
             image.gameObject.SetActive(true);
-        
+
             while (timer > 0.0f)
             {
                 image.fillAmount = fill;
-            
+
                 float delta = scaledTime ? Time.deltaTime : Time.unscaledDeltaTime;
                 fill += fillIn ? delta * increment : -delta * increment;
                 timer -= delta;
-            
+
                 yield return null;
             }
-        
-            image.fillAmount = fillIn ? maxFill : 0.0f;;
-        
+
+            image.fillAmount = fillIn ? maxFill : 0.0f; ;
+
             if (!fillIn)
                 image.gameObject.SetActive(false);
         }
@@ -478,8 +478,26 @@ namespace Tools_and_Scripts
 
             return image;
         }
-    
+
+        public static SpriteRenderer MakeTransparent(this SpriteRenderer image)
+        {
+            Color transparent = image.color;
+            transparent.a = 0.0f;
+            image.color = transparent;
+
+            return image;
+        }
+
         public static Image MakeVisible(this Image image)
+        {
+            Color visible = Color.white;
+            visible.a = 1.0f;
+            image.color = visible;
+
+            return image;
+        }
+
+        public static SpriteRenderer MakeVisible(this SpriteRenderer image)
         {
             Color visible = Color.white;
             visible.a = 1.0f;
@@ -491,7 +509,7 @@ namespace Tools_and_Scripts
         public static IEnumerator Shake(Transform target, float duration, float intensity, bool horizontal = false, bool vertical = false)
         {
             Vector2 previousShake = Vector2.zero;
-        
+
             float timer = 0.0f;
             while (timer <= duration)
             {
@@ -505,7 +523,7 @@ namespace Tools_and_Scripts
 
                 target.position += ((direction * intensity) - previousShake).ToVector3();
                 previousShake = direction * intensity;
-            
+
                 yield return null;
                 timer += Time.deltaTime;
             }
@@ -516,10 +534,10 @@ namespace Tools_and_Scripts
         public static IEnumerator TweenPosition(RectTransform target, float x, float y, float duration, bool deactivateOnEnd = false)
         {
             target.gameObject.SetActive(true);
-        
+
             Vector3 targetPosition = new Vector3(x, y, target.position.z);
             Vector3 velocity = Vector3.zero;
-        
+
             while (Vector3.Distance(target.position, targetPosition) >= 0.15f)
             {
                 target.position = Vector3.SmoothDamp(target.position, targetPosition, ref velocity, duration);
@@ -527,11 +545,11 @@ namespace Tools_and_Scripts
             }
 
             target.position = targetPosition;
-        
+
             if (deactivateOnEnd)
                 target.gameObject.SetActive(false);
         }
-    
+
         public static IEnumerator TweenLocalPosition(Transform target, float x, float y, float duration, bool deactivateOnEnd = false)
         {
             target.gameObject.SetActive(true);
@@ -540,7 +558,7 @@ namespace Tools_and_Scripts
             Vector3 targetPosition = new Vector3(x, y, localPosition.z);
             Vector3 direction = (targetPosition - localPosition).normalized;
             targetPosition += direction * 0.1f;
-        
+
             Vector3 velocity = Vector3.zero;
 
             while (Vector3.Distance(target.localPosition, targetPosition) >= 0.15f)
@@ -550,18 +568,18 @@ namespace Tools_and_Scripts
             }
 
             target.localPosition = new Vector3(x, y, localPosition.z);
-        
+
             if (deactivateOnEnd)
                 target.gameObject.SetActive(false);
         }
-    
+
         public static IEnumerator TweenLocalScale(RectTransform target, float x, float y, float z, float duration, bool deactivateOnEnd = false)
         {
             target.gameObject.SetActive(true);
-        
+
             Vector3 targetScale = new Vector3(x, y, z);
             Vector3 velocity = Vector3.zero;
-        
+
             while (Vector3.Distance(target.localScale, targetScale) >= 0.05f)
             {
                 target.localScale = Vector3.SmoothDamp(target.localScale, targetScale, ref velocity, duration);
@@ -569,18 +587,18 @@ namespace Tools_and_Scripts
             }
 
             target.localScale = targetScale;
-        
+
             if (deactivateOnEnd)
                 target.gameObject.SetActive(false);
         }
-    
+
         public static IEnumerator TweenLocalScale(Transform target, float x, float y, float z, float duration, bool deactivateOnEnd = false)
         {
             target.gameObject.SetActive(true);
-        
+
             Vector3 targetScale = new Vector3(x, y, z);
             Vector3 velocity = Vector3.zero;
-        
+
             while (Vector3.Distance(target.localScale, targetScale) >= 0.05f)
             {
                 target.localScale = Vector3.SmoothDamp(target.localScale, targetScale, ref velocity, duration);
@@ -588,7 +606,7 @@ namespace Tools_and_Scripts
             }
 
             target.localScale = targetScale;
-        
+
             if (deactivateOnEnd)
                 target.gameObject.SetActive(false);
         }
@@ -604,7 +622,7 @@ namespace Tools_and_Scripts
 
             return images;
         }
-    
+
         public static Image SetImageColor(Image image, float alpha = 1.0f)
         {
             Color color = image.color;
@@ -618,14 +636,14 @@ namespace Tools_and_Scripts
         {
             if (alpha > 0.0f)
                 text.gameObject.SetActive(true);
-        
+
             Color color = text.color;
             color.a = alpha;
             text.color = color;
 
             return text;
         }
-    
+
         public static Vector3 LerpVector3(Vector3 start, Vector3 end, float t)
         {
             Vector3 current;
@@ -635,7 +653,7 @@ namespace Tools_and_Scripts
 
             return current;
         }
-    
+
         public static Vector2 LerpVector2(Vector2 start, Vector2 end, float t)
         {
             Vector2 current;
@@ -644,7 +662,7 @@ namespace Tools_and_Scripts
 
             return current;
         }
-    
+
         public static Quaternion ShortestRotation(Quaternion a, Quaternion b)
         {
             if (Quaternion.Dot(a, b) < 0)
@@ -654,19 +672,19 @@ namespace Tools_and_Scripts
 
             else return a * Quaternion.Inverse(b);
         }
-    
+
         public static Vector2 ComputeClosestPointOnLine(Vector2 linePosition, Vector2 lineDirection, Vector2 position)
         {
             Vector2 delta = position - linePosition;
             float dot = Vector2.Dot(delta, lineDirection);
             return linePosition + (lineDirection * dot);
         }
-    
+
         public static Quaternion Multiply(Quaternion input, float scalar)
         {
             return new Quaternion(input.x * scalar, input.y * scalar, input.z * scalar, input.w * scalar);
         }
-    
+
         public enum MoveDirection
         {
             Right,
@@ -678,7 +696,7 @@ namespace Tools_and_Scripts
             Front,
             RightFront,
         }
-    
+
         public static int GetCardinalDirection(Vector2 currentDirection)
         {
             float angle = Mathf.Atan2(currentDirection.y, currentDirection.x);
@@ -699,7 +717,7 @@ namespace Tools_and_Scripts
                 GameObject.Destroy(parent.GetChild(i).gameObject);
             }
         }
-        
+
         public static DoorSide Opposite(this DoorSide current)
         {
             switch (current)

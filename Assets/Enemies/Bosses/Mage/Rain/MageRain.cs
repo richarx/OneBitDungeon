@@ -25,16 +25,18 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
 
+        bool isSecondPhase = enemy.currentPhase > 0;
+
         if (!isSubBehaviour)
         {
-            float moveDuration = enemy.isSecondPhase ? 0.5f : 1.0f;
+            float moveDuration = isSecondPhase ? 0.5f : 1.0f;
 
             moveSequence = Sequence.Create()
                 .ChainCallback(() => enemy.animator.Play("Cast"))
                 .ChainDelay(0.5f)
                 .ChainCallback(() =>
                 {
-                    if (enemy.isSecondPhase)
+                    if (isSecondPhase)
                         enemy.afterImage.Trigger(moveDuration);
 
                     MageSFX.instance.PlayMageMove();
@@ -72,7 +74,7 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
             .ChainDelay(0.5f)
             .ChainCallback(() => circles.Detonate())
             .ChainCallback(() => DetonateRocks())
-            .ChainDelay(enemy.isSecondPhase ? 0.0f : 0.5f)
+            .ChainDelay(isSecondPhase ? 0.0f : 0.5f)
             .ChainCallback(() =>
             {
                 if (!isSubBehaviour)
@@ -82,7 +84,7 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
 
     private void MoveRockToStartingPosition(SpinRock rock)
     {
-        rock.SetLockState(true);
+        rock.SetState(SpinRock.RockState.Locked);
 
         moveRockSequence = Sequence.Create()
             .Chain(Tween.LocalPosition(rock.transform, GetLastKnownPosition(), 0.5f, Ease.OutBack));

@@ -24,6 +24,8 @@ public class RectangleDamageZone : MonoBehaviour
 
     private Sequence currentSequence;
 
+    private bool isCheckingForDamage;
+
     public void Setup(Vector2 moveDirection)
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -51,9 +53,10 @@ public class RectangleDamageZone : MonoBehaviour
         .Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, Mathf.Min(size.x, size.y), fillDuration, fillEase))
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
+        .ChainCallback(() => isCheckingForDamage = true)
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
-        .ChainCallback(() => CheckForPlayerHit())
+        .ChainCallback(() => isCheckingForDamage = false)
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
         .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration * 0.9f))
@@ -65,6 +68,12 @@ public class RectangleDamageZone : MonoBehaviour
             else
                 Destroy(gameObject);
         });
+    }
+
+    private void Update()
+    {
+        if (isCheckingForDamage)
+            CheckForPlayerHit();
     }
 
     private void CheckForPlayerHit()
@@ -84,7 +93,9 @@ public class RectangleDamageZone : MonoBehaviour
         if (PointInTriangle(P, A, B, C) || PointInTriangle(P, A, C, D))
             damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, (P.ToVector3() - position).normalized);
 
-        if (!damageApplied)
+        if (damageApplied)
+            isCheckingForDamage = false;
+        else
             CameraShaker.instance.StartShake();
     }
 

@@ -1,4 +1,3 @@
-using System;
 using Enemies.Scripts;
 using Enemies.Scripts.Behaviours;
 using PrimeTween;
@@ -25,8 +24,6 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
     [Space]
     [SerializeField] private GameObject rageBehaviourObject_1;
     [SerializeField] private GameObject rageBehaviourObject_2;
-
-    private bool isSubBehaviour;
 
     private IEnemyBehaviour attackBehaviour;
     private float lastAttackTimestamp = 0.0f;
@@ -92,7 +89,11 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
     {
         position += Vector3.up * 15.0f;
         Damageable damageable = Instantiate(pillarPrefab, position, Quaternion.identity);
-        damageable.OnDie.AddListener(() => OnBreakPillar(enemy));
+        damageable.OnDie.AddListener(() =>
+        {
+            OnBreakPillar(enemy);
+            RockOrbiter.instance.SpawnDebris(damageable.transform.position);
+        });
         return damageable.transform;
     }
 
@@ -111,6 +112,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
             currentPhase = TransitionPhase.Stun;
             stunStartHealth = enemy.damageable.currentHealth;
             stunStartTimestamp = Time.time;
+            RockOrbiter.instance.HideRocks();
 
             stunSequence = Sequence.Create()
                 .Group(Tween.LocalPositionY(enemy.sprite.transform, 0.0f, 0.15f, Ease.OutBounce))
@@ -148,6 +150,8 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
         lastAttackTimestamp = Time.time;
 
         enemy.animator.Play("Charge");
+        RockOrbiter.instance.DisplayRocks();
+        RockOrbiter.instance.SetRockSpeed(1.0f);
 
         rageBehaviour_1 = rageBehaviourObject_1.GetComponent<IEnemyBehaviour>();
         rageBehaviour_1.SetSubBehaviourState(true);
@@ -176,15 +180,9 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy))
             .ChainDelay(3.0f)
 
-            .ChainCallback(() => rageBehaviour_1.StartBehaviour(enemy))
-            .ChainDelay(0.1f)
-            .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy))
-
-
             .ChainCallback(() => lastAttackTimestamp = Time.time)
             .ChainDelay(0.5f)
             .ChainCallback(() => ResetAttackBehaviour(enemy))
-            .ChainDelay(3.0f)
             .ChainCallback(() =>
             {
                 ResetRageBehaviours(enemy);
@@ -219,10 +217,8 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
         }
     }
 
-
     public void SetSubBehaviourState(bool state)
     {
-        isSubBehaviour = state;
     }
 
     public void FixedUpdateBehaviour(EnemyController enemy)

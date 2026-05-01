@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Enemies.Scripts;
 using Enemies.Scripts.Behaviours;
@@ -9,11 +7,8 @@ using UnityEngine.Events;
 
 public class EnemyController : MonoBehaviour
 {
-    public GameObject startingBehaviourObject;
-    public GameObject phaseTransitionBehaviourObject;
-    public int phaseTransitionHealthThreshold;
     public GameObject deathBehaviourObject;
-    public List<GameObject> behaviours;
+    public List<EnemyPhase> enemyPhases;
     public SpriteRenderer sprite;
     public SpriteRenderer shadowSprite;
     public Animator animator { get; private set; }
@@ -28,7 +23,8 @@ public class EnemyController : MonoBehaviour
     public IEnemyBehaviour startingBehaviour { get; private set; }
     public IEnemyBehaviour phaseTransitionBehaviour { get; private set; }
 
-    public bool isSecondPhase { get; private set; }
+    public int currentPhase { get; private set; } = 0;
+    private bool isLastPhase => currentPhase >= enemyPhases.Count - 1;
 
     private SphereCollider sphereCollider;
 
@@ -39,7 +35,18 @@ public class EnemyController : MonoBehaviour
         damageable = GetComponent<Damageable>();
         afterImage = GetComponent<AfterImage>();
 
-        SetupPhaseTransition();
+        damageable.OnTakeDamage.AddListener(() =>
+        {
+            if (!isLastPhase && currentBehaviour != startingBehaviour && damageable.currentHealth <= enemyPhases[currentPhase + 1].healthThresholdToTriggerTransition)
+            {
+                Debug.Log("Trigger Next Phase !");
+                currentPhase += 1;
+                enemyBehaviours = enemyPhases[currentPhase].GetBehaviours();
+                currentBehaviour.CancelBehaviour(this);
+                startingBehaviour = enemyPhases[currentPhase].GetTransitionBehaviour();
+                ChangeBehaviour(startingBehaviour);
+            }
+        });
 
         damageable.OnDie.AddListener(() =>
         {
@@ -47,37 +54,10 @@ public class EnemyController : MonoBehaviour
             ChangeBehaviour(deathBehaviourObject.GetComponent<IEnemyBehaviour>());
         });
 
-        SetupBehaviours();
+        enemyBehaviours = enemyPhases[currentPhase].GetBehaviours();
 
-        startingBehaviour = startingBehaviourObject.GetComponent<IEnemyBehaviour>();
+        startingBehaviour = enemyPhases[currentPhase].GetTransitionBehaviour();
         ChangeBehaviour(startingBehaviour);
-    }
-
-    private void SetupPhaseTransition()
-    {
-        phaseTransitionBehaviour = phaseTransitionBehaviourObject.GetComponent<IEnemyBehaviour>();
-        damageable.OnTakeDamage.AddListener(() =>
-        {
-            if (!isSecondPhase && damageable.currentHealth <= phaseTransitionHealthThreshold)
-            {
-                Debug.Log("Trigger second phase !");
-                isSecondPhase = true;
-                currentBehaviour.CancelBehaviour(this);
-                ChangeBehaviour(phaseTransitionBehaviour);
-            }
-        });
-    }
-
-    private void SetupBehaviours()
-    {
-        enemyBehaviours = new List<IEnemyBehaviour>();
-
-        foreach (GameObject behaviour in behaviours)
-        {
-            IEnemyBehaviour behaviourPrefab = behaviour.GetComponent<IEnemyBehaviour>();
-            behaviourPrefab.SetSubBehaviourState(false);
-            enemyBehaviours.Add(behaviourPrefab);
-        }
     }
 
     protected virtual void Update()

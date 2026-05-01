@@ -21,6 +21,8 @@ public class CircleDamageZone : MonoBehaviour
 
     private Sequence currentSequence;
 
+    private bool isCheckingForDamage;
+
     public void Setup()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -42,9 +44,10 @@ public class CircleDamageZone : MonoBehaviour
         .Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, radius, fillDuration, fillEase))
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
+        .ChainCallback(() => isCheckingForDamage = true)
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
-        .ChainCallback(() => CheckForPlayerHit())
+        .ChainCallback(() => isCheckingForDamage = false)
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
         .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration * 0.9f))
@@ -61,6 +64,12 @@ public class CircleDamageZone : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void Update()
+    {
+        if (isCheckingForDamage)
+            CheckForPlayerHit();
+    }
+
     private void CheckForPlayerHit()
     {
         Vector3 direction = PlayerStateMachine.instance.position - transform.position;
@@ -71,7 +80,9 @@ public class CircleDamageZone : MonoBehaviour
         if (direction.magnitude <= damageDistance)
             damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction.normalized);
 
-        if (!damageApplied)
+        if (damageApplied)
+            isCheckingForDamage = false;
+        else
             CameraShaker.instance.StartShake(1 + radius / 10.0f);
     }
 }

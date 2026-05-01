@@ -39,7 +39,9 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
         Vector3 rightPosition = new Vector3(3.0f, 0.0f, 9.0f);
         Vector3 leftPosition = new Vector3(-3.0f, 0.0f, 9.0f);
 
-        float moveDuration = enemy.isSecondPhase ? 0.5f : 1.0f;
+        bool isSecondPhase = enemy.currentPhase > 0;
+
+        float moveDuration = isSecondPhase ? 0.5f : 1.0f;
 
         rock_1 = RockOrbiter.instance.GetRandomRock();
         rock_2 = RockOrbiter.instance.GetRandomRock();
@@ -47,7 +49,7 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
         attackSequence = Sequence.Create()
             .ChainCallback(() =>
             {
-                if (enemy.isSecondPhase)
+                if (isSecondPhase)
                     enemy.afterImage.Trigger(moveDuration);
                 MageSFX.instance.PlayMageMove();
             })
@@ -77,7 +79,7 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
 
     private Sequence MoveRockToStartingPosition(SpinRock rock, Vector3 position)
     {
-        rock.SetLockState(true);
+        rock.SetState(SpinRock.RockState.Locked);
 
         MageSFX.instance.PlayRockMove();
 

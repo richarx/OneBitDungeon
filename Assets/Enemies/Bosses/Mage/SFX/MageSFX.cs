@@ -15,7 +15,7 @@ public class MageSFX : MonoBehaviour
 
     private EnemyController enemyController;
 
-    private bool isSecondPhase => enemyController.isSecondPhase;
+    private bool isSecondPhase => enemyController.currentPhase > 0;
 
     private void Awake()
     {

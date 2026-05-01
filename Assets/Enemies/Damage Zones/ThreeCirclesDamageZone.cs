@@ -29,6 +29,8 @@ public class ThreeCirclesDamageZone : MonoBehaviour
     public bool hasDetonated { get; private set; }
     private Sequence currentSequence;
 
+    private bool isCheckingForDamage;
+
     private void Initialize()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -75,9 +77,10 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         .Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, radius, fillDuration, fillEase))
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
+        .ChainCallback(() => isCheckingForDamage = true)
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
-        .ChainCallback(() => CheckForPlayerHit())
+        .ChainCallback(() => isCheckingForDamage = false)
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
         .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_1, 0.0f, despawnDuration, Ease.InBack))
@@ -88,6 +91,12 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         {
             Destroy(gameObject);
         });
+    }
+
+    private void Update()
+    {
+        if (isCheckingForDamage)
+            CheckForPlayerHit();
     }
 
     private void CheckForPlayerHit()
@@ -110,7 +119,9 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         if (direction3.magnitude <= damageDistance)
             damageApplied |= PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction3.normalized);
 
-        if (!damageApplied)
+        if (damageApplied)
+            isCheckingForDamage = false;
+        else
             CameraShaker.instance.StartShake();
     }
 

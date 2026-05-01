@@ -27,7 +27,9 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 
         Vector3 evadePosition = targetPosition.magnitude <= 0.01f ? Vector3.forward * 7.0f : (targetPosition * -1.0f).normalized * 7.0f;
 
-        float moveDuration = enemy.isSecondPhase ? 0.3f : 0.5f;
+        bool isSecondPhase = enemy.currentPhase > 0;
+
+        float moveDuration = isSecondPhase ? 0.3f : 0.5f;
 
         rock_1 = RockOrbiter.instance.GetRandomRock();
         rock_2 = RockOrbiter.instance.GetRandomRock();
@@ -37,7 +39,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() => SpawnDamageZone(targetPosition))
             .ChainCallback(() =>
             {
-                if (enemy.isSecondPhase)
+                if (isSecondPhase)
                     enemy.afterImage.Trigger(moveDuration);
                 MageSFX.instance.PlayMageMove();
             })
@@ -48,7 +50,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
             .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))
             .ChainCallback(() => enemy.transform.position = evadePosition)
             .Chain(Tween.ScaleX(enemy.transform, 1.0f, 0.3f, Ease.OutBack))
-            .ChainDelay(enemy.isSecondPhase ? 0.5f : 0.75f)
+            .ChainDelay(isSecondPhase ? 0.5f : 0.75f)
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
@@ -60,9 +62,9 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 
     private void MoveRocksToStartingPosition(Vector3 targetPosition)
     {
-        rock_1.SetLockState(true);
-        rock_2.SetLockState(true);
-        rock_3.SetLockState(true);
+        rock_1.SetState(SpinRock.RockState.Locked);
+        rock_2.SetState(SpinRock.RockState.Locked);
+        rock_3.SetState(SpinRock.RockState.Locked);
 
         Vector3 rockPosition = targetPosition + Vector3.up * 8.0f;
         float angle = Random.Range(0.0f, 360.0f);

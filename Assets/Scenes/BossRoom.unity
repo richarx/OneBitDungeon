@@ -10565,7 +10565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068ca6ab120c7194b90607252bdcd524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 65
+  startingHealth: 100
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -10746,7 +10746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSprite: {fileID: 5071313608623843290}
-  secondary: {fileID: 2063661912}
+  secondary: {fileID: 0}
   targetColor: {r: 0.099012114, g: 0.12507626, b: 0.23584908, a: 1}
   secondaryTargetColor: {r: 0.24313727, g: 0.1137255, b: 0.1764706, a: 1}
   delay: 1.3
@@ -10762,21 +10762,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b7f7e38a2ef73459e47afda7076594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingBehaviourObject: {fileID: 8934140663497945167, guid: 3c18a3d88cba3d24a9013132ee2b302b,
-    type: 3}
-  phaseTransitionBehaviourObject: {fileID: 8934140663497945167, guid: 35e516530f9688b4c8fc5ab41756d726,
-    type: 3}
-  phaseTransitionHealthThreshold: 40
   deathBehaviourObject: {fileID: 8934140663497945167, guid: 26d7ad74cab4cac4cafb9409cf191194,
     type: 3}
-  behaviours:
-  - {fileID: 8934140663497945167, guid: 4150b0938dd0efd48bc6fc39efd5bbb2, type: 3}
-  - {fileID: 8934140663497945167, guid: 84d72bc1c524c784281b6d2d0ab932cd, type: 3}
-  - {fileID: 8934140663497945167, guid: f1bea5ab9b735494595e3bd9cf9b8f17, type: 3}
-  - {fileID: 8934140663497945167, guid: f4aec56d1d8e8a945baab1ae4155b0b6, type: 3}
-  - {fileID: 8934140663497945167, guid: 4150b0938dd0efd48bc6fc39efd5bbb2, type: 3}
-  - {fileID: 8934140663497945167, guid: a2faebc49bcb1a34596342fe7887da22, type: 3}
-  - {fileID: 8934140663497945167, guid: 4150b0938dd0efd48bc6fc39efd5bbb2, type: 3}
+  enemyPhases:
+  - healthThresholdToTriggerTransition: 0
+    transitionBehaviour: {fileID: 8934140663497945167, guid: 3c18a3d88cba3d24a9013132ee2b302b,
+      type: 3}
+    phaseBehaviours:
+    - {fileID: 8934140663497945167, guid: 4150b0938dd0efd48bc6fc39efd5bbb2, type: 3}
+    - {fileID: 8934140663497945167, guid: a2faebc49bcb1a34596342fe7887da22, type: 3}
+    - {fileID: 8934140663497945167, guid: f1bea5ab9b735494595e3bd9cf9b8f17, type: 3}
+    - {fileID: 8934140663497945167, guid: f4aec56d1d8e8a945baab1ae4155b0b6, type: 3}
+    - {fileID: 8934140663497945167, guid: 84d72bc1c524c784281b6d2d0ab932cd, type: 3}
+  - healthThresholdToTriggerTransition: 95
+    transitionBehaviour: {fileID: 8934140663497945167, guid: e2312a4b40a532445882cb9b866b2574,
+      type: 3}
+    phaseBehaviours:
+    - {fileID: 8934140663497945167, guid: 958f95536562e6c4189e9b727bcde646, type: 3}
+    - {fileID: 8934140663497945167, guid: a2faebc49bcb1a34596342fe7887da22, type: 3}
+  - healthThresholdToTriggerTransition: 5
+    transitionBehaviour: {fileID: 8934140663497945167, guid: 35e516530f9688b4c8fc5ab41756d726,
+      type: 3}
+    phaseBehaviours:
+    - {fileID: 8934140663497945167, guid: 4150b0938dd0efd48bc6fc39efd5bbb2, type: 3}
+    - {fileID: 8934140663497945167, guid: a2faebc49bcb1a34596342fe7887da22, type: 3}
+    - {fileID: 8934140663497945167, guid: f1bea5ab9b735494595e3bd9cf9b8f17, type: 3}
+    - {fileID: 8934140663497945167, guid: f4aec56d1d8e8a945baab1ae4155b0b6, type: 3}
+    - {fileID: 8934140663497945167, guid: 84d72bc1c524c784281b6d2d0ab932cd, type: 3}
   sprite: {fileID: 5071313608623843290}
   shadowSprite: {fileID: 2063661912}
   OnChangeBehaviour:
