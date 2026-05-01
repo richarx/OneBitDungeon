@@ -30,7 +30,6 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
     private IEnemyBehaviour rageBehaviour_1;
     private IEnemyBehaviour rageBehaviour_2;
 
-
     private int stunStartHealth;
     private float stunStartTimestamp;
 

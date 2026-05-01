@@ -19,7 +19,7 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
 
     public void StartBehaviour(EnemyController enemy)
     {
-        Debug.Log("Mage EVADE");
+        Debug.Log("Mage MULTI EVADE");
 
         Vector3 currentPosition = enemy.transform.position;
         Vector3 playerPosition = PlayerStateMachine.instance.position;
@@ -101,8 +101,6 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
 
     private void MoveRocksToStartingPosition(Vector3 targetPosition, int rockIndex)
     {
-        Debug.Log($"Zuzu : Move Rock : {rockIndex} / {rocks.Count}");
-
         rocks[rockIndex].SetState(SpinRock.RockState.Locked);
         rocks[rockIndex + 1].SetState(SpinRock.RockState.Locked);
         rocks[rockIndex + 2].SetState(SpinRock.RockState.Locked);
@@ -158,6 +156,8 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
             RockOrbiter.instance.AddBackRock(rocks[rockIndex + 1]);
             RockOrbiter.instance.AddBackRock(rocks[rockIndex + 2]);
         }
+        else
+            Debug.Log($"Zuzu : Failed to return rocks : {rockIndex} / {rocks.Count}");
     }
 
     public void UpdateBehaviour(EnemyController enemy)
@@ -170,8 +170,7 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
 
     public void StopBehaviour(EnemyController enemy)
     {
-        if (currentSequence.isAlive)
-            currentSequence.Stop();
+
     }
 
     public void CancelBehaviour(EnemyController enemy)

@@ -50,8 +50,6 @@ public class RockOrbiter : MonoBehaviour
 
         rocks.RemoveAt(index);
 
-        Debug.Log($"Get Random Rock : {rock != null} / {index}");
-
         return rock;
     }
 
