@@ -185,7 +185,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() =>
             {
                 ResetRageBehaviours(enemy);
-                enemy.SelectNewBehaviour();
+                enemy.SelectNewBehaviour(true);
             });
     }
 

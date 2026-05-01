@@ -78,7 +78,7 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
             .Chain(Tween.LocalPositionY(enemy.sprite.transform, 0.0f, 0.5f, Ease.OutBack))
             .ChainCallback(() => enemy.animator.Play("Blast"))
             .ChainCallback(() => enemy.ActivateHitbox())
-            .ChainCallback(() => enemy.SelectNewBehaviour())
+            .ChainCallback(() => enemy.SelectNewBehaviour(true))
             ;
     }
 

@@ -69,8 +69,6 @@ namespace Player.Scripts
 
         public bool TakeDamage(int damage, Vector3 direction)
         {
-            return false;
-
             if (IsDead)
                 return false;
 

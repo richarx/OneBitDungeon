@@ -80,9 +80,14 @@ public class EnemyController : MonoBehaviour
         OnChangeBehaviour?.Invoke();
     }
 
-    public void SelectNewBehaviour()
+    public void SelectNewBehaviour(bool isFromTransition = false)
     {
-        int count = currentBehaviour == startingBehaviour ? enemyBehaviours.Count : enemyBehaviours.Count - 1;
+        bool isInTransition = currentBehaviour == startingBehaviour;
+
+        if (isInTransition && !isFromTransition)
+            return;
+
+        int count = isInTransition ? enemyBehaviours.Count : enemyBehaviours.Count - 1;
         int randomBehaviourIndex = UnityEngine.Random.Range(0, count);
 
         if (enemyBehaviours[randomBehaviourIndex] == currentBehaviour)
