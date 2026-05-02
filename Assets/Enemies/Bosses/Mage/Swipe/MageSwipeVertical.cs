@@ -25,6 +25,9 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
     {
         Debug.Log("Mage SWIPE VERTICAL");
 
+        if (attackSequence.isAlive)
+            CancelBehaviour(enemy);
+
         rectangles = new List<RectangleDamageZone>();
         moveRockSequences = new List<Sequence>();
         bool isSecondPhase = enemy.currentPhase > 0;

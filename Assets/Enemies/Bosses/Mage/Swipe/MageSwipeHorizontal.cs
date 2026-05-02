@@ -25,6 +25,9 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
     {
         Debug.Log("Mage SWIPE HORIZONTAL");
 
+        if (attackSequence.isAlive)
+            CancelBehaviour(enemy);
+
         rectangles = new List<RectangleDamageZone>();
         moveRockSequences = new List<Sequence>();
 

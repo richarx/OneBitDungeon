@@ -121,7 +121,10 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
     Vector3 lastKnownPosition = Vector3.zero;
     private Vector3 GetLastKnownPosition()
     {
-        return lastKnownPosition + Vector3.up * 8.0f;
+        float z = Mathf.Clamp(lastKnownPosition.z, -10.0f, 0.0f);
+        float height = 8.0f + 4.0f * Tools.NormalizeValue(z, -10.0f, 0.0f);
+
+        return lastKnownPosition + Vector3.up * height;
     }
 
     private void ReturnRocksToOrbiter()

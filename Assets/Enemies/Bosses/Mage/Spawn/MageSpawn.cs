@@ -31,7 +31,7 @@ public class MageSpawn : MonoBehaviour, IEnemyBehaviour
             .Group(Tween.LocalPositionY(enemy.sprite.transform, 30.0f, 0.0f, 0.5f, Ease.OutBounce))
             .ChainCallback(() => enemy.ActivateHitbox())
             .ChainDelay(0.5f)
-            .ChainCallback(() => enemy.SelectNewBehaviour());
+            .ChainCallback(() => enemy.SelectNewBehaviour(true));
     }
 
     private void SpawnDamageZone(Vector3 position)

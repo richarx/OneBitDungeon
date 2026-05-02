@@ -66,7 +66,10 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
         rock_2.SetState(SpinRock.RockState.Locked);
         rock_3.SetState(SpinRock.RockState.Locked);
 
-        Vector3 rockPosition = targetPosition + Vector3.up * 8.0f;
+        float z = Mathf.Clamp(targetPosition.z, -10.0f, 0.0f);
+        float height = 8.0f + 4.0f * Tools.NormalizeValue(z, -10.0f, 0.0f);
+
+        Vector3 rockPosition = targetPosition + Vector3.up * height;
         float angle = Random.Range(0.0f, 360.0f);
         float distanceFromCenter = 1.5f;
 

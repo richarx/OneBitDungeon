@@ -33,7 +33,6 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
         .ChainDelay(0.5f)
         .ChainCallback(() =>
         {
-
             enemy.afterImage.Trigger(moveDuration);
             MageSFX.instance.PlayMageMove();
         })
@@ -43,7 +42,7 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() => vertical.StartBehaviour(enemy))
             .ChainDelay(0.1f)
             .ChainCallback(() => horizontal.StartBehaviour(enemy))
-            .ChainDelay(0.5f)
+            .ChainDelay(1.55f)
             .ChainCallback(() => enemy.SelectNewBehaviour())
             ;
     }
