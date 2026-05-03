@@ -48,11 +48,12 @@ namespace Game_Manager
             PlayerStateMachine player = PlayerStateMachine.instance;
             player.ChangeBehaviour(player.playerSit);
             player.playerSit.Lock();
+            player.playerDead.OnPlayerDies.AddListener(RestartLevelOnPlayerDeath);
             SetRespawnPosition();
 
-            player.playerDead.OnPlayerDies.AddListener(RestartLevelOnPlayerDeath);
             blackScreen.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.5f);
+            yield return null;
 
             if (PlayerSpawnPosition.instance != null)
                 player.transform.position = PlayerSpawnPosition.instance.GetPosition;

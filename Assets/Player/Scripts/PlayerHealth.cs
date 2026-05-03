@@ -75,7 +75,7 @@ namespace Player.Scripts
             if (IsInvincibleFromLastHit)
                 return false;
 
-            if (player.currentBehaviour.GetBehaviourType() == BehaviourType.Roll)
+            if (player.playerData.rollHasIFrames && player.currentBehaviour.GetBehaviourType() == BehaviourType.Roll)
                 return false;
 
             currentHealth -= damage;

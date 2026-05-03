@@ -10,7 +10,7 @@ namespace Player.Scripts
         //public float dialogWalkMaxSpeed;
         public float groundAcceleration;
         public float groundDeceleration;
-        
+
         [Space]
         [Header("Roll")]
         public float rollMaxSpeed;
@@ -20,27 +20,28 @@ namespace Player.Scripts
         public float rollDeceleration;
         public float rollDecelerationDistanceThreshold;
         public float rollCooldown;
+        public bool rollHasIFrames;
 
         [Space]
-        [Header("Combat")] 
+        [Header("Combat")]
         public float attackDuration;
         public float attackDashDuration;
         public float attackDashMaxDistance;
         public float attackDashDeceleration;
 
         [Space]
-        [Header("Stagger")] 
+        [Header("Stagger")]
         public float staggerDuration;
         public float staggerPower;
         public float staggerDeceleration;
         public float invincibilityDuration;
-        
+
         [Space]
-        [Header("Parry")] 
+        [Header("Parry")]
         public float parryDuration;
         public float successfulParryDuration;
         public float parryCooldown;
-        
+
         [Space]
         [Header("Stamina")]
         public float maxStamina;
@@ -48,7 +49,7 @@ namespace Player.Scripts
         public float staminaEmptyCooldown;
         public float refillRate;
 
-        [Space] 
+        [Space]
         public float rollStaminaCost;
         public float attackStaminaCost;
         public float parryStaminaCost;

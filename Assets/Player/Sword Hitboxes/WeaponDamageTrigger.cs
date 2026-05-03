@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Enemies;
 using Enemies.Scripts;
+using Player.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,7 +19,7 @@ namespace Player.Sword_Hitboxes
 
             if (damageable != null && !damageable.IsDead && !targetsHit.Contains(damageable))
             {
-                damageable.TakeDamage(1);
+                damageable.TakeDamage(PlayerStateMachine.instance.ComputeCurrentDamage());
                 targetsHit.Add(damageable);
 
                 if (damageable.CompareTag("Enemy"))

@@ -160,5 +160,10 @@ namespace Player.Scripts
             ChangeBehaviour(playerSit);
             GameManager.instance.SetRespawnPosition();
         }
+
+        public int ComputeCurrentDamage()
+        {
+            return 10;
+        }
     }
 }
