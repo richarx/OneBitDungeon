@@ -9,6 +9,7 @@ using UnityEngine;
 public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
 {
     [SerializeField] private CircleDamageZone circleDamageZonePrefab;
+    [SerializeField] private HollowCircleDamageZone hollowCircleDamageZonePrefab;
 
     private CircleDamageZone circle;
     private Sequence currentSequence;
@@ -48,7 +49,7 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() => MoveRocksToStartingPosition(targetPosition, 0))
             .Group(Tween.Position(enemy.transform, targetPosition, moveDuration, Ease.InOutCubic))
             .ChainCallback(() => enemy.animator.Play("Blast"))
-            .ChainCallback(() => DetonateRocks(moveDuration, 0))
+            .ChainCallback(() => DetonateRocks(moveDuration, 0, false, targetPosition))
             .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))
             .ChainCallback(() => enemy.transform.position = evadePosition)
             .Chain(Tween.ScaleX(enemy.transform, 1.0f, 0.3f, Ease.OutBack))
@@ -62,7 +63,7 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
             })
             .ChainCallback(() => MoveRocksToStartingPosition(evadePosition, 3))
             .ChainCallback(() => enemy.animator.Play("Blast"))
-            .ChainCallback(() => DetonateRocks(moveDuration, 3))
+            .ChainCallback(() => DetonateRocks(moveDuration, 3, false, evadePosition))
             .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))
             .ChainCallback(() => enemy.transform.position = evadePosition_2)
             .Chain(Tween.ScaleX(enemy.transform, 1.0f, 0.3f, Ease.OutBack))
@@ -76,7 +77,7 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
             })
             .ChainCallback(() => MoveRocksToStartingPosition(evadePosition_2, 6))
             .ChainCallback(() => enemy.animator.Play("Blast"))
-            .ChainCallback(() => DetonateRocks(moveDuration, 6))
+            .ChainCallback(() => DetonateRocks(moveDuration, 6, true, evadePosition_2))
             .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))
             .ChainCallback(() => enemy.transform.position = evadePosition_3)
             .Chain(Tween.ScaleX(enemy.transform, 1.0f, 0.3f, Ease.OutBack))
@@ -97,6 +98,12 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
     {
         circle = Instantiate(circleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
         circle.Setup();
+    }
+
+    private void SpawnHollowCircle(Vector3 position)
+    {
+        HollowCircleDamageZone hollowCircle = Instantiate(hollowCircleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+        hollowCircle.Setup();
     }
 
     private void MoveRocksToStartingPosition(Vector3 targetPosition, int rockIndex)
@@ -121,7 +128,7 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
         MageSFX.instance.PlayRockMove();
     }
 
-    private void DetonateRocks(float moveDuration, int rockIndex)
+    private void DetonateRocks(float moveDuration, int rockIndex, bool isSpawningHollowCircle, Vector3 position)
     {
         detonateRockSequence = Sequence.Create()
             .ChainDelay(1.0f - moveDuration - 0.1f)
@@ -132,6 +139,11 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
             .Group(Tween.PunchScale(rocks[rockIndex + 1].transform, new Vector3(1.3f, 0.7f, 1.0f), 0.1f, 3.0f))
             .Group(Tween.PunchScale(rocks[rockIndex + 2].transform, new Vector3(1.3f, 0.7f, 1.0f), 0.1f, 3.0f))
             .ChainCallback(() => SpawnDebris(rockIndex))
+            .ChainCallback(() =>
+            {
+                if (isSpawningHollowCircle)
+                    SpawnHollowCircle(position);
+            })
             .ChainCallback(() => ReturnRocksToOrbiter(rockIndex));
     }
 

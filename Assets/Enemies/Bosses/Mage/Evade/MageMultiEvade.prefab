@@ -46,4 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   circleDamageZonePrefab: {fileID: 5892917051957619975, guid: 3931c0c19e6050f41a04b11fe390ac5e,
     type: 3}
+  hollowCircleDamageZonePrefab: {fileID: 98420874541946916, guid: 3b7ff99e14c93ad4881a7bf8835f9ea2,
+    type: 3}
   isSubBehaviour: 0
