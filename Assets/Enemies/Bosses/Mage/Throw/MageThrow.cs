@@ -61,7 +61,7 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
                 rightThrowTimestamp = Time.time;
             })
             .ChainCallback(() => moveSequence1 = MoveRockToStartingPosition(rock_1, rightPosition))
-            .ChainDelay(0.6f)
+            .ChainDelay(0.4f)
             .ChainCallback(() =>
             {
                 enemy.animator.Play("Cast_Left");
@@ -71,7 +71,7 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() => moveSequence2 = MoveRockToStartingPosition(rock_2, leftPosition))
             .ChainDelay(0.9f)
             .ChainCallback(() => detonationSequence1 = DetonateRock(rock_1, rightPosition, true, enemy.animator))
-            .ChainDelay(0.6f)
+            .ChainDelay(0.4f)
             .ChainCallback(() => detonationSequence2 = DetonateRock(rock_2, leftPosition, false, enemy.animator))
             .ChainDelay(0.6f)
             .ChainCallback(() => enemy.SelectNewBehaviour());

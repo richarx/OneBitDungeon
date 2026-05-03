@@ -85,7 +85,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
     private void DetonateRocks(float moveDuration)
     {
         detonateRockSequence = Sequence.Create()
-            .ChainDelay(1.0f - moveDuration - 0.2f)
+            .ChainDelay(1.0f - moveDuration - 0.1f)
             .Chain(Tween.LocalPositionY(rock_1.transform, 0.0f, 0.3f, Ease.InOutBack))
             .Group(Tween.LocalPositionY(rock_2.transform, 0.0f, 0.3f, Ease.InOutBack))
             .Group(Tween.LocalPositionY(rock_3.transform, 0.0f, 0.3f, Ease.InOutBack))

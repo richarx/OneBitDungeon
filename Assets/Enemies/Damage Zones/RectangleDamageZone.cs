@@ -21,6 +21,9 @@ public class RectangleDamageZone : MonoBehaviour
 
     [Space]
     [SerializeField] private bool alsoDestroyParent;
+    [SerializeField] private bool canBeParried;
+
+    private bool hasBeenParried;
 
     private Sequence currentSequence;
 
@@ -72,7 +75,7 @@ public class RectangleDamageZone : MonoBehaviour
 
     private void Update()
     {
-        if (isCheckingForDamage)
+        if (isCheckingForDamage && !hasBeenParried)
             CheckForPlayerHit();
     }
 
@@ -91,7 +94,15 @@ public class RectangleDamageZone : MonoBehaviour
         bool damageApplied = false;
 
         if (PointInTriangle(P, A, B, C) || PointInTriangle(P, A, C, D))
-            damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, (P.ToVector3() - position).normalized);
+        {
+            if (canBeParried && PlayerStateMachine.instance.playerHealth.IsParrying())
+            {
+                PlayerStateMachine.instance.playerHealth.TriggerParry();
+                hasBeenParried = true;
+            }
+            else
+                damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, (P.ToVector3() - position).normalized);
+        }
 
         if (damageApplied)
             isCheckingForDamage = false;

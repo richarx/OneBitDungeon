@@ -20,9 +20,11 @@ public class HollowCircleDamageZone : MonoBehaviour
     private Sequence currentSequence;
     private SpriteRenderer spriteRenderer;
 
+    private bool hasBeenParried;
+
     private void Update()
     {
-        if (spriteRenderer != null)
+        if (!hasBeenParried && spriteRenderer != null)
             CheckForPlayerHit();
     }
 
@@ -73,7 +75,15 @@ public class HollowCircleDamageZone : MonoBehaviour
         bool damageApplied = false;
 
         if (direction.magnitude <= maxDamageDistance && direction.magnitude >= minDamageDistance)
-            damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction.normalized);
+        {
+            if (PlayerStateMachine.instance.playerHealth.IsParrying())
+            {
+                hasBeenParried = true;
+                PlayerStateMachine.instance.playerHealth.TriggerParry();
+            }
+            else
+                damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction.normalized);
+        }
 
         if (!damageApplied)
             CameraShaker.instance.StartShake();

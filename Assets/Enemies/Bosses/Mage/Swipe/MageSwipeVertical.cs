@@ -87,7 +87,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
         Vector3 punchScale = new Vector3(1.3f, 0.7f, 1.0f);
 
         detonationSequence = Sequence.Create()
-            .ChainDelay(1.3f)
+            .ChainDelay(1.15f)
             .Chain(Tween.LocalPositionZ(rock_1.transform, -targetDistance, 0.5f, Ease.InOutBack))
             .Group(Tween.LocalPositionZ(rock_2.transform, targetDistance, 0.5f, Ease.InOutBack, startDelay: 0.05f))
             .Group(Tween.LocalPositionZ(rock_3.transform, -targetDistance, 0.5f, Ease.InOutBack, startDelay: 0.1f))
