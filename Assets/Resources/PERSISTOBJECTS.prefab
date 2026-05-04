@@ -460,6 +460,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc8fb717040955f4b871c977178d17d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPlayerExhaustStamina:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7480007877058886728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,8 +476,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2216918060663468776}
-  targetColor: {r: 1, g: 0, b: 0, a: 1}
-  duration: 0.15
+  transitionDuration: 0.1
+  transitionEase: 1
+  staggerTargetColor: {r: 0.6792453, g: 0.08009967, b: 0.08009967, a: 1}
+  staggerDuration: 0.5
+  staminaTargetColor: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
 --- !u!114 &8691245591794655780
 MonoBehaviour:
   m_ObjectHideFlags: 0
