@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Player.Scripts
 {
     public class PlayerStamina : MonoBehaviour
     {
+        public UnityEvent OnPlayerExhaustStamina = new UnityEvent();
+
         private PlayerData playerData;
 
         private float currentStamina;
@@ -40,8 +43,13 @@ namespace Player.Scripts
 
         public void ConsumeStamina(float amount)
         {
+            bool wasEmpty = IsEmpty;
+
             currentStamina = Mathf.Max(0.0f, currentStamina - amount);
             lastStaminaUseTimestamp = Time.time;
+
+            if (!wasEmpty && IsEmpty)
+                OnPlayerExhaustStamina?.Invoke();
         }
     }
 }

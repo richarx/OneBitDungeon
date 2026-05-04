@@ -387,6 +387,11 @@ MonoBehaviour:
   parry_2: {fileID: 8300000, guid: 20b3ae9f3ff307847bf9459ab4543ea0, type: 3}
   parrySuccess_1: {fileID: 8300000, guid: b04c84e7fa971cb43b2d8658038e1d7a, type: 3}
   parrySuccess_2: {fileID: 8300000, guid: d1f956a23696708488d473b2c4c9438e, type: 3}
+  outOfBreath:
+  - {fileID: 8300000, guid: 69e2e29144ac78f4e891d5fdd68d92d1, type: 3}
+  - {fileID: 8300000, guid: 2674442b55c45f242846332ef9af1810, type: 3}
+  - {fileID: 8300000, guid: 1ca4367a8ca97714d814f23f690e21d6, type: 3}
+  - {fileID: 8300000, guid: f2a1df07671eaf74eb78d716b99dfb0c, type: 3}
 --- !u!114 &1813572610917081186
 MonoBehaviour:
   m_ObjectHideFlags: 0
