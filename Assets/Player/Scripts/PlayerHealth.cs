@@ -15,7 +15,7 @@ namespace Player.Scripts
         private PlayerStateMachine player;
 
         private int currentHealth;
-        private float lastHitTimestamp;
+        public float lastHitTimestamp { get; private set; }
 
         public int CurrentHealth => currentHealth;
         public int StartingHealth => startingHealth;
@@ -39,7 +39,7 @@ namespace Player.Scripts
         {
             if (Application.isEditor)
             {
-                if (Gamepad.current.dpad.left.wasPressedThisFrame)
+                if (Gamepad.current != null && Gamepad.current.dpad.left.wasPressedThisFrame)
                 {
                     if (IsParrying())
                         TriggerParry();
@@ -47,7 +47,7 @@ namespace Player.Scripts
                         TakeDamage(1, Vector3.right);
                 }
 
-                if (Gamepad.current.dpad.right.wasPressedThisFrame)
+                if (Gamepad.current != null && Gamepad.current.dpad.right.wasPressedThisFrame)
                     ResetHealth();
             }
         }
@@ -64,7 +64,7 @@ namespace Player.Scripts
 
         public void TriggerParry()
         {
-            player.playerParry.TriggerSuccessfulParry();
+            player.playerParry.TriggerSuccessfulParry(player);
         }
 
         public bool TakeDamage(int damage, Vector3 direction)

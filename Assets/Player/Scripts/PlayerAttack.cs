@@ -125,7 +125,7 @@ namespace Player.Scripts
 
         public bool CanAttack(PlayerStateMachine player)
         {
-            return player.playerSword.CurrentlyHasSword && !player.playerStamina.IsEmpty;
+            return player.playerSword.CurrentlyHasSword && (!player.playerStamina.IsEmpty || player.playerData.canAttackWithNoStamina);
         }
 
         private Vector2 ComputeDashDirection(PlayerStateMachine player)

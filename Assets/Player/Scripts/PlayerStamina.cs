@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Player.Scripts
@@ -32,6 +31,11 @@ namespace Player.Scripts
         private void RefillStamina()
         {
             currentStamina = Mathf.Min(playerData.maxStamina, currentStamina + playerData.refillRate * Time.deltaTime);
+        }
+
+        public void GainStamina(float amount)
+        {
+            currentStamina = Mathf.Min(playerData.maxStamina, currentStamina + amount);
         }
 
         public void ConsumeStamina(float amount)

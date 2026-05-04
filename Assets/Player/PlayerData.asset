@@ -22,9 +22,10 @@ MonoBehaviour:
   rollDeceleration: 90
   rollDecelerationDistanceThreshold: 0.5
   rollCooldown: 0.25
+  rollHasIFrames: 0
   attackDuration: 0.5
   attackDashDuration: 0.15
-  attackDashMaxDistance: 6
+  attackDashMaxDistance: 4
   attackDashDeceleration: 500
   staggerDuration: 0.4
   staggerPower: 20
@@ -35,8 +36,10 @@ MonoBehaviour:
   parryCooldown: 0.5
   maxStamina: 100
   staminaCooldown: 0.5
-  staminaEmptyCooldown: 1
-  refillRate: 30
-  rollStaminaCost: 30
+  staminaEmptyCooldown: 1.5
+  refillRate: 50
+  rollStaminaCost: 40
   attackStaminaCost: 10
   parryStaminaCost: 0
+  parryStaminaGainOnSuccess: 30
+  canAttackWithNoStamina: 1

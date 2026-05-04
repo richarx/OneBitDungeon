@@ -27,10 +27,11 @@ namespace Player.Scripts
             OnParry?.Invoke();
         }
 
-        public void TriggerSuccessfulParry()
+        public void TriggerSuccessfulParry(PlayerStateMachine player)
         {
             wasSuccessful = true;
             successfulParryTimestamp = Time.time;
+            player.playerStamina.GainStamina(player.playerData.parryStaminaGainOnSuccess);
             OnSuccessfulParry?.Invoke();
         }
 

@@ -53,5 +53,10 @@ namespace Player.Scripts
         public float rollStaminaCost;
         public float attackStaminaCost;
         public float parryStaminaCost;
+        public float parryStaminaGainOnSuccess;
+
+
+        [Space]
+        public bool canAttackWithNoStamina;
     }
 }
