@@ -10,7 +10,7 @@ namespace Player.Scripts
         [SerializeField] private float volume;
         [SerializeField] private List<AudioClip> stepSounds;
         [SerializeField] private List<GameObject> stepPrefabs;
-        
+
         private PlayerStateMachine player;
 
         private float currentMeters;
@@ -19,6 +19,8 @@ namespace Player.Scripts
         private void Start()
         {
             player = GetComponent<PlayerStateMachine>();
+
+            player.playerAttack.OnPlayerAttack.AddListener((d) => SpawnStepVfx());
         }
 
         private void LateUpdate()
@@ -33,7 +35,7 @@ namespace Player.Scripts
         private void SpawnStepVfx()
         {
             int index = Random.Range(0, stepPrefabs.Count);
-            
+
             GameObject step = Instantiate(stepPrefabs[index], player.position, Quaternion.identity);
 
             if (player.moveVelocity.x > 0.0f)
@@ -62,7 +64,7 @@ namespace Player.Scripts
                 randomIndex = randomIndex == soundList.Count - 1 ? 0 : randomIndex + 1;
 
             SFXManager.instance.PlaySFX(soundList[randomIndex], volume);
-            
+
             lastStepSoundPlayed = randomIndex;
         }
 
@@ -70,14 +72,14 @@ namespace Player.Scripts
         {
             if (!IsBehaviourAllowed(player.currentBehaviour.GetBehaviourType()))
                 return false;
-            
+
             Vector3 horizontalVelocity = player.moveVelocity;
             horizontalVelocity.y = 0.0f;
 
             currentMeters += horizontalVelocity.magnitude * Time.deltaTime;
 
             float distance = metersBetweenSteps;
-            
+
             if (currentMeters >= distance)
             {
                 currentMeters -= distance;
