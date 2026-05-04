@@ -70,12 +70,15 @@ namespace Player.Scripts
 
         public bool CanParry(PlayerStateMachine player)
         {
-            return (parryCooldownTimestamp < 0.0f || Time.time >= parryCooldownTimestamp) && (player.playerData.parryStaminaCost == 0.0f || (!player.playerStamina.IsEmpty));
+            bool isCooldownRefreshed = Time.time >= parryCooldownTimestamp;
+            bool hasEnoughStamina = player.playerData.parryStaminaCost == 0.0f || !player.playerStamina.IsEmpty;
+
+            return isCooldownRefreshed && hasEnoughStamina;
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
-            parryCooldownTimestamp = Time.time + (wasSuccessful ? 0.0f : player.playerData.parryCooldown);
+            parryCooldownTimestamp = wasSuccessful ? -1.0f : (Time.time + player.playerData.parryCooldown);
         }
 
         public BehaviourType GetBehaviourType()

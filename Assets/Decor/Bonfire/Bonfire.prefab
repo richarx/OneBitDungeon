@@ -303,8 +303,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
-  m_Height: 2
+  m_Radius: 1.45
+  m_Height: 3.45
   m_Direction: 0
   m_Center: {x: 0, y: 1, z: -1}
 --- !u!114 &8982500118795825162
@@ -338,6 +338,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20879b31a20f9044e89db4ac778baf44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7716952098784991291
 GameObject:
   m_ObjectHideFlags: 0

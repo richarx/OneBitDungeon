@@ -1,9 +1,7 @@
 using System.Collections;
-using Player;
 using Player.Scripts;
 using Player.Sword_Hitboxes;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Tools_and_Scripts
 {

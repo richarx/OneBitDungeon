@@ -25,7 +25,7 @@ MonoBehaviour:
   rollHasIFrames: 0
   attackDuration: 0.5
   attackDashDuration: 0.15
-  attackDashMaxDistance: 4
+  attackDashMaxDistance: 3.5
   attackDashDeceleration: 500
   staggerDuration: 0.4
   staggerPower: 20
