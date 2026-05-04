@@ -21,7 +21,17 @@ public class SpinRock : MonoBehaviour
     private float angle;
     private RockState currentState = RockState.Spinning;
 
-    private void Start()
+    public void SetupRockAtStartOfLevel()
+    {
+        SetupWithDelay(7.0f);
+    }
+
+    public void SetupRockDuringLevel()
+    {
+        SetupWithDelay(0.0f);
+    }
+
+    private void SetupWithDelay(float delay)
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         angle = Random.Range(0.0f, 360.0f);
@@ -29,7 +39,7 @@ public class SpinRock : MonoBehaviour
         if (currentState != RockState.Locked)
         {
             HideRockInstant();
-            DisplayRock();
+            DisplayRock(delay);
         }
     }
 
@@ -85,8 +95,9 @@ public class SpinRock : MonoBehaviour
             currentSequence.Stop();
 
         currentSequence = Sequence.Create()
-            .Chain(Tween.LocalPositionY(transform, 0.0f, 2.0f, Ease.OutBack, startDelay: delay))
-            .Group(Tween.Alpha(spriteRenderer, 1.0f, 0.5f));
+            .ChainDelay(delay)
+            .Chain(Tween.LocalPositionY(transform, 0.0f, 2.0f, Ease.OutBack))
+            .Group(Tween.Alpha(spriteRenderer, 1.0f, 1.9f, startDelay: 0.5f));
     }
 
     private void HideRock()
@@ -96,7 +107,7 @@ public class SpinRock : MonoBehaviour
 
         currentSequence = Sequence.Create()
                     .Chain(Tween.LocalPositionY(transform, -20.0f, 2.0f, Ease.InBack))
-                    .Group(Tween.Alpha(spriteRenderer, 0.0f, 1.9f));
+                    .Group(Tween.Alpha(spriteRenderer, 0.0f, 1.5f));
     }
 
     private void HideRockInstant()

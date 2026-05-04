@@ -36,6 +36,7 @@ public class RockOrbiter : MonoBehaviour
             float distance = Random.Range(15.0f, 25.0f);
 
             SpinRock rock = Instantiate(rockPrefabs[index], Vector3.right * distance, Quaternion.identity, transform);
+            rock.SetupRockAtStartOfLevel();
             rocks.Add(rock);
         }
     }
@@ -43,7 +44,11 @@ public class RockOrbiter : MonoBehaviour
     public SpinRock GetRandomRock()
     {
         if (rocks.Count < 1)
-            return Instantiate(rockPrefabs[Random.Range(0, rockPrefabs.Count)], Vector3.right * 20.0f, Quaternion.identity, transform);
+        {
+            SpinRock newRock = Instantiate(rockPrefabs[Random.Range(0, rockPrefabs.Count)], Vector3.right * 20.0f, Quaternion.identity, transform);
+            newRock.SetupRockDuringLevel();
+            return newRock;
+        }
 
         int index = 0;
         SpinRock rock = rocks[index];
@@ -77,7 +82,6 @@ public class RockOrbiter : MonoBehaviour
     private IEnumerator DestroyRocksCoroutine()
     {
         yield return new WaitForSeconds(0.3f);
-
 
         int rockCount = rocks.Count;
 
