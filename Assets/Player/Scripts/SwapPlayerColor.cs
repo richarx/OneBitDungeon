@@ -18,11 +18,11 @@ namespace Player.Scripts
 
         [Space]
         [SerializeField] private Color staggerTargetColor;
-        [SerializeField] private float staggerDuration;
 
         [Space]
         [SerializeField] private Color staminaTargetColor;
 
+        private PlayerData playerData;
         private PlayerHealth playerHealth;
         private PlayerStamina playerStamina;
         private Color startingColor;
@@ -33,6 +33,7 @@ namespace Player.Scripts
         {
             startingColor = spriteRenderer.color;
 
+            playerData = PlayerStateMachine.instance.playerData;
             playerHealth = GetComponent<PlayerHealth>();
             playerStamina = GetComponent<PlayerStamina>();
         }
@@ -74,7 +75,7 @@ namespace Player.Scripts
 
         private SpriteState ComputeCurrentState()
         {
-            if (Time.time - playerHealth.lastHitTimestamp <= staggerDuration)
+            if (Time.time - playerHealth.lastHitTimestamp <= playerData.staggerDuration)
                 return SpriteState.Staggered;
 
             if (playerStamina.IsEmpty)

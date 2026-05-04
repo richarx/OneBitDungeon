@@ -484,7 +484,7 @@ MonoBehaviour:
   transitionDuration: 0.1
   transitionEase: 1
   staggerTargetColor: {r: 0.6792453, g: 0.08009967, b: 0.08009967, a: 1}
-  staggerDuration: 0.5
+  staggerDuration: 1
   staminaTargetColor: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
 --- !u!114 &8691245591794655780
 MonoBehaviour:
