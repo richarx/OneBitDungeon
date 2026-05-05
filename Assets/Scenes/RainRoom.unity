@@ -1992,7 +1992,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29c4de5f07a76684a80e6c652af1ee06, type: 2}
+  - {fileID: 2100000, guid: 65f47455c9b90104a9cd50000fd6c19b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2412,6 +2412,17 @@ PrefabInstance:
       propertyPath: doorSide
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: targetScene.m_SceneName
+      value: FireRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: targetScene.m_SceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: bbd2504d09d9f6f47bd4eb87e551cbea,
+        type: 3}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_Name
@@ -2420,7 +2431,7 @@ PrefabInstance:
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5491111979708006484, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
@@ -6557,6 +6568,11 @@ PrefabInstance:
       propertyPath: doorSide
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: targetScene.m_SceneAsset
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_Name
@@ -7231,6 +7247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1616134381}
   - component: {fileID: 1616134380}
+  - component: {fileID: 1616134382}
   m_Layer: 0
   m_Name: SFX Manager
   m_TagString: Untagged
@@ -7268,6 +7285,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1616134382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616134379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882190e781c86384d9a9eea534d8fb3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 0a8bb4c88d948ee459ca49eaa92055d0, type: 3}
+  volume: 0.1
+  fadeInDuration: 3
 --- !u!4 &1626258334 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 990674771562208938, guid: 47a1fc9407a26a34fa5bfd97e799ad8a,
@@ -9285,6 +9317,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Doorway
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

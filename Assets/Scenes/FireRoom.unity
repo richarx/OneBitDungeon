@@ -7807,6 +7807,17 @@ PrefabInstance:
       propertyPath: doorSide
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: targetScene.m_SceneName
+      value: RainRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: targetScene.m_SceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 022a15b96adedda4fa047046b4a012a0,
+        type: 3}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_Name
@@ -7815,7 +7826,7 @@ PrefabInstance:
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5491111979708006484, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
@@ -8502,6 +8513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1616134381}
   - component: {fileID: 1616134380}
+  - component: {fileID: 1616134382}
   m_Layer: 0
   m_Name: SFX Manager
   m_TagString: Untagged
@@ -8539,6 +8551,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1616134382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616134379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882190e781c86384d9a9eea534d8fb3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 3d7ceea80514628499e2e6929fe29e51, type: 3}
+  volume: 0.05
+  fadeInDuration: 5
 --- !u!4 &1626258334 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 990674771562208938, guid: 47a1fc9407a26a34fa5bfd97e799ad8a,

@@ -76,13 +76,13 @@ namespace Decor.Door
                     position -= Vector3.forward * distance;
                     break;
                 case DoorSide.East:
-                    position += Vector3.right * distance;
+                    position -= Vector3.right * distance;
                     break;
                 case DoorSide.South:
                     position += Vector3.forward * distance;
                     break;
                 case DoorSide.West:
-                    position -= Vector3.right * distance;
+                    position += Vector3.right * distance;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

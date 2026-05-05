@@ -21,6 +21,7 @@ namespace Game_Manager
         public static UnityEvent OnResetLevel = new UnityEvent();
         public static UnityEvent OnRestartLevel = new UnityEvent();
         public static UnityEvent OnChangeScene = new UnityEvent();
+        public static UnityEvent OnPrepareToChangeScene = new UnityEvent();
 
         public static GameManager instance;
 
@@ -83,13 +84,15 @@ namespace Game_Manager
             Time.timeScale = 0.2f;
             yield return new WaitForSecondsRealtime(2.0f);
             Time.timeScale = 0.1f;
+            OnPrepareToChangeScene?.Invoke();
             yield return Tools.Fade(blackScreen, 5.0f, true, scaledTime: false);
             Tween.StopAll();
 
             PlayerStateMachine player = PlayerStateMachine.instance;
             player.ChangeBehaviour(player.playerSit);
             player.playerSit.Lock();
-            yield return new WaitForSeconds(0.1f);
+
+            yield return new WaitForSeconds(0.5f);
 
             AsyncOperation operation = SceneManager.LoadSceneAsync(currentRespawnScene);
 
@@ -120,7 +123,9 @@ namespace Game_Manager
             PlayerStateMachine player = PlayerStateMachine.instance;
 
             player.playerLocked.SetLockState(player);
+            OnPrepareToChangeScene?.Invoke();
             yield return Tools.Fade(blackScreen, 0.5f, true);
+            Tween.StopAll();
 
             AsyncOperation operation = SceneManager.LoadSceneAsync(targetSceneName);
 
