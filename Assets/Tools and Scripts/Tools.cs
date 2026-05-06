@@ -488,6 +488,15 @@ namespace Tools_and_Scripts
             return image;
         }
 
+        public static TextMeshProUGUI MakeTransparent(this TextMeshProUGUI text)
+        {
+            Color transparent = text.color;
+            transparent.a = 0.0f;
+            text.color = transparent;
+
+            return text;
+        }
+
         public static Image MakeVisible(this Image image)
         {
             Color visible = Color.white;
@@ -504,6 +513,15 @@ namespace Tools_and_Scripts
             image.color = visible;
 
             return image;
+        }
+
+        public static TextMeshProUGUI MakeVisible(this TextMeshProUGUI text)
+        {
+            Color visible = Color.white;
+            visible.a = 1.0f;
+            text.color = visible;
+
+            return text;
         }
 
         public static IEnumerator Shake(Transform target, float duration, float intensity, bool horizontal = false, bool vertical = false)
