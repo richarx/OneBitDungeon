@@ -445,6 +445,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_16
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 100
+        width: 24
+        height: 17
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 231e669d6d69b2e4081eb915280783be
+      internalID: 2025915326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_17
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 162
+        width: 17
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ccc7992193607f4da8e4355411c1b47
+      internalID: 1819820023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_18
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 165
+        width: 13
+        height: 12
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d47eac775b1b65d4dbdec2f08eed99ee
+      internalID: 1949295413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -464,6 +527,9 @@ TextureImporter:
       Decor-1bit_13: 996589556
       Decor-1bit_14: 1401499827
       Decor-1bit_15: 1779098199
+      Decor-1bit_16: 2025915326
+      Decor-1bit_17: 1819820023
+      Decor-1bit_18: 1949295413
       Decor-1bit_2: 1101449112
       Decor-1bit_3: -901731748
       Decor-1bit_4: -724202128
