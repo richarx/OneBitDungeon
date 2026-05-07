@@ -263,14 +263,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 28134164}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
+  m_LocalRotation: {x: 0.30070576, y: -0, z: -0, w: 0.953717}
   m_LocalPosition: {x: 0, y: 13.5, z: -19.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1241225046}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &35630410
 GameObject:
   m_ObjectHideFlags: 0
@@ -7701,6 +7701,37 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &1427305569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1427305570}
+  m_Layer: 0
+  m_Name: Camera Dialogue Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1427305570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427305569}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.13052616, y: -0, z: -0, w: 0.9914449}
+  m_LocalPosition: {x: 0, y: 6, z: -15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1932252505}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1429661331
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9895,6 +9926,7 @@ GameObject:
   - component: {fileID: 1932252505}
   - component: {fileID: 1932252506}
   - component: {fileID: 1932252507}
+  - component: {fileID: 1932252510}
   - component: {fileID: 1932252508}
   - component: {fileID: 1932252509}
   m_Layer: 0
@@ -9920,6 +9952,7 @@ Transform:
   - {fileID: 1804035869}
   - {fileID: 498287392}
   - {fileID: 111341980}
+  - {fileID: 1427305570}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1932252506
@@ -10005,6 +10038,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fb386a480f6c1b74c83baf954344d413, type: 2}
   npcSprite: {fileID: 21300000, guid: 53d4a0b826523e94ea331eb46b1095b5, type: 3}
   npcName: Esteemed Frog Sorcerer
+  cameraTargetPivot: {fileID: 1427305570}
+--- !u!114 &1932252510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932252503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa932e478a3c4a2499df96582ca68ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1714186092}
 --- !u!1 &1968916973
 GameObject:
   m_ObjectHideFlags: 0

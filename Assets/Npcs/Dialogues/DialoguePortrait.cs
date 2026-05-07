@@ -7,12 +7,14 @@ public class DialoguePortrait : MonoBehaviour
     [SerializeField] private Image portraitImage;
 
     private RectTransform rectTransform;
+    private CanvasGroup canvasGroup;
 
     private Sequence currentSequence;
 
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     public void Display(Sprite npcSprite)
@@ -23,8 +25,8 @@ public class DialoguePortrait : MonoBehaviour
         portraitImage.sprite = npcSprite;
 
         currentSequence = Sequence.Create()
-            .Group(Tween.UIAnchoredPositionX(rectTransform, 0.0f, 0.5f, Ease.OutCirc))
-            .Group(Tween.Alpha(portraitImage, 0.0f, 1.0f, 1.5f));
+            .Group(Tween.UIAnchoredPositionX(rectTransform, 0.0f, 0.5f, Ease.OutBack))
+            .Group(Tween.Alpha(canvasGroup, 0.0f, 1.0f, 1.5f));
     }
 
     public void Hide()
@@ -33,7 +35,7 @@ public class DialoguePortrait : MonoBehaviour
             currentSequence.Stop();
 
         currentSequence = Sequence.Create()
-            .Group(Tween.UIAnchoredPositionX(rectTransform, 480.0f, 0.5f, Ease.InCirc))
-            .Group(Tween.Alpha(portraitImage, 0.0f, 0.5f));
+            .Group(Tween.UIAnchoredPositionX(rectTransform, 480.0f, 0.5f, Ease.InBack))
+            .Group(Tween.Alpha(canvasGroup, 0.0f, 0.5f));
     }
 }

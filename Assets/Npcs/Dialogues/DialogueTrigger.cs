@@ -7,6 +7,7 @@ public class DialogueTrigger : InteractableItem
     [SerializeField] private List<DialogueData> dialogueDatas;
     [SerializeField] private Sprite npcSprite;
     [SerializeField] private string npcName;
+    [SerializeField] private Transform cameraTargetPivot;
 
     protected override void Start()
     {
@@ -18,6 +19,6 @@ public class DialogueTrigger : InteractableItem
     {
         base.Interact();
         isBeingUsed = true;
-        DialogueManager.instance.TriggerDialogue(npcName, npcSprite, dialogueDatas[Random.Range(0, dialogueDatas.Count)]);
+        DialogueManager.instance.TriggerDialogue(npcName, npcSprite, dialogueDatas[Random.Range(0, dialogueDatas.Count)], cameraTargetPivot);
     }
 }
