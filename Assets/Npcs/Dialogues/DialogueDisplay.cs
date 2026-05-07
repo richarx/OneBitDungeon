@@ -1,4 +1,3 @@
-using System;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
@@ -33,7 +32,7 @@ public class DialogueDisplay : MonoBehaviour
             currentSequence.Stop();
 
         currentSequence = Sequence.Create()
-            .Chain(Tween.UIAnchoredPositionY(rectTransform, -250.0f, 0.5f, Ease.OutCirc));
+            .Chain(Tween.UIAnchoredPositionY(rectTransform, -250.0f, 0.5f, Ease.InCirc));
     }
 
     public void DisplayNewLine(string currentLine)

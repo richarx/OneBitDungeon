@@ -106,10 +106,9 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("Hide Dialog");
         Sequence.Create()
             .ChainCallback(() => dialogueDisplay.Hide())
-            .ChainDelay(0.5f)
+            .ChainDelay(0.3f)
             .ChainCallback(() => npcName.Hide())
             .ChainCallback(() => portrait.Hide())
-            .ChainDelay(0.5f)
             .ChainCallback(() => cinematicBlackBars.Hide())
             .ChainCallback(() => PlayerStateMachine.instance.playerLocked.UnlockPlayer(PlayerStateMachine.instance));
     }
