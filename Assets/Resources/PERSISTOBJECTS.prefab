@@ -2340,6 +2340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5588de427dfeb7e44b01e0a26ddeeae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textMeshProUGUI: {fileID: 2670901902286485585}
 --- !u!1 &8506666291804855467
 GameObject:
   m_ObjectHideFlags: 0

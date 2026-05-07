@@ -8,45 +8,51 @@ namespace Interactable
     public class InputIconDisplay : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
-        
+
         [Space]
         [SerializeField] private Sprite gamepadIcon;
         [SerializeField] private Sprite keyboardIcon;
 
-        [Space] 
+        [Space]
         [SerializeField] private Vector3 offsetPosition;
         [SerializeField] private float frequency;
         [SerializeField] private float amplitude;
-        
+
         private PlayerStateMachine player;
         private DetectPlayerInRange detection;
 
         private bool isDisplayed = false;
-        
+
         private void Start()
         {
             player = PlayerStateMachine.instance;
 
             detection = transform.parent.GetComponent<DetectPlayerInRange>();
-            
+
             detection.OnPlayerEnterRange.AddListener(DisplayIcon);
             detection.OnPlayerExitRange.AddListener(HideIcon);
-            
+
             SetPosition();
             spriteRenderer.gameObject.SetActive(false);
         }
 
         private void Update()
         {
+            if (!isDisplayed && detection.IsPlayerInRange && !player.isLocked)
+            {
+                DisplayIcon();
+                return;
+            }
+
             if (!isDisplayed)
                 return;
-            
-            if (isDisplayed && !detection.IsPlayerInRange)
+
+            if (isDisplayed && (!detection.IsPlayerInRange || player.isLocked))
             {
                 HideIcon();
                 return;
             }
-            
+
             SetSpriteFromInputType();
             AnimatePosition();
         }
@@ -63,20 +69,20 @@ namespace Interactable
                 return;
 
             isDisplayed = true;
-            
+
             SetPosition();
             SetSpriteFromInputType();
             StopAllCoroutines();
             StartCoroutine(Tools.Fade(spriteRenderer, 0.3f, true));
         }
-        
+
         private void HideIcon()
         {
             if (!isDisplayed)
                 return;
 
             isDisplayed = false;
-            
+
             StopAllCoroutines();
             StartCoroutine(Tools.Fade(spriteRenderer, 0.3f, false));
         }

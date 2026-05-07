@@ -1,3 +1,4 @@
+using System;
 using Game_Manager;
 using Interactable;
 using Tools_and_Scripts;
@@ -135,7 +136,7 @@ namespace Player.Scripts
 
         public bool CheckForInteraction()
         {
-            if (inputPackage.northButton.wasPressedThisFrame)
+            if (inputPackage.GetInteraction.wasPressedThisFrame)
             {
                 if (playerInteraction.IsInteractableInRange)
                     playerInteraction.InteractWithItem();

@@ -45,7 +45,12 @@ namespace Player.Scripts
                     break;
                 case BehaviourType.Locked:
                     if (!player.isLockedAndHidden)
-                        PlayIdleAnimation();
+                    {
+                        if (player.moveVelocity.magnitude >= 0.015f)
+                            PlayRunAnimation();
+                        else
+                            PlayIdleAnimation();
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -78,17 +83,17 @@ namespace Player.Scripts
         {
             animator.Play($"Walk_{ComputeWeaponState()}_{ComputeLookDirection()}");
         }
-        
+
         private void PlayRollAnimation()
         {
             animator.Play($"Roll_NoWeapon_{ComputeCardinalLookDirection()}");
         }
-        
+
         private void PlayAttackAnimation(string attackAnimation)
         {
             animator.Play($"{attackAnimation}_InHand_{ComputeLookDirection()}", 0, 0.0f);
         }
-        
+
         private void PlayStaggerAnimation()
         {
             animator.Play($"Hurt_{ComputeWeaponState()}_{ComputeLookDirection()}");
@@ -111,10 +116,10 @@ namespace Player.Scripts
 
             if (angle < 0)
                 angle = 360.0f + angle;
-            
+
             if (angle > 15.0f && angle <= 60.0f)
                 return "BR";
-            
+
             if (angle > 60.0f && angle <= 120.0f)
                 return "B";
 
@@ -123,32 +128,32 @@ namespace Player.Scripts
 
             if (angle >= 165.0f && angle <= 240.0f)
                 return "L";
-            
+
             if (angle > 240.0f && angle <= 300.0f)
                 return "F";
-            
+
             if ((angle > 300.0f && angle <= 360.0f) || (angle >= 0.0f && angle <= 15.0f))
                 return "R";
 
             return "F";
         }
-        
+
         private string ComputeCardinalLookDirection()
         {
             float angle = player.LastLookDirection.ToSignedDegree();
 
             if (angle < 0)
                 angle = 360.0f + angle;
-            
+
             if (angle > 45.0f && angle <= 135.0f)
                 return "B";
 
             if (angle >= 135.0f && angle <= 225.0f)
                 return "L";
-            
+
             if (angle > 225.0f && angle <= 315.0f)
                 return "F";
-            
+
             if ((angle > 315.0f && angle <= 360.0f) || (angle >= 0.0f && angle <= 45.0f))
                 return "R";
 
