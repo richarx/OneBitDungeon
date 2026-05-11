@@ -59,7 +59,7 @@ public class MageEvadeSpell : MonoBehaviour
         float height = 8.0f + 4.0f * Tools.NormalizeValue(z, -10.0f, 0.0f);
 
         Vector3 rockPosition = position + Vector3.up * height;
-        float angle = Random.Range(0.0f, 360.0f);
+        float angle = UnityEngine.Random.Range(0.0f, 360.0f);
         float distanceFromCenter = 1.5f;
 
         return rockPosition + Vector2.right.AddAngleToDirection(angle + (index * 120.0f)).ToVector3() * distanceFromCenter;

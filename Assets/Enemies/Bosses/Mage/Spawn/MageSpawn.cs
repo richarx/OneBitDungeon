@@ -37,7 +37,7 @@ public class MageSpawn : MonoBehaviour, IEnemyBehaviour
     private void SpawnDamageZone(Vector3 position)
     {
         CircleDamageZone circleDamageZone = Instantiate(circleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-        circleDamageZone.Setup();
+        circleDamageZone.Setup(3.0f, 3.0f, 2.5f);
     }
 
     public void StopBehaviour(EnemyController enemy)
