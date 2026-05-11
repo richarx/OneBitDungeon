@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: FrogDialogue 1
   m_EditorClassIdentifier: 
   dialogueLines:
-  - Froggit...
+  - Froggit
   - I am magic incarnate
-  - Froggit...
+  - Froggit
   - 'I am knowledge beyond your puny mind,
 
-    I am...'
+    I am'

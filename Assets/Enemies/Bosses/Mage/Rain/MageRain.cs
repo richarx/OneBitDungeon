@@ -1,24 +1,14 @@
 using Enemies.Scripts.Behaviours;
-using Player.Scripts;
 using PrimeTween;
-using Tools_and_Scripts;
 using UnityEngine;
 
 public class MageRain : MonoBehaviour, IEnemyBehaviour
 {
-    [SerializeField] private ThreeCirclesDamageZone threeCirclesDamageZone;
+    [SerializeField] private MageRainSpell mageRainSpellPrefab;
 
     private bool isSubBehaviour;
 
-    private ThreeCirclesDamageZone circles;
     private Sequence attackSequence;
-    private Sequence moveSequence;
-    private Sequence moveRockSequence;
-    private Sequence detonateRockSequence;
-
-    private SpinRock rock_1;
-    private SpinRock rock_2;
-    private SpinRock rock_3;
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -29,134 +19,40 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
 
         if (!isSubBehaviour)
         {
-            float moveDuration = isSecondPhase ? 0.5f : 1.0f;
+            enemy.animator.Play("Cast");
 
-            moveSequence = Sequence.Create()
-                .ChainCallback(() => enemy.animator.Play("Cast"))
-                .ChainDelay(0.5f)
-                .ChainCallback(() =>
-                {
-                    if (isSecondPhase)
-                        enemy.afterImage.Trigger(moveDuration);
-
-                    MageSFX.instance.PlayMageMove();
-                })
-                .Chain(Tween.Position(enemy.transform, randomPosition, moveDuration, Ease.InOutCubic));
+            attackSequence = Sequence.Create()
+            .Chain(MoveMageToPosition(enemy, randomPosition))
+            .ChainCallback(() => CastRainSpell())
+            .ChainDelay(isSecondPhase ? 1.5f : 2.0f)
+            .ChainCallback(() => enemy.SelectNewBehaviour());
         }
+        else
+        {
+            CastRainSpell();
+        }
+    }
 
-        SpawnDamageZone();
+    private void CastRainSpell()
+    {
+        MageRainSpell spell = Instantiate(mageRainSpellPrefab, Vector3.zero, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+        spell.Setup();
+    }
 
-        rock_1 = RockOrbiter.instance.GetRandomRock();
-        rock_2 = RockOrbiter.instance.GetRandomRock();
-        rock_3 = RockOrbiter.instance.GetRandomRock();
+    private Sequence MoveMageToPosition(EnemyController enemy, Vector3 enemyPosition)
+    {
+        bool isSecondPhase = enemy.currentPhase > 0;
+        float moveDuration = isSecondPhase ? 0.5f : 1.0f;
 
-        attackSequence = Sequence.Create()
-            .ChainCallback(() =>
-            {
-                lastKnownPosition = PlayerStateMachine.instance.position;
-                SetupCircle(0, lastKnownPosition.ToVector2());
-            })
-            .ChainCallback(() => MoveRockToStartingPosition(rock_1))
+        return Sequence.Create()
             .ChainDelay(0.5f)
             .ChainCallback(() =>
             {
-                lastKnownPosition = PlayerStateMachine.instance.position;
-                SetupCircle(1, lastKnownPosition.ToVector2());
+                if (isSecondPhase)
+                    enemy.afterImage.Trigger(moveDuration);
+                MageSFX.instance.PlayMageMove();
             })
-            .ChainCallback(() => MoveRockToStartingPosition(rock_2))
-            .ChainDelay(0.5f)
-            .ChainCallback(() =>
-            {
-                lastKnownPosition = PlayerStateMachine.instance.position;
-                SetupCircle(2, lastKnownPosition.ToVector2());
-            })
-            .ChainCallback(() => MoveRockToStartingPosition(rock_3))
-            .ChainDelay(0.5f)
-            .ChainCallback(() => circles.Detonate())
-            .ChainCallback(() => DetonateRocks())
-            .ChainDelay(isSecondPhase ? 0.0f : 0.5f)
-            .ChainCallback(() =>
-            {
-                if (!isSubBehaviour)
-                    enemy.SelectNewBehaviour();
-            });
-    }
-
-    private void MoveRockToStartingPosition(SpinRock rock)
-    {
-        rock.SetState(SpinRock.RockState.Locked);
-
-        moveRockSequence = Sequence.Create()
-            .Chain(Tween.LocalPosition(rock.transform, GetLastKnownPosition(), 0.5f, Ease.OutBack));
-
-        MageSFX.instance.PlayRockMove();
-    }
-
-    private void DetonateRocks()
-    {
-        detonateRockSequence = Sequence.Create()
-            .Group(Tween.LocalPositionY(rock_1.transform, 0.0f, 0.3f, Ease.InOutBack))
-            .Group(Tween.LocalPositionY(rock_2.transform, 0.0f, 0.3f, Ease.InOutBack))
-            .Group(Tween.LocalPositionY(rock_3.transform, 0.0f, 0.3f, Ease.InOutBack))
-            .Chain(Tween.PunchScale(rock_1.transform, new Vector3(1.3f, 0.7f, 1.0f), 0.1f, 3.0f))
-            .Group(Tween.PunchScale(rock_2.transform, new Vector3(1.3f, 0.7f, 1.0f), 0.1f, 3.0f))
-            .Group(Tween.PunchScale(rock_3.transform, new Vector3(1.3f, 0.7f, 1.0f), 0.1f, 3.0f))
-            .ChainCallback(() => SpawnDebris())
-            .ChainCallback(() => ReturnRocksToOrbiter());
-    }
-
-    private void SpawnDebris()
-    {
-        SpawnSingleDebris(rock_1);
-        SpawnSingleDebris(rock_2);
-        SpawnSingleDebris(rock_3);
-    }
-
-    private void SpawnSingleDebris(SpinRock rock)
-    {
-        if (rock != null)
-            RockOrbiter.instance.SpawnDebris(rock.transform.position);
-    }
-
-    Vector3 lastKnownPosition = Vector3.zero;
-    private Vector3 GetLastKnownPosition()
-    {
-        float z = Mathf.Clamp(lastKnownPosition.z, -10.0f, 0.0f);
-        float height = 8.0f + 4.0f * Tools.NormalizeValue(z, -10.0f, 0.0f);
-
-        return lastKnownPosition + Vector3.up * height;
-    }
-
-    private void ReturnRocksToOrbiter()
-    {
-        if (rock_1 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_1);
-            rock_1 = null;
-        }
-
-        if (rock_2 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_2);
-            rock_2 = null;
-        }
-
-        if (rock_3 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_3);
-            rock_3 = null;
-        }
-    }
-
-    private void SpawnDamageZone()
-    {
-        circles = Instantiate(threeCirclesDamageZone, Vector3.zero, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-    }
-
-    private void SetupCircle(int index, Vector2 position)
-    {
-        circles.Setup(index);
-        circles.MoveCircle(index, position);
+            .Group(Tween.Position(enemy.transform, enemyPosition, moveDuration, Ease.InOutCubic));
     }
 
     public void UpdateBehaviour(EnemyController enemy)
@@ -172,30 +68,12 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
     {
         if (attackSequence.isAlive && !isSubBehaviour)
             attackSequence.Stop();
-
-        if (moveSequence.isAlive)
-            moveSequence.Stop();
     }
 
     public void CancelBehaviour(EnemyController enemy)
     {
         if (attackSequence.isAlive)
             attackSequence.Stop();
-
-        if (moveSequence.isAlive)
-            moveSequence.Stop();
-
-        if (moveRockSequence.isAlive)
-            moveRockSequence.Stop();
-
-        if (detonateRockSequence.isAlive)
-            detonateRockSequence.Stop();
-
-        if (circles != null)
-            circles.Cancel();
-
-        SpawnDebris();
-        ReturnRocksToOrbiter();
     }
 
     public void SetSubBehaviourState(bool state)

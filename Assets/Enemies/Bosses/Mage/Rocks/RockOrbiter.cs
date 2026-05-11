@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Game_Manager;
-using Tools_and_Scripts;
 using UnityEngine;
 using static SpinRock;
 
@@ -41,33 +40,7 @@ public class RockOrbiter : MonoBehaviour
         }
     }
 
-    public SpinRock GetRandomRock()
-    {
-        if (rocks.Count < 1)
-        {
-            SpinRock newRock = Instantiate(rockPrefabs[Random.Range(0, rockPrefabs.Count)], Vector3.right * 20.0f, Quaternion.identity, transform);
-            newRock.SetupRockDuringLevel();
-            return newRock;
-        }
-
-        int index = 0;
-        SpinRock rock = rocks[index];
-
-        rocks.RemoveAt(index);
-
-        return rock;
-    }
-
-    public void AddBackRock(SpinRock rock)
-    {
-        float distance = Random.Range(15.0f, 25.0f);
-        rock.transform.position = Random.insideUnitCircle.normalized.ToVector3() * distance;
-
-        rocks.Add(rock);
-        rock.SetState(globalState);
-    }
-
-    public void SpawnDebris(Vector3 position)
+    private void SpawnDebris(Vector3 position)
     {
         Instantiate(rockDebrisPrefab, position, Quaternion.identity);
 

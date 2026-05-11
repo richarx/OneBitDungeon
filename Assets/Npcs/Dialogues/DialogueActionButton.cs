@@ -50,7 +50,8 @@ public class DialogueActionButton : MonoBehaviour
             currentSequence.Stop();
 
         currentSequence = Sequence.Create()
-            .Chain(Tween.PunchScale(inputImage.transform, new Vector3(1.3f, 0.7f, 1.0f), 0.2f))
+            .Chain(Tween.PunchScale(inputImage.transform, new Vector3(0.5f, -0.5f, 1.0f), 0.2f))
+            .Group(Tween.PunchLocalPosition(inputImage.transform, new Vector3(0.0f, -20.0f, 0.0f), 0.2f))
             .Chain(Tween.Alpha(inputImage, 0.0f, fadeDuration))
             .Chain(Tween.Alpha(waitImage, 1.0f, fadeDuration));
     }
@@ -67,7 +68,8 @@ public class DialogueActionButton : MonoBehaviour
             currentSequence.Stop();
 
         currentSequence = Sequence.Create()
-            .Chain(Tween.PunchScale(inputImage.transform, new Vector3(1.3f, 0.7f, 1.0f), 0.2f))
+            .Chain(Tween.PunchScale(inputImage.transform, new Vector3(0.5f, -0.5f, 1.0f), 0.2f))
+            .Group(Tween.PunchLocalPosition(inputImage.transform, new Vector3(0.0f, -20.0f, 0.0f), 0.2f))
             .Group(Tween.Alpha(inputImage, 0.0f, 0.2f))
             .Group(Tween.Alpha(waitImage, 0.0f, 0.2f));
     }
