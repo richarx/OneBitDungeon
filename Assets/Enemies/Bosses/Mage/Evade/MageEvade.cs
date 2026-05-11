@@ -1,21 +1,17 @@
 using Enemies.Scripts.Behaviours;
 using Player.Scripts;
 using PrimeTween;
-using Tools_and_Scripts;
 using UnityEngine;
 
 public class MageEvade : MonoBehaviour, IEnemyBehaviour
 {
-    [SerializeField] private CircleDamageZone circleDamageZonePrefab;
+    [SerializeField] private MageEvadeSpell mageEvadeSpellPrefab;
 
-    private CircleDamageZone circle;
-    private Sequence currentSequence;
-    private Sequence moveRockSequence;
-    private Sequence detonateRockSequence;
+    private float radius = 3.0f;
+    private float spawnDuration = 0.5f;
+    private float fillDuration = 1.0f;
 
-    private SpinRock rock_1;
-    private SpinRock rock_2;
-    private SpinRock rock_3;
+    private Sequence attackSequence;
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -27,108 +23,36 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 
         Vector3 evadePosition = targetPosition.magnitude <= 0.01f ? Vector3.forward * 7.0f : (targetPosition * -1.0f).normalized * 7.0f;
 
-        bool isSecondPhase = enemy.currentPhase > 0;
-
-        float moveDuration = isSecondPhase ? 0.3f : 0.5f;
-
-        rock_1 = RockOrbiter.instance.GetRandomRock();
-        rock_2 = RockOrbiter.instance.GetRandomRock();
-        rock_3 = RockOrbiter.instance.GetRandomRock();
-
-        currentSequence = Sequence.Create()
+        attackSequence = Sequence.Create()
             .ChainCallback(() => SpawnDamageZone(targetPosition))
-            .ChainCallback(() =>
-            {
-                if (isSecondPhase)
-                    enemy.afterImage.Trigger(moveDuration);
-                MageSFX.instance.PlayMageMove();
-            })
-            .ChainCallback(() => MoveRocksToStartingPosition(targetPosition))
-            .Group(Tween.Position(enemy.transform, targetPosition, moveDuration, Ease.InOutCubic))
+            .Chain(MoveMageToPosition(enemy, targetPosition))
             .ChainCallback(() => enemy.animator.Play("Blast"))
-            .ChainCallback(() => DetonateRocks(moveDuration))
             .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))
             .ChainCallback(() => enemy.transform.position = evadePosition)
             .Chain(Tween.ScaleX(enemy.transform, 1.0f, 0.3f, Ease.OutBack))
-            .ChainDelay(isSecondPhase ? 0.5f : 0.75f)
             .ChainCallback(() => enemy.SelectNewBehaviour());
+    }
+
+    private Sequence MoveMageToPosition(EnemyController enemy, Vector3 enemyPosition)
+    {
+        bool isSecondPhase = enemy.currentPhase > 0;
+
+        return Sequence.Create()
+            .ChainCallback(() =>
+            {
+                if (isSecondPhase)
+                    enemy.afterImage.Trigger(spawnDuration);
+                MageSFX.instance.PlayMageMove();
+            })
+            .Group(Tween.Position(enemy.transform, enemyPosition, spawnDuration, Ease.InOutCubic));
     }
 
     private void SpawnDamageZone(Vector3 position)
     {
-        circle = Instantiate(circleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-        circle.Setup();
+        MageEvadeSpell spell = Instantiate(mageEvadeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+        spell.Setup(radius, spawnDuration, fillDuration);
     }
 
-    private void MoveRocksToStartingPosition(Vector3 targetPosition)
-    {
-        rock_1.SetState(SpinRock.RockState.Locked);
-        rock_2.SetState(SpinRock.RockState.Locked);
-        rock_3.SetState(SpinRock.RockState.Locked);
-
-        float z = Mathf.Clamp(targetPosition.z, -10.0f, 0.0f);
-        float height = 8.0f + 4.0f * Tools.NormalizeValue(z, -10.0f, 0.0f);
-
-        Vector3 rockPosition = targetPosition + Vector3.up * height;
-        float angle = Random.Range(0.0f, 360.0f);
-        float distanceFromCenter = 1.5f;
-
-        moveRockSequence = Sequence.Create()
-            .Group(Tween.LocalPosition(rock_1.transform, rockPosition + Vector2.right.AddAngleToDirection(angle).ToVector3() * distanceFromCenter, 0.5f, Ease.InOutBack))
-            .Group(Tween.LocalPosition(rock_2.transform, rockPosition + Vector2.right.AddAngleToDirection(angle + 120.0f).ToVector3() * distanceFromCenter, 0.5f, Ease.InOutBack))
-            .Group(Tween.LocalPosition(rock_3.transform, rockPosition + Vector2.right.AddAngleToDirection(angle + 240.0f).ToVector3() * distanceFromCenter, 0.5f, Ease.InOutBack))
-            ;
-
-        MageSFX.instance.PlayRockMove();
-    }
-
-    private void DetonateRocks(float moveDuration)
-    {
-        detonateRockSequence = Sequence.Create()
-            .ChainDelay(1.0f - moveDuration - 0.1f)
-            .Chain(Tween.LocalPositionY(rock_1.transform, 0.0f, 0.3f, Ease.InOutBack))
-            .Group(Tween.LocalPositionY(rock_2.transform, 0.0f, 0.3f, Ease.InOutBack))
-            .Group(Tween.LocalPositionY(rock_3.transform, 0.0f, 0.3f, Ease.InOutBack))
-            .Chain(Tween.PunchScale(rock_1.transform, new Vector3(1.3f, 0.7f, 1.0f), 0.1f, 3.0f))
-            .Group(Tween.PunchScale(rock_2.transform, new Vector3(1.3f, 0.7f, 1.0f), 0.1f, 3.0f))
-            .Group(Tween.PunchScale(rock_3.transform, new Vector3(1.3f, 0.7f, 1.0f), 0.1f, 3.0f))
-            .ChainCallback(() => SpawnDebris())
-            .ChainCallback(() => ReturnRocksToOrbiter());
-    }
-
-    private void SpawnDebris()
-    {
-        SpawnSingleDebris(rock_1);
-        SpawnSingleDebris(rock_2);
-        SpawnSingleDebris(rock_3);
-    }
-
-    private void SpawnSingleDebris(SpinRock rock)
-    {
-        if (rock != null)
-            RockOrbiter.instance.SpawnDebris(rock.transform.position);
-    }
-
-    private void ReturnRocksToOrbiter()
-    {
-        if (rock_1 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_1);
-            rock_1 = null;
-        }
-
-        if (rock_2 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_2);
-            rock_2 = null;
-        }
-
-        if (rock_3 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_3);
-            rock_3 = null;
-        }
-    }
 
     public void UpdateBehaviour(EnemyController enemy)
     {
@@ -140,26 +64,14 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 
     public void StopBehaviour(EnemyController enemy)
     {
-        if (currentSequence.isAlive)
-            currentSequence.Stop();
+        if (attackSequence.isAlive)
+            attackSequence.Stop();
     }
 
     public void CancelBehaviour(EnemyController enemy)
     {
-        if (currentSequence.isAlive)
-            currentSequence.Stop();
-
-        if (moveRockSequence.isAlive)
-            moveRockSequence.Stop();
-
-        if (detonateRockSequence.isAlive)
-            detonateRockSequence.Stop();
-
-        if (circle != null)
-            circle.Cancel();
-
-        SpawnDebris();
-        ReturnRocksToOrbiter();
+        if (attackSequence.isAlive)
+            attackSequence.Stop();
     }
 
     public bool isSubBehaviour;

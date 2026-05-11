@@ -91,7 +91,6 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
         damageable.OnDie.AddListener(() =>
         {
             OnBreakPillar(enemy);
-            RockOrbiter.instance.SpawnDebris(damageable.transform.position);
         });
         return damageable.transform;
     }

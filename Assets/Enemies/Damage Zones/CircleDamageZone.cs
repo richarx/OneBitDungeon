@@ -1,15 +1,13 @@
 using System;
 using Player.Scripts;
 using PrimeTween;
+using TMPro.EditorUtilities;
 using Tools_and_Scripts;
 using UnityEngine;
 
 public class CircleDamageZone : MonoBehaviour
 {
-    [SerializeField] private float radius;
-    [SerializeField] private float spawnDuration;
     [SerializeField] private Ease spawnEase;
-    [SerializeField] private float fillDuration;
     [SerializeField] private Ease fillEase;
     [SerializeField] private float despawnDuration;
 
@@ -23,8 +21,16 @@ public class CircleDamageZone : MonoBehaviour
 
     private bool isCheckingForDamage;
 
-    public void Setup()
+    private float radius;
+    private float spawnDuration;
+    private float fillDuration;
+
+    public void Setup(float _radius, float _spawnDuration, float _fillDuration)
     {
+        radius = _radius;
+        spawnDuration = _spawnDuration;
+        fillDuration = _fillDuration;
+
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
         spriteRenderer.material = new Material(spriteRenderer.material);

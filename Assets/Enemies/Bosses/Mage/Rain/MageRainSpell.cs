@@ -36,6 +36,8 @@ public class MageRainSpell : MonoBehaviour
         Projectile projectile = Instantiate(projectilePrefab, hoverPosition + Vector3.up * 5.0f, Quaternion.identity);
         projectile.MoveToStartingPosition(hoverPosition, 0.3f);
 
+        MageSFX.instance.PlayRockMove();
+
         projectiles.Add(projectile);
     }
 
