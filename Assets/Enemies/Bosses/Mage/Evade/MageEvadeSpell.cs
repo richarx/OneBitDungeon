@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using PrimeTween;
 using Tools_and_Scripts;
@@ -9,7 +10,7 @@ public class MageEvadeSpell : MonoBehaviour
 
     private List<Projectile> projectiles = new List<Projectile>();
 
-    public void Setup(float _radius, float _spawnDuration, float _fillDuration)
+    public void Setup(float _radius, float _spawnDuration, float _fillDuration, Action onShootCallback)
     {
         Sequence.Create()
             .ChainCallback(() =>
@@ -20,7 +21,11 @@ public class MageEvadeSpell : MonoBehaviour
             .ChainCallback(() => SpawnRocks())
             .ChainDelay(_spawnDuration)
             .ChainDelay(_fillDuration)
-            .ChainCallback(() => ShootRocks());
+            .ChainCallback(() =>
+            {
+                ShootRocks();
+                onShootCallback?.Invoke();
+            });
     }
 
     private void ShootRocks()

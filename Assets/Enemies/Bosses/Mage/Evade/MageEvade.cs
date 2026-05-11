@@ -1,3 +1,4 @@
+using System;
 using Enemies.Scripts.Behaviours;
 using Player.Scripts;
 using PrimeTween;
@@ -26,14 +27,11 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
         attackSequence = Sequence.Create()
             .ChainCallback(() => SpawnDamageZone(targetPosition))
             .Chain(MoveMageToPosition(enemy, targetPosition))
-            .ChainCallback(() => enemy.animator.Play("Blast"))
-            .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))
-            .ChainCallback(() => enemy.transform.position = evadePosition)
-            .Chain(Tween.ScaleX(enemy.transform, 1.0f, 0.3f, Ease.OutBack))
+            .Chain(TeleportMageToPosition(enemy, targetPosition))
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
-    private Sequence MoveMageToPosition(EnemyController enemy, Vector3 enemyPosition)
+    private Sequence MoveMageToPosition(EnemyController enemy, Vector3 position)
     {
         bool isSecondPhase = enemy.currentPhase > 0;
 
@@ -44,15 +42,23 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
                     enemy.afterImage.Trigger(spawnDuration);
                 MageSFX.instance.PlayMageMove();
             })
-            .Group(Tween.Position(enemy.transform, enemyPosition, spawnDuration, Ease.InOutCubic));
+            .Group(Tween.Position(enemy.transform, position, spawnDuration, Ease.InOutCubic));
+    }
+
+    private Sequence TeleportMageToPosition(EnemyController enemy, Vector3 position)
+    {
+        return Sequence.Create()
+           .ChainCallback(() => enemy.animator.Play("Blast"))
+            .Chain(Tween.ScaleX(enemy.transform, 0.0f, 0.3f, Ease.InBack))
+            .ChainCallback(() => enemy.transform.position = position)
+            .Chain(Tween.ScaleX(enemy.transform, 1.0f, 0.3f, Ease.OutBack));
     }
 
     private void SpawnDamageZone(Vector3 position)
     {
         MageEvadeSpell spell = Instantiate(mageEvadeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-        spell.Setup(radius, spawnDuration, fillDuration);
+        spell.Setup(radius, spawnDuration, fillDuration, null);
     }
-
 
     public void UpdateBehaviour(EnemyController enemy)
     {
