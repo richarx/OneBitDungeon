@@ -14,13 +14,13 @@ public class MageThrowSpell : MonoBehaviour
 
     public Vector3 rotationDirection { get; private set; }
 
-    public void Setup(float duration, float dampening, float delayBeforeShoot, float rockMovementDuration, Action onShootCallback)
+    public void Setup(float duration, float dampening, float rockMovementDuration, float spawnDuration, float fillDuration, Action onShootCallback)
     {
         rotationDuration = duration;
         rotationDampening = dampening;
         throwTimestamp = Time.time;
 
-        transform.GetChild(0).GetComponent<RectangleDamageZone>().Setup(Vector2.right);
+        transform.GetChild(0).GetComponent<RectangleDamageZone>().Setup(Vector2.right, spawnDuration, fillDuration);
 
         Vector3 startingPosition = transform.position;
 
@@ -28,7 +28,8 @@ public class MageThrowSpell : MonoBehaviour
         projectile.MoveToStartingPosition(startingPosition, 0.3f);
 
         Sequence sequence = Sequence.Create()
-            .ChainDelay(delayBeforeShoot)
+            .ChainDelay(spawnDuration)
+            .ChainDelay(fillDuration)
             .ChainCallback(() => onShootCallback?.Invoke())
             .ChainCallback(() => projectile.Shoot(ComputeProjectileTargetPosition(startingPosition), rockMovementDuration));
     }

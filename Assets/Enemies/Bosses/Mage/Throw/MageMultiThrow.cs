@@ -11,6 +11,9 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
 
     private Sequence attackSequence;
 
+    private float spawnDuration = 0.5f;
+    private float fillDuration = 0.5f;
+
     public void StartBehaviour(EnemyController enemy)
     {
         Debug.Log("Mage THROW");
@@ -27,16 +30,16 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
             .Chain(MoveMageToPosition(enemy, enemyRightPosition, 0.1f))
             .Chain(ShootRock(enemy, enemyRightPosition + Vector3.right * 3.0f, 0.0f, true))
             .Group(ShootRock(enemy, enemyRightPosition - Vector3.right * 3.0f, 0.5f, false))
+            .ChainDelay(1.65f)
             .Chain(MoveMageToPosition(enemy, enemyLeftPosition, 0.1f))
             .Chain(ShootRock(enemy, enemyLeftPosition + Vector3.right * 3.0f, 0.0f, true))
             .Group(ShootRock(enemy, enemyLeftPosition - Vector3.right * 3.0f, 0.5f, false))
+            .ChainDelay(1.65f)
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
     private Sequence ShootRock(EnemyController enemy, Vector3 startingPosition, float delay, bool isRight)
     {
-        float delayBeforeShoot = 1.5f;
-
         return Sequence.Create()
         .ChainDelay(delay)
         .ChainCallback(() =>
@@ -44,7 +47,7 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
             enemy.animator.Play("Cast");
 
             MageThrowSpell spell = Instantiate(mageThrowSpellPrefab, startingPosition, Quaternion.identity);
-            spell.Setup(rotationDuration, rotationDampening, delayBeforeShoot, rockMovementDuration, () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
+            spell.Setup(rotationDuration, rotationDampening, rockMovementDuration, spawnDuration, fillDuration, () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
         });
     }
 

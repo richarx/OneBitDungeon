@@ -13,6 +13,9 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
 
     private Sequence attackSequence;
 
+    private float spawnDuration = 1.0f;
+    private float fillDuration = 0.5f;
+
     public void StartBehaviour(EnemyController enemy)
     {
         Debug.Log("Mage THROW");
@@ -30,8 +33,6 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
 
     private Sequence ShootRock(EnemyController enemy, Vector3 startingPosition, float delay, bool isRight)
     {
-        float delayBeforeShoot = 1.5f;
-
         return Sequence.Create()
         .ChainDelay(delay)
         .ChainCallback(() =>
@@ -39,7 +40,7 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
             enemy.animator.Play("Cast");
 
             MageThrowSpell spell = Instantiate(mageThrowSpellPrefab, startingPosition, Quaternion.identity);
-            spell.Setup(rotationDuration, rotationDampening, delayBeforeShoot, rockMovementDuration, () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
+            spell.Setup(rotationDuration, rotationDampening, rockMovementDuration, spawnDuration, fillDuration, () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
         });
     }
 

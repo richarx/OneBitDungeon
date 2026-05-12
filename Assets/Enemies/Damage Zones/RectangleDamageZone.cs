@@ -7,9 +7,7 @@ using UnityEngine;
 public class RectangleDamageZone : MonoBehaviour
 {
     [SerializeField] private Vector2 size;
-    [SerializeField] private float spawnDuration;
     [SerializeField] private Ease spawnEase;
-    [SerializeField] private float fillDuration;
     [SerializeField] private Ease fillEase;
     [SerializeField] private float despawnDuration;
 
@@ -23,14 +21,19 @@ public class RectangleDamageZone : MonoBehaviour
     [SerializeField] private bool alsoDestroyParent;
     [SerializeField] private bool canBeParried;
 
+    private float spawnDuration;
+    private float fillDuration;
     private bool hasBeenParried;
 
     private Sequence currentSequence;
 
     private bool isCheckingForDamage;
 
-    public void Setup(Vector2 moveDirection)
+    public void Setup(Vector2 moveDirection, float _spawnDuration, float _fillDuration)
     {
+        spawnDuration = _spawnDuration;
+        fillDuration = _fillDuration;
+
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
         spriteRenderer.material = new Material(spriteRenderer.material);

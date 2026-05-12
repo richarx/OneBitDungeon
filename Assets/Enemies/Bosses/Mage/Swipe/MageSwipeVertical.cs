@@ -1,46 +1,75 @@
-using System.Collections.Generic;
 using Enemies.Scripts.Behaviours;
 using PrimeTween;
 using UnityEngine;
 
 public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
 {
-    [SerializeField] private RectangleDamageZone rectangleDamageZonePrefab;
+    [SerializeField] private MageSwipeSpell mageSwipeSpellPrefab;
 
     private bool isSubBehaviour;
 
-    private List<RectangleDamageZone> rectangles;
     private Sequence attackSequence;
-    private Sequence moveSequence;
-    private Sequence detonationSequence;
-    private List<Sequence> moveRockSequences;
 
-    private SpinRock rock_1;
-    private SpinRock rock_2;
-    private SpinRock rock_3;
-    private SpinRock rock_4;
-    private SpinRock rock_5;
+    private float spawnDuration = 1.0f;
+    private float fillDuration = 0.5f;
 
     public void StartBehaviour(EnemyController enemy)
     {
         Debug.Log("Mage SWIPE VERTICAL");
 
-        if (attackSequence.isAlive)
-            CancelBehaviour(enemy);
-
-        rectangles = new List<RectangleDamageZone>();
-        moveRockSequences = new List<Sequence>();
         bool isSecondPhase = enemy.currentPhase > 0;
 
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
 
-        float moveDuration = isSecondPhase ? 0.5f : 1.0f;
-
         if (!isSubBehaviour)
         {
-            moveSequence = Sequence.Create()
-            .ChainCallback(() => enemy.animator.Play("Cast_Left"))
+            attackSequence = Sequence.Create()
+                .ChainCallback(() => enemy.animator.Play("Cast"))
+                .Chain(MoveMageToPosition(enemy, randomPosition))
+                .Group(CastSwipeSpell(new Vector3(8.92f, 0.0f, 10.0f), Vector2.down))
+                .ChainDelay(0.05f)
+                .Chain(CastSwipeSpell(new Vector3(4.42f, 0.0f, -10.0f), Vector2.up))
+                .ChainDelay(0.05f)
+                .Chain(CastSwipeSpell(new Vector3(0.0f, 0.0f, 10.0f), Vector2.down))
+                .ChainDelay(0.05f)
+                .Chain(CastSwipeSpell(new Vector3(-4.58f, 0.0f, -10.0f), Vector2.up))
+                .ChainDelay(0.05f)
+                .Chain(CastSwipeSpell(new Vector3(-9.11f, 0.0f, 10.0f), Vector2.down))
+                .ChainDelay(isSecondPhase ? (spawnDuration + fillDuration) - 0.5f : (spawnDuration + fillDuration) + 1.0f)
+                .ChainCallback(() => enemy.SelectNewBehaviour());
+        }
+        else
+        {
+            attackSequence = Sequence.Create()
+                .Group(CastSwipeSpell(new Vector3(8.92f, 0.0f, 10.0f), Vector2.down))
+                .ChainDelay(0.05f)
+                .Chain(CastSwipeSpell(new Vector3(4.42f, 0.0f, -10.0f), Vector2.up))
+                .ChainDelay(0.05f)
+                .Chain(CastSwipeSpell(new Vector3(0.0f, 0.0f, 10.0f), Vector2.down))
+                .ChainDelay(0.05f)
+                .Chain(CastSwipeSpell(new Vector3(-4.58f, 0.0f, -10.0f), Vector2.up))
+                .ChainDelay(0.05f)
+                .Chain(CastSwipeSpell(new Vector3(-9.11f, 0.0f, 10.0f), Vector2.down));
+        }
+    }
+
+    private Sequence CastSwipeSpell(Vector3 position, Vector2 direction)
+    {
+        return Sequence.Create()
+            .ChainCallback(() =>
+            {
+                MageSwipeSpell spell = Instantiate(mageSwipeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+                spell.Setup(direction, spawnDuration, fillDuration);
+            });
+    }
+
+    private Sequence MoveMageToPosition(EnemyController enemy, Vector3 enemyPosition)
+    {
+        bool isSecondPhase = enemy.currentPhase > 0;
+        float moveDuration = isSecondPhase ? 0.5f : 1.0f;
+
+        return Sequence.Create()
             .ChainDelay(0.5f)
             .ChainCallback(() =>
             {
@@ -48,125 +77,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
                     enemy.afterImage.Trigger(moveDuration);
                 MageSFX.instance.PlayMageMove();
             })
-            .Chain(Tween.Position(enemy.transform, randomPosition, moveDuration, Ease.InOutCubic));
-        }
-
-        rock_1 = RockOrbiter.instance.GetRandomRock();
-        rock_2 = RockOrbiter.instance.GetRandomRock();
-        rock_3 = RockOrbiter.instance.GetRandomRock();
-        rock_4 = RockOrbiter.instance.GetRandomRock();
-        rock_5 = RockOrbiter.instance.GetRandomRock();
-
-        attackSequence = Sequence.Create()
-            .ChainCallback(() => SpawnDamageZone(new Vector3(8.92f, 0.0f, 10.0f), Vector2.down))
-            .ChainCallback(() => MoveRockToStartingPosition(rock_1, new Vector3(8.92f, 0.0f, 10.0f)))
-            .ChainDelay(0.05f)
-            .ChainCallback(() => SpawnDamageZone(new Vector3(4.42f, 0.0f, -10.0f), Vector2.up))
-            .ChainCallback(() => MoveRockToStartingPosition(rock_2, new Vector3(4.42f, 0.0f, -10.0f)))
-            .ChainDelay(0.05f)
-            .ChainCallback(() => SpawnDamageZone(new Vector3(0.0f, 0.0f, 10.0f), Vector2.down))
-            .ChainCallback(() => MoveRockToStartingPosition(rock_3, new Vector3(0.0f, 0.0f, 10.0f)))
-            .ChainDelay(0.05f)
-            .ChainCallback(() => SpawnDamageZone(new Vector3(-4.58f, 0.0f, -10.0f), Vector2.up))
-            .ChainCallback(() => MoveRockToStartingPosition(rock_4, new Vector3(-4.58f, 0.0f, -10.0f)))
-            .ChainDelay(0.05f)
-            .ChainCallback(() => SpawnDamageZone(new Vector3(-9.11f, 0.0f, 10.0f), Vector2.down))
-            .ChainCallback(() => MoveRockToStartingPosition(rock_5, new Vector3(-9.11f, 0.0f, 10.0f)))
-            .ChainCallback(() => DetonateRocks())
-            .ChainDelay(isSecondPhase ? 1.3f : 2.5f)
-            .ChainCallback(() =>
-            {
-                if (!isSubBehaviour)
-                    enemy.SelectNewBehaviour();
-            });
-    }
-
-    private void DetonateRocks()
-    {
-        float targetDistance = 12.0f;
-        Vector3 punchScale = new Vector3(1.3f, 0.7f, 1.0f);
-
-        detonationSequence = Sequence.Create()
-            .ChainDelay(1.15f)
-            .Chain(Tween.LocalPositionZ(rock_1.transform, -targetDistance, 0.5f, Ease.InOutBack))
-            .Group(Tween.LocalPositionZ(rock_2.transform, targetDistance, 0.5f, Ease.InOutBack, startDelay: 0.05f))
-            .Group(Tween.LocalPositionZ(rock_3.transform, -targetDistance, 0.5f, Ease.InOutBack, startDelay: 0.1f))
-            .Group(Tween.LocalPositionZ(rock_4.transform, targetDistance, 0.5f, Ease.InOutBack, startDelay: 0.15f))
-            .Group(Tween.LocalPositionZ(rock_5.transform, -targetDistance, 0.5f, Ease.InOutBack, startDelay: 0.2f))
-            .Chain(Tween.PunchScale(rock_1.transform, punchScale, 0.1f, 3.0f))
-            .Group(Tween.PunchScale(rock_2.transform, punchScale, 0.1f, 3.0f))
-            .Group(Tween.PunchScale(rock_3.transform, punchScale, 0.1f, 3.0f))
-            .Group(Tween.PunchScale(rock_4.transform, punchScale, 0.1f, 3.0f))
-            .Group(Tween.PunchScale(rock_5.transform, punchScale, 0.1f, 3.0f))
-            .ChainCallback(() => SpawnDebris())
-            .ChainCallback(() => ReturnRocksToOrbiter())
-            ;
-    }
-
-    private void SpawnDebris()
-    {
-        SpawnSingleDebris(rock_1);
-        SpawnSingleDebris(rock_2);
-        SpawnSingleDebris(rock_3);
-        SpawnSingleDebris(rock_4);
-        SpawnSingleDebris(rock_5);
-    }
-
-    private void SpawnSingleDebris(SpinRock rock)
-    {
-        if (rock != null)
-            RockOrbiter.instance.SpawnDebris(rock.transform.position);
-    }
-
-    private void ReturnRocksToOrbiter()
-    {
-        if (rock_1 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_1);
-            rock_1 = null;
-        }
-
-        if (rock_2 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_2);
-            rock_2 = null;
-        }
-
-        if (rock_3 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_3);
-            rock_3 = null;
-        }
-
-        if (rock_4 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_4);
-            rock_4 = null;
-        }
-
-        if (rock_5 != null)
-        {
-            RockOrbiter.instance.AddBackRock(rock_5);
-            rock_5 = null;
-        }
-    }
-
-    private void MoveRockToStartingPosition(SpinRock rock, Vector3 position)
-    {
-        rock.SetState(SpinRock.RockState.Locked);
-
-        moveRockSequences.Add(Sequence.Create()
-            .Chain(Tween.LocalPosition(rock.transform, position, 0.5f, Ease.OutBack)));
-
-        MageSFX.instance.PlayRockMove();
-    }
-
-    private void SpawnDamageZone(Vector3 position, Vector2 direction)
-    {
-        RectangleDamageZone rectangle = Instantiate(rectangleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-        rectangle.Setup(direction);
-
-        rectangles.Add(rectangle);
+            .Group(Tween.Position(enemy.transform, enemyPosition, moveDuration, Ease.InOutCubic));
     }
 
     public void UpdateBehaviour(EnemyController enemy)
@@ -181,36 +92,12 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
     {
         if (attackSequence.isAlive && !isSubBehaviour)
             attackSequence.Stop();
-
-        if (moveSequence.isAlive)
-            moveSequence.Stop();
     }
 
     public void CancelBehaviour(EnemyController enemy)
     {
         if (attackSequence.isAlive)
             attackSequence.Stop();
-
-        if (moveSequence.isAlive)
-            moveSequence.Stop();
-
-        if (detonationSequence.isAlive)
-            detonationSequence.Stop();
-
-        foreach (RectangleDamageZone rectangle in rectangles)
-        {
-            if (rectangle != null)
-                rectangle.Cancel();
-        }
-
-        foreach (Sequence moveRock in moveRockSequences)
-        {
-            if (moveRock.isAlive)
-                moveRock.Stop();
-        }
-
-        SpawnDebris();
-        ReturnRocksToOrbiter();
     }
 
     public void SetSubBehaviourState(bool state)
