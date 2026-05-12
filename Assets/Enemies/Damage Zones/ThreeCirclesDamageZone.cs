@@ -6,10 +6,7 @@ using UnityEngine;
 
 public class ThreeCirclesDamageZone : MonoBehaviour
 {
-    [SerializeField] private float radius;
-    [SerializeField] private float spawnDuration;
     [SerializeField] private Ease spawnEase;
-    [SerializeField] private float fillDuration;
     [SerializeField] private Ease fillEase;
     [SerializeField] private float despawnDuration;
 
@@ -26,22 +23,32 @@ public class ThreeCirclesDamageZone : MonoBehaviour
     private Vector3 circlePosition2;
     private Vector3 circlePosition3;
 
+    private float radius;
+    private float spawnDuration;
+    private float fillDuration;
+
     public bool hasDetonated { get; private set; }
     private Sequence currentSequence;
 
     private bool isCheckingForDamage;
 
-    private void Initialize()
+
+    public void Setup(float _radius, float _spawnDuration, float _fillDuration)
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.material = new Material(spriteRenderer.material);
+
+        radius = _radius;
+        spawnDuration = _spawnDuration;
+        fillDuration = _fillDuration;
+
         isInit = true;
     }
 
     public void Setup(int circleIndex)
     {
         if (!isInit)
-            Initialize();
+            Debug.LogError($"Error : In {nameof(ThreeCirclesDamageZone)} : Setup() was not called");
 
         if (circleIndex >= 0 && circleIndex <= 2)
             SetupCircle(circleIndex);
@@ -59,6 +66,9 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     public void Detonate()
     {
+        if (!isInit)
+            Debug.LogError($"Error : In {nameof(ThreeCirclesDamageZone)} : Setup() was not called");
+
         if (hasDetonated)
             return;
 
@@ -128,7 +138,7 @@ public class ThreeCirclesDamageZone : MonoBehaviour
     public void MoveCircle(int circleIndex, Vector2 position)
     {
         if (!isInit)
-            Initialize();
+            Debug.LogError($"Error : In {nameof(ThreeCirclesDamageZone)} : Setup() was not called");
 
         Vector3 rawPosition = new Vector3(position.x, 0.0f, position.y);
         Vector2 convertedPosition = ComputePosition(position);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class MageRain : MonoBehaviour, IEnemyBehaviour
 {
     [SerializeField] private MageRainSpell mageRainSpellPrefab;
+    [SerializeField] private MageData mageData;
 
     private bool isSubBehaviour;
 
@@ -24,7 +25,7 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
             attackSequence = Sequence.Create()
             .Chain(MoveMageToPosition(enemy, randomPosition))
             .Group(CastRainSpell())
-            .ChainDelay(isSecondPhase ? 1.0f : 1.5f)
+            .ChainDelay(isSecondPhase ? mageData.rainRecoveryDuration_p2 : mageData.rainRecoveryDuration)
             .ChainCallback(() => enemy.SelectNewBehaviour());
         }
         else
@@ -39,14 +40,14 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() =>
             {
                 MageRainSpell spell = Instantiate(mageRainSpellPrefab, Vector3.zero, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-                spell.Setup();
+                spell.Setup(0.1f, mageData.rainSpawnDuration, mageData.rainFillDuration);
             });
     }
 
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 enemyPosition)
     {
         bool isSecondPhase = enemy.currentPhase > 0;
-        float moveDuration = isSecondPhase ? 0.5f : 1.0f;
+        float moveDuration = isSecondPhase ? mageData.rainMoveDuration_p2 : mageData.rainMoveDuration;
 
         return Sequence.Create()
             .ChainDelay(0.5f)

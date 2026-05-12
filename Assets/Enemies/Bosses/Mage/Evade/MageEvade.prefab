@@ -47,4 +47,5 @@ MonoBehaviour:
   radius: 0.15
   mageEvadeSpellPrefab: {fileID: 3966374943627719576, guid: 3931c0c19e6050f41a04b11fe390ac5e,
     type: 3}
+  mageData: {fileID: 11400000, guid: adaac8d3b67e6b3438b53cea188e4b7c, type: 2}
   isSubBehaviour: 0

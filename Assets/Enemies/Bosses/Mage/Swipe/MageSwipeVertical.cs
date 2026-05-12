@@ -5,13 +5,11 @@ using UnityEngine;
 public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
 {
     [SerializeField] private MageSwipeSpell mageSwipeSpellPrefab;
+    [SerializeField] private MageData mageData;
 
     private bool isSubBehaviour;
 
     private Sequence attackSequence;
-
-    private float spawnDuration = 1.0f;
-    private float fillDuration = 0.5f;
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -21,8 +19,6 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
 
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
-
-        float totalDuration = spawnDuration + fillDuration;
 
         if (!isSubBehaviour)
         {
@@ -34,7 +30,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
                 .Group(CastSwipeSpell(new Vector3(0.0f, 0.0f, 10.0f), Vector2.down, 0.1f))
                 .Group(CastSwipeSpell(new Vector3(-4.58f, 0.0f, -10.0f), Vector2.up, 0.15f))
                 .Group(CastSwipeSpell(new Vector3(-9.11f, 0.0f, 10.0f), Vector2.down, 0.2f))
-                .ChainDelay(isSecondPhase ? totalDuration - 0.5f : totalDuration)
+                .ChainDelay(isSecondPhase ? mageData.swipeRecoveryDuration_2 : mageData.swipeRecoveryDuration)
                 .ChainCallback(() => enemy.SelectNewBehaviour());
         }
         else
@@ -55,14 +51,14 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() =>
             {
                 MageSwipeSpell spell = Instantiate(mageSwipeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-                spell.Setup(direction, spawnDuration, fillDuration);
+                spell.Setup(direction, mageData.swipeSpawnDuration, mageData.swipeFillDuration);
             });
     }
 
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 enemyPosition)
     {
         bool isSecondPhase = enemy.currentPhase > 0;
-        float moveDuration = isSecondPhase ? 0.5f : 1.0f;
+        float moveDuration = isSecondPhase ? mageData.swipeMoveDuration_p2 : mageData.swipeMoveDuration;
 
         return Sequence.Create()
             .ChainDelay(0.5f)

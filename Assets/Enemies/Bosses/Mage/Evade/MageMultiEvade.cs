@@ -11,11 +11,9 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
     [Space]
     [SerializeField] private MageEvadeSpell mageEvadeSpellPrefab;
     [SerializeField] private HollowCircleDamageZone hollowCircleDamageZonePrefab;
+    [SerializeField] private MageData mageData;
 
     private Sequence attackSequence;
-
-    private float spawnDuration = 0.3f;
-    private float fillDuration = 1.0f;
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -29,9 +27,6 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
         Vector3 evadePosition_2 = ComputeRandomPosition();
         Vector3 evadePosition_3 = ComputeRandomPosition();
 
-        bool isSecondPhase = enemy.currentPhase > 0;
-        float moveDuration = isSecondPhase ? 0.3f : 0.5f;
-
         attackSequence = Sequence.Create()
             .ChainCallback(() => SpawnDamageZone(targetPosition))
             .Chain(MoveMageToPosition(enemy, targetPosition))
@@ -44,21 +39,20 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() => SpawnDamageZone(evadePosition_2, () => SpawnHollowCircle(evadePosition_2)))
             .Chain(MoveMageToPosition(enemy, evadePosition_2))
             .Chain(TeleportMageToPosition(enemy, evadePosition_3))
+            .ChainDelay(mageData.multiEvadeRecoveryDuration)
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 enemyPosition)
     {
-        bool isSecondPhase = enemy.currentPhase > 0;
 
         return Sequence.Create()
             .ChainCallback(() =>
             {
-                if (isSecondPhase)
-                    enemy.afterImage.Trigger(spawnDuration);
+                enemy.afterImage.Trigger(mageData.multiEvadeSpawnDuration);
                 MageSFX.instance.PlayMageMove();
             })
-            .Group(Tween.Position(enemy.transform, enemyPosition, spawnDuration, Ease.InOutCubic));
+            .Group(Tween.Position(enemy.transform, enemyPosition, mageData.multiEvadeSpawnDuration, Ease.InOutCubic));
     }
 
     private Sequence TeleportMageToPosition(EnemyController enemy, Vector3 position)
@@ -81,7 +75,7 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
     private void SpawnDamageZone(Vector3 position, Action onShootCallback = null)
     {
         MageEvadeSpell spell = Instantiate(mageEvadeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-        spell.Setup(radius, spawnDuration, fillDuration, onShootCallback);
+        spell.Setup(radius, mageData.multiEvadeSpawnDuration, mageData.multiEvadeFillDuration, onShootCallback);
     }
 
     private void SpawnHollowCircle(Vector3 position)

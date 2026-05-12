@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mageSwipeSpellPrefab: {fileID: 5390758198588875935, guid: d323355e4ca13ff4c8451e8f49cbf976,
     type: 3}
+  mageData: {fileID: 11400000, guid: adaac8d3b67e6b3438b53cea188e4b7c, type: 2}

@@ -12,3 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8146f632a3b2fdb41b88abda3f37d988, type: 3}
   m_Name: MageData
   m_EditorClassIdentifier: 
+  swipeMoveDuration: 1
+  swipeMoveDuration_p2: 0.5
+  swipeSpawnDuration: 1
+  swipeFillDuration: 0.5
+  swipeRecoveryDuration: 1.5
+  swipeRecoveryDuration_2: 1
+  evadeSpawnDuration: 0.3
+  evadeFillDuration: 0.75
+  evadeRecoveryDuration: 1
+  evadeRecoveryDuration_p2: 0.5
+  multiEvadeSpawnDuration: 0.3
+  multiEvadeFillDuration: 0.7
+  multiEvadeRecoveryDuration: 0.5
+  throwMoveDuration: 1
+  throwMoveDuration_p2: 0.5
+  throwSpawnDuration: 1
+  throwFillDuration: 0.5
+  throwRecoveryDuration: 2
+  throwRecoveryDuration_p2: 1.5
+  multiThrowMoveDuration: 0.3
+  multiThrowMoveDuration_toRight: 0.1
+  multiThrowMoveDuration_toLeft: 0.1
+  multiThrowSpawnDuration: 0.5
+  multiThrowFillDuration: 0.5
+  multiThrowRecoveryDuration: 0.3
+  rainMoveDuration: 1
+  rainMoveDuration_p2: 0.5
+  rainSpawnDuration: 0.5
+  rainFillDuration: 0.3
+  rainRecoveryDuration: 1.5
+  rainRecoveryDuration_p2: 1

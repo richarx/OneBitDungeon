@@ -8,13 +8,9 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
     [SerializeField] private float rotationDuration;
     [SerializeField] private float rockMovementDuration;
     [SerializeField] private MageThrowSpell mageThrowSpellPrefab;
-
-    private bool isSubBehaviour;
+    [SerializeField] private MageData mageData;
 
     private Sequence attackSequence;
-
-    private float spawnDuration = 1.0f;
-    private float fillDuration = 0.5f;
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -30,7 +26,7 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
             .Chain(MoveMageToPosition(enemy, enemyPosition))
             .Chain(ShootRock(enemy, rightPosition, 0.0f, true))
             .Group(ShootRock(enemy, leftPosition, 0.5f, false))
-            .ChainDelay(isSecondPhase ? (spawnDuration + fillDuration) - 0.5f : (spawnDuration + fillDuration) + 1.0f)
+            .ChainDelay(isSecondPhase ? mageData.throwRecoveryDuration_p2 : mageData.throwRecoveryDuration)
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
@@ -43,14 +39,14 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
             enemy.animator.Play("Cast");
 
             MageThrowSpell spell = Instantiate(mageThrowSpellPrefab, startingPosition, Quaternion.identity);
-            spell.Setup(rotationDuration, rotationDampening, rockMovementDuration, spawnDuration, fillDuration, () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
+            spell.Setup(rotationDuration, rotationDampening, rockMovementDuration, mageData.throwSpawnDuration, mageData.throwFillDuration, () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
         });
     }
 
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 enemyPosition)
     {
         bool isSecondPhase = enemy.currentPhase > 0;
-        float moveDuration = isSecondPhase ? 0.5f : 1.0f;
+        float moveDuration = isSecondPhase ? mageData.throwMoveDuration_p2 : mageData.throwMoveDuration;
 
         return Sequence.Create()
             .ChainCallback(() =>
@@ -85,6 +81,5 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
 
     public void SetSubBehaviourState(bool state)
     {
-        isSubBehaviour = state;
     }
 }

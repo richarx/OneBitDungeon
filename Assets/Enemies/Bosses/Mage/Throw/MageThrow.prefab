@@ -49,3 +49,4 @@ MonoBehaviour:
   rockMovementDuration: 0.5
   mageThrowSpellPrefab: {fileID: 7076405223461392294, guid: 986f59cec969d9d4fb352a06792ece97,
     type: 3}
+  mageData: {fileID: 11400000, guid: adaac8d3b67e6b3438b53cea188e4b7c, type: 2}

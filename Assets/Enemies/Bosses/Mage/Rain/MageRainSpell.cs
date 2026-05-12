@@ -12,21 +12,22 @@ public class MageRainSpell : MonoBehaviour
 
     private List<Projectile> projectiles = new List<Projectile>();
 
-    public void Setup()
+    public void Setup(float radius, float spawnDuration, float fillDuration)
     {
         threeCirclesDamageZone = GetComponent<ThreeCirclesDamageZone>();
+        threeCirclesDamageZone.Setup(radius, spawnDuration, fillDuration);
 
         Sequence.Create()
-            .ChainCallback(() => SetupCircle(0, PlayerStateMachine.instance.position))
+            .ChainCallback(() => SetupCircle(0, PlayerStateMachine.instance.position, radius, spawnDuration, fillDuration))
             .ChainDelay(0.5f)
-            .ChainCallback(() => SetupCircle(1, PlayerStateMachine.instance.position))
+            .ChainCallback(() => SetupCircle(1, PlayerStateMachine.instance.position, radius, spawnDuration, fillDuration))
             .ChainDelay(0.5f)
-            .ChainCallback(() => SetupCircle(2, PlayerStateMachine.instance.position))
+            .ChainCallback(() => SetupCircle(2, PlayerStateMachine.instance.position, radius, spawnDuration, fillDuration))
             .ChainDelay(0.5f)
             .ChainCallback(() => Detonate());
     }
 
-    private void SetupCircle(int index, Vector3 position)
+    private void SetupCircle(int index, Vector3 position, float radius, float spawnDuration, float fillDuration)
     {
         threeCirclesDamageZone.Setup(index);
         threeCirclesDamageZone.MoveCircle(index, position.ToVector2());

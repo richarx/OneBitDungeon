@@ -49,4 +49,5 @@ MonoBehaviour:
     type: 3}
   hollowCircleDamageZonePrefab: {fileID: 98420874541946916, guid: 3b7ff99e14c93ad4881a7bf8835f9ea2,
     type: 3}
+  mageData: {fileID: 11400000, guid: adaac8d3b67e6b3438b53cea188e4b7c, type: 2}
   isSubBehaviour: 0

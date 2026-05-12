@@ -49,7 +49,7 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
     private void SpawnInitialDamageZone(Vector3 position)
     {
         CircleDamageZone circleDamageZone = Instantiate(circleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-        circleDamageZone.Setup(1.5f, 0.3f, 0.4f);
+        circleDamageZone.Setup(0.15f, 0.3f, 0.4f);
     }
 
     private void SpawnHollowCircle(Vector3 position)
