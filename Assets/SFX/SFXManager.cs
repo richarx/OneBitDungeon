@@ -28,7 +28,7 @@ namespace SFX
             }
         }
 
-        public AudioSource PlaySFXInChannel(string clipChannel, float blockChannelDuration, AudioClip clip, Transform target, float volume = 0.2f, float delay = 0.0f, bool loop = false)
+        public AudioSource PlaySFXInChannel(string clipChannel, float blockChannelDuration, AudioClip clip, Transform target = null, float volume = 0.2f, float delay = 0.0f, bool loop = false)
         {
             if (clip == null)
                 return null;
@@ -41,7 +41,7 @@ namespace SFX
             return PlaySFXAtLocation(clip, target, volume, delay, loop);
         }
 
-        public AudioSource PlayRandomSFXInChannel(string clipChannel, float blockChannelDuration, List<AudioClip> clips, Transform target, float volume = 0.2f, float delay = 0.0f, bool loop = false)
+        public AudioSource PlayRandomSFXInChannel(string clipChannel, float blockChannelDuration, List<AudioClip> clips, Transform target = null, float volume = 0.2f, float delay = 0.0f, bool loop = false)
         {
             if (clips == null || clips.Count < 1)
                 return null;

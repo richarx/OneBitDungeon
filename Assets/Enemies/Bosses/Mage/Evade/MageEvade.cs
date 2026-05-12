@@ -6,11 +6,13 @@ using UnityEngine;
 
 public class MageEvade : MonoBehaviour, IEnemyBehaviour
 {
+    [SerializeField] private float radius;
+
+    [Space]
     [SerializeField] private MageEvadeSpell mageEvadeSpellPrefab;
 
-    private float radius = 3.0f;
-    private float spawnDuration = 0.5f;
-    private float fillDuration = 1.0f;
+    private float spawnDuration = 0.3f;
+    private float fillDuration = 0.75f;
 
     private Sequence attackSequence;
 
@@ -27,7 +29,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
         attackSequence = Sequence.Create()
             .ChainCallback(() => SpawnDamageZone(targetPosition))
             .Chain(MoveMageToPosition(enemy, targetPosition))
-            .Chain(TeleportMageToPosition(enemy, targetPosition))
+            .Chain(TeleportMageToPosition(enemy, evadePosition))
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 

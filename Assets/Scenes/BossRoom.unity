@@ -6559,10 +6559,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rockPrefabs:
-  - {fileID: 856313064593692743, guid: 94c8e7c76a52dcc40bf6dbfb5e0fa815, type: 3}
-  - {fileID: 6502195281759719432, guid: 7ae8aca33b7f4d846afab858a7537d79, type: 3}
-  - {fileID: 2522860259009781872, guid: 741c2bc6d66554a4194a3800bf9af5d3, type: 3}
-  - {fileID: 85195468352397765, guid: 4418c321149bd3449a79fd5a7efaf95d, type: 3}
+  - {fileID: 856313064593692743, guid: 0d44b11cede4be94b8bf450f94c6af2c, type: 3}
+  - {fileID: 6502195281759719432, guid: 3cc129f904794054c8bcd51ef71862f6, type: 3}
+  - {fileID: 2522860259009781872, guid: 4bfb15f4b97b43b44a8c70af16bbd655, type: 3}
+  - {fileID: 85195468352397765, guid: ce19204bd1ae36848a5b61834aa4463f, type: 3}
   rockDebrisPrefab: {fileID: 2374679833590217394, guid: fd0d67a61f0b99945af7fd5c37918707,
     type: 3}
 --- !u!4 &1263907344

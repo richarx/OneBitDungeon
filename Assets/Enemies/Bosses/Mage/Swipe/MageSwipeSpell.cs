@@ -13,7 +13,7 @@ public class MageSwipeSpell : MonoBehaviour
 
         Vector3 hoverPosition = transform.position;
         Vector3 spawnPosition = hoverPosition + direction.ToVector3() * -2.0f;
-        Vector3 targetPosition = hoverPosition + direction.ToVector3() * 12.0f;
+        Vector3 targetPosition = hoverPosition + direction.ToVector3() * 24.0f;
 
         Projectile projectile = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
         projectile.MoveToStartingPosition(hoverPosition, 0.3f);

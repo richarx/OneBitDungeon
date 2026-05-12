@@ -21,8 +21,7 @@ public class Projectile : MonoBehaviour
 
     public void MoveToStartingPosition(Vector3 targetPosition, float moveDuration)
     {
-        if (moveClip != null)
-            SFXManager.instance.PlaySFX(moveClip);
+        PlaySfx(moveClip);
 
         if (currentSequence.isAlive)
             currentSequence.Stop();
@@ -33,8 +32,7 @@ public class Projectile : MonoBehaviour
 
     public void Shoot(Vector3 targetPosition, float moveDuration)
     {
-        if (shootClip != null)
-            SFXManager.instance.PlaySFX(shootClip);
+        PlaySfx(shootClip);
 
         Vector3 punchScale = new Vector3(1.3f, 0.7f, 1.0f);
 
@@ -42,7 +40,7 @@ public class Projectile : MonoBehaviour
             currentSequence.Stop();
 
         currentSequence = Sequence.Create()
-            .Chain(Tween.LocalPosition(transform, targetPosition, moveDuration, Ease.InOutBack))
+            .Chain(Tween.Position(transform, targetPosition, moveDuration, Ease.InOutBack))
             .Group(Tween.PunchScale(transform, punchScale, 0.1f, 3.0f, startDelay: 0.5f))
             .ChainCallback(() => SpawnImpact())
             .ChainCallback(() => DestroyProjectile());
@@ -50,10 +48,14 @@ public class Projectile : MonoBehaviour
 
     private void SpawnImpact()
     {
-        if (impactClip != null)
-            SFXManager.instance.PlaySFX(impactClip);
-
+        PlaySfx(impactClip);
         Instantiate(impactPrefab, transform.position, Quaternion.identity);
+    }
+
+    private void PlaySfx(AudioClip clip, float volume = 0.2f)
+    {
+        if (clip != null)
+            SFXManager.instance.PlaySFXInChannel($"{clip.name}", 0.3f, clip);
     }
 
     private void DestroyProjectile()

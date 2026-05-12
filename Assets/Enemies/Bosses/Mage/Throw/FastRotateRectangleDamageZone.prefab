@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8072526408249070361}
+  - component: {fileID: 1563654819030307539}
   m_Layer: 0
   m_Name: FastRotateRectangleDamageZone
   m_TagString: Untagged
@@ -32,6 +33,20 @@ Transform:
   - {fileID: 5577788316628346820}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1563654819030307539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227854228040328757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121b79800d35f2244b87b545ce74cc8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 8342651595024826427, guid: 94c8e7c76a52dcc40bf6dbfb5e0fa815,
+    type: 3}
 --- !u!1 &4954621955800700744
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,9 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 0.5, y: 0.1}
-  spawnDuration: 0.4
   spawnEase: 16
-  fillDuration: 0.35
   fillEase: 6
   despawnDuration: 0.5
   flashColor: {r: 0.4627451, g: 0.45490196, b: 0.45490196, a: 1}

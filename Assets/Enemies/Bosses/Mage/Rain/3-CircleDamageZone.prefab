@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8084402581156914454}
   - component: {fileID: 7519189884187263959}
   - component: {fileID: -2982686421266819251}
+  - component: {fileID: -4687576511174882052}
   m_Layer: 0
   m_Name: 3-CircleDamageZone
   m_TagString: Untagged
@@ -108,3 +109,17 @@ MonoBehaviour:
   flashOutlineColor: {r: 1, g: 1, b: 1, a: 1}
   filledColor: {r: 0, g: 0, b: 0, a: 1}
   filledOutlineColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &-4687576511174882052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6689656852614517940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8551123a81a259644988e2656c0dd65a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 8342651595024826427, guid: 94c8e7c76a52dcc40bf6dbfb5e0fa815,
+    type: 3}

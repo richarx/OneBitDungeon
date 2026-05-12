@@ -24,10 +24,13 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
         Vector3 rightPosition = new Vector3(3.0f, 0.0f, 9.0f);
         Vector3 leftPosition = new Vector3(-3.0f, 0.0f, 9.0f);
 
+        bool isSecondPhase = enemy.currentPhase > 0;
+
         attackSequence = Sequence.Create()
             .Chain(MoveMageToPosition(enemy, enemyPosition))
             .Chain(ShootRock(enemy, rightPosition, 0.0f, true))
             .Group(ShootRock(enemy, leftPosition, 0.5f, false))
+            .ChainDelay(isSecondPhase ? (spawnDuration + fillDuration) - 0.5f : (spawnDuration + fillDuration) + 1.0f)
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 

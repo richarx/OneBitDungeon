@@ -6,12 +6,14 @@ using UnityEngine;
 
 public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
 {
+    [SerializeField] private float radius;
+
+    [Space]
     [SerializeField] private MageEvadeSpell mageEvadeSpellPrefab;
     [SerializeField] private HollowCircleDamageZone hollowCircleDamageZonePrefab;
 
     private Sequence attackSequence;
 
-    private float radius = 3.0f;
     private float spawnDuration = 0.3f;
     private float fillDuration = 1.0f;
 

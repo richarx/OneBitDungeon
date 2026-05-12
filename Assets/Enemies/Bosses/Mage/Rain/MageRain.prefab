@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636f8f1bb328d4147b1b84cab9084453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threeCirclesDamageZone: {fileID: -2982686421266819251, guid: cb61cefcbae00b549afffc56c12cdad0,
+  mageRainSpellPrefab: {fileID: -4687576511174882052, guid: cb61cefcbae00b549afffc56c12cdad0,
     type: 3}

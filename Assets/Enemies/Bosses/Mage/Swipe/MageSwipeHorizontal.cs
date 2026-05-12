@@ -21,42 +21,36 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
         randomPosition.y = 0.0f;
 
         bool isSecondPhase = enemy.currentPhase > 0;
+        float totalDuration = spawnDuration + fillDuration;
 
         if (!isSubBehaviour)
         {
             attackSequence = Sequence.Create()
                 .ChainCallback(() => enemy.animator.Play("Cast"))
                 .Chain(MoveMageToPosition(enemy, randomPosition))
-                .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, 8.92f), Vector2.left))
-                .ChainDelay(0.05f)
-                .Chain(CastSwipeSpell(new Vector3(-10.0f, 0.0f, 4.42f), Vector2.right))
-                .ChainDelay(0.05f)
-                .Chain(CastSwipeSpell(new Vector3(10.0f, 0.0f, 0.0f), Vector2.left))
-                .ChainDelay(0.05f)
-                .Chain(CastSwipeSpell(new Vector3(-10.0f, 0.0f, -4.58f), Vector2.right))
-                .ChainDelay(0.05f)
-                .Chain(CastSwipeSpell(new Vector3(10.0f, 0.0f, -9.11f), Vector2.left))
-                .ChainDelay(isSecondPhase ? (spawnDuration + fillDuration) - 0.5f : (spawnDuration + fillDuration) + 1.0f)
+                .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, 8.92f), Vector2.left, 0.0f))
+                .Group(CastSwipeSpell(new Vector3(-10.0f, 0.0f, 4.42f), Vector2.right, 0.05f))
+                .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, 0.0f), Vector2.left, 0.1f))
+                .Group(CastSwipeSpell(new Vector3(-10.0f, 0.0f, -4.58f), Vector2.right, 0.15f))
+                .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, -9.11f), Vector2.left, 0.2f))
+                .ChainDelay(isSecondPhase ? totalDuration - 0.5f : totalDuration)
                 .ChainCallback(() => enemy.SelectNewBehaviour());
         }
         else
         {
             attackSequence = Sequence.Create()
-                .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, 8.92f), Vector2.left))
-                .ChainDelay(0.05f)
-                .Chain(CastSwipeSpell(new Vector3(-10.0f, 0.0f, 4.42f), Vector2.right))
-                .ChainDelay(0.05f)
-                .Chain(CastSwipeSpell(new Vector3(10.0f, 0.0f, 0.0f), Vector2.left))
-                .ChainDelay(0.05f)
-                .Chain(CastSwipeSpell(new Vector3(-10.0f, 0.0f, -4.58f), Vector2.right))
-                .ChainDelay(0.05f)
-                .Chain(CastSwipeSpell(new Vector3(10.0f, 0.0f, -9.11f), Vector2.left));
+                .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, 8.92f), Vector2.left, 0.0f))
+                .Group(CastSwipeSpell(new Vector3(-10.0f, 0.0f, 4.42f), Vector2.right, 0.05f))
+                .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, 0.0f), Vector2.left, 0.1f))
+                .Group(CastSwipeSpell(new Vector3(-10.0f, 0.0f, -4.58f), Vector2.right, 0.15f))
+                .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, -9.11f), Vector2.left, 0.2f));
         }
     }
 
-    private Sequence CastSwipeSpell(Vector3 position, Vector2 direction)
+    private Sequence CastSwipeSpell(Vector3 position, Vector2 direction, float delay)
     {
         return Sequence.Create()
+            .ChainDelay(delay)
             .ChainCallback(() =>
             {
                 MageSwipeSpell spell = Instantiate(mageSwipeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));

@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class MageSpawn : MonoBehaviour, IEnemyBehaviour
 {
+    [SerializeField] private float radius;
+
+    [Space]
     [SerializeField] private CircleDamageZone circleDamageZonePrefab;
 
     public void FixedUpdateBehaviour(EnemyController enemy)
@@ -37,7 +40,7 @@ public class MageSpawn : MonoBehaviour, IEnemyBehaviour
     private void SpawnDamageZone(Vector3 position)
     {
         CircleDamageZone circleDamageZone = Instantiate(circleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-        circleDamageZone.Setup(3.0f, 3.0f, 2.5f);
+        circleDamageZone.Setup(radius, 3.0f, 2.5f);
     }
 
     public void StopBehaviour(EnemyController enemy)

@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dacca7d59b805d4b87414f4bbb5e623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circleDamageZonePrefab: {fileID: 5892917051957619975, guid: 3931c0c19e6050f41a04b11fe390ac5e,
+  radius: 0.15
+  mageEvadeSpellPrefab: {fileID: 3966374943627719576, guid: 3931c0c19e6050f41a04b11fe390ac5e,
     type: 3}
+  isSubBehaviour: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4355935576702682239}
   - component: {fileID: 2328363439323903530}
   - component: {fileID: 8855877753584776581}
+  - component: {fileID: 4208395337139637402}
   m_Layer: 0
   m_Name: VertRectangleDamageZone
   m_TagString: Untagged
@@ -99,12 +100,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 0.1, y: 0.49}
-  spawnDuration: 1
   spawnEase: 16
-  fillDuration: 0.5
   fillEase: 6
   despawnDuration: 0.5
   flashColor: {r: 0.4627451, g: 0.45490196, b: 0.45490196, a: 1}
   flashOutlineColor: {r: 1, g: 1, b: 1, a: 1}
   filledColor: {r: 1, g: 0, b: 0, a: 1}
   filledOutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  alsoDestroyParent: 0
+  canBeParried: 0
+--- !u!114 &4208395337139637402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9068718395075249346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73bf0648cac5ed445884ffe84d33757a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 8342651595024826427, guid: 94c8e7c76a52dcc40bf6dbfb5e0fa815,
+    type: 3}

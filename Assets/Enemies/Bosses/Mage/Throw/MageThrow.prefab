@@ -46,5 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationDampening: 0.1
   rotationDuration: 1.2
-  rectangleDamageZonePrefab: {fileID: 227854228040328757, guid: 986f59cec969d9d4fb352a06792ece97,
+  rockMovementDuration: 0.5
+  mageThrowSpellPrefab: {fileID: 7076405223461392294, guid: 986f59cec969d9d4fb352a06792ece97,
     type: 3}

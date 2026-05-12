@@ -23,8 +23,8 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
 
             attackSequence = Sequence.Create()
             .Chain(MoveMageToPosition(enemy, randomPosition))
-            .ChainCallback(() => CastRainSpell())
-            .ChainDelay(isSecondPhase ? 1.5f : 2.0f)
+            .Group(CastRainSpell())
+            .ChainDelay(isSecondPhase ? 1.0f : 1.5f)
             .ChainCallback(() => enemy.SelectNewBehaviour());
         }
         else
@@ -33,10 +33,14 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
         }
     }
 
-    private void CastRainSpell()
+    private Sequence CastRainSpell()
     {
-        MageRainSpell spell = Instantiate(mageRainSpellPrefab, Vector3.zero, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-        spell.Setup();
+        return Sequence.Create()
+            .ChainCallback(() =>
+            {
+                MageRainSpell spell = Instantiate(mageRainSpellPrefab, Vector3.zero, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+                spell.Setup();
+            });
     }
 
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 enemyPosition)

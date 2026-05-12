@@ -19,8 +19,7 @@ public class MageEvadeSpell : MonoBehaviour
                 circle.Setup(_radius, _spawnDuration, _fillDuration);
             })
             .ChainCallback(() => SpawnRocks())
-            .ChainDelay(_spawnDuration)
-            .ChainDelay(_fillDuration)
+            .ChainDelay(_spawnDuration + _fillDuration - 0.15f)
             .ChainCallback(() =>
             {
                 ShootRocks();
