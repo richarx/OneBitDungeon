@@ -35,6 +35,7 @@ MonoBehaviour:
   parryDuration: 0.4
   successfulParryDuration: 0.4
   parryCooldown: 0.2
+  parryGracePeriodDuration: 0.05
   maxStamina: 100
   staminaCooldown: 0.5
   staminaEmptyCooldown: 1.5

@@ -76,6 +76,11 @@ namespace Player.Scripts
             return isCooldownRefreshed && hasEnoughStamina;
         }
 
+        public bool IsInGracePeriod(PlayerStateMachine player)
+        {
+            return Time.time - parryStartTimestamp <= player.playerData.parryDuration + player.playerData.parryGracePeriodDuration;
+        }
+
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
             parryCooldownTimestamp = wasSuccessful ? -1.0f : (Time.time + player.playerData.parryCooldown);

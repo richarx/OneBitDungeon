@@ -41,6 +41,7 @@ namespace Player.Scripts
         public float parryDuration;
         public float successfulParryDuration;
         public float parryCooldown;
+        public float parryGracePeriodDuration;
 
         [Space]
         [Header("Stamina")]
