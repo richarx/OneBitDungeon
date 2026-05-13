@@ -10,9 +10,15 @@ public class Projectile : MonoBehaviour
     [SerializeField] private GameObject impactPrefab;
 
     private Sequence currentSequence;
+    private bool isCanceled;
 
     public void CancelProjectile()
     {
+        if (isCanceled)
+            return;
+
+        isCanceled = true;
+
         if (currentSequence.isAlive)
             currentSequence.Stop();
 
@@ -21,6 +27,9 @@ public class Projectile : MonoBehaviour
 
     public void MoveToStartingPosition(Vector3 targetPosition, float moveDuration)
     {
+        if (isCanceled)
+            return;
+
         PlaySfx(moveClip);
 
         if (currentSequence.isAlive)
@@ -32,6 +41,9 @@ public class Projectile : MonoBehaviour
 
     public void Shoot(Vector3 targetPosition, float moveDuration)
     {
+        if (isCanceled)
+            return;
+
         PlaySfx(shootClip);
 
         Vector3 punchScale = new Vector3(1.3f, 0.7f, 1.0f);

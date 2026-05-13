@@ -9,6 +9,7 @@ public class MageRainSpell : MonoBehaviour
     [SerializeField] private Projectile projectilePrefab;
 
     private ThreeCirclesDamageZone threeCirclesDamageZone;
+    private Sequence sequence;
 
     private List<Projectile> projectiles = new List<Projectile>();
 
@@ -17,7 +18,7 @@ public class MageRainSpell : MonoBehaviour
         threeCirclesDamageZone = GetComponent<ThreeCirclesDamageZone>();
         threeCirclesDamageZone.Setup(radius, spawnDuration, fillDuration);
 
-        Sequence.Create()
+        sequence = Sequence.Create()
             .ChainCallback(() => SetupCircle(0, PlayerStateMachine.instance.position, radius, spawnDuration, fillDuration))
             .ChainDelay(0.5f)
             .ChainCallback(() => SetupCircle(1, PlayerStateMachine.instance.position, radius, spawnDuration, fillDuration))
@@ -25,6 +26,18 @@ public class MageRainSpell : MonoBehaviour
             .ChainCallback(() => SetupCircle(2, PlayerStateMachine.instance.position, radius, spawnDuration, fillDuration))
             .ChainDelay(0.5f)
             .ChainCallback(() => Detonate());
+    }
+
+    public void Cancel()
+    {
+        if (threeCirclesDamageZone != null)
+            threeCirclesDamageZone.Cancel();
+
+        if (sequence.isAlive)
+            sequence.Stop();
+
+        foreach (Projectile projectile in projectiles)
+            projectile.CancelProjectile();
     }
 
     private void SetupCircle(int index, Vector3 position, float radius, float spawnDuration, float fillDuration)
@@ -47,9 +60,7 @@ public class MageRainSpell : MonoBehaviour
         threeCirclesDamageZone.Detonate();
 
         foreach (Projectile projectile in projectiles)
-        {
             projectile.Shoot(ComputeRockTargetPosition(projectile.transform.position), 0.3f);
-        }
     }
 
     private Vector3 ComputeRockTargetPosition(Vector3 position)

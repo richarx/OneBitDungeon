@@ -12,6 +12,10 @@ public class MageThrowSpell : MonoBehaviour
     private float rotationDampening;
     private float throwTimestamp;
 
+    private Sequence sequence;
+    private RectangleDamageZone rectangleDamageZone;
+    private Projectile projectile;
+
     public Vector3 rotationDirection { get; private set; }
 
     public void Setup(float duration, float dampening, float rockMovementDuration, float spawnDuration, float fillDuration, Action onShootCallback)
@@ -20,18 +24,32 @@ public class MageThrowSpell : MonoBehaviour
         rotationDampening = dampening;
         throwTimestamp = Time.time;
 
-        transform.GetChild(0).GetComponent<RectangleDamageZone>().Setup(Vector2.right, spawnDuration, fillDuration);
+        rectangleDamageZone = transform.GetChild(0).GetComponent<RectangleDamageZone>();
+        rectangleDamageZone.Setup(Vector2.right, spawnDuration, fillDuration);
 
         Vector3 startingPosition = transform.position;
 
-        Projectile projectile = Instantiate(projectilePrefab, startingPosition + Vector3.forward * -2.0f, Quaternion.identity);
+        projectile = Instantiate(projectilePrefab, startingPosition + Vector3.forward * -2.0f, Quaternion.identity);
         projectile.MoveToStartingPosition(startingPosition, 0.3f);
 
-        Sequence sequence = Sequence.Create()
+        sequence = Sequence.Create()
             .ChainDelay(spawnDuration)
             .ChainDelay(fillDuration)
             .ChainCallback(() => onShootCallback?.Invoke())
             .ChainCallback(() => projectile.Shoot(ComputeProjectileTargetPosition(startingPosition), rockMovementDuration));
+    }
+
+    public void Cancel()
+    {
+        rectangleDamageZone.Cancel();
+
+        if (sequence.isAlive)
+            sequence.Stop();
+
+        if (projectile != null)
+            projectile.CancelProjectile();
+
+        throwTimestamp = -1000.0f;
     }
 
     private Vector3 ComputeProjectileTargetPosition(Vector3 startingPosition)

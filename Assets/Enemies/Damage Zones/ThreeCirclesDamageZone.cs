@@ -180,16 +180,17 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
         if (currentSequence.isAlive)
             currentSequence.Stop();
+
         currentSequence = Sequence.Create()
-        .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
-        .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
-        .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_1, 0.0f, despawnDuration, Ease.InBack))
-        .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_2, 0.0f, despawnDuration, Ease.InBack))
-        .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_3, 0.0f, despawnDuration, Ease.InBack))
-        .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration))
-        .ChainCallback(() =>
-        {
-            Destroy(gameObject);
-        });
+            .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
+            .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
+            .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_1, 0.0f, despawnDuration, Ease.InBack))
+            .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_2, 0.0f, despawnDuration, Ease.InBack))
+            .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId_3, 0.0f, despawnDuration, Ease.InBack))
+            .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration))
+            .ChainCallback(() =>
+            {
+                Destroy(gameObject);
+            });
     }
 }

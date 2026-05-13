@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Enemies.Scripts.Behaviours;
 using Player.Scripts;
 using PrimeTween;
@@ -14,6 +15,8 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
     [SerializeField] private MageData mageData;
 
     private Sequence attackSequence;
+    private HollowCircleDamageZone hollowCircle;
+    private List<MageEvadeSpell> spells = new List<MageEvadeSpell>();
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -76,11 +79,12 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
     {
         MageEvadeSpell spell = Instantiate(mageEvadeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
         spell.Setup(radius, mageData.multiEvadeSpawnDuration, mageData.multiEvadeFillDuration, onShootCallback);
+        spells.Add(spell);
     }
 
     private void SpawnHollowCircle(Vector3 position)
     {
-        HollowCircleDamageZone hollowCircle = Instantiate(hollowCircleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+        hollowCircle = Instantiate(hollowCircleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
         hollowCircle.Setup();
     }
 
@@ -101,6 +105,12 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
     {
         if (attackSequence.isAlive)
             attackSequence.Stop();
+
+        foreach (MageEvadeSpell spell in spells)
+            spell.Cancel();
+
+        if (hollowCircle != null)
+            hollowCircle.Cancel();
     }
 
     public bool isSubBehaviour;

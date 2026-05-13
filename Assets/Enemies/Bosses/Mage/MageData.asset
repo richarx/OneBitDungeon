@@ -16,8 +16,8 @@ MonoBehaviour:
   swipeMoveDuration_p2: 0.5
   swipeSpawnDuration: 1
   swipeFillDuration: 0.5
-  swipeRecoveryDuration: 1.5
-  swipeRecoveryDuration_2: 1
+  swipeRecoveryDuration: 1
+  swipeRecoveryDuration_2: 0.5
   evadeSpawnDuration: 0.3
   evadeFillDuration: 0.75
   evadeRecoveryDuration: 1
@@ -41,5 +41,5 @@ MonoBehaviour:
   rainMoveDuration_p2: 0.5
   rainSpawnDuration: 0.5
   rainFillDuration: 0.3
-  rainRecoveryDuration: 1.5
-  rainRecoveryDuration_p2: 1
+  rainRecoveryDuration: 0.5
+  rainRecoveryDuration_p2: 0.3

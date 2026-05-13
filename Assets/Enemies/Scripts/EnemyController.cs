@@ -42,7 +42,7 @@ public class EnemyController : MonoBehaviour
                 Debug.Log("Trigger Next Phase !");
                 currentPhase += 1;
                 enemyBehaviours = enemyPhases[currentPhase].GetBehaviours();
-                currentBehaviour.CancelBehaviour(this);
+                CancelCurrentBehaviour();
                 startingBehaviour = enemyPhases[currentPhase].GetTransitionBehaviour();
                 ChangeBehaviour(startingBehaviour);
             }
@@ -50,7 +50,7 @@ public class EnemyController : MonoBehaviour
 
         damageable.OnDie.AddListener(() =>
         {
-            currentBehaviour.CancelBehaviour(this);
+            CancelCurrentBehaviour();
             ChangeBehaviour(deathBehaviourObject.GetComponent<IEnemyBehaviour>());
         });
 
@@ -58,6 +58,11 @@ public class EnemyController : MonoBehaviour
 
         startingBehaviour = enemyPhases[currentPhase].GetTransitionBehaviour();
         ChangeBehaviour(startingBehaviour);
+    }
+
+    private void CancelCurrentBehaviour()
+    {
+        currentBehaviour.CancelBehaviour(this);
     }
 
     protected virtual void Update()

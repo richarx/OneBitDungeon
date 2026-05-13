@@ -10,14 +10,15 @@ public class MageEvadeSpell : MonoBehaviour
 
     private List<Projectile> projectiles = new List<Projectile>();
 
+    private CircleDamageZone circle;
+    private Sequence sequence;
+
     public void Setup(float _radius, float _spawnDuration, float _fillDuration, Action onShootCallback)
     {
-        Sequence.Create()
-            .ChainCallback(() =>
-            {
-                CircleDamageZone circle = GetComponent<CircleDamageZone>();
-                circle.Setup(_radius, _spawnDuration, _fillDuration);
-            })
+        CircleDamageZone circle = GetComponent<CircleDamageZone>();
+        circle.Setup(_radius, _spawnDuration, _fillDuration);
+
+        sequence = Sequence.Create()
             .ChainCallback(() => SpawnRocks())
             .ChainDelay(_spawnDuration + _fillDuration - 0.15f)
             .ChainCallback(() =>
@@ -27,12 +28,22 @@ public class MageEvadeSpell : MonoBehaviour
             });
     }
 
+    public void Cancel()
+    {
+        if (circle != null)
+            circle.Cancel();
+
+        if (sequence.isAlive)
+            sequence.Stop();
+
+        foreach (Projectile projectile in projectiles)
+            projectile.CancelProjectile();
+    }
+
     private void ShootRocks()
     {
         foreach (Projectile projectile in projectiles)
-        {
             projectile.Shoot(ComputeRockTargetPosition(projectile.transform.position), 0.3f);
-        }
     }
 
     private void SpawnRocks()

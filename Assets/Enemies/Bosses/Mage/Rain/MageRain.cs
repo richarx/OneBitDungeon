@@ -10,6 +10,7 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
     private bool isSubBehaviour;
 
     private Sequence attackSequence;
+    private MageRainSpell spell;
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -39,7 +40,7 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
         return Sequence.Create()
             .ChainCallback(() =>
             {
-                MageRainSpell spell = Instantiate(mageRainSpellPrefab, Vector3.zero, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+                spell = Instantiate(mageRainSpellPrefab, Vector3.zero, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
                 spell.Setup(0.1f, mageData.rainSpawnDuration, mageData.rainFillDuration);
             });
     }
@@ -79,6 +80,9 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
     {
         if (attackSequence.isAlive)
             attackSequence.Stop();
+
+        if (spell != null)
+            spell.Cancel();
     }
 
     public void SetSubBehaviourState(bool state)

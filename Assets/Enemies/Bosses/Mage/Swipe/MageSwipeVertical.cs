@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Enemies.Scripts.Behaviours;
 using PrimeTween;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
     private bool isSubBehaviour;
 
     private Sequence attackSequence;
+
+    private List<MageSwipeSpell> spells = new List<MageSwipeSpell>();
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -52,6 +55,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
             {
                 MageSwipeSpell spell = Instantiate(mageSwipeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
                 spell.Setup(direction, mageData.swipeSpawnDuration, mageData.swipeFillDuration);
+                spells.Add(spell);
             });
     }
 
@@ -89,6 +93,9 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
     {
         if (attackSequence.isAlive)
             attackSequence.Stop();
+
+        foreach (MageSwipeSpell spell in spells)
+            spell.Cancel();
     }
 
     public void SetSubBehaviourState(bool state)

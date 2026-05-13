@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Enemies.Scripts.Behaviours;
 using PrimeTween;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
     [SerializeField] private MageData mageData;
 
     private Sequence attackSequence;
+
+    private List<MageThrowSpell> spells = new List<MageThrowSpell>();
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -47,6 +50,7 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
 
             MageThrowSpell spell = Instantiate(mageThrowSpellPrefab, startingPosition, Quaternion.identity);
             spell.Setup(rotationDuration, rotationDampening, rockMovementDuration, mageData.multiThrowSpawnDuration, mageData.multiThrowFillDuration, () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
+            spells.Add(spell);
         });
     }
 
@@ -78,6 +82,9 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
     {
         if (attackSequence.isAlive)
             attackSequence.Stop();
+
+        foreach (MageThrowSpell spell in spells)
+            spell.Cancel();
     }
 
     public void SetSubBehaviourState(bool state)

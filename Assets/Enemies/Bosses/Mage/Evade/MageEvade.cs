@@ -12,6 +12,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
     [SerializeField] private MageData mageData;
 
     private Sequence attackSequence;
+    private MageEvadeSpell spell;
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -22,7 +23,6 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
         Vector3 currentPosition = enemy.transform.position;
         Vector3 playerPosition = PlayerStateMachine.instance.position;
         Vector3 targetPosition = playerPosition + (currentPosition - playerPosition).normalized * 0.5f;
-
 
         Vector3 evadePosition = targetPosition.magnitude <= 0.01f ? Vector3.forward * 7.0f : (targetPosition * -1.0f).normalized * 7.0f;
 
@@ -59,7 +59,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 
     private void SpawnDamageZone(Vector3 position)
     {
-        MageEvadeSpell spell = Instantiate(mageEvadeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+        spell = Instantiate(mageEvadeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
         spell.Setup(radius, mageData.evadeSpawnDuration, mageData.evadeFillDuration, null);
     }
 
@@ -81,6 +81,9 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
     {
         if (attackSequence.isAlive)
             attackSequence.Stop();
+
+        if (spell != null)
+            spell.Cancel();
     }
 
     public bool isSubBehaviour;
