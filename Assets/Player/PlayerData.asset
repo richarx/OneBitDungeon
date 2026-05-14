@@ -24,6 +24,12 @@ MonoBehaviour:
   rollDecelerationDistanceThreshold: 0.5
   rollCooldown: 0.25
   rollHasIFrames: 0
+  jumpMaxSpeed: 8
+  jumpMaxDuration: 0.5
+  jumpInAirDuration: 0.45
+  jumpAcceleration: 80
+  jumpDeceleration: 120
+  jumpCooldown: 0
   attackDuration: 0.5
   attackDashDuration: 0.15
   attackDashMaxDistance: 3.5
@@ -41,6 +47,7 @@ MonoBehaviour:
   staminaEmptyCooldown: 1.5
   refillRate: 50
   rollStaminaCost: 40
+  jumpStaminaCost: 0
   attackStaminaCost: 10
   parryStaminaCost: 0
   parryStaminaGainOnSuccess: 30

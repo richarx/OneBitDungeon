@@ -23,6 +23,15 @@ namespace Player.Scripts
         public bool rollHasIFrames;
 
         [Space]
+        [Header("Jump")]
+        public float jumpMaxSpeed;
+        public float jumpMaxDuration;
+        public float jumpInAirDuration;
+        public float jumpAcceleration;
+        public float jumpDeceleration;
+        public float jumpCooldown;
+
+        [Space]
         [Header("Combat")]
         public float attackDuration;
         public float attackDashDuration;
@@ -52,6 +61,7 @@ namespace Player.Scripts
 
         [Space]
         public float rollStaminaCost;
+        public float jumpStaminaCost;
         public float attackStaminaCost;
         public float parryStaminaCost;
         public float parryStaminaGainOnSuccess;

@@ -30,6 +30,12 @@ namespace Player.Scripts
                 return;
             }
 
+            if (player.playerJump.CanJump(player) && player.inputPackage.GetJump.WasPressedWithBuffer())
+            {
+                player.ChangeBehaviour(player.playerJump);
+                return;
+            }
+
             if (player.playerAttack.CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerAttack);

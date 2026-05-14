@@ -18,6 +18,7 @@ namespace Player.Scripts
         public PlayerIdle playerIdle = new PlayerIdle();
         public PlayerRun playerRun = new PlayerRun();
         public PlayerRoll playerRoll = new PlayerRoll();
+        public PlayerJump playerJump = new PlayerJump();
         public PlayerStagger playerStagger = new PlayerStagger();
         public PlayerParry playerParry = new PlayerParry();
         public PlayerSit playerSit = new PlayerSit();

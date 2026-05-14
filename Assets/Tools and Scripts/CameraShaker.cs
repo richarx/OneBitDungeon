@@ -30,6 +30,7 @@ namespace Tools_and_Scripts
             WeaponDamageTrigger.OnHitEnemy.AddListener((_) => StartShake());
             player.playerHealth.OnPlayerTakeDamage.AddListener((_) => StartShake(1.3f, 1.3f, 2.0f));
             player.playerParry.OnSuccessfulParry.AddListener(() => StartShake());
+            player.playerJump.OnLandJump.AddListener(() => StartShake(0.3f, 0.3f, 0.3f));
         }
 
         public void StartShake(float amplitudePower = 1.0f, float frequencyPower = 1.0f, float timePower = 1.0f)

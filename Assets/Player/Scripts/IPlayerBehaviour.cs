@@ -1,10 +1,11 @@
 namespace Player.Scripts
 {
-    public enum BehaviourType 
+    public enum BehaviourType
     {
         Idle,
         Run,
         Roll,
+        Jump,
         Attack,
         Stagger,
         Parry,
@@ -12,7 +13,7 @@ namespace Player.Scripts
         Dead,
         Locked,
     }
-    
+
     public interface IPlayerBehaviour
     {
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous);

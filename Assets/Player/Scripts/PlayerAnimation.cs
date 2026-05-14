@@ -31,6 +31,9 @@ namespace Player.Scripts
                 case BehaviourType.Roll:
                     PlayRollAnimation();
                     break;
+                case BehaviourType.Jump:
+                    PlayJumpAnimation();
+                    break;
                 case BehaviourType.Parry:
                     PlayParryAnimation();
                     break;
@@ -87,6 +90,11 @@ namespace Player.Scripts
         private void PlayRollAnimation()
         {
             animator.Play($"Roll_NoWeapon_{ComputeCardinalLookDirection()}");
+        }
+
+        private void PlayJumpAnimation()
+        {
+            animator.Play($"Jump_{ComputeWeaponState()}_{ComputeLookDirection()}");
         }
 
         private void PlayAttackAnimation(string attackAnimation)

@@ -29,6 +29,13 @@ namespace Player.Scripts
                 return;
             }
 
+            if (player.playerJump.CanJump(player) && player.inputPackage.GetJump.WasPressedWithBuffer())
+            {
+                Debug.Log("Jump Input");
+                player.ChangeBehaviour(player.playerJump);
+                return;
+            }
+
             if (player.moveInput.magnitude >= 0.15f)
             {
                 player.ChangeBehaviour(player.playerRun);
