@@ -17,9 +17,9 @@ namespace Tools_and_Scripts
         public bool isPressed;
         public float lastPressTimestamp = -1.0f;
 
-        public bool WasPressedWithBuffer()
+        public bool WasPressedWithBuffer(float bufferDuration = 0.2f)
         {
-            if (Time.time - lastPressTimestamp <= 0.2f)
+            if (Time.time - lastPressTimestamp <= bufferDuration)
             {
                 lastPressTimestamp = -1.0f;
                 return true;
