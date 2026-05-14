@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
 
     private Sequence currentSequence;
     private bool isCanceled;
+    private bool isDestroyed;
 
     public void CancelProjectile()
     {
@@ -72,6 +73,10 @@ public class Projectile : MonoBehaviour
 
     private void DestroyProjectile()
     {
+        if (isDestroyed)
+            return;
+
+        isDestroyed = true;
         Destroy(gameObject);
     }
 }

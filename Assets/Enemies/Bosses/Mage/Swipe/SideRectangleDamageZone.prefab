@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 36918ec7cf3c5f0478fe1ebf3b993741, type: 2}
+  - {fileID: 2100000, guid: e9668cc9807279746bcf8b727f27335e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,7 +109,6 @@ MonoBehaviour:
   filledColor: {r: 1, g: 0, b: 0, a: 1}
   filledOutlineColor: {r: 0, g: 0, b: 0, a: 1}
   alsoDestroyParent: 0
-  canBeParried: 0
 --- !u!114 &5390758198588875935
 MonoBehaviour:
   m_ObjectHideFlags: 0
