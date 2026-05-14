@@ -19,12 +19,12 @@ public class RectangleDamageZone : MonoBehaviour
 
     [Space]
     [SerializeField] private bool alsoDestroyParent;
-    [SerializeField] private bool canBeParried;
 
     private float spawnDuration;
     private float fillDuration;
     private bool hasBeenParried;
 
+    private DealDamageToPlayer dealDamageToPlayer;
     private Sequence currentSequence;
 
     private bool isCheckingForDamage;
@@ -34,6 +34,7 @@ public class RectangleDamageZone : MonoBehaviour
         spawnDuration = _spawnDuration;
         fillDuration = _fillDuration;
 
+        dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
         spriteRenderer.material = new Material(spriteRenderer.material);
@@ -94,23 +95,15 @@ public class RectangleDamageZone : MonoBehaviour
         Vector2 C = (position + transform.right * X - transform.up * Y).ToVector2();
         Vector2 D = (position - transform.right * X - transform.up * Y).ToVector2();
 
+        Vector3 direction = (P.ToVector3() - position).normalized;
+
         bool damageApplied = false;
 
         if (PointInTriangle(P, A, B, C) || PointInTriangle(P, A, C, D))
-        {
-            if (canBeParried && PlayerStateMachine.instance.playerHealth.IsParrying())
-            {
-                PlayerStateMachine.instance.playerHealth.TriggerParry();
-                hasBeenParried = true;
-            }
-            else
-                damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, (P.ToVector3() - position).normalized);
-        }
+            damageApplied = dealDamageToPlayer.TryDealDamage(direction);
 
         if (damageApplied)
             isCheckingForDamage = false;
-        else
-            CameraShaker.instance.StartShake();
     }
 
     public static bool PointInTriangle(Vector2 p, Vector2 p0, Vector2 p1, Vector2 p2)

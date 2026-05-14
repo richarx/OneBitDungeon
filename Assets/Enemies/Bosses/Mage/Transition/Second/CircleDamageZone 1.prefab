@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9101846275329592306}
   - component: {fileID: 3131505789939509885}
   - component: {fileID: 5892917051957619975}
+  - component: {fileID: -8838690568368870175}
   m_Layer: 0
   m_Name: CircleDamageZone 1
   m_TagString: Untagged
@@ -98,13 +99,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0bd6e772bcf9c64b9853e08e5c22f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.1
-  spawnDuration: 0.3
   spawnEase: 16
-  fillDuration: 0.3
   fillEase: 6
   despawnDuration: 0.3
   flashColor: {r: 0.4627451, g: 0.45490196, b: 0.45490196, a: 1}
   flashOutlineColor: {r: 1, g: 1, b: 1, a: 1}
   filledColor: {r: 0, g: 0, b: 0, a: 1}
   filledOutlineColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &-8838690568368870175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4171854080008087384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5031c2850f7254e8b0091d914300f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  canBeParried: 0
+  canBeJumped: 0

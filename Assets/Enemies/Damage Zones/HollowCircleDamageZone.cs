@@ -17,19 +17,21 @@ public class HollowCircleDamageZone : MonoBehaviour
     [SerializeField] private Color filledColor;
     [SerializeField] private Color filledOutlineColor;
 
+    private DealDamageToPlayer dealDamageToPlayer;
     private Sequence currentSequence;
     private SpriteRenderer spriteRenderer;
 
-    private bool hasBeenParried;
+    private bool hasDealtDamage;
 
     private void Update()
     {
-        if (!hasBeenParried && spriteRenderer != null)
+        if (!hasDealtDamage && spriteRenderer != null)
             CheckForPlayerHit();
     }
 
     public void Setup()
     {
+        dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         spriteRenderer.material = new Material(spriteRenderer.material);
@@ -75,17 +77,9 @@ public class HollowCircleDamageZone : MonoBehaviour
         bool damageApplied = false;
 
         if (direction.magnitude <= maxDamageDistance && direction.magnitude >= minDamageDistance)
-        {
-            if (PlayerStateMachine.instance.playerHealth.IsParrying())
-            {
-                hasBeenParried = true;
-                PlayerStateMachine.instance.playerHealth.TriggerParry();
-            }
-            else
-                damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction.normalized);
-        }
+            damageApplied = dealDamageToPlayer.TryDealDamage(direction);
 
-        if (!damageApplied)
-            CameraShaker.instance.StartShake();
+        if (damageApplied)
+            hasDealtDamage = true;
     }
 }

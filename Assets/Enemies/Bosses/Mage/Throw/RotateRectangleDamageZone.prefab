@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 5577788316628346820}
   - component: {fileID: 4193952087249574250}
   - component: {fileID: 7108082233887812214}
+  - component: {fileID: 7501630626204477299}
   m_Layer: 0
   m_Name: RotateRectangleDamageZone
   m_TagString: Untagged
@@ -154,4 +155,18 @@ MonoBehaviour:
   filledColor: {r: 1, g: 0, b: 0, a: 1}
   filledOutlineColor: {r: 0, g: 0, b: 0, a: 1}
   alsoDestroyParent: 1
+--- !u!114 &7501630626204477299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4954621955800700744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5031c2850f7254e8b0091d914300f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
   canBeParried: 1
+  canBeJumped: 0

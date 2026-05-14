@@ -17,6 +17,8 @@ public class CircleDamageZone : MonoBehaviour
     [SerializeField] private Color filledColor;
     [SerializeField] private Color filledOutlineColor;
 
+    private DealDamageToPlayer dealDamageToPlayer;
+
     private Sequence currentSequence;
 
     private bool isCheckingForDamage;
@@ -31,6 +33,7 @@ public class CircleDamageZone : MonoBehaviour
         spawnDuration = _spawnDuration;
         fillDuration = _fillDuration;
 
+        dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
         spriteRenderer.material = new Material(spriteRenderer.material);
@@ -84,11 +87,9 @@ public class CircleDamageZone : MonoBehaviour
         bool damageApplied = false;
 
         if (direction.magnitude <= damageDistance)
-            damageApplied = PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction.normalized);
+            damageApplied = dealDamageToPlayer.TryDealDamage(direction);
 
         if (damageApplied)
             isCheckingForDamage = false;
-        else
-            CameraShaker.instance.StartShake(1 + radius / 10.0f);
     }
 }

@@ -1,7 +1,5 @@
-using System;
 using Player.Scripts;
 using PrimeTween;
-using Tools_and_Scripts;
 using UnityEngine;
 
 public class ThreeCirclesDamageZone : MonoBehaviour
@@ -16,6 +14,7 @@ public class ThreeCirclesDamageZone : MonoBehaviour
     [SerializeField] private Color filledColor;
     [SerializeField] private Color filledOutlineColor;
 
+    private DealDamageToPlayer dealDamageToPlayer;
     private SpriteRenderer spriteRenderer;
     private bool isInit;
 
@@ -35,6 +34,7 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     public void Setup(float _radius, float _spawnDuration, float _fillDuration)
     {
+        dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.material = new Material(spriteRenderer.material);
 
@@ -121,18 +121,16 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         bool damageApplied = false;
 
         if (direction1.magnitude <= damageDistance)
-            damageApplied |= PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction1.normalized);
+            damageApplied |= dealDamageToPlayer.TryDealDamage(direction1);
 
         if (direction2.magnitude <= damageDistance)
-            damageApplied |= PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction2.normalized);
+            damageApplied |= dealDamageToPlayer.TryDealDamage(direction2);
 
         if (direction3.magnitude <= damageDistance)
-            damageApplied |= PlayerStateMachine.instance.playerHealth.TakeDamage(1, direction3.normalized);
+            damageApplied |= dealDamageToPlayer.TryDealDamage(direction3);
 
         if (damageApplied)
             isCheckingForDamage = false;
-        else
-            CameraShaker.instance.StartShake();
     }
 
     public void MoveCircle(int circleIndex, Vector2 position)

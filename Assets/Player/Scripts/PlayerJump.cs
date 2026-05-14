@@ -13,7 +13,7 @@ public class PlayerJump : IPlayerBehaviour
     private float jumpStartTimestamp;
     private float jumpCooldownTimestamp = -1.0f;
 
-    private bool hasLanded;
+    public bool hasLanded { get; private set; }
 
     public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
     {
