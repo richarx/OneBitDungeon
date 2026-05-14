@@ -7,6 +7,6 @@ public class PlayerShadow : MonoBehaviour
     {
         Animator animator = GetComponent<Animator>();
 
-        PlayerStateMachine.instance.playerJump.OnStartJump.AddListener(() => animator.Play("Jump"));
+        PlayerStateMachine.instance.playerJump.OnStartJump.AddListener(() => animator.Play("Jump", 0, 0.0f));
     }
 }
