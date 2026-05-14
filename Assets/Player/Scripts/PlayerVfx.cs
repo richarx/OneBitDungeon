@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Player.Sword_Hitboxes;
 using Tools_and_Scripts;
@@ -28,6 +29,10 @@ namespace Player.Scripts
 
         [Space]
         [SerializeField] private GameObject rollVfx;
+
+        [Space]
+        [SerializeField] private GameObject jumpStartVfx;
+        [SerializeField] private GameObject jumpLandVfx;
 
         [Space]
         [SerializeField] private GameObject hurtVfx;
@@ -63,6 +68,8 @@ namespace Player.Scripts
                 FreezeTime(0.03f);
             });
             player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
+            player.playerJump.OnStartJump.AddListener(SpawnStartJumpVfx);
+            player.playerJump.OnLandJump.AddListener(SpawnLandJumpVfx);
         }
 
         private void SpawnHurtVfx(Vector3 direction)
@@ -78,6 +85,18 @@ namespace Player.Scripts
             GameObject roll = Instantiate(rollVfx, player.position, Quaternion.identity);
             if (!player.playerRoll.IsRollingLeft)
                 roll.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+        }
+
+        private void SpawnStartJumpVfx()
+        {
+            GameObject jump = Instantiate(jumpStartVfx, player.position, Quaternion.identity);
+            if (player.LastLookDirection.x > 0.0f)
+                jump.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+        }
+
+        private void SpawnLandJumpVfx()
+        {
+            GameObject jump = Instantiate(jumpLandVfx, player.position, Quaternion.identity);
         }
 
         private void SpawnParryVfx()
@@ -122,7 +141,7 @@ namespace Player.Scripts
             Instantiate(hitSparkPrefab, sparkPosition, directionToEnemy.ToVector2().AddRandomAngleToDirection(-15.0f, 15.0f).ToRotation());
 
             Vector3 slashPosition = player.position + (Vector3.up * slashHeight) + (directionToEnemy * slashDistance);
-            Instantiate(hitSlashPrefab, slashPosition, directionToEnemy.ToVector2().ToRotation());
+            Instantiate(hitSlashPrefab, slashPosition, directionToEnemy.ToVector2().AddRandomAngleToDirection(-15.0f, 15.0f).ToRotation());
         }
     }
 }

@@ -491,6 +491,10 @@ MonoBehaviour:
   parryVfx: {fileID: 2755547318002962695, guid: b425364a45397ab4ab939621c38073e7,
     type: 3}
   rollVfx: {fileID: 7980137014980868513, guid: dc0d24dd083978742ad4e8c585baf8d2, type: 3}
+  jumpStartVfx: {fileID: 5691421544017041870, guid: e5f8090adf6affb47bf74e730671bd8c,
+    type: 3}
+  jumpLandVfx: {fileID: 7017189974637437493, guid: c165d7914e579e64182e4d25670b465d,
+    type: 3}
   hurtVfx: {fileID: 4296958320210530305, guid: 4b923a4ea4a2b474288adc18114c7a0f, type: 3}
   freezeDelay: 0.03
   freezeDuration: 0.05
