@@ -84,6 +84,8 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
 
         if (spell != null)
             spell.Cancel();
+
+        enemy.transform.localScale = Vector3.one;
     }
 
     public bool isSubBehaviour;

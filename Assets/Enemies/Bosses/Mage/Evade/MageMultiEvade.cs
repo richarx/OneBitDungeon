@@ -111,6 +111,8 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
 
         if (hollowCircle != null)
             hollowCircle.Cancel();
+
+        enemy.transform.localScale = Vector3.one;
     }
 
     public bool isSubBehaviour;
