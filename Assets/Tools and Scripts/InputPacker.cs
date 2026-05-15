@@ -42,6 +42,7 @@ namespace Tools_and_Scripts
         public InputData GetAttack => lastInputType == InputType.Gamepad ? westButton : leftMouse;
         public InputData GetParry => lastInputType == InputType.Gamepad ? leftShoulder : rightMouse;
         public InputData GetInteraction => lastInputType == InputType.Gamepad ? northButton : eKey;
+        public InputData GetSitDown => lastInputType == InputType.Gamepad ? downArrowButton : cKey;
 
         public InputData GetMenuLeft => lastInputType == InputType.Gamepad ? leftArrowButton : leftKey;
         public InputData GetMenuUp => lastInputType == InputType.Gamepad ? upArrowButton : upKey;
@@ -102,6 +103,7 @@ namespace Tools_and_Scripts
         public InputData key_4 = new InputData();
 
         public InputData bKey = new InputData();
+        public InputData cKey = new InputData();
         public InputData eKey = new InputData();
         public InputData fKey = new InputData();
         public InputData gKey = new InputData();
@@ -171,6 +173,7 @@ namespace Tools_and_Scripts
             inputs.key_4 = ComputeDualKeyboardInput(Keyboard.current.digit4Key, Keyboard.current.numpad4Key, previousPackage.key_4.lastPressTimestamp);
 
             inputs.bKey = ComputeKeyboardInput(Keyboard.current.bKey, previousPackage.bKey.lastPressTimestamp);
+            inputs.cKey = ComputeKeyboardInput(Keyboard.current.cKey, previousPackage.cKey.lastPressTimestamp);
             inputs.eKey = ComputeKeyboardInput(Keyboard.current.eKey, previousPackage.eKey.lastPressTimestamp);
             inputs.fKey = ComputeKeyboardInput(Keyboard.current.fKey, previousPackage.fKey.lastPressTimestamp);
             inputs.gKey = ComputeKeyboardInput(Keyboard.current.gKey, previousPackage.gKey.lastPressTimestamp);

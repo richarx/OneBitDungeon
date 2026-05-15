@@ -42,6 +42,12 @@ namespace Player.Scripts
                 return;
             }
 
+            if (player.inputPackage.GetSitDown.wasPressedThisFrame)
+            {
+                player.ChangeBehaviour(player.playerSit);
+                return;
+            }
+
             player.CheckForInteraction();
             player.ComputeLastLookDirection();
         }
