@@ -18,9 +18,9 @@ public class ThreeCirclesDamageZone : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private bool isInit;
 
-    private Vector3 circlePosition1;
-    private Vector3 circlePosition2;
-    private Vector3 circlePosition3;
+    public Vector3 circlePosition1 { get; private set; }
+    public Vector3 circlePosition2 { get; private set; }
+    public Vector3 circlePosition3 { get; private set; }
 
     private float radius;
     private float spawnDuration;

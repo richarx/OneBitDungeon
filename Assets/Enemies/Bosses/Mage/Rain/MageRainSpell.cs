@@ -19,13 +19,48 @@ public class MageRainSpell : MonoBehaviour
         threeCirclesDamageZone.Setup(radius, spawnDuration, fillDuration);
 
         sequence = Sequence.Create()
-            .ChainCallback(() => SetupCircle(0, PlayerStateMachine.instance.position, radius, spawnDuration, fillDuration))
+            .ChainCallback(() => SetupCircle(0, ComputeTargetPosition(0), radius, spawnDuration, fillDuration))
             .ChainDelay(0.5f)
-            .ChainCallback(() => SetupCircle(1, PlayerStateMachine.instance.position, radius, spawnDuration, fillDuration))
+            .ChainCallback(() => SetupCircle(1, ComputeTargetPosition(1), radius, spawnDuration, fillDuration))
             .ChainDelay(0.5f)
-            .ChainCallback(() => SetupCircle(2, PlayerStateMachine.instance.position, radius, spawnDuration, fillDuration))
+            .ChainCallback(() => SetupCircle(2, ComputeTargetPosition(2), radius, spawnDuration, fillDuration))
             .ChainDelay(0.5f)
             .ChainCallback(() => Detonate());
+    }
+
+    private Vector3 ComputeTargetPosition(int index)
+    {
+        Vector3 position = PlayerStateMachine.instance.position;
+
+        if (index == 0)
+            return position;
+
+        Vector3 previousPosition = ComputePreviousPosition(index, position);
+
+        Vector3 direction = position - previousPosition;
+        float distance = direction.magnitude;
+        direction = direction.normalized;
+
+        if (distance <= 1.5f)
+        {
+            if (distance <= 0.05f)
+                return position + Random.insideUnitCircle.ToVector3().normalized * 1.5f;
+            else
+                return position + direction * 1.5f;
+        }
+
+        return position;
+    }
+
+    private Vector3 ComputePreviousPosition(int index, Vector3 position)
+    {
+        if (index < 2)
+            return threeCirclesDamageZone.circlePosition1;
+
+        float distance1 = Vector3.Distance(position, threeCirclesDamageZone.circlePosition1);
+        float distance2 = Vector3.Distance(position, threeCirclesDamageZone.circlePosition2);
+
+        return distance1 < distance2 ? threeCirclesDamageZone.circlePosition1 : threeCirclesDamageZone.circlePosition2;
     }
 
     public void Cancel()
