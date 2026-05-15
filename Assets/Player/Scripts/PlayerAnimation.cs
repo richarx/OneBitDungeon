@@ -16,6 +16,8 @@ namespace Player.Scripts
             player = PlayerStateMachine.instance;
             player.playerAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
             player.playerStagger.OnStagger.AddListener(PlayStaggerAnimation);
+            player.playerSit.OnStartSittingDown.AddListener(PlaySitAnimation);
+            player.playerSit.OnStartGettingUp.AddListener(PlaySitAnimation);
         }
 
         private void LateUpdate()
@@ -38,7 +40,8 @@ namespace Player.Scripts
                     PlayParryAnimation();
                     break;
                 case BehaviourType.Sit:
-                    PlaySitAnimation();
+                    if (player.playerSit.isRotating)
+                        PlayIdleAnimation();
                     break;
                 case BehaviourType.Dead:
                     PlayDeathAnimation();
@@ -67,8 +70,8 @@ namespace Player.Scripts
 
         private void PlaySitAnimation()
         {
-            string animationName = player.playerSit.IsGettingUp ? "GetUp" : "Sit";
-            animator.Play($"{animationName}_InBack_L");
+            string animationName = player.playerSit.IsGettingUp ? "GetUp" : "SitDown";
+            animator.Play($"{animationName}_InBack_{ComputeLeftRightLookDirection()}");
         }
 
         private void PlayParryAnimation()

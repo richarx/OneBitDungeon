@@ -157,12 +157,6 @@ namespace Player.Scripts
             return current != BehaviourType.Sit;
         }
 
-        public void SitAtBonfire()
-        {
-            ChangeBehaviour(playerSit);
-            GameManager.instance.SetRespawnPosition();
-        }
-
         public int ComputeCurrentDamage()
         {
             return 10;

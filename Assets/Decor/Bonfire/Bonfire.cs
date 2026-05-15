@@ -8,7 +8,7 @@ namespace Decor.Bonfire
         public override void Interact()
         {
             base.Interact();
-            PlayerStateMachine.instance.SitAtBonfire();
+            PlayerStateMachine.instance.playerSit.SitAtBonfire(PlayerStateMachine.instance, transform.position);
         }
     }
 }
