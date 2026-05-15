@@ -19,6 +19,7 @@ public class CircleDamageZone : MonoBehaviour
     private Sequence currentSequence;
 
     private bool isCheckingForDamage;
+    private bool isDestroyed;
 
     private float radius;
     private float spawnDuration;
@@ -58,16 +59,16 @@ public class CircleDamageZone : MonoBehaviour
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
         .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration * 0.9f))
         .Group(Tween.Scale(transform, 0.0f, despawnDuration, Ease.InBack))
-        .ChainCallback(() => Destroy(gameObject));
+        .ChainCallback(() => DestroyZone());
     }
 
     public void Cancel()
     {
-        if (!currentSequence.isAlive)
-            return;
+        if (currentSequence.isAlive)
+            currentSequence.Stop();
 
-        currentSequence.Stop();
-        Destroy(gameObject);
+        isCheckingForDamage = false;
+        DestroyZone();
     }
 
     private void Update()
@@ -88,5 +89,14 @@ public class CircleDamageZone : MonoBehaviour
 
         if (damageApplied)
             isCheckingForDamage = false;
+    }
+
+    private void DestroyZone()
+    {
+        if (isDestroyed)
+            return;
+
+        isDestroyed = true;
+        Destroy(gameObject);
     }
 }

@@ -1,10 +1,10 @@
 using Enemies.Scripts.Behaviours;
+using Player.Scripts;
 using PrimeTween;
 using UnityEngine;
 
 public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
 {
-    [SerializeField] private CircleDamageZone circleDamageZonePrefab;
     [SerializeField] private HollowCircleDamageZone hollowCircleDamageZonePrefab;
     [SerializeField] private int maxBounceCount;
 
@@ -28,7 +28,6 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
     private void BounceOnce(EnemyController enemy, Vector3 position)
     {
         bounceSequence = Sequence.Create()
-            .ChainCallback(() => SpawnInitialDamageZone(position))
             .Chain(Tween.LocalPosition(enemy.transform, position, 0.3f, Ease.InOutCubic))
             .Chain(Tween.LocalPositionY(enemy.sprite.transform, 8.0f, 0.3f, Ease.OutBack))
             .Chain(Tween.LocalPositionY(enemy.sprite.transform, 0.0f, 0.1f, Ease.OutBack))
@@ -40,16 +39,18 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
 
     private Vector3 ComputeRandomPosition()
     {
+        Vector3 playerPosition = PlayerStateMachine.instance.position;
+
         float range = 7.5f;
         float x = Random.Range(-range, range);
         float z = Random.Range(-range, range);
-        return new Vector3(x, 0.0f, z);
-    }
 
-    private void SpawnInitialDamageZone(Vector3 position)
-    {
-        CircleDamageZone circleDamageZone = Instantiate(circleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-        circleDamageZone.Setup(0.15f, 0.3f, 0.4f);
+        Vector3 position = new Vector3(x, 0.0f, z);
+
+        if (Vector3.Distance(position, playerPosition) <= 2.0f)
+            position = playerPosition + (playerPosition * -1.0f).normalized * 3.0f;
+
+        return position;
     }
 
     private void SpawnHollowCircle(Vector3 position)
@@ -64,7 +65,7 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
         {
             bounceCount += 1;
 
-            if (bounceCount >= maxBounceCount)
+            if (bounceCount > maxBounceCount)
                 StopTransition(enemy);
             else
                 BounceOnce(enemy, ComputeRandomPosition());
