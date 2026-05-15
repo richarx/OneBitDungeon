@@ -100,7 +100,7 @@ namespace Player.Scripts
 
         public void ComputeLastLookDirection()
         {
-            if (playerTargeting.hasTarget)
+            if (playerTargeting.hasTarget && playerSword.IsSwordInHand)
                 lastLookDirection = playerTargeting.directionToTarget.ToVector2().normalized;
             else if (moveInput.magnitude >= 0.15f)
                 lastLookDirection = moveInput.normalized;
