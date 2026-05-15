@@ -6,7 +6,6 @@ using UnityEngine;
 public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
 {
     [SerializeField] private float rotationDampening;
-    [SerializeField] private float rotationDuration;
     [SerializeField] private float rockMovementDuration;
     [SerializeField] private MageThrowSpell mageThrowSpellPrefab;
     [SerializeField] private MageData mageData;
@@ -49,7 +48,7 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
             enemy.animator.Play("Cast");
 
             MageThrowSpell spell = Instantiate(mageThrowSpellPrefab, startingPosition, Quaternion.identity);
-            spell.Setup(rotationDuration, rotationDampening, rockMovementDuration, mageData.multiThrowSpawnDuration, mageData.multiThrowFillDuration, () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
+            spell.Setup(mageData.multiThrowRotationDuration, rotationDampening, rockMovementDuration, mageData.multiThrowSpawnDuration, mageData.multiThrowFillDuration, () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
             spells.Add(spell);
         });
     }

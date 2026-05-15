@@ -29,6 +29,7 @@ MonoBehaviour:
   throwMoveDuration_p2: 0.5
   throwSpawnDuration: 1
   throwFillDuration: 0.5
+  throwRotationDuration: 1.4
   throwRecoveryDuration: 2
   throwRecoveryDuration_p2: 1.5
   multiThrowMoveDuration: 0.3
@@ -36,6 +37,7 @@ MonoBehaviour:
   multiThrowMoveDuration_toLeft: 0.1
   multiThrowSpawnDuration: 0.5
   multiThrowFillDuration: 0.5
+  multiThrowRotationDuration: 1
   multiThrowRecoveryDuration: 0.3
   rainMoveDuration: 1
   rainMoveDuration_p2: 0.5

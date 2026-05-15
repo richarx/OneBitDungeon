@@ -27,6 +27,7 @@ public class MageData : ScriptableObject
     public float throwMoveDuration_p2;
     public float throwSpawnDuration;
     public float throwFillDuration;
+    public float throwRotationDuration;
     public float throwRecoveryDuration;
     public float throwRecoveryDuration_p2;
 
@@ -36,6 +37,7 @@ public class MageData : ScriptableObject
     public float multiThrowMoveDuration_toLeft;
     public float multiThrowSpawnDuration;
     public float multiThrowFillDuration;
+    public float multiThrowRotationDuration;
     public float multiThrowRecoveryDuration;
 
     [Header("Rain")]
