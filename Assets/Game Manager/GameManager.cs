@@ -22,6 +22,7 @@ namespace Game_Manager
         public static UnityEvent OnRestartLevel = new UnityEvent();
         public static UnityEvent OnChangeScene = new UnityEvent();
         public static UnityEvent OnPrepareToChangeScene = new UnityEvent();
+        public static UnityEvent<DoorSide> OnPrepareToLeaveRoom = new UnityEvent<DoorSide>();
 
         public static GameManager instance;
 
@@ -112,18 +113,19 @@ namespace Game_Manager
             OnLockLevel?.Invoke();
         }
 
-        public void ChangeScene(string targetSceneName, DoorSide targetDoor)
+        public void ChangeSceneFromDoor(string targetSceneName, DoorSide targetDoor)
         {
             StopAllCoroutines();
-            StartCoroutine(ChangeSceneCoroutine(targetSceneName, targetDoor));
+            StartCoroutine(ChangeSceneFromDoorCoroutine(targetSceneName, targetDoor));
         }
 
-        private IEnumerator ChangeSceneCoroutine(string targetSceneName, DoorSide targetDoor)
+        private IEnumerator ChangeSceneFromDoorCoroutine(string targetSceneName, DoorSide targetDoor)
         {
             PlayerStateMachine player = PlayerStateMachine.instance;
 
             player.playerLocked.SetLockState(player);
             OnPrepareToChangeScene?.Invoke();
+            OnPrepareToLeaveRoom?.Invoke(targetDoor);
             yield return Tools.Fade(blackScreen, 0.5f, true);
             Tween.StopAll();
 
