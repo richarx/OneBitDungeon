@@ -60,6 +60,10 @@ namespace Player.Scripts
         public float refillRate;
 
         [Space]
+        [Header("Sit")]
+        public float sitDownRotationDampening;
+
+        [Space]
         public float rollStaminaCost;
         public float jumpStaminaCost;
         public float attackStaminaCost;

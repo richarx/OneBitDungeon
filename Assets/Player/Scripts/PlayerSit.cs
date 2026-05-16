@@ -22,8 +22,6 @@ namespace Player.Scripts
         private bool isLeftDirection;
         private Vector2 targetDirection => isLeftDirection ? Vector2.left : Vector2.right;
 
-        private Sequence rotatingSequence;
-
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
             if (player.playerSword.IsSwordInHand)
@@ -53,23 +51,35 @@ namespace Player.Scripts
         public void UpdateBehaviour(PlayerStateMachine player)
         {
             if (isRotating)
-            {
-                if (Vector3.Angle(player.LastLookDirection, targetDirection) <= 15.0f)
-                {
-                    isRotating = false;
-                    OnStartSittingDown?.Invoke();
-                }
-                else
-                {
-                    player.SetLastLookDirection(Vector3.Slerp(player.LastLookDirection, targetDirection, Tools.NormalizeValue(Time.time - sitDownTimestamp, 0.0f, 0.5f)));
-                }
-            }
+                HandleRotation(player);
 
             if (!isLocked && !IsGettingUp && CheckForInput(player))
                 GetUp();
 
             if (IsGettingUp && Time.time - getUpTimestamp >= 0.5f)
                 player.ChangeBehaviour(player.playerIdle);
+        }
+
+        private void HandleRotation(PlayerStateMachine player)
+        {
+            bool hasReachedTarget = Vector3.Angle(player.LastLookDirection, targetDirection) <= 15.0f;
+
+            if (hasReachedTarget)
+                StopRotating();
+            else
+                SmoothRotateTowardTarget(player);
+        }
+
+        private void StopRotating()
+        {
+            isRotating = false;
+            OnStartSittingDown?.Invoke();
+        }
+
+        private void SmoothRotateTowardTarget(PlayerStateMachine player)
+        {
+            Quaternion smooth = Quaternion.Slerp(player.LastLookDirection.ToRotation(), targetDirection.ToRotation(), Time.deltaTime / player.playerData.sitDownRotationDampening);
+            player.SetLastLookDirection(smooth * Vector2.right);
         }
 
         private bool CheckForInput(PlayerStateMachine player)
