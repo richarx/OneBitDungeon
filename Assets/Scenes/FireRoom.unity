@@ -287,7 +287,8 @@ MonoBehaviour:
   duration: 1
   delay: 0
   ease: 21
-  isFollowingRotation: 1
+  isFollowingRotationX: 1
+  isFollowingRotationY: 1
   cameraFollowPlayer: {fileID: 1241225045}
   northTarget: {fileID: 866865729}
   eastTarget: {fileID: 950446770}
@@ -873,13 +874,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212296625}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14736186, y: -0.45480162, z: 0.07659737, w: 0.87497014}
-  m_LocalPosition: {x: 3.9, y: 0.613, z: -3.46}
+  m_LocalRotation: {x: 0.15343821, y: -0.3773688, z: 0.06355619, w: 0.91104895}
+  m_LocalPosition: {x: 5.04, y: 0.725, z: -5.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 567721220}
-  m_LocalEulerAnglesHint: {x: 19.12, y: -54.93, z: 0}
+  m_LocalEulerAnglesHint: {x: 19.12, y: -45, z: 0}
 --- !u!1 &221378631
 GameObject:
   m_ObjectHideFlags: 0
@@ -3818,6 +3819,7 @@ GameObject:
   m_Component:
   - component: {fileID: 832575519}
   - component: {fileID: 832575518}
+  - component: {fileID: 832575520}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
@@ -3857,6 +3859,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &832575520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832575517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b030cb645e47d744b2267d3e4d23528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intensity: 1
 --- !u!1 &844191069
 GameObject:
   m_ObjectHideFlags: 0

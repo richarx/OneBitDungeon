@@ -11,7 +11,8 @@ public class CameraRoomTransition : MonoBehaviour
     [SerializeField] private float duration;
     [SerializeField] private float delay;
     [SerializeField] private Ease ease;
-    [SerializeField] private bool isFollowingRotation;
+    [SerializeField] private bool isFollowingRotationX;
+    [SerializeField] private bool isFollowingRotationY;
 
     [Space]
     [SerializeField] private CameraFollowPlayer cameraFollowPlayer;
@@ -33,18 +34,21 @@ public class CameraRoomTransition : MonoBehaviour
 
         Transform target = ComputeTarget(doorSide);
 
-        if (isFollowingRotation)
-        {
-            Sequence.Create()
-                .Group(Tween.Position(transform, target.position, duration, ease, startDelay: delay))
-                .Group(Tween.Rotation(transform, target.rotation, duration, ease, startDelay: delay));
-        }
-        else
-        {
-            Sequence.Create()
-                .Group(Tween.Position(transform, target.position, duration, ease, startDelay: delay));
-        }
+        Sequence sequence = Sequence.Create()
+            .Group(Tween.Position(transform, target.position, duration, ease, startDelay: delay));
 
+        if (isFollowingRotationX || isFollowingRotationY)
+        {
+            Vector3 angles = target.rotation.eulerAngles;
+
+            if (!isFollowingRotationX)
+                angles.x = 0.0f;
+
+            if (!isFollowingRotationY)
+                angles.y = 0.0f;
+
+            sequence.Group(Tween.Rotation(transform, angles, duration, ease, startDelay: delay));
+        }
     }
 
     private Transform ComputeTarget(DoorController.DoorSide doorSide)
