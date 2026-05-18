@@ -1,16 +1,17 @@
 using System.Collections;
 using Game_Manager;
-using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 public class CameraLensDistortion : MonoBehaviour
 {
-    [SerializeField] private float intensity;
+    [SerializeField] private float targetIntensity;
+    [SerializeField] private float transitionDuration;
 
     private VolumeProfile profile;
     private LensDistortion lensDistortion;
+    private float velocity;
 
     private void Start()
     {
@@ -27,9 +28,9 @@ public class CameraLensDistortion : MonoBehaviour
     private IEnumerator TriggerTransition()
     {
         float timer = 0.0f;
-        while (timer <= 0.5f)
+        while (timer <= transitionDuration)
         {
-            lensDistortion.intensity.value = Tools.NormalizeValueInRange(timer, 0.0f, 0.5f, 0.0f, intensity);
+            lensDistortion.intensity.value = Mathf.SmoothDamp(lensDistortion.intensity.value, targetIntensity, ref velocity, transitionDuration);
 
             yield return null;
             timer += Time.deltaTime;
