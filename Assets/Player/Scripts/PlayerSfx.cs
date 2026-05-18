@@ -22,6 +22,10 @@ namespace Player.Scripts
         [SerializeField] private AudioClip parrySuccess_1;
         [SerializeField] private AudioClip parrySuccess_2;
         [SerializeField] private List<AudioClip> outOfBreath;
+        [SerializeField] private AudioClip sit_1;
+        [SerializeField] private AudioClip sit_2;
+        [SerializeField] private AudioClip getUp_1;
+        [SerializeField] private AudioClip getUp_2;
 
         private PlayerStateMachine player;
 
@@ -58,6 +62,17 @@ namespace Player.Scripts
                 SFXManager.instance.PlayRandomSFX(outOfBreath, volume);
                 SFXManager.instance.PlayRandomSFX(outOfBreath, volume, 0.5f);
                 SFXManager.instance.PlayRandomSFX(outOfBreath, volume, 1.0f);
+            });
+
+            player.playerSit.OnStartSittingDown.AddListener(() =>
+            {
+                SFXManager.instance.PlaySFX(sit_1, 0.1f);
+                SFXManager.instance.PlaySFX(sit_2, 0.05f, 0.1f);
+            });
+            player.playerSit.OnStartGettingUp.AddListener(() =>
+            {
+                SFXManager.instance.PlaySFX(getUp_1, 0.05f);
+                SFXManager.instance.PlaySFX(getUp_2, 0.1f);
             });
         }
     }

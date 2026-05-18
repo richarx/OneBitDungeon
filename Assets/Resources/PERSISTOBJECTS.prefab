@@ -449,6 +449,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2674442b55c45f242846332ef9af1810, type: 3}
   - {fileID: 8300000, guid: 1ca4367a8ca97714d814f23f690e21d6, type: 3}
   - {fileID: 8300000, guid: f2a1df07671eaf74eb78d716b99dfb0c, type: 3}
+  sit_1: {fileID: 8300000, guid: b5b23e54791be7a4f98e7a0bc0af3b0b, type: 3}
+  sit_2: {fileID: 8300000, guid: 9171ecaa811a6da45ac2ca54b09598a5, type: 3}
+  getUp_1: {fileID: 8300000, guid: 5dd27ac989d20f14cb55618a8e0e31d1, type: 3}
+  getUp_2: {fileID: 8300000, guid: 7fc8d7d09d2aaba4f88d1ed764544b1a, type: 3}
 --- !u!114 &1813572610917081186
 MonoBehaviour:
   m_ObjectHideFlags: 0
