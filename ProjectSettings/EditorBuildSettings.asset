@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FrogRoom.unity
     guid: 687810c82b160f94cbcd955ba9ddc00a
+  - enabled: 1
+    path: Assets/Scenes/DummyRoom.unity
+    guid: 898b0691726a2f244b2873ceebb260a8
   m_configObjects: {}

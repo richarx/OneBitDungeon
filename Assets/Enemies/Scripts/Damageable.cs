@@ -6,6 +6,7 @@ namespace Enemies.Scripts
     public class Damageable : MonoBehaviour
     {
         [SerializeField] private int startingHealth;
+        [SerializeField] private bool isInvincible;
 
         [HideInInspector] public UnityEvent OnTakeDamage = new UnityEvent();
         [HideInInspector] public UnityEvent OnDie = new UnityEvent();
@@ -24,7 +25,8 @@ namespace Enemies.Scripts
             if (IsDead)
                 return;
 
-            currentHealth -= damage;
+            if (!isInvincible)
+                currentHealth -= damage;
 
             if (IsDead)
                 OnDie?.Invoke();
