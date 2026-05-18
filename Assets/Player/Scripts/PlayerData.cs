@@ -62,6 +62,7 @@ namespace Player.Scripts
         [Space]
         [Header("Sit")]
         public float sitDownRotationDampening;
+        public float timeInIdleBeforeSitting;
 
         [Space]
         public float rollStaminaCost;

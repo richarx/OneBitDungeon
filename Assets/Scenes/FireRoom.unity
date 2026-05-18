@@ -3872,7 +3872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetIntensity: 1
-  transitionDuration: 0.3
+  transitionDuration: 0.5
 --- !u!1 &844191069
 GameObject:
   m_ObjectHideFlags: 0

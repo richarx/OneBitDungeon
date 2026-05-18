@@ -47,6 +47,7 @@ MonoBehaviour:
   staminaEmptyCooldown: 1.5
   refillRate: 50
   sitDownRotationDampening: 0.2
+  timeInIdleBeforeSitting: 30
   rollStaminaCost: 40
   jumpStaminaCost: 0
   attackStaminaCost: 0

@@ -4,9 +4,12 @@ namespace Player.Scripts
 {
     public class PlayerIdle : IPlayerBehaviour
     {
+        private float startIdleTimestamp;
+
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-            //            Debug.Log("IDLE");
+            //Debug.Log("IDLE");
+            startIdleTimestamp = Time.time;
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)
@@ -42,7 +45,7 @@ namespace Player.Scripts
                 return;
             }
 
-            if (player.inputPackage.GetSitDown.wasPressedThisFrame)
+            if (player.inputPackage.GetSitDown.wasPressedThisFrame || Time.time - startIdleTimestamp >= player.playerData.timeInIdleBeforeSitting)
             {
                 player.ChangeBehaviour(player.playerSit);
                 return;
