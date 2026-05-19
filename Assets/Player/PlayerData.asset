@@ -40,8 +40,10 @@ MonoBehaviour:
   invincibilityDuration: 1.5
   parryDuration: 0.4
   successfulParryDuration: 0.4
+  parryRecoveryDuration: 0.2
+  successfulParryRecoveryDuration: 0.1
   parryCooldown: 0.2
-  parryGracePeriodDuration: 0.05
+  parryGracePeriodDuration: 0.1
   maxStamina: 100
   staminaCooldown: 0.5
   staminaEmptyCooldown: 1.5

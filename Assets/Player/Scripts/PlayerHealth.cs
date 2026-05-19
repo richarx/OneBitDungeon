@@ -59,7 +59,7 @@ namespace Player.Scripts
 
         public bool IsParrying()
         {
-            return player.currentBehaviour.GetBehaviourType() == BehaviourType.Parry || player.playerParry.IsInGracePeriod(player);
+            return player.playerParry.IsParrying(player);
         }
 
         public void TriggerParry()

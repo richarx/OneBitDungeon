@@ -24,9 +24,6 @@ namespace Player.Scripts
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-            if (player.playerSword.IsSwordInHand)
-                player.playerSword.SwapSword();
-
             sitDownTimestamp = Time.time;
             getUpTimestamp = -1.0f;
             isRotating = true;

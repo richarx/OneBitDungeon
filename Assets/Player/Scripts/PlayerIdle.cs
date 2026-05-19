@@ -34,7 +34,6 @@ namespace Player.Scripts
 
             if (player.playerJump.CanJump(player) && player.inputPackage.GetJump.WasPressedWithBuffer())
             {
-                Debug.Log("Jump Input");
                 player.ChangeBehaviour(player.playerJump);
                 return;
             }

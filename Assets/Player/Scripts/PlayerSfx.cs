@@ -46,7 +46,7 @@ namespace Player.Scripts
                 SFXManager.instance.PlayRandomSFX(hurt, delay: 0.05f);
                 SFXManager.instance.PlayRandomSFX(hurt_2, 0.05f);
             });
-            player.playerParry.OnParry.AddListener(() =>
+            player.playerParry.OnStartParry.AddListener(() =>
             {
                 SFXManager.instance.PlayRandomSFX(parry_1, 0.05f);
                 SFXManager.instance.PlaySFX(parry_2, 0.03f);

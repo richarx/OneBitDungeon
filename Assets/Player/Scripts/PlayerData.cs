@@ -49,6 +49,8 @@ namespace Player.Scripts
         [Header("Parry")]
         public float parryDuration;
         public float successfulParryDuration;
+        public float parryRecoveryDuration;
+        public float successfulParryRecoveryDuration;
         public float parryCooldown;
         public float parryGracePeriodDuration;
 

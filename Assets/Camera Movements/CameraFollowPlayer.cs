@@ -44,8 +44,12 @@ namespace Camera_Movements
         private float UpdateHorizontalPosition()
         {
             float target = Mathf.Clamp(player.position.x, -maxDistanceFromCenter, maxDistanceFromCenter);
+            float smoothTarget = Mathf.SmoothDamp(transform.position.x, target, ref velocity, smoothTime);
 
-            return Mathf.SmoothDamp(transform.position.x, target, ref velocity, smoothTime);
+            if (float.IsNaN(smoothTarget))
+                return player.position.x;
+
+            return smoothTarget;
         }
 
         public void SetLockState(bool state)

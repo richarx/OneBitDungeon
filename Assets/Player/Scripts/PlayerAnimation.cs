@@ -14,10 +14,16 @@ namespace Player.Scripts
         private void Start()
         {
             player = PlayerStateMachine.instance;
+
             player.playerAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
             player.playerStagger.OnStagger.AddListener(PlayStaggerAnimation);
+
             player.playerSit.OnStartSittingDown.AddListener(PlaySitAnimation);
             player.playerSit.OnStartGettingUp.AddListener(PlaySitAnimation);
+
+            player.playerParry.OnStartParry.AddListener(PlayStartParryAnimation);
+            player.playerParry.OnStopParry.AddListener(PlayRecoveryParryAnimation);
+            player.playerParry.OnSuccessfulParry.AddListener(PlaySuccessParryAnimation);
         }
 
         private void LateUpdate()
@@ -36,9 +42,6 @@ namespace Player.Scripts
                 case BehaviourType.Jump:
                     PlayJumpAnimation();
                     break;
-                case BehaviourType.Parry:
-                    PlayParryAnimation();
-                    break;
                 case BehaviourType.Sit:
                     if (player.playerSit.isRotating)
                         PlayIdleAnimation();
@@ -46,6 +49,7 @@ namespace Player.Scripts
                 case BehaviourType.Dead:
                     PlayDeathAnimation();
                     break;
+                case BehaviourType.Parry:
                 case BehaviourType.Attack:
                 case BehaviourType.Stagger:
                     break;
@@ -74,10 +78,19 @@ namespace Player.Scripts
             animator.Play($"{animationName}_InBack_{ComputeLeftRightLookDirection()}");
         }
 
-        private void PlayParryAnimation()
+        private void PlayStartParryAnimation()
         {
-            string animationName = player.playerParry.WasSuccessful ? "Parry_Success" : "Parry";
-            animator.Play($"{animationName}_InHand_{ComputeLookDirection()}");
+            animator.Play($"ParryStart_InHand_{ComputeLookDirection()}", 0, player.playerParry.isFromParry ? 0.5f : 0.0f);
+        }
+
+        private void PlayRecoveryParryAnimation()
+        {
+            animator.Play($"ParryRecovery_InHand_{ComputeLookDirection()}");
+        }
+
+        private void PlaySuccessParryAnimation()
+        {
+            animator.Play($"Parry_Success_InHand_{ComputeLookDirection()}");
         }
 
         private void PlayIdleAnimation()

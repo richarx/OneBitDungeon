@@ -9,29 +9,30 @@ namespace Player.Scripts
     public class PlayerSword : MonoBehaviour
     {
         [SerializeField] private bool hasSword;
-        
+
         [Space]
         [SerializeField] private GameObject hitboxPrefab;
         public WeaponAnimationTriggers weaponAnimationTriggers;
-        
+
         [HideInInspector] public UnityEvent OnEquipSword = new UnityEvent();
         [HideInInspector] public UnityEvent OnSheatheSword = new UnityEvent();
 
         private PlayerStateMachine player;
-        
+
         private bool currentlyHasSword;
         public bool CurrentlyHasSword => currentlyHasSword;
         private bool isSwordInHand;
         public bool IsSwordInHand => isSwordInHand;
 
         private GameObject currentHitbox;
-    
+
         private void Start()
         {
             currentlyHasSword = hasSword;
             player = PlayerStateMachine.instance;
             player.playerAttack.OnPlayerAttack.AddListener((_) => isSwordInHand = true);
-            player.playerParry.OnParry.AddListener(() => isSwordInHand = true);
+            player.playerParry.OnStartParry.AddListener(() => isSwordInHand = true);
+            player.playerSit.OnStartSittingDown.AddListener(() => isSwordInHand = false);
             weaponAnimationTriggers.OnSpawnHitbox.AddListener(SpawnHitbox);
             weaponAnimationTriggers.OnRemoveHitbox.AddListener(RemoveHitbox);
         }
@@ -89,7 +90,7 @@ namespace Player.Scripts
             if (currentlyHasSword)
             {
                 isSwordInHand = !isSwordInHand;
-                
+
                 if (isSwordInHand)
                     OnEquipSword?.Invoke();
                 else
