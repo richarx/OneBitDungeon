@@ -262,6 +262,8 @@ namespace Tools_and_Scripts
 
             RegisterInputType(InputType.Gamepad);
 
+            gamepadInput = Vector3.ClampMagnitude(gamepadInput, 1.0f);
+
             return gamepadInput;
         }
 
@@ -284,6 +286,8 @@ namespace Tools_and_Scripts
             gamepad.y *= sensibilityMultiplier * Time.deltaTime;
 
             RegisterInputType(InputType.Gamepad);
+
+            gamepad = Vector3.ClampMagnitude(gamepad, 1.0f);
 
             return gamepad;
         }
