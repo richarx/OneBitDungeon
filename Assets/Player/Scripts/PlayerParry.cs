@@ -50,18 +50,20 @@ namespace Player.Scripts
                 return;
             }
 
-            if (player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
+            if (isInRecovery)
             {
-                player.ChangeBehaviour(player.playerRoll);
-                return;
-            }
+                if (player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
+                {
+                    player.ChangeBehaviour(player.playerRoll);
+                    return;
+                }
 
-            if (player.playerJump.CanJump(player) && player.inputPackage.GetJump.WasPressedWithBuffer())
-            {
-                player.ChangeBehaviour(player.playerJump);
-                return;
+                if (player.playerJump.CanJump(player) && player.inputPackage.GetJump.WasPressedWithBuffer())
+                {
+                    player.ChangeBehaviour(player.playerJump);
+                    return;
+                }
             }
-
 
             if (!isInRecovery)
             {

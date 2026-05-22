@@ -59,6 +59,12 @@ namespace Player.Scripts
                 return;
             }
 
+            if (canAttackBeCanceled && player.playerJump.CanJump(player) && player.inputPackage.GetJump.WasPressedWithBuffer())
+            {
+                player.ChangeBehaviour(player.playerJump);
+                return;
+            }
+
             if (canAttackBeCanceled && player.playerParry.CanParry(player) && player.inputPackage.GetParry.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerParry);
