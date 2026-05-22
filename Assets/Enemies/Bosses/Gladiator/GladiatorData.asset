@@ -17,4 +17,6 @@ MonoBehaviour:
   throwFillDuration: 1
   throwRotationDuration: 1.4
   throwRotationDampening: 0.1
-  throwAnimationDuration: 0.25
+  throwAnimationDuration: 0
+  throwAxeDistance: 20
+  throwAxeMoveDuration: 0.5

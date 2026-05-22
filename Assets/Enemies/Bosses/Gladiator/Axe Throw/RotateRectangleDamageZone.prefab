@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9f11bc42b0be24fa8bcf1c2445b77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.3, y: 0.2}
+  size: {x: 0.15, y: 0.2}
   spawnEase: 16
   fillEase: 6
   despawnDuration: 0.5

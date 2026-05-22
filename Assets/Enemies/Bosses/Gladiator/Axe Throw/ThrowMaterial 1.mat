@@ -62,10 +62,10 @@ Material:
     - _QueueOffset: 0
     - _alpha: 1
     m_Colors:
-    - _CornerRounding: {r: 0, g: 0, b: 0.3, a: 0.3}
+    - _CornerRounding: {r: 0, g: 0, b: 0.15, a: 0.15}
     - _Emission: {r: 0.1, g: 0, b: 0, a: 1}
     - _InlineColor: {r: 0.30196077, g: 0, b: 0.02352941, a: 1}
     - _MainColor: {r: 0.043137237, g: 0.058823504, b: 0.13725486, a: 1}
     - _OutlineColor: {r: 0.7647059, g: 0, b: 0.05882353, a: 1}
-    - _Size: {r: 0.3, g: 0.2, b: 0, a: 0}
+    - _Size: {r: 0.15, g: 0.2, b: 0, a: 0}
   m_BuildTextureStacks: []

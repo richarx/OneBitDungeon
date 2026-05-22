@@ -47,3 +47,5 @@ MonoBehaviour:
   gladiatorData: {fileID: 11400000, guid: 034e6da9e8a13fe49a4d6a890aacb3a6, type: 2}
   rectangleDamageZonePrefab: {fileID: 227854228040328757, guid: dd3dcb2841c964345bbca1dcf39a0011,
     type: 3}
+  axePrefab: {fileID: 6920893645996063687, guid: b3a9d7f010918dc44ab5a81ab252a230,
+    type: 3}

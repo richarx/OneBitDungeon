@@ -10,4 +10,6 @@ public class GladiatorData : ScriptableObject
     public float throwRotationDuration;
     public float throwRotationDampening;
     public float throwAnimationDuration;
+    public float throwAxeDistance;
+    public float throwAxeMoveDuration;
 }

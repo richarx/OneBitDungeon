@@ -8,6 +8,7 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
 {
     [SerializeField] private GladiatorData gladiatorData;
     [SerializeField] private GameObject rectangleDamageZonePrefab;
+    [SerializeField] private AxeController axePrefab;
 
     private Sequence attackSequence;
     private RectangleDamageZone rectangleDamageZone;
@@ -27,9 +28,7 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
                     .ChainDelay(gladiatorData.throwSpawnDuration + gladiatorData.throwFillDuration - gladiatorData.throwAnimationDuration)
                     .ChainCallback(() => enemy.animator.Play("ThrowAxe"))
                     .ChainDelay(gladiatorData.throwAnimationDuration)
-                    .ChainCallback(() => SpawnAxe(enemy))
-                    .ChainDelay(3.0f)
-                    .ChainCallback(() => enemy.SelectNewBehaviour());
+                    .ChainCallback(() => SpawnAxe(enemy));
     }
 
     private void SpawnRectangleZone(EnemyController enemy)
@@ -42,6 +41,17 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
 
     private void SpawnAxe(EnemyController enemy)
     {
+        Vector3 position = enemy.transform.position;
+        AxeController axe = Instantiate(axePrefab, position, Quaternion.identity);
+        axe.Setup(rotationDirection, gladiatorData.throwAxeDistance, gladiatorData.throwAxeMoveDuration, () => CatchAxe(enemy));
+    }
+
+    public void CatchAxe(EnemyController enemy)
+    {
+        attackSequence = Sequence.Create()
+            .ChainCallback(() => enemy.animator.Play("CatchAxe"))
+            .ChainDelay(1.0f)
+            .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
     private Sequence MoveToPosition(EnemyController enemy, Vector3 enemyPosition)
@@ -72,9 +82,9 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
     private Vector3 RotateThrowTowardPlayer()
     {
         Vector3 position = rectangleDamageZone.transform.parent.position;
-        Vector3 direction = (PlayerStateMachine.instance.position - position).normalized.ToVector2().AddAngleToDirection(90.0f).ToVector3();
+        Vector3 direction = (PlayerStateMachine.instance.position - position).normalized;
 
-        rectangleDamageZone.transform.parent.rotation = Quaternion.Slerp(rectangleDamageZone.transform.parent.rotation, Quaternion.LookRotation(direction), Time.deltaTime / gladiatorData.throwRotationDampening);
+        rectangleDamageZone.transform.parent.rotation = Quaternion.Slerp(rectangleDamageZone.transform.parent.rotation, Quaternion.LookRotation(direction.ToVector2().AddAngleToDirection(90.0f).ToVector3()), Time.deltaTime / gladiatorData.throwRotationDampening);
 
         return direction;
     }

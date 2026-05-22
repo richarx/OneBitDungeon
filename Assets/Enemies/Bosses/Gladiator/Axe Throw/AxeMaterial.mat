@@ -73,7 +73,7 @@ Material:
     - _InlineColor: {r: 0.7924528, g: 0, b: 0.059012484, a: 1}
     - _MainColor: {r: 0.043137256, g: 0.058823533, b: 0.13725491, a: 1}
     - _Offset: {r: 0, g: -0.1, b: 0, a: 0}
-    - _OutlineColor: {r: 1, g: 0.5874088, b: 0, a: 1}
+    - _OutlineColor: {r: 0.7647059, g: 0, b: 0.05882353, a: 1}
     - _Size: {r: 0.1, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &214321089835205125
