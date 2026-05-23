@@ -11,5 +11,15 @@ public class GladiatorData : ScriptableObject
     public float throwRotationDampening;
     public float throwAnimationDuration;
     public float throwAxeDistance;
-    public float throwAxeMoveDuration;
+    public float throwAxeFlyDuration;
+
+    [Header("Traps")]
+    public float trapsMoveDuration;
+    public float trapsZoneRadius;
+    public float trapsSpawnDuration;
+    public float trapsFillDuration;
+    public float trapsAnimationDuration;
+    public float trapsDistanceFromPlayer;
+    public float trapsStartingHeight;
+    public float trapsFlyDuration;
 }

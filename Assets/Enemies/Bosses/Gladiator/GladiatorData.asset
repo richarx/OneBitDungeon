@@ -19,4 +19,13 @@ MonoBehaviour:
   throwRotationDampening: 0.1
   throwAnimationDuration: 0
   throwAxeDistance: 20
-  throwAxeMoveDuration: 0.5
+  throwAxeFlyDuration: 0.8
+  trapsMoveDuration: 0.5
+  trapsZoneRadius: 0.05
+  trapsSpawnDuration: 1
+  trapsFillDuration: 0.5
+  trapsAnimationDuration: 1
+  trapsDistanceFromPlayer: 2.5
+  trapsStartingHeight: 4
+  trapsFlyDuration: 0.5
+  trapsDamageRange: 0.7

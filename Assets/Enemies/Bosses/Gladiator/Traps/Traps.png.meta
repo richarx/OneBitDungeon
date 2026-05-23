@@ -114,7 +114,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 9
@@ -135,7 +135,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 9
@@ -156,7 +156,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 9
@@ -177,7 +177,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 9
@@ -198,7 +198,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 9
@@ -219,7 +219,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 160
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 9
@@ -240,7 +240,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 9
@@ -261,7 +261,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 224
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 9
@@ -273,6 +273,69 @@ TextureImporter:
       bones: []
       spriteID: e6f3a96b05168af47add14c98bf3c000
       internalID: -1033715795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Traps_8
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 3
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c423f8bc6ab47934b9a44c0a994f5ded
+      internalID: 496877964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Traps_9
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 3
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa65556894ff3584d95bbecf8538ba8a
+      internalID: -1054659221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Traps_10
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 3
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2fe9acd67c44464ea1cbec991de61ec
+      internalID: 441614890
       vertices: []
       indices: 
       edges: []
@@ -290,12 +353,15 @@ TextureImporter:
     nameFileIdTable:
       Traps_0: -28265049
       Traps_1: -295724657
+      Traps_10: 441614890
       Traps_2: 780135223
       Traps_3: 831914962
       Traps_4: 724981388
       Traps_5: 1221008173
       Traps_6: 1799701213
       Traps_7: -1033715795
+      Traps_8: 496877964
+      Traps_9: -1054659221
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

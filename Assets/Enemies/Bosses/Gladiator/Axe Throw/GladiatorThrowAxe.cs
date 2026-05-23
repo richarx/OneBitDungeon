@@ -22,7 +22,7 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
 
         attackSequence = Sequence.Create()
                     .ChainCallback(() => enemy.animator.Play($"Dash_{direction}_Axe"))
-                    .Chain(MoveToPosition(enemy, randomPosition))
+                    .Chain(MoveToPosition(enemy, randomPosition, gladiatorData.throwMoveDuration))
                     .ChainCallback(() => enemy.animator.Play("ThrowAxe_Anticipation"))
                     .ChainCallback(() => SpawnRectangleZone(enemy))
                     .ChainDelay(gladiatorData.throwSpawnDuration + gladiatorData.throwFillDuration - gladiatorData.throwAnimationDuration)
@@ -43,7 +43,7 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
     {
         Vector3 position = enemy.transform.position;
         AxeController axe = Instantiate(axePrefab, position, Quaternion.identity);
-        axe.Setup(rotationDirection, gladiatorData.throwAxeDistance, gladiatorData.throwAxeMoveDuration, () => CatchAxe(enemy));
+        axe.Setup(rotationDirection, gladiatorData.throwAxeDistance, gladiatorData.throwAxeFlyDuration, () => CatchAxe(enemy));
     }
 
     public void CatchAxe(EnemyController enemy)
@@ -54,10 +54,9 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
-    private Sequence MoveToPosition(EnemyController enemy, Vector3 enemyPosition)
+    private Sequence MoveToPosition(EnemyController enemy, Vector3 enemyPosition, float moveDuration)
     {
         bool isSecondPhase = enemy.currentPhase > 0;
-        float moveDuration = gladiatorData.throwMoveDuration;
 
         return Sequence.Create()
             .ChainCallback(() =>

@@ -33,14 +33,16 @@ public class AxeController : MonoBehaviour
 
     private void MakeEnemyCatchAxe(Action callback)
     {
-        callback?.Invoke();
+        if (callback != null)
+            callback();
+
         Destroy(gameObject);
         isSetup = false;
     }
 
     private void CheckForPlayerDamage()
     {
-        Vector3 directionToPlayer = transform.position - PlayerStateMachine.instance.position;
+        Vector3 directionToPlayer = PlayerStateMachine.instance.position - transform.position;
 
         if (directionToPlayer.magnitude <= 2.0f)
             dealDamageToPlayer.TryDealDamage(directionToPlayer.normalized);

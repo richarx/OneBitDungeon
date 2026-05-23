@@ -44,3 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8dead9f5f6409429e87b133d5d9151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gladiatorData: {fileID: 11400000, guid: 034e6da9e8a13fe49a4d6a890aacb3a6, type: 2}
+  circleDamageZonePrefab: {fileID: 2345212183736776820, guid: c25a446e78ae40142801added8efad5a,
+    type: 3}
+  trapControllerPrefab: {fileID: 2493789051471718068, guid: 15e9ceda3bd2d1e41af872a99af6f8c9,
+    type: 3}
