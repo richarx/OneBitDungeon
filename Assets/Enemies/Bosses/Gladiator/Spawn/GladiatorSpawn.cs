@@ -1,4 +1,5 @@
 using Enemies.Scripts.Behaviours;
+using Enemies.Spawner;
 using PrimeTween;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class GladiatorSpawn : MonoBehaviour, IEnemyBehaviour
 {
     public void StartBehaviour(EnemyController enemy)
     {
+        EnemyHolder.instance.RegisterEnemy(enemy.gameObject);
+
         Sequence.Create()
             .ChainDelay(3.0f)
             .ChainCallback(() => enemy.SelectNewBehaviour(true));

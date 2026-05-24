@@ -12,10 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e9c6571765f794c9139a427a36059f, type: 3}
   m_Name: GladiatorData
   m_EditorClassIdentifier: 
+  hookMoveDuration: 0.5
+  hookSpawnDuration: 1
+  hookFillDuration: 1
+  hookRotationDuration: 2
+  hookRotationDampening: 0.05
+  hookAnimationDuration: 0.2
+  hookFlyDistance: 20
+  hookFlyDuration: 0.2
+  hookPullDistance: 8
+  hookPullDuration: 0.2
   throwMoveDuration: 0.5
   throwSpawnDuration: 0.5
-  throwFillDuration: 1
-  throwRotationDuration: 1.4
+  throwFillDuration: 0.5
+  throwRotationDuration: 0.9
   throwRotationDampening: 0.1
   throwAnimationDuration: 0
   throwAxeDistance: 20
@@ -28,4 +38,3 @@ MonoBehaviour:
   trapsDistanceFromPlayer: 2.5
   trapsStartingHeight: 4
   trapsFlyDuration: 0.5
-  trapsDamageRange: 0.7

@@ -4,11 +4,11 @@ using PrimeTween;
 using Tools_and_Scripts;
 using UnityEngine;
 
-public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
+public class GladiatorHook : MonoBehaviour, IEnemyBehaviour
 {
     [SerializeField] private GladiatorData gladiatorData;
     [SerializeField] private GameObject rectangleDamageZonePrefab;
-    [SerializeField] private AxeController axePrefab;
+    [SerializeField] private HookController hookControllerPrefab;
 
     private Sequence attackSequence;
     private RectangleDamageZone rectangleDamageZone;
@@ -17,18 +17,20 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
 
     public void StartBehaviour(EnemyController enemy)
     {
-        Vector3 randomPosition = new Vector3(Random.Range(-7.0f, 7.0f), 0.0f, Random.Range(6.0f, 8.0f));
+        Vector3 randomPosition = new Vector3((Tools.RandomBool() ? 6.0f : -6.0f), 0.0f, 6.0f);
         string direction = (randomPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
 
         attackSequence = Sequence.Create()
-                    .ChainCallback(() => enemy.animator.Play($"Dash_{direction}_Axe"))
-                    .Chain(MoveToPosition(enemy, randomPosition, gladiatorData.throwMoveDuration))
-                    .ChainCallback(() => enemy.animator.Play("ThrowAxe_Anticipation"))
-                    .ChainCallback(() => SpawnRectangleZone(enemy))
-                    .ChainDelay(gladiatorData.throwSpawnDuration + gladiatorData.throwFillDuration - gladiatorData.throwAnimationDuration)
-                    .ChainCallback(() => enemy.animator.Play("ThrowAxe"))
-                    .ChainDelay(gladiatorData.throwAnimationDuration)
-                    .ChainCallback(() => SpawnAxe(enemy));
+            .ChainCallback(() => enemy.animator.Play($"Dash_{direction}_Axe"))
+            .Chain(MoveToPosition(enemy, randomPosition, gladiatorData.hookMoveDuration))
+            .ChainCallback(() => enemy.animator.Play("HookAnticipation"))
+            .ChainCallback(() => SpawnRectangleZone(enemy))
+            .ChainDelay(gladiatorData.hookSpawnDuration + gladiatorData.hookFillDuration - gladiatorData.hookAnimationDuration)
+            .ChainCallback(() => enemy.animator.Play("HookThrow"))
+            .ChainDelay(gladiatorData.hookAnimationDuration)
+            .ChainCallback(() => SendHook(enemy))
+            .ChainDelay(gladiatorData.hookFlyDuration * 2.0f)
+            .ChainCallback(() => enemy.SelectNewBehaviour());
     }
 
     private void SpawnRectangleZone(EnemyController enemy)
@@ -36,22 +38,14 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
         startAimingTimestamp = Time.time;
         GameObject rectangle = Instantiate(rectangleDamageZonePrefab, enemy.transform.position, Quaternion.identity);
         rectangleDamageZone = rectangle.transform.GetChild(0).GetComponent<RectangleDamageZone>();
-        rectangleDamageZone.Setup(Vector2.right, gladiatorData.throwSpawnDuration, gladiatorData.throwFillDuration);
+        rectangleDamageZone.Setup(Vector2.right, gladiatorData.hookSpawnDuration, gladiatorData.hookFillDuration);
     }
 
-    private void SpawnAxe(EnemyController enemy)
+    private void SendHook(EnemyController enemy)
     {
         Vector3 position = enemy.transform.position;
-        AxeController axe = Instantiate(axePrefab, position, Quaternion.identity);
-        axe.Setup(rotationDirection, gladiatorData.throwAxeDistance, gladiatorData.throwAxeFlyDuration, () => CatchAxe(enemy));
-    }
-
-    public void CatchAxe(EnemyController enemy)
-    {
-        attackSequence = Sequence.Create()
-            .ChainCallback(() => enemy.animator.Play("CatchAxe"))
-            .ChainDelay(0.3f)
-            .ChainCallback(() => enemy.SelectNewBehaviour());
+        HookController hook = Instantiate(hookControllerPrefab, position, Quaternion.identity);
+        hook.Setup(rotationDirection, gladiatorData.hookFlyDistance, gladiatorData.hookFlyDuration, gladiatorData.hookPullDistance, gladiatorData.hookPullDuration);
     }
 
     private Sequence MoveToPosition(EnemyController enemy, Vector3 enemyPosition, float moveDuration)
@@ -67,14 +61,9 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
             .Group(Tween.Position(enemy.transform, enemyPosition, moveDuration, Ease.InOutCubic));
     }
 
-    public void Update()
-    {
-
-    }
-
     public void UpdateBehaviour(EnemyController enemy)
     {
-        if (rectangleDamageZone != null && Time.time - startAimingTimestamp <= gladiatorData.throwRotationDuration)
+        if (rectangleDamageZone != null && Time.time - startAimingTimestamp <= gladiatorData.hookRotationDuration)
             rotationDirection = RotateThrowTowardPlayer();
     }
 

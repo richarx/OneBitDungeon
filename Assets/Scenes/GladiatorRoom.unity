@@ -10779,6 +10779,7 @@ MonoBehaviour:
       type: 3}
     phaseBehaviours:
     - {fileID: 8934140663497945167, guid: e4d7d4f966f8d4f4bb2d3b2ab284eac4, type: 3}
+    - {fileID: 8934140663497945167, guid: e465d994ead77934ebfd01fb43ff512d, type: 3}
     - {fileID: 8934140663497945167, guid: 2b435910f1ec1274eb3c3b7922eaf6ee, type: 3}
   sprite: {fileID: 5071313608623843290}
   shadowSprite: {fileID: 2063661912}

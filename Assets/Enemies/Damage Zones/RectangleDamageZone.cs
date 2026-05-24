@@ -85,6 +85,9 @@ public class RectangleDamageZone : MonoBehaviour
 
     private void CheckForPlayerHit()
     {
+        if (dealDamageToPlayer == null)
+            return;
+
         Vector3 position = transform.position;
         float X = size.x * transform.localScale.x + PlayerStateMachine.instance.hitBoxRadius;
         float Y = size.y * transform.localScale.y + PlayerStateMachine.instance.hitBoxRadius;
