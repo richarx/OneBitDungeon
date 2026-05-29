@@ -1,4 +1,5 @@
 using System;
+using Player.Sword_Hitboxes;
 using UnityEngine;
 
 namespace Player.Scripts
@@ -114,6 +115,9 @@ namespace Player.Scripts
             player.playerHealth.SetHealth(newSlot.savedHealth);
             player.playerStamina.SetStamina(newSlot.savedStamina);
 
+            var newTriggers = newSlot.graphicsObject.GetComponent<WeaponAnimationTriggers>();
+            player.playerSword.weaponAnimationTriggers = newTriggers;
+            player.playerAttack.SetWeaponAnimationTriggers(newTriggers);
             lastSwapTimestamp = Time.time;
             inactiveHealthAccumulator = 0f;
         }

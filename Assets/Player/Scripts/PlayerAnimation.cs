@@ -67,6 +67,8 @@ namespace Player.Scripts
                             PlayIdleAnimation();
                     }
                     break;
+                case BehaviourType.Tag:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
