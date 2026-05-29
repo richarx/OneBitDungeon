@@ -58,7 +58,7 @@ namespace Player.Scripts
             playerHealth = GetComponent<PlayerHealth>();
             playerStamina = GetComponent<PlayerStamina>();
             playerInteraction = GetComponent<PlayerInteraction>();
-            playerAttack = new PlayerAttack(this);
+            playerAttack = new PlayerAttack(this, new Character1AttackStrategy());
 
             lastLookDirection = Vector2.right;
             currentBehaviour = playerIdle;
