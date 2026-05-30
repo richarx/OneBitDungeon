@@ -24,6 +24,7 @@ namespace Player.Scripts
         public PlayerSit playerSit = new PlayerSit();
         public PlayerDead playerDead = new PlayerDead();
         public PlayerAttack playerAttack;
+        public PlayerTag playerTag = new PlayerTag();
         public PlayerLocked playerLocked = new PlayerLocked();
 
         public IPlayerBehaviour currentBehaviour;
@@ -42,6 +43,8 @@ namespace Player.Scripts
         [HideInInspector] public PlayerHealth playerHealth;
         [HideInInspector] public PlayerStamina playerStamina;
         [HideInInspector] public PlayerInteraction playerInteraction;
+        [HideInInspector] public PlayerTagSystem playerTagSystem;
+        [HideInInspector] public PlayerAnimation playerAnimation;
 
         [HideInInspector] public InputPacker inputPacker = new InputPacker();
         [HideInInspector] public InputPackage inputPackage = new InputPackage();
@@ -58,6 +61,7 @@ namespace Player.Scripts
             playerHealth = GetComponent<PlayerHealth>();
             playerStamina = GetComponent<PlayerStamina>();
             playerInteraction = GetComponent<PlayerInteraction>();
+            playerAnimation = GetComponent<PlayerAnimation>();
             playerAttack = new PlayerAttack(this, new Character1AttackStrategy());
 
             lastLookDirection = Vector2.right;

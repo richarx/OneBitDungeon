@@ -16,9 +16,11 @@ namespace Player.Scripts
         private bool hasHitObstacle;
 
         private int attackCount;
-        public bool IsSecondAttack => attackCount >= 2;
+        public bool IsSecondAttack => attackCount % 2 == 0;
         public int AttackCount => attackCount;
         private bool canAttackBeCanceled;
+
+        private int _maxAttack = 3;
 
         private IAttackStrategy currentStrategy;
 
@@ -32,6 +34,11 @@ namespace Player.Scripts
         public void SetStrategy(IAttackStrategy strategy)
         {
             currentStrategy = strategy;
+        }
+
+        public void TriggerTagIn(PlayerStateMachine player)
+        {
+            currentStrategy.OnTagIn(player);
         }
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
@@ -57,7 +64,7 @@ namespace Player.Scripts
                 return;
             }
 
-            if (canAttackBeCanceled && attackCount < 2 && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
+            if (canAttackBeCanceled && attackCount < _maxAttack && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
             {
                 StartBehaviour(player, BehaviourType.Attack);
                 return;

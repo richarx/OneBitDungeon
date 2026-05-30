@@ -51,5 +51,15 @@ namespace Player.Scripts
             if (!wasEmpty && IsEmpty)
                 OnPlayerExhaustStamina?.Invoke();
         }
+
+        public void SetStamina(float value)
+        {
+            currentStamina = Mathf.Clamp(value, 0.0f, playerData.maxStamina);
+        }
+
+        public void SetPlayerData(PlayerData data)
+        {
+            playerData = data;
+        }
     }
 }

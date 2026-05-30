@@ -12,6 +12,7 @@ namespace Player.Scripts
         Sit,
         Dead,
         Locked,
+        Tag,
     }
 
     public interface IPlayerBehaviour

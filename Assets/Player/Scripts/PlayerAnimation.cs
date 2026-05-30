@@ -11,6 +11,11 @@ namespace Player.Scripts
 
         private PlayerStateMachine player;
 
+        public void SetAnimator(Animator newAnimator)
+        {
+            animator = newAnimator;
+        }
+
         private void Start()
         {
             player = PlayerStateMachine.instance;

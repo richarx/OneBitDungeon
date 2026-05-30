@@ -57,6 +57,16 @@ namespace Player.Scripts
             currentHealth = startingHealth;
         }
 
+        public void SetHealth(int value)
+        {
+            currentHealth = Mathf.Clamp(value, 0, startingHealth);
+        }
+
+        public void SetMaxHealth(int value)
+        {
+            startingHealth = value;
+        }
+
         public bool IsParrying()
         {
             return player.playerParry.IsParrying(player);

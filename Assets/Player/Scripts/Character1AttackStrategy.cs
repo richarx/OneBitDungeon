@@ -34,5 +34,7 @@ namespace Player.Scripts
         {
             return player.playerSword.CurrentlyHasSword && (!player.playerStamina.IsEmpty || player.playerData.canAttackWithNoStamina);
         }
+
+        public void OnTagIn(PlayerStateMachine player) { }
     }
 }
