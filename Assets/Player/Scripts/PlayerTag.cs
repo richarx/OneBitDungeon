@@ -21,9 +21,6 @@ namespace Player.Scripts
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)
         {
-            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
-            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
-            player.ApplyMovement();
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next) { }

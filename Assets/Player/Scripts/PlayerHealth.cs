@@ -32,6 +32,8 @@ namespace Player.Scripts
         private void Start()
         {
             player = PlayerStateMachine.instance;
+
+            // a mettre dans le tagSystem pour reset les 2 vies en même temps
             GameManager.OnRestartLevel.AddListener(ResetHealth);
         }
 
