@@ -48,7 +48,7 @@ namespace Player.Scripts
             if (slots[0].graphicsObject != null) slots[0].graphicsObject.SetActive(true);
             if (slots[1].graphicsObject != null) slots[1].graphicsObject.SetActive(false);
 
-            Debug.Log($"[PlayerTagSystem] Initialized — slot0: {(slots[0].definition != null ? slots[0].definition.name : "null")}, slot1: {(slots[1].definition != null ? slots[1].definition.name : "null")}");
+
             OnTagSwap?.Invoke(activeSlotIndex);
         }
 
@@ -121,7 +121,7 @@ namespace Player.Scripts
             player.playerStamina.SetStamina(newSlot.savedStamina);
 
             var newTriggers = newSlot.graphicsObject.GetComponent<WeaponAnimationTriggers>();
-            player.playerSword.weaponAnimationTriggers = newTriggers;
+            player.playerSword.SwapWeaponAnimationTriggers(player.playerSword.weaponAnimationTriggers, newTriggers);
             player.playerAttack.SetWeaponAnimationTriggers(newTriggers);
             lastSwapTimestamp = Time.time;
             inactiveHealthAccumulator = 0f;

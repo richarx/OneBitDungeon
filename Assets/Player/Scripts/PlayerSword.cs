@@ -37,6 +37,19 @@ namespace Player.Scripts
             weaponAnimationTriggers.OnRemoveHitbox.AddListener(RemoveHitbox);
         }
 
+        public void SwapWeaponAnimationTriggers(WeaponAnimationTriggers currentWeaponAnimationTriggers, WeaponAnimationTriggers newTriggers)
+        {
+            if (currentWeaponAnimationTriggers != null)
+            {
+                currentWeaponAnimationTriggers.OnSpawnHitbox.RemoveListener(SpawnHitbox);
+                currentWeaponAnimationTriggers.OnRemoveHitbox.RemoveListener(RemoveHitbox);
+            }
+            weaponAnimationTriggers = newTriggers;
+            weaponAnimationTriggers.OnSpawnHitbox.AddListener(SpawnHitbox);
+            weaponAnimationTriggers.OnRemoveHitbox.AddListener(RemoveHitbox);
+            
+        }
+
         private void SpawnHitbox(AttackDirection direction)
         {
             if (currentHitbox != null)
