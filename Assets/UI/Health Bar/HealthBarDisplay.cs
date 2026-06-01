@@ -8,6 +8,7 @@ namespace UI.Health_Bar
         [SerializeField] private GameObject healthPointPrefab;
         [SerializeField] private Transform healthPointsHolder;
         [SerializeField] private GameObject pivot;
+        [SerializeField] private int characterIndex = 0;
 
         private PlayerStateMachine player;
         private float nextUpdateTimestamp = -1.0f;
@@ -41,7 +42,7 @@ namespace UI.Health_Bar
             if (nextUpdateTimestamp > 0.0f && Time.time <= nextUpdateTimestamp)
                 return;
             
-            int current = player.playerHealth.CurrentHealth;
+            int current = GetCurrentHealth();
             int currentlyDisplayed = healthPointsHolder.childCount;
             
             if (current > currentlyDisplayed)
@@ -52,7 +53,7 @@ namespace UI.Health_Bar
         
         private void SetupHealthBar()
         {
-            int current = player.playerHealth.CurrentHealth;
+            int current = GetCurrentHealth();
 
             for (int i = 0; i < current; i++)
             {
@@ -88,6 +89,14 @@ namespace UI.Health_Bar
         {
             pivot.SetActive(false);
             isDisplayed = false;
+        }
+
+        private int GetCurrentHealth()
+        {
+            var tagSystem = player.playerTagSystem;
+            if (tagSystem == null) return player.playerHealth.CurrentHealth;
+            if (characterIndex == tagSystem.ActiveSlotIndex) return player.playerHealth.CurrentHealth;
+            return tagSystem.GetSlot(characterIndex).savedHealth;
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using Player.Sword_Hitboxes;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Player.Scripts
 {
@@ -26,7 +27,10 @@ namespace Player.Scripts
 
         public int ActiveSlotIndex => activeSlotIndex;
         public bool CanTag => Time.time - lastSwapTimestamp >= player.playerData.tagCooldown;
+        public float TagCooldownProgress => Mathf.Clamp01((Time.time - lastSwapTimestamp) / player.playerData.tagCooldown);
         public CharacterSlot GetSlot(int index) => slots[index];
+
+        public static UnityEvent<int> OnTagSwap = new UnityEvent<int>();
 
         private void Start()
         {
@@ -45,6 +49,7 @@ namespace Player.Scripts
             if (slots[1].graphicsObject != null) slots[1].graphicsObject.SetActive(false);
 
             Debug.Log($"[PlayerTagSystem] Initialized — slot0: {(slots[0].definition != null ? slots[0].definition.name : "null")}, slot1: {(slots[1].definition != null ? slots[1].definition.name : "null")}");
+            OnTagSwap?.Invoke(activeSlotIndex);
         }
 
         private void Update()
@@ -120,6 +125,7 @@ namespace Player.Scripts
             player.playerAttack.SetWeaponAnimationTriggers(newTriggers);
             lastSwapTimestamp = Time.time;
             inactiveHealthAccumulator = 0f;
+            OnTagSwap?.Invoke(activeSlotIndex);
         }
 
         public void ResetBothCharacters()

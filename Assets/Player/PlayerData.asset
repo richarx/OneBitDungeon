@@ -59,4 +59,4 @@ MonoBehaviour:
   tagCooldown: 5
   tagDuration: 0
   inactiveHealthRegenRate: 0
-  inactiveStaminaRegenRate: 0
+  inactiveStaminaRegenRate: 1
