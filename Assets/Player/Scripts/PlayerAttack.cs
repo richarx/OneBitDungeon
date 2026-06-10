@@ -2,13 +2,15 @@ using Player.Sword_Hitboxes;
 using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
-using Warning_Boxes;
+using static CodeAnimator;
 
 namespace Player.Scripts
 {
     public class PlayerAttack : IPlayerBehaviour
     {
         public UnityEvent<string> OnPlayerAttack = new UnityEvent<string>();
+        public UnityEvent OnSpawnDamageBox = new UnityEvent();
+        public UnityEvent OnRemoveDamageBox = new UnityEvent();
 
         private Vector3 dashTarget;
         private float attackStartTimestamp;
@@ -20,11 +22,12 @@ namespace Player.Scripts
         public bool IsSecondAttack => attackCount % 2 == 0;
         public int AttackCount => attackCount;
         private bool canAttackBeCanceled;
+        private bool hasSpawnedDamageBox;
+        private bool hasRemovedDamageBox;
 
         private int _maxAttack = 3;
 
         private IAttackStrategy currentStrategy;
-        private WeaponAnimationTriggers currentWeaponTriggers;
 
         public PlayerAttack(PlayerStateMachine player, IAttackStrategy strategy)
         {
@@ -46,6 +49,8 @@ namespace Player.Scripts
         {
             attackStartTimestamp = Time.time;
             canAttackBeCanceled = false;
+            hasSpawnedDamageBox = false;
+            hasRemovedDamageBox = false;
             hasHitObstacle = false;
             attackCount = previous == BehaviourType.Attack ? attackCount + 1 : 1;
 
@@ -68,6 +73,18 @@ namespace Player.Scripts
             if (!canAttackBeCanceled && Time.time - attackStartTimestamp >= player.playerData.attackCancelTimer)
             {
                 canAttackBeCanceled = true;
+            }
+
+            if (!hasSpawnedDamageBox && Time.time - attackStartTimestamp >= player.playerData.attackSpawnHitBoxTimer)
+            {
+                hasSpawnedDamageBox = true;
+                OnSpawnDamageBox?.Invoke();
+            }
+
+            if (!hasRemovedDamageBox && Time.time - attackStartTimestamp >= player.playerData.attackRemoveHitBoxTimer)
+            {
+                hasRemovedDamageBox = true;
+                OnRemoveDamageBox?.Invoke();
             }
 
             if (canAttackBeCanceled && attackCount < _maxAttack && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())

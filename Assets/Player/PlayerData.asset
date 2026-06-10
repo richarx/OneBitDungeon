@@ -31,7 +31,9 @@ MonoBehaviour:
   jumpDeceleration: 120
   jumpCooldown: 0
   attackDuration: 0.5
-  attackCancelDuration: 0.25
+  attackCancelTimer: 0.25
+  attackSpawnHitBoxTimer: 0.083333336
+  attackRemoveHitBoxTimer: 0.16666667
   attackDashDuration: 0.15
   attackDashMaxDistance: 3.5
   attackDashDeceleration: 500

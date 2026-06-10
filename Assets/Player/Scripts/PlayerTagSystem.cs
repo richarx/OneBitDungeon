@@ -120,8 +120,6 @@ namespace Player.Scripts
             player.playerHealth.SetHealth(newSlot.savedHealth);
             player.playerStamina.SetStamina(newSlot.savedStamina);
 
-            var newTriggers = newSlot.graphicsObject.GetComponent<WeaponAnimationTriggers>();
-            player.playerSword.SwapWeaponAnimationTriggers(player.playerSword.weaponAnimationTriggers, newTriggers);
             lastSwapTimestamp = Time.time;
             inactiveHealthAccumulator = 0f;
             OnTagSwap?.Invoke(activeSlotIndex);

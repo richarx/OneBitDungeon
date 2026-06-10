@@ -1,8 +1,6 @@
-using System;
-using Player.Sword_Hitboxes;
+using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
-using static Player.Sword_Hitboxes.WeaponAnimationTriggers;
 
 namespace Player.Scripts
 {
@@ -12,7 +10,6 @@ namespace Player.Scripts
 
         [Space]
         [SerializeField] private GameObject hitboxPrefab;
-        public WeaponAnimationTriggers weaponAnimationTriggers;
 
         [HideInInspector] public UnityEvent OnEquipSword = new UnityEvent();
         [HideInInspector] public UnityEvent OnSheatheSword = new UnityEvent();
@@ -33,51 +30,47 @@ namespace Player.Scripts
             player.playerAttack.OnPlayerAttack.AddListener((_) => isSwordInHand = true);
             player.playerParry.OnStartParry.AddListener(() => isSwordInHand = true);
             player.playerSit.OnStartSittingDown.AddListener(() => isSwordInHand = false);
-            weaponAnimationTriggers.OnSpawnHitbox.AddListener(SpawnHitbox);
-            weaponAnimationTriggers.OnRemoveHitbox.AddListener(RemoveHitbox);
+
+            player.playerAttack.OnPlayerAttack.AddListener((_) => isSwordInHand = true);
+            player.playerAttack.OnSpawnDamageBox.AddListener(SpawnHitbox);
+            player.playerAttack.OnRemoveDamageBox.AddListener(RemoveHitbox);
         }
 
-        public void SwapWeaponAnimationTriggers(WeaponAnimationTriggers currentWeaponAnimationTriggers, WeaponAnimationTriggers newTriggers)
-        {
-            if (currentWeaponAnimationTriggers != null)
-            {
-                currentWeaponAnimationTriggers.OnSpawnHitbox.RemoveListener(SpawnHitbox);
-                currentWeaponAnimationTriggers.OnRemoveHitbox.RemoveListener(RemoveHitbox);
-            }
-            weaponAnimationTriggers = newTriggers;
-            weaponAnimationTriggers.OnSpawnHitbox.AddListener(SpawnHitbox);
-            weaponAnimationTriggers.OnRemoveHitbox.AddListener(RemoveHitbox);
-            
-        }
-
-        private void SpawnHitbox(AttackDirection direction)
+        private void SpawnHitbox()
         {
             if (currentHitbox != null)
                 RemoveHitbox();
 
             currentHitbox = Instantiate(hitboxPrefab, player.position, Quaternion.identity, transform);
-            currentHitbox.transform.RotateAround(player.position, Vector3.up, ComputeHitboxDirection(direction));
+            currentHitbox.transform.RotateAround(player.position, Vector3.up, ComputeHitboxDirection());
         }
 
-        private float ComputeHitboxDirection(AttackDirection direction)
+        private float ComputeHitboxDirection()
         {
-            switch (direction)
-            {
-                case AttackDirection.L:
-                    return 180.0f;
-                case AttackDirection.F:
-                    return 90.0f;
-                case AttackDirection.R:
-                    return 0.0f;
-                case AttackDirection.BR:
-                    return -45.0f;
-                case AttackDirection.B:
-                    return -100.0f;
-                case AttackDirection.BL:
-                    return -145.0f;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
-            }
+            float angle = player.LastLookDirection.ToSignedDegree();
+
+            if (angle < 0)
+                angle = 360.0f + angle;
+
+            if (angle > 15.0f && angle <= 60.0f)
+                return -45.0f;
+
+            if (angle > 60.0f && angle <= 120.0f)
+                return -100.0f;
+
+            if (angle > 120.0f && angle < 165.0f)
+                return -145.0f;
+
+            if (angle >= 165.0f && angle <= 240.0f)
+                return 180.0f;
+
+            if (angle > 240.0f && angle <= 300.0f)
+                return 90.0f;
+
+            if ((angle > 300.0f && angle <= 360.0f) || (angle >= 0.0f && angle <= 15.0f))
+                return 0.0f;
+
+            return 90.0f;
         }
 
         public void RemoveHitbox()
