@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponInTheBackSprites:
   - {fileID: 1590507992, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
+  - {fileID: 1590507992, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
+  - {fileID: 1590507992, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
   - {fileID: 517900524, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
   - {fileID: 842907587, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
   - {fileID: -1255106539, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
+  - {fileID: 824633336, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
+  - {fileID: 824633336, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
   - {fileID: 824633336, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
   - {fileID: -1616188973, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
   - {fileID: 740291265, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
@@ -25,4 +29,5 @@ MonoBehaviour:
   directionCount: 2
   timeBetweenFrames: 0.083333336
   isLooping: 0
+  canSelfCancel: 0
   nextAnimation: {fileID: 0}
