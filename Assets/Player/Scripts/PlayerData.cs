@@ -33,6 +33,7 @@ namespace Player.Scripts
 
         [Space]
         [Header("Combat")]
+        public int maxAttackCountInCombo;
         public float attackDuration;
         public float attackCancelTimer;
         public float attackSpawnHitBoxTimer;

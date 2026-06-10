@@ -25,8 +25,6 @@ namespace Player.Scripts
         private bool hasSpawnedDamageBox;
         private bool hasRemovedDamageBox;
 
-        private int _maxAttack = 3;
-
         private IAttackStrategy currentStrategy;
 
         public PlayerAttack(PlayerStateMachine player, IAttackStrategy strategy)
@@ -87,13 +85,13 @@ namespace Player.Scripts
                 OnRemoveDamageBox?.Invoke();
             }
 
-            if (canAttackBeCanceled && attackCount < _maxAttack && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
+            if (canAttackBeCanceled && attackCount < player.playerData.maxAttackCountInCombo && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
             {
                 StartBehaviour(player, BehaviourType.Attack);
                 return;
             }
 
-            if (canAttackBeCanceled && player.playerTagSystem != null && attackCount < _maxAttack && CanAttack(player) && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
+            if (canAttackBeCanceled && player.playerTagSystem != null && attackCount < player.playerData.maxAttackCountInCombo && CanAttack(player) && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerTag);
                 return;

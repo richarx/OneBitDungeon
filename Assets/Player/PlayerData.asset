@@ -30,6 +30,7 @@ MonoBehaviour:
   jumpAcceleration: 80
   jumpDeceleration: 120
   jumpCooldown: 0
+  maxAttackCountInCombo: 2
   attackDuration: 0.5
   attackCancelTimer: 0.25
   attackSpawnHitBoxTimer: 0.083333336
