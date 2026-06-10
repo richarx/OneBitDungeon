@@ -3386,11 +3386,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2298097891096850778, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: graphics
+      value: 
+      objectReference: {fileID: 5887394547570343914}
+    - target: {fileID: 2298097891096850778, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: animationsHolder
+      value: 
+      objectReference: {fileID: 11400000, guid: 2cfee0c57a75410478dd09f2170acaaf,
+        type: 2}
+    - target: {fileID: 3919454927896787448, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72fec9c9a9cc45a45b23daca94578ebf, type: 3}
+--- !u!212 &5887394547570343914 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1856159283365252140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+    type: 3}
+  m_PrefabInstance: {fileID: 5221463267431936966}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6723733331351399395 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1529292005952231461, guid: 72fec9c9a9cc45a45b23daca94578ebf,

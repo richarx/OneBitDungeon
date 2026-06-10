@@ -25,8 +25,8 @@ MonoBehaviour:
   rollCooldown: 0.25
   rollHasIFrames: 0
   jumpMaxSpeed: 8
-  jumpMaxDuration: 0.45
-  jumpInAirDuration: 0.4
+  jumpMaxDuration: 0.5
+  jumpInAirDuration: 0.45
   jumpAcceleration: 80
   jumpDeceleration: 120
   jumpCooldown: 0

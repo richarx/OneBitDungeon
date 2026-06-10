@@ -51,6 +51,6 @@ MonoBehaviour:
   - {fileID: -600750535, guid: 21e9b6bf835468b468110a6db1fd24cf, type: 3}
   - {fileID: -588470240, guid: 21e9b6bf835468b468110a6db1fd24cf, type: 3}
   directionCount: 6
-  timeBetweenFrames: 0.083
+  timeBetweenFrames: 0.083333336
   isLooping: 1
   nextAnimation: {fileID: 0}

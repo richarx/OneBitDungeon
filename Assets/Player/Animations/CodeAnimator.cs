@@ -8,6 +8,7 @@ public class CodeAnimator : MonoBehaviour
     {
         Idle,
         Walk,
+        Jump,
     }
 
     public enum AnimationDirection
@@ -32,6 +33,8 @@ public class CodeAnimator : MonoBehaviour
         if (animationType == currentAnimation && animationDirection == currentDirection && hasWeaponInHand == currentWeaponState)
             return;
 
+        Debug.Log($"Success Play Animation : {animationType} / {animationDirection}");
+
         currentAnimation = animationType;
         currentDirection = animationDirection;
         currentWeaponState = hasWeaponInHand;
@@ -46,8 +49,7 @@ public class CodeAnimator : MonoBehaviour
     {
         List<Sprite> sprites = animationData.GetSprites(hasWeaponInHand);
         int frameCount = sprites.Count / animationData.directionCount;
-        int directionIndex = (int)animationDirection;
-        int startingFrame = directionIndex * frameCount;
+        int startingFrame = ComputeStartingFrame(animationData.directionCount, animationDirection, frameCount);
 
         if (animationData.isLooping)
         {
@@ -67,6 +69,14 @@ public class CodeAnimator : MonoBehaviour
         }
     }
 
+    private int ComputeStartingFrame(int directionCount, AnimationDirection animationDirection, int frameCount)
+    {
+        if (directionCount == 4 && animationDirection == AnimationDirection.B)
+            return 3 * frameCount;
+
+        return (int)animationDirection * frameCount;
+    }
+
     private AnimationData RetreiveAnimationData(AnimationType animationType)
     {
         switch (animationType)
@@ -76,6 +86,8 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.Idle;
             case AnimationType.Walk:
                 return animationsHolder.Walk;
+            case AnimationType.Jump:
+                return animationsHolder.Jump;
         }
     }
 }

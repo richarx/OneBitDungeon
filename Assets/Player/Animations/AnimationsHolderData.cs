@@ -5,4 +5,5 @@ public class AnimationsHolderData : ScriptableObject
 {
     public AnimationData Idle;
     public AnimationData Walk;
+    public AnimationData Jump;
 }

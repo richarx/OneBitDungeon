@@ -122,7 +122,8 @@ namespace Player.Scripts
 
         private void PlayJumpAnimation()
         {
-            animator.Play($"Jump_{ComputeWeaponState()}_{ComputeLookDirection()}");
+            codeAnimator.PlayAnimation(AnimationType.Jump, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
+            //animator.Play($"Jump_{ComputeWeaponState()}_{ComputeLookDirection()}");
         }
 
         private void PlayAttackAnimation(string attackAnimation)
