@@ -1,3 +1,4 @@
+using Player.Sword_Hitboxes;
 using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,13 +16,42 @@ namespace Player.Scripts
         private Vector3 dashVelocity;
         private bool hasHitObstacle;
 
-        private bool isSecondAttack;
-        public bool IsSecondAttack => isSecondAttack;
+        private int attackCount;
+        public bool IsSecondAttack => attackCount % 2 == 0;
+        public int AttackCount => attackCount;
         private bool canAttackBeCanceled;
 
-        public PlayerAttack(PlayerStateMachine player)
+        private int _maxAttack = 3;
+
+        private IAttackStrategy currentStrategy;
+        private WeaponAnimationTriggers currentWeaponTriggers;
+        private UnityAction onAttackCanBeCanceledListener;
+
+        public PlayerAttack(PlayerStateMachine player, IAttackStrategy strategy)
         {
-            player.playerSword.weaponAnimationTriggers.OnAttackCanBeCanceled.AddListener(() => canAttackBeCanceled = true);
+            currentStrategy = strategy;
+            currentStrategy.Initialize(player);
+            onAttackCanBeCanceledListener = () => canAttackBeCanceled = true;
+            currentWeaponTriggers = player.playerSword.weaponAnimationTriggers;
+            currentWeaponTriggers.OnAttackCanBeCanceled.AddListener(onAttackCanBeCanceledListener);
+        }
+
+        public void SetStrategy(IAttackStrategy strategy)
+        {
+            currentStrategy = strategy;
+        }
+
+        public void SetWeaponAnimationTriggers(WeaponAnimationTriggers newTriggers)
+        {
+            if (currentWeaponTriggers != null)
+                currentWeaponTriggers.OnAttackCanBeCanceled.RemoveListener(onAttackCanBeCanceledListener);
+            currentWeaponTriggers = newTriggers;
+            currentWeaponTriggers.OnAttackCanBeCanceled.AddListener(onAttackCanBeCanceledListener);
+        }
+
+        public void TriggerTagIn(PlayerStateMachine player)
+        {
+            currentStrategy.OnTagIn(player);
         }
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
@@ -29,7 +59,7 @@ namespace Player.Scripts
             attackStartTimestamp = Time.time;
             canAttackBeCanceled = false;
             hasHitObstacle = false;
-            isSecondAttack = previous == BehaviourType.Attack;
+            attackCount = previous == BehaviourType.Attack ? attackCount + 1 : 1;
 
             ComputeDashTarget(player);
             player.SetLastLookDirection((dashTarget - player.position).ToVector2());
@@ -47,9 +77,17 @@ namespace Player.Scripts
                 return;
             }
 
-            if (canAttackBeCanceled && !isSecondAttack && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
+            if (canAttackBeCanceled && attackCount < _maxAttack && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
             {
                 StartBehaviour(player, BehaviourType.Attack);
+                return;
+            }
+
+            if (canAttackBeCanceled && player.playerTagSystem != null 
+                    && attackCount < _maxAttack && CanAttack(player)
+                    && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
+            {
+                player.ChangeBehaviour(player.playerTag);
                 return;
             }
 
@@ -98,22 +136,12 @@ namespace Player.Scripts
 
         private void ComputeDashTarget(PlayerStateMachine player)
         {
-            bool hasTarget = player.playerTargeting.hasTarget;
-            bool isTargetInRange = hasTarget && player.playerTargeting.targetDistance <= player.playerData.attackDashMaxDistance;
-            bool isInputPressed = player.moveInput.magnitude >= 0.15f;
-            bool isInputInTargetDirection = hasTarget && isInputPressed && Vector3.Dot(player.playerTargeting.directionToTarget, player.moveInput.ToVector3()) >= 0.5f;
-
-            if (isTargetInRange && (!isInputPressed || isInputInTargetDirection))
-                dashTarget = player.position + (player.playerTargeting.directionToTarget * Mathf.Max(player.playerTargeting.targetDistance - 1.0f, 0.0f));
-            else if (isInputPressed)
-                dashTarget = player.position + player.moveInput.ToVector3().normalized * player.playerData.attackDashMaxDistance;
-            else
-                dashTarget = player.position + player.LastLookDirection.ToVector3().normalized * player.playerData.attackDashMaxDistance;
+            dashTarget = currentStrategy.ComputeDashTarget(player);
         }
 
         private string SelectCurrentAttack()
         {
-            return isSecondAttack ? "Attack_1" : "Attack_1";
+            return currentStrategy.SelectAttackName(attackCount);
         }
 
         private void DashTowardTarget(PlayerStateMachine player)
@@ -131,7 +159,7 @@ namespace Player.Scripts
 
         public bool CanAttack(PlayerStateMachine player)
         {
-            return player.playerSword.CurrentlyHasSword && (!player.playerStamina.IsEmpty || player.playerData.canAttackWithNoStamina);
+            return currentStrategy.CanAttack(player);
         }
 
         private Vector2 ComputeDashDirection(PlayerStateMachine player)

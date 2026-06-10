@@ -76,5 +76,12 @@ namespace Player.Scripts
 
         [Space]
         public bool canAttackWithNoStamina;
+
+        [Space]
+        [Header("Tag")]
+        public float tagCooldown;
+        public float tagDuration;
+        public float inactiveHealthRegenRate;
+        public float inactiveStaminaRegenRate;
     }
 }

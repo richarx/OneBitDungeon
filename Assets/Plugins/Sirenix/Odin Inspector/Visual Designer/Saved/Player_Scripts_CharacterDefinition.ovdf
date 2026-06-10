@@ -1,0 +1,9 @@
+OVDF v1.1
+Player.Scripts.CharacterDefinition, Assembly-CSharp
+MetaGuid:88fabb233ab04614eb4aa3d97d4184df
+
+# maxHealth
++ [Sirenix.OdinInspector.MinValueAttribute]
+	MinValue = 1
++ [Sirenix.OdinInspector.PropertyRangeAttribute]
+	Max = 5

@@ -32,6 +32,8 @@ namespace Player.Scripts
         private void Start()
         {
             player = PlayerStateMachine.instance;
+
+            // a mettre dans le tagSystem pour reset les 2 vies en même temps
             GameManager.OnRestartLevel.AddListener(ResetHealth);
         }
 
@@ -55,6 +57,16 @@ namespace Player.Scripts
         public void ResetHealth()
         {
             currentHealth = startingHealth;
+        }
+
+        public void SetHealth(int value)
+        {
+            currentHealth = Mathf.Clamp(value, 0, startingHealth);
+        }
+
+        public void SetMaxHealth(int value)
+        {
+            startingHealth = value;
         }
 
         public bool IsParrying()

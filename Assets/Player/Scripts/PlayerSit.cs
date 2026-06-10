@@ -40,7 +40,10 @@ namespace Player.Scripts
             isLeftDirection = (position - player.position).normalized.x <= 0.0;
             hasTargetBeenSet = true;
 
-            player.playerHealth.ResetHealth();
+            if (player.playerTagSystem != null)
+                player.playerTagSystem.ResetBothCharacters();
+            else
+                player.playerHealth.ResetHealth();
             player.ChangeBehaviour(player.playerSit);
             GameManager.instance.SetRespawnPosition();
         }

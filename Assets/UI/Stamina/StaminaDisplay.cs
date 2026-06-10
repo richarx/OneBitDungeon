@@ -14,7 +14,9 @@ namespace UI.Stamina
         [SerializeField] private Color filledColor;
         [SerializeField] private Color emptyColor;
         [SerializeField] private GameObject pivot;
+        [SerializeField] private int characterIndex = 0;
 
+        private PlayerStateMachine player;
         private PlayerStamina playerStamina;
         private PlayerData playerData;
 
@@ -38,18 +40,20 @@ namespace UI.Stamina
 
         private void Start()
         {
-            playerStamina = PlayerStateMachine.instance.playerStamina;
-            playerData = PlayerStateMachine.instance.playerData;
+            player = PlayerStateMachine.instance;
+            playerStamina = player.playerStamina;
+            playerData = player.playerData;
         }
 
         private void Update()
         {
             float current = staminaBar.fillAmount;
-            float target = Tools.NormalizeValue(playerStamina.CurrentStamina, 0.0f, playerData.maxStamina);
+            float target = Tools.NormalizeValue(GetCurrentStamina(), 0.0f, GetMaxStamina());
 
             staminaBar.fillAmount = Mathf.SmoothDamp(current, target, ref velocity, smoothTime);
 
-            Color color = playerStamina.IsEmpty ? emptyColor : filledColor;
+            bool isEmpty = GetCurrentStamina() <= 0f;
+            Color color = isEmpty ? emptyColor : filledColor;
             leftCorner.color = color;
             rightCorner.color = color;
         }
@@ -64,6 +68,22 @@ namespace UI.Stamina
         {
             pivot.SetActive(false);
             isDisplayed = false;
+        }
+
+        private float GetCurrentStamina()
+        {
+            var tagSystem = player.playerTagSystem;
+            if (tagSystem == null) return playerStamina.CurrentStamina;
+            if (characterIndex == tagSystem.ActiveSlotIndex) return playerStamina.CurrentStamina;
+            return tagSystem.GetSlot(characterIndex).savedStamina;
+        }
+
+        private float GetMaxStamina()
+        {
+            var tagSystem = player.playerTagSystem;
+            if (tagSystem == null) return playerData.maxStamina;
+            var def = tagSystem.GetSlot(characterIndex).definition;
+            return def != null && def.playerData != null ? def.playerData.maxStamina : playerData.maxStamina;
         }
     }
 }

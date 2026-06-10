@@ -13,6 +13,11 @@ namespace Player.Scripts
         private PlayerStateMachine player;
         private CodeAnimator codeAnimator;
 
+        public void SetAnimator(Animator newAnimator)
+        {
+            animator = newAnimator;
+        }
+
         private void Start()
         {
             player = PlayerStateMachine.instance;
@@ -64,6 +69,8 @@ namespace Player.Scripts
                         else
                             PlayIdleAnimation();
                     }
+                    break;
+                case BehaviourType.Tag:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
