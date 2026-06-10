@@ -9,6 +9,7 @@ public class CodeAnimator : MonoBehaviour
         Idle,
         Walk,
         Jump,
+        Roll,
         GetUp,
         SitDown,
         Sit,
@@ -98,6 +99,8 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.Walk;
             case AnimationType.Jump:
                 return animationsHolder.Jump;
+            case AnimationType.Roll:
+                return animationsHolder.Roll;
             case AnimationType.GetUp:
                 return animationsHolder.GetUp;
             case AnimationType.SitDown:

@@ -122,7 +122,8 @@ namespace Player.Scripts
 
         private void PlayRollAnimation()
         {
-            animator.Play($"Roll_NoWeapon_{ComputeCardinalLookDirection()}");
+            codeAnimator.PlayAnimation(AnimationType.Roll, ComputeCardinalAnimationDirection());
+            //animator.Play($"Roll_NoWeapon_{ComputeCardinalLookDirection()}");
         }
 
         private void PlayJumpAnimation()
