@@ -135,24 +135,14 @@ namespace Player.Scripts
 
         private void PlayAttackAnimation(string attackAnimation)
         {
-            animator.Play($"{attackAnimation}_InHand_{ComputeLookDirection()}", 0, 0.0f);
+            codeAnimator.PlayAnimation(AnimationType.Attack, ComputeAnimationDirection(), true);
+            //animator.Play($"{attackAnimation}_InHand_{ComputeLookDirection()}", 0, 0.0f);
         }
 
         private void PlayStaggerAnimation()
         {
             codeAnimator.PlayAnimation(AnimationType.Hurt, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
             //animator.Play($"Hurt_{ComputeWeaponState()}_{ComputeLookDirection()}");
-        }
-
-        private string ComputeWeaponState()
-        {
-            if (!player.playerSword.CurrentlyHasSword)
-                return "NoWeapon";
-
-            if (player.playerSword.IsSwordInHand)
-                return "InHand";
-
-            return "InBack";
         }
 
         private string ComputeLookDirection()
@@ -181,33 +171,6 @@ namespace Player.Scripts
                 return "R";
 
             return "F";
-        }
-
-        private string ComputeCardinalLookDirection()
-        {
-            float angle = player.LastLookDirection.ToSignedDegree();
-
-            if (angle < 0)
-                angle = 360.0f + angle;
-
-            if (angle > 45.0f && angle <= 135.0f)
-                return "B";
-
-            if (angle >= 135.0f && angle <= 225.0f)
-                return "L";
-
-            if (angle > 225.0f && angle <= 315.0f)
-                return "F";
-
-            if ((angle > 315.0f && angle <= 360.0f) || (angle >= 0.0f && angle <= 45.0f))
-                return "R";
-
-            return "F";
-        }
-
-        private string ComputeLeftRightLookDirection()
-        {
-            return player.LastLookDirection.x <= 0.0f ? "L" : "R";
         }
 
         private AnimationDirection ComputeAnimationDirection()

@@ -15,6 +15,7 @@ public class AnimationData : ScriptableObject
 
     [Space]
     public bool isLooping;
+    public bool canSelfCancel;
 
     [Space]
     [CanBeNull]

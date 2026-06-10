@@ -7,6 +7,7 @@ public class AnimationsHolderData : ScriptableObject
     public AnimationData Walk;
     public AnimationData Jump;
     public AnimationData Roll;
+    public AnimationData Attack;
     public AnimationData Hurt;
     public AnimationData Die;
     public AnimationData GetUp;

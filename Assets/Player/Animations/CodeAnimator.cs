@@ -10,6 +10,7 @@ public class CodeAnimator : MonoBehaviour
         Walk,
         Jump,
         Roll,
+        Attack,
         Hurt,
         Die,
         GetUp,
@@ -41,7 +42,7 @@ public class CodeAnimator : MonoBehaviour
 
     private void PlayAnimation(AnimationData animationData, AnimationDirection animationDirection, bool hasWeaponInHand = false)
     {
-        if (animationData == currentAnimation && animationDirection == currentDirection && hasWeaponInHand == currentWeaponState)
+        if (!animationData.canSelfCancel && animationData == currentAnimation && animationDirection == currentDirection && hasWeaponInHand == currentWeaponState)
             return;
 
         currentAnimation = animationData;
@@ -103,6 +104,8 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.Jump;
             case AnimationType.Roll:
                 return animationsHolder.Roll;
+            case AnimationType.Attack:
+                return animationsHolder.Attack;
             case AnimationType.Hurt:
                 return animationsHolder.Hurt;
             case AnimationType.Die:
