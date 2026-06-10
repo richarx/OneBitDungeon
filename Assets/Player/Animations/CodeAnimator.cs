@@ -9,6 +9,9 @@ public class CodeAnimator : MonoBehaviour
         Idle,
         Walk,
         Jump,
+        GetUp,
+        SitDown,
+        Sit,
     }
 
     public enum AnimationDirection
@@ -24,22 +27,23 @@ public class CodeAnimator : MonoBehaviour
     [SerializeField] private SpriteRenderer graphics;
     [SerializeField] private AnimationsHolderData animationsHolder;
 
-    private AnimationType currentAnimation;
+    private AnimationData currentAnimation;
     private AnimationDirection currentDirection;
     private bool currentWeaponState;
 
     public void PlayAnimation(AnimationType animationType, AnimationDirection animationDirection, bool hasWeaponInHand = false)
     {
-        if (animationType == currentAnimation && animationDirection == currentDirection && hasWeaponInHand == currentWeaponState)
+        PlayAnimation(RetreiveAnimationData(animationType), animationDirection, hasWeaponInHand);
+    }
+
+    private void PlayAnimation(AnimationData animationData, AnimationDirection animationDirection, bool hasWeaponInHand = false)
+    {
+        if (animationData == currentAnimation && animationDirection == currentDirection && hasWeaponInHand == currentWeaponState)
             return;
 
-        Debug.Log($"Success Play Animation : {animationType} / {animationDirection}");
-
-        currentAnimation = animationType;
+        currentAnimation = animationData;
         currentDirection = animationDirection;
         currentWeaponState = hasWeaponInHand;
-
-        AnimationData animationData = RetreiveAnimationData(animationType);
 
         StopAllCoroutines();
         StartCoroutine(PlayAnimationCoroutine(animationData, animationDirection, hasWeaponInHand));
@@ -58,6 +62,9 @@ public class CodeAnimator : MonoBehaviour
         }
         else
             yield return AnimateSpriteRenderer(sprites, frameCount, startingFrame, animationData.timeBetweenFrames);
+
+        if (animationData.nextAnimation != null)
+            PlayAnimation(animationData.nextAnimation, animationDirection, hasWeaponInHand);
     }
 
     private IEnumerator AnimateSpriteRenderer(List<Sprite> sprites, int frameCount, int startingFrame, float timeBetweenFrames)
@@ -74,6 +81,9 @@ public class CodeAnimator : MonoBehaviour
         if (directionCount == 4 && animationDirection == AnimationDirection.B)
             return 3 * frameCount;
 
+        if (directionCount == 2 && animationDirection == AnimationDirection.R)
+            return frameCount;
+
         return (int)animationDirection * frameCount;
     }
 
@@ -88,6 +98,12 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.Walk;
             case AnimationType.Jump:
                 return animationsHolder.Jump;
+            case AnimationType.GetUp:
+                return animationsHolder.GetUp;
+            case AnimationType.SitDown:
+                return animationsHolder.SitDown;
+            case AnimationType.Sit:
+                return animationsHolder.Sit;
         }
     }
 }

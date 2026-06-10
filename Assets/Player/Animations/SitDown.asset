@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb52d6d02f4de5458707795204991a5, type: 3}
+  m_Name: SitDown
+  m_EditorClassIdentifier: 
+  weaponInTheBackSprites:
+  - {fileID: 1917416469, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: -551555263, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: 42129765, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: -1544775296, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: -1605840444, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: 4928608, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: -21026420, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: -1764957410, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: -146465663, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: -795495299, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: 2145020449, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: -1253028659, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: 1612487063, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: 701893052, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: -899062732, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  - {fileID: -187124935, guid: 26895b323eee77940a61cb19d3ad945c, type: 3}
+  weaponInHandSprites: []
+  directionCount: 2
+  timeBetweenFrames: 0.083333336
+  isLooping: 0
+  nextAnimation: {fileID: 11400000, guid: 6d327c02385132142a30d60f6bfb0787, type: 2}

@@ -84,8 +84,13 @@ namespace Player.Scripts
 
         private void PlaySitAnimation()
         {
-            string animationName = player.playerSit.IsGettingUp ? "GetUp" : "SitDown";
-            animator.Play($"{animationName}_InBack_{ComputeLeftRightLookDirection()}");
+            if (player.playerSit.IsGettingUp)
+                codeAnimator.PlayAnimation(AnimationType.GetUp, ComputeLeftRightAnimationDirection());
+            else
+                codeAnimator.PlayAnimation(AnimationType.SitDown, ComputeLeftRightAnimationDirection());
+
+            //string animationName = player.playerSit.IsGettingUp ? "GetUp" : "SitDown";
+            //animator.Play($"{animationName}_InBack_{ComputeLeftRightLookDirection()}");
         }
 
         private void PlayStartParryAnimation()
