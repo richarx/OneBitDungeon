@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,6 +45,16 @@ public class CodeAnimator : MonoBehaviour
     private AnimationData currentAnimation;
     private AnimationDirection currentDirection;
     private bool currentWeaponState;
+
+    public void SetGraphicsTarget(SpriteRenderer newSpriteRenderer)
+    {
+        graphics = newSpriteRenderer;
+    }
+
+    public void SetAnimationsHolder(AnimationsHolderData newAnimationsHolder)
+    {
+        animationsHolder = newAnimationsHolder;
+    }
 
     public void PlayAnimation(AnimationType animationType, AnimationDirection animationDirection, bool hasWeaponInHand = false)
     {

@@ -103,12 +103,11 @@ namespace Player.Scripts
             // Update animator
             if (newSlot.graphicsObject != null)
             {
-                Animator newAnimator = newSlot.graphicsObject.GetComponentInChildren<Animator>();
-                if (newAnimator != null)
+                SpriteRenderer newRenderer = newSlot.graphicsObject.GetComponentInChildren<SpriteRenderer>();
+                if (newRenderer != null)
                 {
-                    if (newSlot.definition.animatorController != null)
-                        newAnimator.runtimeAnimatorController = newSlot.definition.animatorController;
-                    player.playerAnimation.SetAnimator(newAnimator);
+                    player.codeAnimator.SetGraphicsTarget(newRenderer);
+                    player.codeAnimator.SetAnimationsHolder(newSlot.definition.animationsHolder);
                 }
             }
 

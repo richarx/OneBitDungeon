@@ -124,6 +124,7 @@ MonoBehaviour:
   playerInteraction: {fileID: 0}
   playerTagSystem: {fileID: 0}
   playerAnimation: {fileID: 0}
+  codeAnimator: {fileID: 0}
 --- !u!114 &2849136143969542003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625809f9c76e2a942812cd7cc1a27d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 3919454927896787448}
 --- !u!114 &5523469155199945358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +152,6 @@ MonoBehaviour:
   hasSword: 1
   hitboxPrefab: {fileID: 1002835809620756908, guid: 8e54896a02369374f83e597d34629542,
     type: 3}
-  weaponAnimationTriggers: {fileID: 5579172097738275607}
   OnEquipSword:
     m_PersistentCalls:
       m_Calls: []
@@ -403,8 +402,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65495ee690472ad408e0428d984507c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphics: {fileID: 0}
-  animationsHolder: {fileID: 0}
+  graphics: {fileID: 1856159283365252140}
+  animationsHolder: {fileID: 11400000, guid: 2cfee0c57a75410478dd09f2170acaaf, type: 2}
 --- !u!1 &3430374639409287783
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,7 +674,6 @@ GameObject:
   - component: {fileID: 6619101898354026770}
   - component: {fileID: 6186045048917959993}
   - component: {fileID: 7800055430857257082}
-  - component: {fileID: 2028572517601048868}
   m_Layer: 7
   m_Name: graphicsSecond
   m_TagString: Untagged
@@ -758,7 +756,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6624004368659154068}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 40e71dbb9bde2eb4dbcb6b82a8751b20, type: 2}
   m_CullingMode: 0
@@ -771,27 +769,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2028572517601048868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6624004368659154068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e041d05457117334fb51699055207934, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnSpawnHitbox:
-    m_PersistentCalls:
-      m_Calls: []
-  OnRemoveHitbox:
-    m_PersistentCalls:
-      m_Calls: []
-  OnAttackCanBeCanceled:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7923046771804982645
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,7 +780,6 @@ GameObject:
   - component: {fileID: 5802077024740571042}
   - component: {fileID: 1856159283365252140}
   - component: {fileID: 3919454927896787448}
-  - component: {fileID: 5579172097738275607}
   m_Layer: 7
   m_Name: graphics
   m_TagString: Untagged
@@ -886,7 +862,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7923046771804982645}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 40e71dbb9bde2eb4dbcb6b82a8751b20, type: 2}
   m_CullingMode: 0
@@ -899,27 +875,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5579172097738275607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7923046771804982645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e041d05457117334fb51699055207934, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnSpawnHitbox:
-    m_PersistentCalls:
-      m_Calls: []
-  OnRemoveHitbox:
-    m_PersistentCalls:
-      m_Calls: []
-  OnAttackCanBeCanceled:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7996010813403847570
 GameObject:
   m_ObjectHideFlags: 0

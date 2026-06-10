@@ -45,6 +45,7 @@ namespace Player.Scripts
         [HideInInspector] public PlayerInteraction playerInteraction;
         [HideInInspector] public PlayerTagSystem playerTagSystem;
         [HideInInspector] public PlayerAnimation playerAnimation;
+        [HideInInspector] public CodeAnimator codeAnimator;
 
         [HideInInspector] public InputPacker inputPacker = new InputPacker();
         [HideInInspector] public InputPackage inputPackage = new InputPackage();
@@ -62,6 +63,7 @@ namespace Player.Scripts
             playerStamina = GetComponent<PlayerStamina>();
             playerInteraction = GetComponent<PlayerInteraction>();
             playerAnimation = GetComponent<PlayerAnimation>();
+            codeAnimator = GetComponent<CodeAnimator>();
             playerAttack = new PlayerAttack(this, new Character1AttackStrategy());
 
             lastLookDirection = Vector2.right;

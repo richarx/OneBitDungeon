@@ -29,4 +29,4 @@ MonoBehaviour:
       Data: 
   playerData: {fileID: 11400000, guid: f1e822e992950f34ab56e9a3333cbc63, type: 2}
   maxHealth: 5
-  animatorController: {fileID: 9100000, guid: 40e71dbb9bde2eb4dbcb6b82a8751b20, type: 2}
+  animationsHolder: {fileID: 11400000, guid: 2cfee0c57a75410478dd09f2170acaaf, type: 2}

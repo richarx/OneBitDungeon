@@ -13,7 +13,7 @@ namespace Player.Scripts
         public int maxHealth;
 
         [Header("Visuals")]
-        public RuntimeAnimatorController animatorController;
+        public AnimationsHolderData animationsHolder;
 
         [Header("Attack")]
         [OdinSerialize] public IAttackStrategy attackStrategy;  // ← était [SerializeReference]
