@@ -2,6 +2,7 @@ using System;
 using Game_Manager;
 using Tools_and_Scripts;
 using UnityEngine;
+using static CodeAnimator;
 
 namespace Player.Scripts
 {
@@ -10,10 +11,12 @@ namespace Player.Scripts
         [SerializeField] private Animator animator;
 
         private PlayerStateMachine player;
+        private CodeAnimator codeAnimator;
 
         private void Start()
         {
             player = PlayerStateMachine.instance;
+            codeAnimator = GetComponent<CodeAnimator>();
 
             player.playerAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
             player.playerStagger.OnStagger.AddListener(PlayStaggerAnimation);
@@ -95,12 +98,14 @@ namespace Player.Scripts
 
         private void PlayIdleAnimation()
         {
-            animator.Play($"Idle_{ComputeWeaponState()}_{ComputeLookDirection()}");
+            codeAnimator.PlayAnimation(AnimationType.Idle, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
+            //animator.Play($"Idle_{ComputeWeaponState()}_{ComputeLookDirection()}");
         }
 
         private void PlayRunAnimation()
         {
-            animator.Play($"Walk_{ComputeWeaponState()}_{ComputeLookDirection()}");
+            codeAnimator.PlayAnimation(AnimationType.Walk, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
+            //animator.Play($"Walk_{ComputeWeaponState()}_{ComputeLookDirection()}");
         }
 
         private void PlayRollAnimation()
@@ -187,6 +192,61 @@ namespace Player.Scripts
         private string ComputeLeftRightLookDirection()
         {
             return player.LastLookDirection.x <= 0.0f ? "L" : "R";
+        }
+
+        private AnimationDirection ComputeAnimationDirection()
+        {
+            float angle = player.LastLookDirection.ToSignedDegree();
+
+            if (angle < 0)
+                angle = 360.0f + angle;
+
+            if (angle > 15.0f && angle <= 60.0f)
+                return AnimationDirection.BR;
+
+            if (angle > 60.0f && angle <= 120.0f)
+                return AnimationDirection.B;
+
+            if (angle > 120.0f && angle < 165.0f)
+                return AnimationDirection.BL;
+
+            if (angle >= 165.0f && angle <= 240.0f)
+                return AnimationDirection.L;
+
+            if (angle > 240.0f && angle <= 300.0f)
+                return AnimationDirection.F;
+
+            if ((angle > 300.0f && angle <= 360.0f) || (angle >= 0.0f && angle <= 15.0f))
+                return AnimationDirection.R;
+
+            return AnimationDirection.F;
+        }
+
+        private AnimationDirection ComputeCardinalAnimationDirection()
+        {
+            float angle = player.LastLookDirection.ToSignedDegree();
+
+            if (angle < 0)
+                angle = 360.0f + angle;
+
+            if (angle > 45.0f && angle <= 135.0f)
+                return AnimationDirection.B;
+
+            if (angle >= 135.0f && angle <= 225.0f)
+                return AnimationDirection.L;
+
+            if (angle > 225.0f && angle <= 315.0f)
+                return AnimationDirection.F;
+
+            if ((angle > 315.0f && angle <= 360.0f) || (angle >= 0.0f && angle <= 45.0f))
+                return AnimationDirection.R;
+
+            return AnimationDirection.F;
+        }
+
+        private AnimationDirection ComputeLeftRightAnimationDirection()
+        {
+            return player.LastLookDirection.x <= 0.0f ? AnimationDirection.L : AnimationDirection.R;
         }
     }
 }
