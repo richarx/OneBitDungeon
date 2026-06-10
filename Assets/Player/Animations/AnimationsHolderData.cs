@@ -8,6 +8,9 @@ public class AnimationsHolderData : ScriptableObject
     public AnimationData Jump;
     public AnimationData Roll;
     public AnimationData Attack;
+    public AnimationData ParryStart;
+    public AnimationData ParrySuccess;
+    public AnimationData ParryRecovery;
     public AnimationData Hurt;
     public AnimationData Die;
     public AnimationData GetUp;

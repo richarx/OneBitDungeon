@@ -96,17 +96,20 @@ namespace Player.Scripts
 
         private void PlayStartParryAnimation()
         {
-            animator.Play($"ParryStart_InHand_{ComputeLookDirection()}", 0, player.playerParry.isFromParry ? 0.5f : 0.0f);
+            codeAnimator.PlayAnimation(AnimationType.ParryStart, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
+            //animator.Play($"ParryStart_InHand_{ComputeLookDirection()}", 0, player.playerParry.isFromParry ? 0.5f : 0.0f);
         }
 
         private void PlayRecoveryParryAnimation()
         {
-            animator.Play($"ParryRecovery_InHand_{ComputeLookDirection()}");
+            codeAnimator.PlayAnimation(AnimationType.ParryRecovery, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
+            //animator.Play($"ParryRecovery_InHand_{ComputeLookDirection()}");
         }
 
         private void PlaySuccessParryAnimation()
         {
-            animator.Play($"Parry_Success_InHand_{ComputeLookDirection()}");
+            codeAnimator.PlayAnimation(AnimationType.ParrySuccess, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
+            //animator.Play($"Parry_Success_InHand_{ComputeLookDirection()}");
         }
 
         private void PlayIdleAnimation()

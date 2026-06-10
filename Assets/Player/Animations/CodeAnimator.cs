@@ -11,6 +11,9 @@ public class CodeAnimator : MonoBehaviour
         Jump,
         Roll,
         Attack,
+        ParryStart,
+        ParrySuccess,
+        ParryRecovery,
         Hurt,
         Die,
         GetUp,
@@ -127,6 +130,12 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.Roll;
             case AnimationType.Attack:
                 return animationsHolder.Attack;
+            case AnimationType.ParryStart:
+                return animationsHolder.ParryStart;
+            case AnimationType.ParrySuccess:
+                return animationsHolder.ParrySuccess;
+            case AnimationType.ParryRecovery:
+                return animationsHolder.ParryRecovery;
             case AnimationType.Hurt:
                 return animationsHolder.Hurt;
             case AnimationType.Die:
