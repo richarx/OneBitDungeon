@@ -25,28 +25,16 @@ namespace Player.Scripts
 
         private IAttackStrategy currentStrategy;
         private WeaponAnimationTriggers currentWeaponTriggers;
-        private UnityAction onAttackCanBeCanceledListener;
 
         public PlayerAttack(PlayerStateMachine player, IAttackStrategy strategy)
         {
             currentStrategy = strategy;
             currentStrategy.Initialize(player);
-            onAttackCanBeCanceledListener = () => canAttackBeCanceled = true;
-            currentWeaponTriggers = player.playerSword.weaponAnimationTriggers;
-            currentWeaponTriggers.OnAttackCanBeCanceled.AddListener(onAttackCanBeCanceledListener);
         }
 
         public void SetStrategy(IAttackStrategy strategy)
         {
             currentStrategy = strategy;
-        }
-
-        public void SetWeaponAnimationTriggers(WeaponAnimationTriggers newTriggers)
-        {
-            if (currentWeaponTriggers != null)
-                currentWeaponTriggers.OnAttackCanBeCanceled.RemoveListener(onAttackCanBeCanceledListener);
-            currentWeaponTriggers = newTriggers;
-            currentWeaponTriggers.OnAttackCanBeCanceled.AddListener(onAttackCanBeCanceledListener);
         }
 
         public void TriggerTagIn(PlayerStateMachine player)
@@ -77,15 +65,18 @@ namespace Player.Scripts
                 return;
             }
 
+            if (!canAttackBeCanceled && Time.time - attackStartTimestamp >= player.playerData.attackCancelTimer)
+            {
+                canAttackBeCanceled = true;
+            }
+
             if (canAttackBeCanceled && attackCount < _maxAttack && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
             {
                 StartBehaviour(player, BehaviourType.Attack);
                 return;
             }
 
-            if (canAttackBeCanceled && player.playerTagSystem != null 
-                    && attackCount < _maxAttack && CanAttack(player)
-                    && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
+            if (canAttackBeCanceled && player.playerTagSystem != null && attackCount < _maxAttack && CanAttack(player) && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerTag);
                 return;

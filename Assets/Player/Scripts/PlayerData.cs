@@ -34,6 +34,7 @@ namespace Player.Scripts
         [Space]
         [Header("Combat")]
         public float attackDuration;
+        public float attackCancelTimer;
         public float attackDashDuration;
         public float attackDashMaxDistance;
         public float attackDashDeceleration;

@@ -122,7 +122,6 @@ namespace Player.Scripts
 
             var newTriggers = newSlot.graphicsObject.GetComponent<WeaponAnimationTriggers>();
             player.playerSword.SwapWeaponAnimationTriggers(player.playerSword.weaponAnimationTriggers, newTriggers);
-            player.playerAttack.SetWeaponAnimationTriggers(newTriggers);
             lastSwapTimestamp = Time.time;
             inactiveHealthAccumulator = 0f;
             OnTagSwap?.Invoke(activeSlotIndex);
