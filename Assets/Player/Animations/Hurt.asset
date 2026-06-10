@@ -50,7 +50,8 @@ MonoBehaviour:
   - {fileID: -86689439, guid: 0f9ba8a36a4d1c248b75ce02af150f0e, type: 3}
   - {fileID: 1519491948, guid: 0f9ba8a36a4d1c248b75ce02af150f0e, type: 3}
   - {fileID: 1677397054, guid: 0f9ba8a36a4d1c248b75ce02af150f0e, type: 3}
-  directionCount: 6
+  directionCount: 0
   timeBetweenFrames: 0.083333336
   isLooping: 0
+  canSelfCancel: 0
   nextAnimation: {fileID: 0}

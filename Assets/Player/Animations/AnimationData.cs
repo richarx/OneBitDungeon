@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using static CodeAnimator;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/AnimationData")]
 public class AnimationData : ScriptableObject
@@ -10,7 +10,7 @@ public class AnimationData : ScriptableObject
     public List<Sprite> weaponInHandSprites;
 
     [Space]
-    public int directionCount;
+    public AnimationDirectionCount directionCount;
     public float timeBetweenFrames;
 
     [Space]

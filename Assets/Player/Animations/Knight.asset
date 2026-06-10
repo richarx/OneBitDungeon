@@ -16,6 +16,7 @@ MonoBehaviour:
   Walk: {fileID: 11400000, guid: fdde7d7ad6b69ed4e91eb2f61996b792, type: 2}
   Jump: {fileID: 11400000, guid: d5d250ed507bd6d44863cf858f72c871, type: 2}
   Roll: {fileID: 11400000, guid: f44d0fc5a1e0a3249a4b0ffe145dc473, type: 2}
+  Attack: {fileID: 11400000, guid: 6cfab0df62cba7743b759a86fa78bbae, type: 2}
   Hurt: {fileID: 11400000, guid: 42ee503f2c7137b479e983cc00779100, type: 2}
   Die: {fileID: 11400000, guid: b33f7ecf418b5f14d8f0482b7828260e, type: 2}
   GetUp: {fileID: 11400000, guid: 29629b3d3be286344b733d5d18397337, type: 2}

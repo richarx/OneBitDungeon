@@ -28,6 +28,13 @@ public class CodeAnimator : MonoBehaviour
         BL
     }
 
+    public enum AnimationDirectionCount
+    {
+        Six,
+        Four,
+        Two
+    }
+
     [SerializeField] private SpriteRenderer graphics;
     [SerializeField] private AnimationsHolderData animationsHolder;
 
@@ -56,7 +63,7 @@ public class CodeAnimator : MonoBehaviour
     private IEnumerator PlayAnimationCoroutine(AnimationData animationData, AnimationDirection animationDirection, bool hasWeaponInHand)
     {
         List<Sprite> sprites = animationData.GetSprites(hasWeaponInHand);
-        int frameCount = sprites.Count / animationData.directionCount;
+        int frameCount = sprites.Count / ComputeDirectionCount(animationData.directionCount);
         int startingFrame = ComputeStartingFrame(animationData.directionCount, animationDirection, frameCount);
 
         if (animationData.isLooping)
@@ -80,15 +87,29 @@ public class CodeAnimator : MonoBehaviour
         }
     }
 
-    private int ComputeStartingFrame(int directionCount, AnimationDirection animationDirection, int frameCount)
+    private int ComputeStartingFrame(AnimationDirectionCount directionCount, AnimationDirection animationDirection, int frameCount)
     {
-        if (directionCount == 4 && animationDirection == AnimationDirection.B)
+        if (directionCount == AnimationDirectionCount.Four && animationDirection == AnimationDirection.B)
             return 3 * frameCount;
 
-        if (directionCount == 2 && animationDirection == AnimationDirection.R)
+        if (directionCount == AnimationDirectionCount.Two && animationDirection == AnimationDirection.R)
             return frameCount;
 
         return (int)animationDirection * frameCount;
+    }
+
+    private int ComputeDirectionCount(AnimationDirectionCount directionCount)
+    {
+        switch (directionCount)
+        {
+            default:
+            case AnimationDirectionCount.Six:
+                return 6;
+            case AnimationDirectionCount.Four:
+                return 4;
+            case AnimationDirectionCount.Two:
+                return 2;
+        }
     }
 
     private AnimationData RetreiveAnimationData(AnimationType animationType)

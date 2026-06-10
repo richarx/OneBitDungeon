@@ -50,7 +50,7 @@ MonoBehaviour:
   - {fileID: -44779110, guid: f498ed3e290ec9244aabf98ecffec042, type: 3}
   - {fileID: -2016731918, guid: f498ed3e290ec9244aabf98ecffec042, type: 3}
   - {fileID: -1354930273, guid: f498ed3e290ec9244aabf98ecffec042, type: 3}
-  directionCount: 6
+  directionCount: 0
   timeBetweenFrames: 0.083333336
   isLooping: 0
   canSelfCancel: 1

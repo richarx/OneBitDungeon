@@ -98,7 +98,8 @@ MonoBehaviour:
   - {fileID: -670368203, guid: 3ae55822539637d4795de54297a3d041, type: 3}
   - {fileID: -42166185, guid: 3ae55822539637d4795de54297a3d041, type: 3}
   - {fileID: 1279151907, guid: 3ae55822539637d4795de54297a3d041, type: 3}
-  directionCount: 6
+  directionCount: 0
   timeBetweenFrames: 0.083333336
   isLooping: 0
+  canSelfCancel: 0
   nextAnimation: {fileID: 0}
