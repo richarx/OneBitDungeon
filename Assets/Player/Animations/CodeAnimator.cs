@@ -10,6 +10,8 @@ public class CodeAnimator : MonoBehaviour
         Walk,
         Jump,
         Roll,
+        Hurt,
+        Die,
         GetUp,
         SitDown,
         Sit,
@@ -101,6 +103,10 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.Jump;
             case AnimationType.Roll:
                 return animationsHolder.Roll;
+            case AnimationType.Hurt:
+                return animationsHolder.Hurt;
+            case AnimationType.Die:
+                return animationsHolder.Die;
             case AnimationType.GetUp:
                 return animationsHolder.GetUp;
             case AnimationType.SitDown:

@@ -79,7 +79,8 @@ namespace Player.Scripts
 
         private void PlayDeathAnimation()
         {
-            animator.Play($"Death_NoWeapon_{ComputeLeftRightLookDirection()}");
+            codeAnimator.PlayAnimation(AnimationType.Die, ComputeLeftRightAnimationDirection());
+            //animator.Play($"Death_NoWeapon_{ComputeLeftRightLookDirection()}");
         }
 
         private void PlaySitAnimation()
@@ -139,7 +140,8 @@ namespace Player.Scripts
 
         private void PlayStaggerAnimation()
         {
-            animator.Play($"Hurt_{ComputeWeaponState()}_{ComputeLookDirection()}");
+            codeAnimator.PlayAnimation(AnimationType.Hurt, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
+            //animator.Play($"Hurt_{ComputeWeaponState()}_{ComputeLookDirection()}");
         }
 
         private string ComputeWeaponState()
