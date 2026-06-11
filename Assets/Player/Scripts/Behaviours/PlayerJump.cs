@@ -17,7 +17,6 @@ public class PlayerJump : IPlayerBehaviour
 
     public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
     {
-        Debug.Log("Jump");
 
         hasLanded = false;
 
