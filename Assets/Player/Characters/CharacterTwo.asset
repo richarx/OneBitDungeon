@@ -21,9 +21,30 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: jumpTagStrategy
+      Entry: 7
+      Data: 0|Player.Scripts.Character2JumpTagStrategy, Assembly-CSharp
+    - Name: backdashDuration
+      Entry: 4
+      Data: 0.16
+    - Name: totalDuration
+      Entry: 4
+      Data: 0.32
+    - Name: backdashSpeed
+      Entry: 4
+      Data: 14
+    - Name: acceleration
+      Entry: 4
+      Data: 180
+    - Name: deceleration
+      Entry: 4
+      Data: 140
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: attackStrategy
       Entry: 7
-      Data: 0|Player.Scripts.Character2AttackStrategy, Assembly-CSharp
+      Data: 1|Player.Scripts.Character2AttackStrategy, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 

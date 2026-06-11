@@ -22,7 +22,6 @@ namespace Player.Scripts
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-            Debug.Log("PARRY");
 
             isInRecovery = false;
             wasSuccessful = false;
@@ -44,6 +43,12 @@ namespace Player.Scripts
 
         public void UpdateBehaviour(PlayerStateMachine player)
         {
+            if (wasSuccessful && player.playerTagSystem != null && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
+            {
+                player.ChangeBehaviour(player.playerTag);
+                return;
+            }
+
             if (player.inputPackage.GetParry.WasPressedWithBuffer())
             {
                 StartBehaviour(player, BehaviourType.Parry);
@@ -109,7 +114,6 @@ namespace Player.Scripts
 
         public bool IsParrying(PlayerStateMachine player)
         {
-
 
             return player.currentBehaviour.GetBehaviourType() == BehaviourType.Parry && !isInRecovery && (!wasSuccessful || Time.time - successfulParryTimestamp <= player.playerData.parryGracePeriodDuration);
         }

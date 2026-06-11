@@ -18,7 +18,6 @@ namespace Player.Scripts
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-            Debug.Log("Roll");
 
             Vector2 inputDirection = player.moveInput.magnitude >= 0.15f ? player.moveInput.normalized : player.LastLookDirection;
             player.SetLastLookDirection(inputDirection);
@@ -33,6 +32,12 @@ namespace Player.Scripts
 
         public void UpdateBehaviour(PlayerStateMachine player)
         {
+            if (player.playerTagSystem != null && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
+            {
+                player.ChangeBehaviour(player.playerTag);
+                return;
+            }
+
             if (Time.time - rollStartTimestamp >= player.playerData.rollMaxDuration)
             {
                 StopRoll(player);

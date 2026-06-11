@@ -58,9 +58,9 @@ namespace Player.Scripts
                 FreezeTime(freezeDuration);
                 SpawnHurtVfx(direction);
             });
-            player.playerAttack.OnPlayerAttack.AddListener((_) =>
+            player.playerAttack.OnPlayerAttack.AddListener((attackPayload) =>
             {
-                StartCoroutine(WaitAndSpawnSwordSlash());
+                StartCoroutine(WaitAndSpawnSwordSlash(attackPayload));
             });
             player.playerParry.OnSuccessfulParry.AddListener(() =>
             {
@@ -104,17 +104,53 @@ namespace Player.Scripts
             Instantiate(parryVfx, player.position, Quaternion.identity);
         }
 
-        private IEnumerator WaitAndSpawnSwordSlash()
+        private IEnumerator WaitAndSpawnSwordSlash(AttackPayload attackPayload)
         {
             yield return new WaitForSeconds(swordSlashDelay);
 
-            bool isSecondAttack = player.playerAttack.IsSecondAttack;
+            if (attackPayload.Type == AttackType.Special)
+            {
+                SpawnSwordWhirlwindSlash();
+                yield break;
+            }
+
+            SpawnDirectionalSwordSlash(player.playerAttack.IsSecondAttack);
+        }
+
+        private void SpawnDirectionalSwordSlash(bool isSecondAttack)
+        {
             GameObject prefab = isSecondAttack ? swordSecondSlashPrefab : swordSlashPrefab;
             Vector3 position = player.position + (Vector3.up * swordSlashHeight) + (player.LastLookDirection.ToVector3() * swordSlashDistance);
 
             Transform slash = Instantiate(prefab, position, Quaternion.identity).transform;
 
             slash.RotateAround(slash.position, Vector3.up, 360.0f - player.LastLookDirection.ToDegree());
+        }
+
+        private void SpawnSwordWhirlwindSlash()
+        {
+            if (swordSlashPrefab == null)
+                return;
+
+            SpawnSwordSlashAtAngle(0.0f);
+            SpawnSwordSlashAtAngle(90.0f);
+            SpawnSwordSlashAtAngle(180.0f);
+            SpawnSwordSlashAtAngle(270.0f);
+        }
+
+        private void SpawnSwordSlashAtAngle(float angle)
+        {
+            Vector3 direction = DirectionFromAngle(angle);
+            Vector3 position = player.position + (Vector3.up * swordSlashHeight) + (direction * swordSlashDistance);
+            Transform slash = Instantiate(swordSlashPrefab, position, Quaternion.identity).transform;
+
+            slash.RotateAround(slash.position, Vector3.up, 360.0f - angle);
+        }
+
+        private Vector3 DirectionFromAngle(float angle)
+        {
+            float radians = angle * Mathf.Deg2Rad;
+            return new Vector3(Mathf.Cos(radians), 0.0f, Mathf.Sin(radians));
         }
 
         private void FreezeTime(float duration)

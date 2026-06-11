@@ -31,6 +31,12 @@ public class PlayerJump : IPlayerBehaviour
 
     public void UpdateBehaviour(PlayerStateMachine player)
     {
+        if (!hasLanded && player.playerTagSystem != null && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
+        {
+            player.ChangeBehaviour(player.playerTag);
+            return;
+        }
+
         if (!hasLanded && Time.time - jumpStartTimestamp >= player.playerData.jumpInAirDuration)
         {
             Land(player);

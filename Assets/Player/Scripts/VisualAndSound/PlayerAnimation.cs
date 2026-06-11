@@ -21,6 +21,7 @@ namespace Player.Scripts
             codeAnimator = GetComponent<CodeAnimator>();
 
             player.playerAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
+            player.playerJumpTag.OnStartJumpTag.AddListener(PlayJumpTagAnimation);
             player.playerStagger.OnStagger.AddListener(PlayStaggerAnimation);
 
             player.playerSit.OnStartSittingDown.AddListener(PlaySitAnimation);
@@ -56,6 +57,7 @@ namespace Player.Scripts
                     break;
                 case BehaviourType.Parry:
                 case BehaviourType.Attack:
+                case BehaviourType.JumpTag:
                 case BehaviourType.Stagger:
                     break;
                 case BehaviourType.Locked:
@@ -122,9 +124,14 @@ namespace Player.Scripts
             codeAnimator.PlayAnimation(AnimationType.Jump, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
         }
 
-        private void PlayAttackAnimation(string attackAnimation)
+        private void PlayAttackAnimation(AttackPayload attackPayload)
         {
             codeAnimator.PlayAnimation(AnimationType.Attack, ComputeAnimationDirection(), true);
+        }
+
+        private void PlayJumpTagAnimation()
+        {
+            codeAnimator.PlayAnimation(player.playerJumpTag.SelectAnimation(), ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
         }
 
         private void PlayStaggerAnimation()

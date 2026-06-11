@@ -6,9 +6,38 @@ using static CodeAnimator;
 
 namespace Player.Scripts
 {
+    public enum AttackType
+    {
+        Light,
+        Special, 
+        Punish
+    }
+
+    public class AttackPayload
+    {
+        public string AttackName { get; private set; }
+        public AttackType Type { get; private set; } = AttackType.Light;
+
+        public int AttackCount { get; private set; }
+        public TagContext TagContext { get; private set; }
+
+        public AttackPayload(string attackName, AttackType type, int attackCount)
+            : this(attackName, type, attackCount, TagContext.None)
+        {
+        }
+
+        public AttackPayload(string attackName, AttackType type, int attackCount, TagContext tagContext)
+        {
+            this.AttackName = attackName;
+            this.Type = type;
+            this.AttackCount = attackCount;
+            this.TagContext = tagContext;
+        }
+    }
+
     public class PlayerAttack : IPlayerBehaviour
     {
-        public UnityEvent<string> OnPlayerAttack = new UnityEvent<string>();
+        public UnityEvent<AttackPayload> OnPlayerAttack = new UnityEvent<AttackPayload>();
         public UnityEvent OnSpawnDamageBox = new UnityEvent();
         public UnityEvent OnRemoveDamageBox = new UnityEvent();
 
@@ -26,6 +55,7 @@ namespace Player.Scripts
         private bool hasRemovedDamageBox;
 
         private IAttackStrategy currentStrategy;
+        private AttackPayload currentAttackPayload;
 
         public PlayerAttack(PlayerStateMachine player, IAttackStrategy strategy)
         {
@@ -36,11 +66,7 @@ namespace Player.Scripts
         public void SetStrategy(IAttackStrategy strategy)
         {
             currentStrategy = strategy;
-        }
-
-        public void TriggerTagIn(PlayerStateMachine player)
-        {
-            currentStrategy.OnTagIn(player);
+            currentStrategy.Initialize(PlayerStateMachine.instance);
         }
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
@@ -52,12 +78,18 @@ namespace Player.Scripts
             hasHitObstacle = false;
             attackCount = previous == BehaviourType.Attack ? attackCount + 1 : 1;
 
-            ComputeDashTarget(player);
-            player.SetLastLookDirection((dashTarget - player.position).ToVector2());
+            TagContext tagContext = previous == BehaviourType.Tag ? player.playerTag.TagContext : TagContext.None;
+            currentAttackPayload = SelectCurrentAttack(tagContext);
+            currentStrategy.OnAttackStart(player, currentAttackPayload);
+
+            ComputeDashTarget(player, currentAttackPayload);
+            Vector2 dashDirection = (dashTarget - player.position).ToVector2();
+            if (dashDirection.sqrMagnitude > 0.001f)
+                player.SetLastLookDirection(dashDirection);
 
             player.playerStamina.ConsumeStamina(player.playerData.attackStaminaCost);
 
-            OnPlayerAttack?.Invoke(SelectCurrentAttack());
+            OnPlayerAttack?.Invoke(currentAttackPayload);
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)
@@ -91,7 +123,7 @@ namespace Player.Scripts
                 return;
             }
 
-            if (canAttackBeCanceled && player.playerTagSystem != null && attackCount < player.playerData.maxAttackCountInCombo && CanAttack(player) && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
+            if (canAttackBeCanceled && player.playerTagSystem != null && CanAttack(player) && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerTag);
                 return;
@@ -140,14 +172,14 @@ namespace Player.Scripts
                 hasHitObstacle = true;
         }
 
-        private void ComputeDashTarget(PlayerStateMachine player)
+        private void ComputeDashTarget(PlayerStateMachine player, AttackPayload attackPayload)
         {
-            dashTarget = currentStrategy.ComputeDashTarget(player);
+            dashTarget = currentStrategy.ComputeDashTarget(player, attackPayload);
         }
 
-        private string SelectCurrentAttack()
+        private AttackPayload SelectCurrentAttack(TagContext tagContext)
         {
-            return currentStrategy.SelectAttackName(attackCount);
+            return currentStrategy.SelectAttackPayload(attackCount, tagContext);
         }
 
         private void DashTowardTarget(PlayerStateMachine player)

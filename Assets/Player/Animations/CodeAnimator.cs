@@ -20,6 +20,7 @@ public class CodeAnimator : MonoBehaviour
         GetUp,
         SitDown,
         Sit,
+        JumpTag
     }
 
     public enum AnimationDirection

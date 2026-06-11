@@ -7,6 +7,7 @@ namespace Player.Scripts
         None,
         Attack,
         Roll,
+        Jump,
         SucceededParry
     }
 
@@ -28,19 +29,27 @@ namespace Player.Scripts
             if (previous is BehaviourType.Attack)
             {
                 TagContext = TagContext.Attack;
-                player.playerAttack.TriggerTagIn(player);
+                player.ChangeBehaviour(player.playerAttack);
             }
             else if (previous is BehaviourType.Roll)
             {
                 TagContext = TagContext.Roll;
+                player.ChangeBehaviour(player.playerAttack);
+            }
+            else if (previous is BehaviourType.Jump)
+            {
+                TagContext = TagContext.Jump;
+                player.ChangeBehaviour(player.playerJumpTag);
             }
             else if (previous is BehaviourType.Parry)
             {
                 TagContext = TagContext.SucceededParry;
+                player.ChangeBehaviour(player.playerAttack);
             }
             else
             {
                 TagContext = TagContext.None;
+                player.ChangeBehaviour(player.playerIdle);
             }
 
         }

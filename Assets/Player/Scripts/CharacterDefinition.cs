@@ -15,6 +15,9 @@ namespace Player.Scripts
         [Header("Visuals")]
         public AnimationsHolderData animationsHolder;
 
+        [Header("Jump Tag")]
+        [OdinSerialize] public IJumpTagStrategy jumpTagStrategy;
+
         [Header("Attack")]
         [OdinSerialize] public IAttackStrategy attackStrategy;  // ← était [SerializeReference]
     }

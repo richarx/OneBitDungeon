@@ -99,6 +99,7 @@ namespace Player.Scripts
 
             // Update attack strategy
             player.playerAttack.SetStrategy(newSlot.definition.attackStrategy);
+            player.playerJumpTag.SetStrategy(newSlot.definition.jumpTagStrategy ?? new Character1JumpTagStrategy());
 
             // Update animator
             if (newSlot.graphicsObject != null)

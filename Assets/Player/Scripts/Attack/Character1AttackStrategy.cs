@@ -7,8 +7,11 @@ namespace Player.Scripts
     {
         public void Initialize(PlayerStateMachine player) { }
 
-        public Vector3 ComputeDashTarget(PlayerStateMachine player)
+        public Vector3 ComputeDashTarget(PlayerStateMachine player, AttackPayload attackPayload)
         {
+            if (attackPayload != null && (attackPayload.Type == AttackType.Special || attackPayload.Type == AttackType.Punish))
+                return player.position; // No dash for special and punish attacks
+
             bool hasTarget = player.playerTargeting.hasTarget;
             bool isTargetInRange = hasTarget && player.playerTargeting.targetDistance <= player.playerData.attackDashMaxDistance;
             bool isInputPressed = player.moveInput.magnitude >= 0.15f;
@@ -22,22 +25,23 @@ namespace Player.Scripts
                 return player.position + player.LastLookDirection.ToVector3().normalized * player.playerData.attackDashMaxDistance;
         }
 
-        public string SelectAttackName(int attackCount)
+        public AttackPayload SelectAttackPayload(int attackCount, TagContext tagContext)
         {
-            // TODO: eventuellement animation différente pour le 2e attack, ou même un 3e attack si on veut faire une combo à 3 coups
+            if (tagContext == TagContext.Attack)
+                return new AttackPayload("Sword_Whirlwind", AttackType.Special, attackCount, tagContext);
+            else if (tagContext == TagContext.SucceededParry)
+                return new AttackPayload("Counter_Attack", AttackType.Punish, attackCount, tagContext);
 
-            //return attackCount >= 2 ? "Attack_1" : "Attack_2";
-            return "Attack_1";
+            return new AttackPayload("Attack_1", AttackType.Light, attackCount, tagContext);
         }
+
+        public void OnAttackStart(PlayerStateMachine player, AttackPayload attackPayload) { }
 
         public bool CanAttack(PlayerStateMachine player)
         {
             return player.playerSword.CurrentlyHasSword && (!player.playerStamina.IsEmpty || player.playerData.canAttackWithNoStamina);
         }
 
-        public void OnTagIn(PlayerStateMachine player)
-        {
-            player.ChangeBehaviour(player.playerAttack);
-        }
+        public void OnTagAttack() { }
     }
 }

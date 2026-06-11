@@ -48,6 +48,14 @@ namespace Player.Scripts
                     else
                         TakeDamage(1, Vector3.right);
                 }
+                else if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
+
+                {
+                    if (IsParrying())
+                        TriggerParry();
+                    else
+                        TakeDamage(1, Vector3.right);
+                }
 
                 if (Gamepad.current != null && Gamepad.current.dpad.right.wasPressedThisFrame)
                     ResetHealth();
@@ -71,6 +79,7 @@ namespace Player.Scripts
 
         public bool IsParrying()
         {
+
             return player.playerParry.IsParrying(player);
         }
 

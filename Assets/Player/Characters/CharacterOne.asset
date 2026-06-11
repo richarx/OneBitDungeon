@@ -21,9 +21,27 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: jumpTagStrategy
+      Entry: 7
+      Data: 0|Player.Scripts.Character1JumpTagStrategy, Assembly-CSharp
+    - Name: slamDelay
+      Entry: 4
+      Data: 0.08
+    - Name: hitboxDuration
+      Entry: 4
+      Data: 0.12
+    - Name: totalDuration
+      Entry: 4
+      Data: 0.35
+    - Name: deceleration
+      Entry: 4
+      Data: 200
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: attackStrategy
       Entry: 7
-      Data: 0|Player.Scripts.Character1AttackStrategy, Assembly-CSharp
+      Data: 1|Player.Scripts.Character1AttackStrategy, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 

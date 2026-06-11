@@ -19,6 +19,7 @@ namespace Player.Scripts
         public PlayerRun playerRun = new PlayerRun();
         public PlayerRoll playerRoll = new PlayerRoll();
         public PlayerJump playerJump = new PlayerJump();
+        public PlayerJumpTag playerJumpTag;
         public PlayerStagger playerStagger = new PlayerStagger();
         public PlayerParry playerParry = new PlayerParry();
         public PlayerSit playerSit = new PlayerSit();
@@ -65,6 +66,7 @@ namespace Player.Scripts
             playerAnimation = GetComponent<PlayerAnimation>();
             codeAnimator = GetComponent<CodeAnimator>();
             playerAttack = new PlayerAttack(this, new Character1AttackStrategy());
+            playerJumpTag = new PlayerJumpTag(new Character1JumpTagStrategy());
 
             lastLookDirection = Vector2.right;
             currentBehaviour = playerIdle;
