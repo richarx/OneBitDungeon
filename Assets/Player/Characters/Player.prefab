@@ -288,7 +288,9 @@ MonoBehaviour:
     type: 3}
   hurtVfx: {fileID: 4296958320210530305, guid: 4b923a4ea4a2b474288adc18114c7a0f, type: 3}
   freezeDelay: 0.03
-  freezeDuration: 0.05
+  hitFreezeDuration: 0.05
+  hurtFreezeDuration: 0.05
+  parryFreezeDuration: 0.03
 --- !u!114 &1957020731844466397
 MonoBehaviour:
   m_ObjectHideFlags: 0

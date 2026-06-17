@@ -1,75 +1,147 @@
-using System;
 using System.Collections;
 using Player.Sword_Hitboxes;
+using Sirenix.OdinInspector;
 using Tools_and_Scripts;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player.Scripts
 {
     public class PlayerVfx : MonoBehaviour
     {
-        [SerializeField] private GameObject hitSparkPrefab;
-        [SerializeField] private float sparkHeight;
-        [SerializeField] private float sparkDistance;
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(HitGroup), LabelText("Spark Prefab"), SerializeField]
+        private GameObject hitSparkPrefab;
 
-        [Space]
-        [SerializeField] private GameObject hitSlashPrefab;
-        [SerializeField] private float slashHeight;
-        [SerializeField] private float slashDistance;
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(HitGroup), LabelText("Spark Height"), MinValue(0.0f), SerializeField]
+        private float sparkHeight;
 
-        [Space]
-        [SerializeField] private GameObject swordSlashPrefab;
-        [SerializeField] private GameObject swordSecondSlashPrefab;
-        [SerializeField] private float swordSlashDelay;
-        [SerializeField] private float swordSlashHeight;
-        [SerializeField] private float swordSlashDistance;
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(HitGroup), LabelText("Spark Distance"), MinValue(0.0f), SerializeField]
+        private float sparkDistance;
 
-        [Space]
-        [SerializeField] private GameObject parryVfx;
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(HitGroup), LabelText("Slash Prefab"), SerializeField]
+        private GameObject hitSlashPrefab;
 
-        [Space]
-        [SerializeField] private GameObject rollVfx;
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(HitGroup), LabelText("Slash Height"), MinValue(0.0f), SerializeField]
+        private float slashHeight;
 
-        [Space]
-        [SerializeField] private GameObject jumpStartVfx;
-        [SerializeField] private GameObject jumpLandVfx;
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(HitGroup), LabelText("Slash Distance"), MinValue(0.0f), SerializeField]
+        private float slashDistance;
 
-        [Space]
-        [SerializeField] private GameObject hurtVfx;
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(HitGroup), LabelText("Enemy Hit Duration"), MinValue(0.0f), SerializeField]
+        private float hitFreezeDuration = 0.05f;
 
-        [Space]
-        [SerializeField] private float freezeDelay;
-        [SerializeField] private float freezeDuration;
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("First Prefab"), SerializeField]
+        private GameObject swordSlashPrefab;
+
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Second Prefab"), SerializeField]
+        private GameObject swordSecondSlashPrefab;
+
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Spawn Delay"), MinValue(0.0f), SerializeField]
+        private float swordSlashDelay;
+
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Height"), MinValue(0.0f), SerializeField]
+        private float swordSlashHeight;
+
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Distance"), MinValue(0.0f), SerializeField]
+        private float swordSlashDistance;
+
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(ParryGroup), LabelText("Prefab"), SerializeField]
+        private GameObject parryVfx;
+
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(ParryGroup), LabelText("Parry Duration"), MinValue(0.0f), SerializeField]
+        private float parryFreezeDuration = 0.03f;
+
+        [FoldoutGroup(MovementVfxGroup, true), BoxGroup(RollGroup), LabelText("Prefab"), SerializeField]
+        private GameObject rollVfx;
+
+        [FoldoutGroup(MovementVfxGroup, true), BoxGroup(JumpGroup), LabelText("Start Prefab"), SerializeField]
+        private GameObject jumpStartVfx;
+
+        [FoldoutGroup(MovementVfxGroup, true), BoxGroup(JumpGroup), LabelText("Land Prefab"), SerializeField]
+        private GameObject jumpLandVfx;
+
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(HurtGroup), LabelText("Prefab"), SerializeField]
+        private GameObject hurtVfx;
+
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(HurtGroup), LabelText("Duration"), MinValue(0.0f), SerializeField]
+        private float hurtFreezeDuration = 0.05f;
+
+        [FoldoutGroup(FreezeGroup, true), LabelText("Delay"), MinValue(0.0f), SerializeField]
+        private float freezeDelay;
+
 
         private PlayerStateMachine player;
 
         private bool isTimeFrozen;
+        private bool hasSubscribed;
 
         private void Start()
         {
             player = PlayerStateMachine.instance;
-            WeaponDamageTrigger.OnHitEnemy.AddListener((position) =>
-            {
-                SpawnSwordHit(position);
-                FreezeTime(freezeDuration);
-            });
-            player.playerHealth.OnPlayerTakeDamage.AddListener((direction) =>
-            {
-                FreezeTime(freezeDuration);
-                SpawnHurtVfx(direction);
-            });
-            player.playerAttack.OnPlayerAttack.AddListener((attackPayload) =>
-            {
-                StartCoroutine(WaitAndSpawnSwordSlash(attackPayload));
-            });
-            player.playerParry.OnSuccessfulParry.AddListener(() =>
-            {
-                SpawnParryVfx();
-                FreezeTime(0.03f);
-            });
+            SubscribeToEvents();
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeFromEvents();
+        }
+
+        private void SubscribeToEvents()
+        {
+            if (player == null)
+                return;
+
+            WeaponDamageTrigger.OnHitEnemy.AddListener(HandleHitEnemy);
+            player.playerHealth.OnPlayerTakeDamage.AddListener(HandlePlayerTakeDamage);
+            player.playerAttack.OnPlayerAttack.AddListener(HandlePlayerAttack);
+            player.playerParry.OnSuccessfulParry.AddListener(HandleSuccessfulParry);
             player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
             player.playerJump.OnStartJump.AddListener(SpawnStartJumpVfx);
             player.playerJump.OnLandJump.AddListener(SpawnLandJumpVfx);
+            hasSubscribed = true;
+        }
+
+        private void UnsubscribeFromEvents()
+        {
+            if (!hasSubscribed)
+                return;
+
+            WeaponDamageTrigger.OnHitEnemy.RemoveListener(HandleHitEnemy);
+
+            if (player != null)
+            {
+                player.playerHealth.OnPlayerTakeDamage.RemoveListener(HandlePlayerTakeDamage);
+                player.playerAttack.OnPlayerAttack.RemoveListener(HandlePlayerAttack);
+                player.playerParry.OnSuccessfulParry.RemoveListener(HandleSuccessfulParry);
+                player.playerRoll.OnStartRoll.RemoveListener(SpawnRollVfx);
+                player.playerJump.OnStartJump.RemoveListener(SpawnStartJumpVfx);
+                player.playerJump.OnLandJump.RemoveListener(SpawnLandJumpVfx);
+            }
+
+            hasSubscribed = false;
+        }
+
+        private void HandleHitEnemy(Vector3 position)
+        {
+            SpawnSwordHit(position);
+            FreezeTime(hitFreezeDuration);
+        }
+
+        private void HandlePlayerTakeDamage(Vector3 direction)
+        {
+            FreezeTime(hurtFreezeDuration);
+            SpawnHurtVfx(direction);
+        }
+
+        private void HandlePlayerAttack(AttackPayload attackPayload)
+        {
+            StartCoroutine(WaitAndSpawnSwordSlash(attackPayload));
+        }
+
+        private void HandleSuccessfulParry()
+        {
+            SpawnParryVfx();
+            FreezeTime(parryFreezeDuration);
         }
 
         private void SpawnHurtVfx(Vector3 direction)
@@ -155,7 +227,7 @@ namespace Player.Scripts
 
         private void FreezeTime(float duration)
         {
-            if (!isTimeFrozen && !player.playerHealth.IsDead)
+            if (duration > 0.0f && !isTimeFrozen && !player.playerHealth.IsDead)
                 StartCoroutine(FreezeTimeCoroutine(duration));
         }
 
@@ -179,5 +251,19 @@ namespace Player.Scripts
             Vector3 slashPosition = player.position + (Vector3.up * slashHeight) + (directionToEnemy * slashDistance);
             Instantiate(hitSlashPrefab, slashPosition, directionToEnemy.ToVector2().AddRandomAngleToDirection(-15.0f, 15.0f).ToRotation());
         }
+
+        #region Inspector Names
+
+
+        private const string CombatVfxGroup = "Combat VFX";
+        private const string HitGroup = CombatVfxGroup + "/Enemy Hit";
+        private const string SwordSlashGroup = CombatVfxGroup + "/Sword Slash";
+        private const string ParryGroup = CombatVfxGroup + "/Parry";
+        private const string HurtGroup = CombatVfxGroup + "/Hurt";
+        private const string MovementVfxGroup = "Movement VFX";
+        private const string RollGroup = MovementVfxGroup + "/Roll";
+        private const string JumpGroup = MovementVfxGroup + "/Jump";
+        private const string FreezeGroup = "Freeze Timings";
+        #endregion
     }
 }

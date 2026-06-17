@@ -17,7 +17,7 @@ public class DealDamageToPlayer : MonoBehaviour
         PlayerStateMachine player = PlayerStateMachine.instance;
         BehaviourType currentBehaviour = player.currentBehaviour.GetBehaviourType();
 
-        if (canBeJumped && currentBehaviour == BehaviourType.Jump && !player.playerJump.hasLanded)
+        if (canBeJumped && ((currentBehaviour == BehaviourType.Jump && !player.playerJump.hasLanded) || currentBehaviour == BehaviourType.JumpTag))
             return false;
 
         if (canBeParried && player.playerHealth.IsParrying())
