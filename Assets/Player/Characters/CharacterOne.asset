@@ -32,7 +32,7 @@ MonoBehaviour:
       Data: 0.12
     - Name: totalDuration
       Entry: 4
-      Data: 0.35
+      Data: 1
     - Name: deceleration
       Entry: 4
       Data: 200

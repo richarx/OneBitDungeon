@@ -17,7 +17,7 @@ namespace Player.Scripts
 
         public CodeAnimator.AnimationType SelectAnimation()
         {
-            return CodeAnimator.AnimationType.Attack;
+            return CodeAnimator.AnimationType.JumpTag;
         }
 
         public void StartJumpTag(PlayerStateMachine player, PlayerJumpTag jumpTag)
