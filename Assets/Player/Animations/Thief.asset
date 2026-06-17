@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e516016500e95348a94826ede43f4ac, type: 3}
+  m_Name: Thief
+  m_EditorClassIdentifier: 
+  Idle: {fileID: 11400000, guid: 8dfe0725f2dbfa94b84eb119bd77ca82, type: 2}
+  Walk: {fileID: 11400000, guid: b47ac688da4174941a015f534f1e266c, type: 2}
+  Jump: {fileID: 11400000, guid: 3337f673a1f8a4a41b6d3b2d14546564, type: 2}
+  Roll: {fileID: 11400000, guid: 100e2c049bba9594c85225fada46483b, type: 2}
+  Attack: {fileID: 11400000, guid: d0ebcd6017950d44681a8e77fc0d5662, type: 2}
+  JumpTag: {fileID: 0}
+  ParryStart: {fileID: 11400000, guid: 5e0af6fb6652b2e4587316675762e63c, type: 2}
+  ParrySuccess: {fileID: 11400000, guid: 4fe300e8a032b2d4dbc53b043ffc3120, type: 2}
+  ParryRecovery: {fileID: 11400000, guid: 73d4d45d7184d8641ae77ac83f577e61, type: 2}
+  Hurt: {fileID: 11400000, guid: 873674f9a01f506439d967a41c4dc061, type: 2}
+  Die: {fileID: 11400000, guid: 386898b58277b054ebf71f3297ece0de, type: 2}
+  GetUp: {fileID: 11400000, guid: 8631c745647f6aa468aa4e551dd98669, type: 2}
+  SitDown: {fileID: 11400000, guid: a59dfd8f1c70f484a943db88044cacc7, type: 2}
+  Sit: {fileID: 11400000, guid: bcaf5c316bc873e409672e190889de4a, type: 2}
