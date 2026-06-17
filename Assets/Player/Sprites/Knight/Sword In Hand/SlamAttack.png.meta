@@ -1,0 +1,2107 @@
+fileFormatVersion: 2
+guid: f20eaefa49a0f754889736a317e57f9b
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 8
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SlamAttack_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e901ee4387cfce34694fe222da9afb32
+      internalID: 1808992669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b47e62b60bdf0fd4693bd5c10269685e
+      internalID: -1577507071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3eae94080d337e4e98f5eea8371a83d
+      internalID: -1962262012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e7c46e5c0a4cce448b175b309448f5a
+      internalID: -756831201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96d63f93832c3704c96c4d171d86d79c
+      internalID: 257020480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ed84beebd20d164681277eaf703ea9a
+      internalID: -111780162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a0057fb96c85a14d8e0bf4bfaa29fb1
+      internalID: -1755927070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_7
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c74b245cb63d91d4e95135dd786c4abe
+      internalID: 2029849510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_8
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ce38f9b5608007449895eafa8847eff
+      internalID: 2096156351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_9
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76e580c1e60a5144c9b71bda70554600
+      internalID: 1178761454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_10
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e57f6e0d690831499e5223ab0075a46
+      internalID: 895680641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_11
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c753e0bef3a68b48aa70f407ab1121d
+      internalID: -297114991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_12
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91304b924dd5072459333cdd3f6b21c1
+      internalID: 1545440731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_13
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b3af59cf68c4d44b913e98c6a370ccb
+      internalID: -1455319141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_14
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 480
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28b4bb5e9c504d74e9c21d179e706975
+      internalID: 2095454076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5797c3a42166844fac3cd22994da40c
+      internalID: -201453244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_16
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae6dc7a5600a57b41967f6d7ccd974b1
+      internalID: 961726221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_17
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 006dcee57721f9042abefbac74e6357a
+      internalID: 1105124562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_18
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6726218f58ac0684a949183d223d98d8
+      internalID: 1062248003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_19
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b92992fdd5ef1a348872ce88172027b1
+      internalID: 446926875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_20
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb335b92583cf3944995ea16f30c7edd
+      internalID: -1089256110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_21
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f3a5ece6102603458f2b178399a3d84
+      internalID: 1193122015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_22
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3593fe153e757ee46ba9d46fdde311ae
+      internalID: 1797106583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_23
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 747d6bd94adf77d48ac8c799c6a1c45b
+      internalID: 2123020851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_24
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8ab95106136fa14486fd404cfc18713
+      internalID: -78820175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_25
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8b2b909e69d3e649830faac51e62516
+      internalID: 1366098389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_26
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28168c4a78c3ec34c8c7414eecaf54f8
+      internalID: -2030328385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_27
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef5457aa22a468446a1d4a703ac9cbf1
+      internalID: -1772799607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_28
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d75d9330ac95ba44971a82bf70ffffe
+      internalID: 503128672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_29
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 384
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3132602f39ef7141a74273ddf987919
+      internalID: 1079172624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cde6eb4bf64058e4c866584eeb932fa7
+      internalID: -851437487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_31
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7664f52a44d8a048bcae9eea7309b53
+      internalID: 1950828122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_32
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c7ad2a68fd734b4583870711461d4a3
+      internalID: -1316482721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_33
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cecaa1454a9e1484fbb6a0da4e87f2ed
+      internalID: -693304449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_34
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29c0d79dd1cb9424d835a29925bce50d
+      internalID: 614571292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_35
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58c652f838ef7454489d61d342dedb36
+      internalID: -1431245854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_36
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba35f1fe4f632a349a898d79f563726b
+      internalID: 1512226529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_37
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fed46142324243348ad5403edc472525
+      internalID: 1898391237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_38
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bbebb61fdbfdd34f8b2865ce02aef56
+      internalID: 1473495169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_39
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d0a836a55415f040a0576f5b285b9b2
+      internalID: 1301304818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_40
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5657f0d3a5c748f4ba2aaa5a97b9134c
+      internalID: 1122852605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_41
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f878cb4d758ea3b44b4bf268aaf93f55
+      internalID: -1984952102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_42
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8979ca3f27462064ea4b3f47b4b33ed1
+      internalID: 673055671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_43
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9626457803d67f4daf398db464a30ba
+      internalID: 1148291380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_44
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 288
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf232bdea5ea2744484b1e991eaccf10
+      internalID: 265050240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f99b6858ab94e7f40a8cae2eca620f95
+      internalID: -1369597539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_46
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55279f36cc2bed34093e598feb132799
+      internalID: 1889329003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_47
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7322c2eeee4e39c4fb94208f35666b25
+      internalID: -152540523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_48
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30f80afb08cb5134cb833a242fd6fb4a
+      internalID: 540014185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_49
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87b5b65c880e7fc45a492540f563d807
+      internalID: -1959051858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_50
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecb27aef3b89bd94f9e21428a347683c
+      internalID: -1153445956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_51
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1000a296133dbf249b081ed6688515d9
+      internalID: 1154016183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_52
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb2633c88d604a34c9d827fc1dffb5f9
+      internalID: -952060631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_53
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8952c0bef99a2e244a2274b57aa37a25
+      internalID: -1935575436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_54
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 944ed057783be92488dfc8f6e5421c0d
+      internalID: -1267660604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_55
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28c1ac06867741a469e742004119e5c3
+      internalID: 913779000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_56
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e806accc1bb4c740a4f753128b371de
+      internalID: 500511207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_57
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3bb5e4cf7d2fb245809cefe47268381
+      internalID: 1196085045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_58
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eaf90315ce8f4b944af46aaa0ab412ab
+      internalID: 1469825278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_59
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 192
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65817473855933645bc6aee1bf76a8c5
+      internalID: 406600132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_60
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fed4462bfccb2964f886d8373e5de009
+      internalID: -1708052684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_61
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f7f2eefdb4699a468f1063594023150
+      internalID: 467840420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_62
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8843162ee14e2464294f9d0c5b78027f
+      internalID: -281255095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_63
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09528bc679b42484790379c3803f6cd1
+      internalID: -1004168556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_64
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1960f23f5e65044ab9a5a234ffe22b5
+      internalID: -417570042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_65
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d04896aadee962942a8f2c9e21149170
+      internalID: -303712436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_66
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 395f8518a42b5db4a9483443a2fbfe6d
+      internalID: 33458445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_67
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f085a6c74aa0e14fbb5d745880026e4
+      internalID: 675677718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_68
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48856c2b1c6643146b3605de61cc028b
+      internalID: 1408179341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_69
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66e9692d87e3abf4d8e22dcfa3e7c08f
+      internalID: 773231117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_70
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83e5fdabe5c093b4ea9e955d8d91e49f
+      internalID: 133008184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_71
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a43e1fc7e9fb3b41bfbd9875b73dedd
+      internalID: -1049624997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_72
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f28504e57346724cbcce6a0ce995237
+      internalID: 1067828091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_73
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 903ed89feb7ff094ca562d81a81b366f
+      internalID: -1810344051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_74
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 96
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 441009a6801a60b4f9701f04d95e032f
+      internalID: -217848150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_75
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32103de227864cb42812b446059ac14c
+      internalID: 1189321927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_76
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fea0ca257d939994d87354842beae7a5
+      internalID: -877297817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_77
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd93613d0813b2e4894138be2fb9c056
+      internalID: 2047600043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_78
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17123cc2d59f3684880f6cfd8e401ce2
+      internalID: -603887968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_79
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3546840f9f83084478be8640e722ceae
+      internalID: 775987267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_80
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ec0b3823c8f8894cb0b8a8b73b1f584
+      internalID: 1726443168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_81
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7575c48c59165c40a42e2bceef2cee9
+      internalID: -608511211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_82
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 151c1dc8773e99a4887d913aa1dc2dc9
+      internalID: -446668424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_83
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48790b3adb2b439479a5de88a913bb7a
+      internalID: 306571872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_84
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e916abd9f73bb534e9e7f3ad9f0545fe
+      internalID: -1094018682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_85
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bc7a6fa51bb18946a0f94fd4cedf361
+      internalID: 1657961102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_86
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ac9f18ffb5f6b7438e804bf118a9f9d
+      internalID: -1319536191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_87
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06bc3c1f1589fac4784afb4cab4f19e2
+      internalID: -102989816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_88
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 268ddbad9d7becc44990d3c7db98baf7
+      internalID: -1173378166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlamAttack_89
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 64
+        height: 96
+      alignment: 9
+      pivot: {x: 0.493, y: 0.135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c810588e92ee109449efa9a8335e9e70
+      internalID: 185734866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: dba5a26274195314886ed2b6b9439e04
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      SlamAttack_0: 1808992669
+      SlamAttack_1: -1577507071
+      SlamAttack_10: 895680641
+      SlamAttack_11: -297114991
+      SlamAttack_12: 1545440731
+      SlamAttack_13: -1455319141
+      SlamAttack_14: 2095454076
+      SlamAttack_15: -201453244
+      SlamAttack_16: 961726221
+      SlamAttack_17: 1105124562
+      SlamAttack_18: 1062248003
+      SlamAttack_19: 446926875
+      SlamAttack_2: -1962262012
+      SlamAttack_20: -1089256110
+      SlamAttack_21: 1193122015
+      SlamAttack_22: 1797106583
+      SlamAttack_23: 2123020851
+      SlamAttack_24: -78820175
+      SlamAttack_25: 1366098389
+      SlamAttack_26: -2030328385
+      SlamAttack_27: -1772799607
+      SlamAttack_28: 503128672
+      SlamAttack_29: 1079172624
+      SlamAttack_3: -756831201
+      SlamAttack_30: -851437487
+      SlamAttack_31: 1950828122
+      SlamAttack_32: -1316482721
+      SlamAttack_33: -693304449
+      SlamAttack_34: 614571292
+      SlamAttack_35: -1431245854
+      SlamAttack_36: 1512226529
+      SlamAttack_37: 1898391237
+      SlamAttack_38: 1473495169
+      SlamAttack_39: 1301304818
+      SlamAttack_4: 257020480
+      SlamAttack_40: 1122852605
+      SlamAttack_41: -1984952102
+      SlamAttack_42: 673055671
+      SlamAttack_43: 1148291380
+      SlamAttack_44: 265050240
+      SlamAttack_45: -1369597539
+      SlamAttack_46: 1889329003
+      SlamAttack_47: -152540523
+      SlamAttack_48: 540014185
+      SlamAttack_49: -1959051858
+      SlamAttack_5: -111780162
+      SlamAttack_50: -1153445956
+      SlamAttack_51: 1154016183
+      SlamAttack_52: -952060631
+      SlamAttack_53: -1935575436
+      SlamAttack_54: -1267660604
+      SlamAttack_55: 913779000
+      SlamAttack_56: 500511207
+      SlamAttack_57: 1196085045
+      SlamAttack_58: 1469825278
+      SlamAttack_59: 406600132
+      SlamAttack_6: -1755927070
+      SlamAttack_60: -1708052684
+      SlamAttack_61: 467840420
+      SlamAttack_62: -281255095
+      SlamAttack_63: -1004168556
+      SlamAttack_64: -417570042
+      SlamAttack_65: -303712436
+      SlamAttack_66: 33458445
+      SlamAttack_67: 675677718
+      SlamAttack_68: 1408179341
+      SlamAttack_69: 773231117
+      SlamAttack_7: 2029849510
+      SlamAttack_70: 133008184
+      SlamAttack_71: -1049624997
+      SlamAttack_72: 1067828091
+      SlamAttack_73: -1810344051
+      SlamAttack_74: -217848150
+      SlamAttack_75: 1189321927
+      SlamAttack_76: -877297817
+      SlamAttack_77: 2047600043
+      SlamAttack_78: -603887968
+      SlamAttack_79: 775987267
+      SlamAttack_8: 2096156351
+      SlamAttack_80: 1726443168
+      SlamAttack_81: -608511211
+      SlamAttack_82: -446668424
+      SlamAttack_83: 306571872
+      SlamAttack_84: -1094018682
+      SlamAttack_85: 1657961102
+      SlamAttack_86: -1319536191
+      SlamAttack_87: -102989816
+      SlamAttack_88: -1173378166
+      SlamAttack_89: 185734866
+      SlamAttack_9: 1178761454
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
