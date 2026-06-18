@@ -52,7 +52,7 @@ namespace Tools_and_Scripts
                 transform.localPosition = newPosition;
 
                 yield return null;
-                timer += Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
             }
 
             transform.localPosition = startingPosition;

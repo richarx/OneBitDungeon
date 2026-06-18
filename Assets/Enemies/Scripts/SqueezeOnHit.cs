@@ -16,7 +16,7 @@ public class SqueezeOnHit : MonoBehaviour
 
     private void Squeeze()
     {
-        Sequence.Create()
+        Sequence.Create(useUnscaledTime: true)
             .Chain(Tween.PunchScale(target, strength, duration, frequency));
     }
 }

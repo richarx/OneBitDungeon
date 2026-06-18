@@ -1,5 +1,6 @@
 using PrimeTween;
 using SFX;
+using Tools_and_Scripts;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -62,7 +63,7 @@ public class Projectile : MonoBehaviour
     private void SpawnImpact()
     {
         PlaySfx(impactClip);
-        Instantiate(impactPrefab, transform.position, Quaternion.identity);
+        Instantiate(impactPrefab, transform.position, Quaternion.identity).UseUnscaledTime();
     }
 
     private void PlaySfx(AudioClip clip, float volume = 0.2f)

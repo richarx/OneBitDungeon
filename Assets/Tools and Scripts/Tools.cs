@@ -524,6 +524,25 @@ namespace Tools_and_Scripts
             return text;
         }
 
+        public static GameObject UseUnscaledTime(this GameObject root)
+        {
+            if (root == null)
+                return null;
+
+            ParticleSystem[] particleSystems = root.GetComponentsInChildren<ParticleSystem>(true);
+            for (int i = 0; i < particleSystems.Length; i++)
+            {
+                ParticleSystem.MainModule main = particleSystems[i].main;
+                main.useUnscaledTime = true;
+            }
+
+            Animator[] animators = root.GetComponentsInChildren<Animator>(true);
+            for (int i = 0; i < animators.Length; i++)
+                animators[i].updateMode = AnimatorUpdateMode.UnscaledTime;
+
+            return root;
+        }
+
         public static IEnumerator Shake(Transform target, float duration, float intensity, bool horizontal = false, bool vertical = false)
         {
             Vector2 previousShake = Vector2.zero;

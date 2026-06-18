@@ -31,7 +31,7 @@ namespace UI.Blood_Overlay
             bloodOverlay.sprite = sprites[index];
             //yield return Tools.Fade(bloodOverlay, 0.1f, true, maxFade);
             //yield return new WaitForSeconds(duration);
-            yield return Tools.Fade(bloodOverlay, duration, false, maxFade);
+            yield return Tools.Fade(bloodOverlay, duration, false, maxFade, scaledTime: false);
         }
     }
 }

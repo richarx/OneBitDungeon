@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using SFX;
+using Tools_and_Scripts;
 using UnityEngine;
 
 namespace Player.Scripts
@@ -37,6 +38,7 @@ namespace Player.Scripts
             int index = Random.Range(0, stepPrefabs.Count);
 
             GameObject step = Instantiate(stepPrefabs[index], player.position, Quaternion.identity);
+            step.UseUnscaledTime();
 
             if (player.moveVelocity.x > 0.0f)
                 step.GetComponent<SpriteRenderer>().flipX = true;

@@ -74,6 +74,7 @@ namespace Player.Scripts
 
         private bool isTimeFrozen;
         private bool hasSubscribed;
+        private float timeScaleBeforeFreeze = 1.0f;
 
         private void Start()
         {
@@ -83,6 +84,7 @@ namespace Player.Scripts
 
         private void OnDestroy()
         {
+            RestoreTimeScale();
             UnsubscribeFromEvents();
         }
 
@@ -147,33 +149,33 @@ namespace Player.Scripts
         private void SpawnHurtVfx(Vector3 direction)
         {
             Vector3 position = player.position + Vector3.up + (direction * 3.0f);
-            GameObject hurt = Instantiate(hurtVfx, position, Quaternion.identity);
+            GameObject hurt = InstantiateVfx(hurtVfx, position, Quaternion.identity);
             if (direction.x < 0.0f)
                 hurt.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
         }
 
         private void SpawnRollVfx()
         {
-            GameObject roll = Instantiate(rollVfx, player.position, Quaternion.identity);
+            GameObject roll = InstantiateVfx(rollVfx, player.position, Quaternion.identity);
             if (!player.playerRoll.IsRollingLeft)
                 roll.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
         }
 
         private void SpawnStartJumpVfx()
         {
-            GameObject jump = Instantiate(jumpStartVfx, player.position, Quaternion.identity);
+            GameObject jump = InstantiateVfx(jumpStartVfx, player.position, Quaternion.identity);
             if (player.LastLookDirection.x > 0.0f)
                 jump.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
         }
 
         private void SpawnLandJumpVfx()
         {
-            GameObject jump = Instantiate(jumpLandVfx, player.position, Quaternion.identity);
+            InstantiateVfx(jumpLandVfx, player.position, Quaternion.identity);
         }
 
         private void SpawnParryVfx()
         {
-            Instantiate(parryVfx, player.position, Quaternion.identity);
+            InstantiateVfx(parryVfx, player.position, Quaternion.identity);
         }
 
         private IEnumerator WaitAndSpawnSwordSlash(AttackPayload attackPayload)
@@ -194,7 +196,7 @@ namespace Player.Scripts
             GameObject prefab = isSecondAttack ? swordSecondSlashPrefab : swordSlashPrefab;
             Vector3 position = player.position + (Vector3.up * swordSlashHeight) + (player.LastLookDirection.ToVector3() * swordSlashDistance);
 
-            Transform slash = Instantiate(prefab, position, Quaternion.identity).transform;
+            Transform slash = InstantiateVfx(prefab, position, Quaternion.identity).transform;
 
             slash.RotateAround(slash.position, Vector3.up, 360.0f - player.LastLookDirection.ToDegree());
         }
@@ -214,7 +216,7 @@ namespace Player.Scripts
         {
             Vector3 direction = DirectionFromAngle(angle);
             Vector3 position = player.position + (Vector3.up * swordSlashHeight) + (direction * swordSlashDistance);
-            Transform slash = Instantiate(swordSlashPrefab, position, Quaternion.identity).transform;
+            Transform slash = InstantiateVfx(swordSlashPrefab, position, Quaternion.identity).transform;
 
             slash.RotateAround(slash.position, Vector3.up, 360.0f - angle);
         }
@@ -235,10 +237,10 @@ namespace Player.Scripts
         {
             isTimeFrozen = true;
             yield return new WaitForSecondsRealtime(freezeDelay);
+            timeScaleBeforeFreeze = Time.timeScale;
             Time.timeScale = 0.0f;
             yield return new WaitForSecondsRealtime(duration);
-            Time.timeScale = 1.0f;
-            isTimeFrozen = false;
+            RestoreTimeScale();
         }
 
         private void SpawnSwordHit(Vector3 position)
@@ -246,10 +248,26 @@ namespace Player.Scripts
             Vector3 directionToEnemy = (position - player.position).normalized;
 
             Vector3 sparkPosition = position + (Vector3.up * sparkHeight) + (directionToEnemy * sparkDistance);
-            Instantiate(hitSparkPrefab, sparkPosition, directionToEnemy.ToVector2().AddRandomAngleToDirection(-15.0f, 15.0f).ToRotation());
+            InstantiateVfx(hitSparkPrefab, sparkPosition, directionToEnemy.ToVector2().AddRandomAngleToDirection(-15.0f, 15.0f).ToRotation());
 
             Vector3 slashPosition = player.position + (Vector3.up * slashHeight) + (directionToEnemy * slashDistance);
-            Instantiate(hitSlashPrefab, slashPosition, directionToEnemy.ToVector2().AddRandomAngleToDirection(-15.0f, 15.0f).ToRotation());
+            InstantiateVfx(hitSlashPrefab, slashPosition, directionToEnemy.ToVector2().AddRandomAngleToDirection(-15.0f, 15.0f).ToRotation());
+        }
+
+        private GameObject InstantiateVfx(GameObject prefab, Vector3 position, Quaternion rotation)
+        {
+            GameObject instance = Instantiate(prefab, position, rotation);
+            instance.UseUnscaledTime();
+            return instance;
+        }
+
+        private void RestoreTimeScale()
+        {
+            if (!isTimeFrozen)
+                return;
+
+            Time.timeScale = timeScaleBeforeFreeze;
+            isTimeFrozen = false;
         }
 
         #region Inspector Names

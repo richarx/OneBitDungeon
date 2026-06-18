@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Enemies.Scripts.Behaviours;
+using Tools_and_Scripts;
 using UnityEngine;
 
 namespace Enemies.Scripts
@@ -22,7 +23,7 @@ namespace Enemies.Scripts
             for (int i = 0; i < 3; i++)
             {
                 int index = Random.Range(0, bloodPrefabs.Count);
-                Instantiate(bloodPrefabs[index], position + Random.insideUnitSphere, rotation);
+                Instantiate(bloodPrefabs[index], position + Random.insideUnitSphere, rotation).UseUnscaledTime();
             }
         }
     }

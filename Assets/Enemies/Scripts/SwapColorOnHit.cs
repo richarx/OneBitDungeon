@@ -25,7 +25,7 @@ namespace Enemies.Scripts
         private IEnumerator SwapColors()
         {
             spriteRenderer.color = targetColor;
-            yield return new WaitForSeconds(duration);
+            yield return new WaitForSecondsRealtime(duration);
             spriteRenderer.color = startingColor;
         }
     }

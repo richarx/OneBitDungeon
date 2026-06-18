@@ -27,7 +27,7 @@ public class RockDebris : MonoBehaviour
         Vector3 targetPosition = stone.transform.localPosition + direction * distance;
         Vector3 midPosition = stone.transform.localPosition + direction * (distance / 2.0f) + Vector3.up * height;
 
-        Sequence.Create()
+        Sequence.Create(useUnscaledTime: true)
             .Chain(Tween.LocalPosition(stone.transform, midPosition, 0.15f, Ease.OutQuad))
             .Chain(Tween.LocalPosition(stone.transform, targetPosition, 0.15f, Ease.InQuad))
             .Group(Tween.Alpha(stone, 0.0f, 0.15f));

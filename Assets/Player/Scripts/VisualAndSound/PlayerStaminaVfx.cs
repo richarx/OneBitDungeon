@@ -15,6 +15,9 @@ public class PlayerStaminaVfx : MonoBehaviour
     {
         player = GetComponent<PlayerStateMachine>();
         playerStamina = GetComponent<PlayerStamina>();
+
+        if (outOfBreathVfx != null)
+            outOfBreathVfx.updateMode = AnimatorUpdateMode.UnscaledTime;
     }
 
     private void LateUpdate()

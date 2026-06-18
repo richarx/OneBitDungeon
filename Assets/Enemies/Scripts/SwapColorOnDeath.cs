@@ -20,14 +20,14 @@ public class SwapColorOnDeath : MonoBehaviour
     {
         if (secondary != null)
         {
-            Sequence.Create()
+            Sequence.Create(useUnscaledTime: true)
             .ChainDelay(delay)
             .Chain(Tween.Color(mainSprite, targetColor, 0.5f, Ease.OutSine))
             .Group(Tween.Color(secondary, secondaryTargetColor, 0.5f, Ease.OutSine));
         }
         else
         {
-            Sequence.Create()
+            Sequence.Create(useUnscaledTime: true)
             .ChainDelay(delay)
             .Chain(Tween.Color(mainSprite, targetColor, 0.5f, Ease.OutSine));
         }

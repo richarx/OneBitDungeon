@@ -8,7 +8,7 @@ public class AfterImageFader : MonoBehaviour
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
 
-        Sequence sequence = Sequence.Create()
+        Sequence sequence = Sequence.Create(useUnscaledTime: true)
             .Chain(Tween.Alpha(spriteRenderer, 0.0f, fadeDuration))
             .ChainCallback(() => Destroy(gameObject));
 

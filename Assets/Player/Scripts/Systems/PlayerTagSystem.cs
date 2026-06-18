@@ -24,6 +24,7 @@ namespace Player.Scripts
         private float inactiveHealthAccumulator;
 
         private PlayerStateMachine player;
+        private PlayerTagRelayVfx tagRelayVfx;
 
         public int ActiveSlotIndex => activeSlotIndex;
         public bool CanTag => Time.time - lastSwapTimestamp >= player.playerData.tagCooldown;
@@ -36,6 +37,7 @@ namespace Player.Scripts
         {
             player = PlayerStateMachine.instance;
             player.playerTagSystem = this;
+            tagRelayVfx = GetComponentInChildren<PlayerTagRelayVfx>();
 
             activeSlotIndex = 0;
 
@@ -81,6 +83,9 @@ namespace Player.Scripts
 
             int oldIndex = activeSlotIndex;
             int newIndex = 1 - activeSlotIndex;
+            SpriteRenderer oldRenderer = slots[oldIndex].graphicsObject != null
+                ? slots[oldIndex].graphicsObject.GetComponentInChildren<SpriteRenderer>(true)
+                : null;
 
             // Save active character state
             slots[oldIndex].savedHealth = player.playerHealth.CurrentHealth;
@@ -109,6 +114,7 @@ namespace Player.Scripts
                 {
                     player.codeAnimator.SetGraphicsTarget(newRenderer);
                     player.codeAnimator.SetAnimationsHolder(newSlot.definition.animationsHolder);
+                    tagRelayVfx?.Play(oldRenderer, newRenderer, player.LastLookDirection);
                 }
             }
 
