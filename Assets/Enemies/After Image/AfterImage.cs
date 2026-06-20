@@ -1,11 +1,15 @@
 using System.Collections;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class AfterImage : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer target;
-    [SerializeField] private AfterImageFader afterImagePrefab;
+    [SerializeField]
+    private SpriteRenderer target;
+
+    [SerializeField, Required, AssetsOnly]
+    private AfterImageFader afterImagePrefab;
 
     [Space]
     [SerializeField] private float frequency;
@@ -15,9 +19,35 @@ public class AfterImage : MonoBehaviour
 
     private bool isCancel;
 
+    public float Frequency => frequency;
+
+    public void SetTarget(SpriteRenderer newTarget)
+    {
+        target = newTarget;
+    }
+
+    public void SpawnSnapshot()
+    {
+        if (target == null || target.sprite == null || afterImagePrefab == null)
+            return;
+
+        SpawnAfterImage();
+    }
+
+    public void Trigger(SpriteRenderer newTarget, float duration)
+    {
+        target = newTarget;
+        Trigger(duration);
+    }
+
     public void Trigger(float duration)
     {
         StopAllCoroutines();
+        isCancel = false;
+
+        if (target == null || afterImagePrefab == null || frequency <= 0.0f)
+            return;
+
         StartCoroutine(TriggerCoroutine(duration));
     }
 
@@ -43,7 +73,10 @@ public class AfterImage : MonoBehaviour
 
     private void SpawnAfterImage()
     {
+        if (target == null || target.sprite == null || afterImagePrefab == null)
+            return;
         Instantiate(afterImagePrefab, target.transform.position, target.transform.rotation)
-            .Setup(this, target.sprite, fadeDuration);
+            .Setup(this, target, fadeDuration);
     }
+
 }

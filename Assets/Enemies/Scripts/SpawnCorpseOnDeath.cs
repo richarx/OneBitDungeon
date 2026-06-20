@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Tools_and_Scripts;
 using UnityEngine;
 
 namespace Enemies.Scripts
@@ -31,7 +32,7 @@ namespace Enemies.Scripts
             if (vfxPrefabs.Count > 0)
             {
                 int randomVfx = Random.Range(0, vfxPrefabs.Count);
-                Instantiate(vfxPrefabs[randomVfx], position, Quaternion.identity);
+                Instantiate(vfxPrefabs[randomVfx], position, Quaternion.identity).UseUnscaledTime();
             }
         }
     }

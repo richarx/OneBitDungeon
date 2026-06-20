@@ -55,7 +55,7 @@ namespace Player.Scripts
             if (currentSequence.isAlive)
                 currentSequence.Stop();
 
-            currentSequence = Sequence.Create()
+            currentSequence = Sequence.Create(useUnscaledTime: true)
                 .Group(Tween.Color(spriteRenderer, targetColor, transitionDuration, transitionEase));
         }
 

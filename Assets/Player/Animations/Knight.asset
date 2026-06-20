@@ -17,6 +17,7 @@ MonoBehaviour:
   Jump: {fileID: 11400000, guid: d5d250ed507bd6d44863cf858f72c871, type: 2}
   Roll: {fileID: 11400000, guid: f44d0fc5a1e0a3249a4b0ffe145dc473, type: 2}
   Attack: {fileID: 11400000, guid: 6cfab0df62cba7743b759a86fa78bbae, type: 2}
+  JumpTag: {fileID: 11400000, guid: d7fddd0cab7507d46877665432067fc6, type: 2}
   ParryStart: {fileID: 11400000, guid: cc4d3e4fcf1e3274e856d64708bdcdb8, type: 2}
   ParrySuccess: {fileID: 11400000, guid: b18f3433445b90646950fe29aa48118f, type: 2}
   ParryRecovery: {fileID: 11400000, guid: 0ca65ef07b31856498c9b39644306b1d, type: 2}

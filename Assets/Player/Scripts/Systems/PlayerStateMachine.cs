@@ -1,6 +1,7 @@
 using System;
 using Game_Manager;
 using Interactable;
+using Sirenix.OdinInspector;
 using Tools_and_Scripts;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ namespace Player.Scripts
         public PlayerData playerData;
         public LayerMask obstaclesLayer;
         public GameObject graphics;
+
+        [ReadOnly, SerializeField]
+        private BehaviourType currentBehaviourType;
 
         public static PlayerStateMachine instance;
 
@@ -133,7 +137,7 @@ namespace Player.Scripts
             BehaviourType previous = currentBehaviour.GetBehaviourType();
             currentBehaviour.StopBehaviour(this, newBehaviour.GetBehaviourType());
             currentBehaviour = newBehaviour;
-
+            currentBehaviourType = newBehaviour.GetBehaviourType();
             currentBehaviour.StartBehaviour(this, previous);
         }
 

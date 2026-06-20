@@ -60,7 +60,7 @@ MonoBehaviour:
   parryStaminaCost: 0
   parryStaminaGainOnSuccess: 0
   canAttackWithNoStamina: 1
-  tagCooldown: 5
+  tagCooldown: 0.5
   tagDuration: 0
   inactiveHealthRegenRate: 0
   inactiveStaminaRegenRate: 1

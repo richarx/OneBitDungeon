@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb52d6d02f4de5458707795204991a5, type: 3}
+  m_Name: Hurt
+  m_EditorClassIdentifier: 
+  weaponInTheBackSprites:
+  - {fileID: -395946076, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: -1238663479, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: -1913197853, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: 1990057894, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: -3551455, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: -2146193501, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: -275654174, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: 6231057, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: -2003938843, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: 430808339, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: 997822949, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: 324520358, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: 1076846940, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: 506636781, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: -658730090, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: -204095848, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: 355469491, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  - {fileID: 570538802, guid: 68fb794e979f3a142b91716607d97e76, type: 3}
+  weaponInHandSprites:
+  - {fileID: -1794172235, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: -1394441347, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: 1678391887, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: 1424571665, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: 480124216, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: 1760418000, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: -762329324, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: -1796015647, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: -212836526, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: -1313370930, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: 1156561072, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: 651100385, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: -1696644583, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: 1506017157, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: -134731834, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: -1137285512, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: -1400664300, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  - {fileID: -966720663, guid: adbfa4e217fd11e4f9d52bff8940005e, type: 3}
+  directionCount: 0
+  timeBetweenFrames: 0.083333336
+  isLooping: 0
+  canSelfCancel: 0
+  nextAnimation: {fileID: 0}

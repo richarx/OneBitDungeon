@@ -31,7 +31,7 @@ public class CameraZoomer : MonoBehaviour
         if (currentSequence.isAlive)
             currentSequence.Stop();
 
-        currentSequence = Sequence.Create()
+        currentSequence = Sequence.Create(useUnscaledTime: true)
             .Group(Tween.CameraFieldOfView(mainCamera, startingFov - zoomPower, duration, easeIn))
             .Group(Tween.CameraFieldOfView(decorCamera, startingFov - zoomPower, duration, easeIn))
             .Chain(Tween.CameraFieldOfView(mainCamera, startingFov, duration, easeOut))

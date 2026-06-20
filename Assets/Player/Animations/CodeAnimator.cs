@@ -138,6 +138,8 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.Walk;
             case AnimationType.Jump:
                 return animationsHolder.Jump;
+            case AnimationType.JumpTag:
+                return animationsHolder.JumpTag;
             case AnimationType.Roll:
                 return animationsHolder.Roll;
             case AnimationType.Attack:

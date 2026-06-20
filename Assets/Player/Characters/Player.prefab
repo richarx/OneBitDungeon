@@ -47,6 +47,7 @@ Transform:
   m_Children:
   - {fileID: 2381927419409124522}
   - {fileID: 7417054775582677101}
+  - {fileID: 5384094085192437999}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3144593469131053450
@@ -114,6 +115,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 6144
   graphics: {fileID: 7923046771804982645}
+  currentBehaviourType: 0
   moveInput: {x: 0, y: 0}
   moveVelocity: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
@@ -152,6 +154,12 @@ MonoBehaviour:
   hasSword: 1
   hitboxPrefab: {fileID: 1002835809620756908, guid: 8e54896a02369374f83e597d34629542,
     type: 3}
+  specialHitboxPrefab: {fileID: 0}
+  whirlwindHitboxLocalPosition: {x: 0, y: 0.75, z: 0}
+  whirlwindHitboxLocalScale: {x: 5, y: 1.5, z: 5}
+  jumpTagHitboxPrefab: {fileID: 0}
+  jumpTagHitboxLocalPosition: {x: 0, y: 0.75, z: 0}
+  jumpTagHitboxLocalScale: {x: 4, y: 1.5, z: 4}
   OnEquipSword:
     m_PersistentCalls:
       m_Calls: []
@@ -272,6 +280,7 @@ MonoBehaviour:
     type: 3}
   slashHeight: 1
   slashDistance: 1
+  hitFreezeDuration: 0.05
   swordSlashPrefab: {fileID: 1936735994176848030, guid: 3578cf581bb6de243a59dcbdfb91ae42,
     type: 3}
   swordSecondSlashPrefab: {fileID: 1936735994176848030, guid: f4537d8cc33edab4bbd17f2d43eef7b5,
@@ -281,14 +290,15 @@ MonoBehaviour:
   swordSlashDistance: 1
   parryVfx: {fileID: 2755547318002962695, guid: b425364a45397ab4ab939621c38073e7,
     type: 3}
+  parryFreezeDuration: 0.8
   rollVfx: {fileID: 7980137014980868513, guid: dc0d24dd083978742ad4e8c585baf8d2, type: 3}
   jumpStartVfx: {fileID: 5691421544017041870, guid: e5f8090adf6affb47bf74e730671bd8c,
     type: 3}
   jumpLandVfx: {fileID: 7017189974637437493, guid: c165d7914e579e64182e4d25670b465d,
     type: 3}
   hurtVfx: {fileID: 4296958320210530305, guid: 4b923a4ea4a2b474288adc18114c7a0f, type: 3}
+  hurtFreezeDuration: 0.1
   freezeDelay: 0.03
-  freezeDuration: 0.05
 --- !u!114 &1957020731844466397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +414,164 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graphics: {fileID: 1856159283365252140}
   animationsHolder: {fileID: 11400000, guid: 2cfee0c57a75410478dd09f2170acaaf, type: 2}
+--- !u!1 &797996720833813185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5384094085192437999}
+  - component: {fileID: 5351256424314261254}
+  - component: {fileID: 4906946023513908881}
+  - component: {fileID: 4906946023513908882}
+  m_Layer: 7
+  m_Name: TagRelayVfX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5384094085192437999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797996720833813185}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1529292005952231461}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5351256424314261254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797996720833813185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 371b428f877c9024d9a396e4061c258e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4906946023513908881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797996720833813185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5948384fcccef7e46b5769aa0fe781ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  afterImagePrefab: {fileID: -3171381641984677486, guid: 2a6df096adee6614eb23a2929557fb63,
+    type: 3}
+  frequency: 20
+  fadeDuration: 0.14
+  OnTriggerCancel:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4906946023513908882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797996720833813185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88eb9b0ae46bb5d4aa30a1b41297c9c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOnPlay: 0
+  startOnEnable: 0
+  speedFactor: 1
+  actions:
+  - rid: 3021079039087476736
+  - rid: 3021079039087476737
+  - rid: 3021079039087476738
+  - rid: 3021079039087476739
+  - rid: 3021079039087476740
+  - rid: 3021079039087476741
+  - rid: 3021079039087476742
+  references:
+    version: 2
+    RefIds:
+    - rid: 3021079039087476736
+      type: {class: TriggerAfterImageAction, ns: TataSequencing, asm: Assembly-CSharp}
+      data:
+        enabled: 1
+        label: Trigger AfterImage
+        afterImage: {fileID: 4906946023513908881}
+        actor: 0
+        duration: 0.16
+    - rid: 3021079039087476737
+      type: {class: TagRelayMoveAction, ns: TataSequencing, asm: Assembly-CSharp}
+      data:
+        enabled: 1
+        label: Move Outgoing Back
+        actor: 0
+        moveMode: 0
+        distance: 2
+        duration: 0.5
+        ease: 9
+        waitAction: 0
+        ignoreTimeScale: 1
+    - rid: 3021079039087476738
+      type: {class: TagRelayFadeAction, ns: TataSequencing, asm: Assembly-CSharp}
+      data:
+        enabled: 1
+        label: Fade Outgoing
+        actor: 0
+        fadeTarget: 0
+        duration: 0.5
+        ease: 4
+        waitAction: 0
+        ignoreTimeScale: 1
+    - rid: 3021079039087476739
+      type: {class: DelayAction, ns: TataSequencing, asm: Assembly-CSharp}
+      data:
+        enabled: 1
+        label: Incoming Delay
+        duration: 0.05
+        ignoreTimeScale: 1
+    - rid: 3021079039087476740
+      type: {class: TagRelayMoveAction, ns: TataSequencing, asm: Assembly-CSharp}
+      data:
+        enabled: 1
+        label: Move Incoming From Behind
+        actor: 1
+        moveMode: 1
+        distance: 0.48
+        duration: 0.18
+        ease: 9
+        waitAction: 0
+        ignoreTimeScale: 1
+    - rid: 3021079039087476741
+      type: {class: TagRelayFadeAction, ns: TataSequencing, asm: Assembly-CSharp}
+      data:
+        enabled: 1
+        label: Fade Incoming
+        actor: 1
+        fadeTarget: 1
+        duration: 0.18
+        ease: 4
+        waitAction: 1
+        ignoreTimeScale: 1
+    - rid: 3021079039087476742
+      type: {class: CompleteTagRelayAction, ns: TataSequencing, asm: Assembly-CSharp}
+      data:
+        enabled: 1
+        label: Complete Tag Relay
 --- !u!1 &3430374639409287783
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,7 +905,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -697531588, guid: 76bdc43b6ba589e4388f819e6d80dc04, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.14067984, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
