@@ -48,6 +48,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  playerData: {fileID: 11400000, guid: f1e822e992950f34ab56e9a3333cbc63, type: 2}
+  playerData: {fileID: 11400000, guid: 93830baec394f834dbf22083e349891c, type: 2}
   maxHealth: 5
   animationsHolder: {fileID: 11400000, guid: 25b289a44859cc54090d58b50e76dda9, type: 2}
