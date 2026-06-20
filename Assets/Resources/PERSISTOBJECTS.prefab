@@ -3386,38 +3386,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3599857382993739372, guid: 72fec9c9a9cc45a45b23daca94578ebf,
-        type: 3}
-      propertyPath: hitFreezeDuration
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 3599857382993739372, guid: 72fec9c9a9cc45a45b23daca94578ebf,
-        type: 3}
-      propertyPath: hurtFreezeDuration
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3599857382993739372, guid: 72fec9c9a9cc45a45b23daca94578ebf,
-        type: 3}
-      propertyPath: parryFreezeDuration
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6186045048917959993, guid: 72fec9c9a9cc45a45b23daca94578ebf,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6186045048917959993, guid: 72fec9c9a9cc45a45b23daca94578ebf,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6186045048917959993, guid: 72fec9c9a9cc45a45b23daca94578ebf,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3258174021837465011, guid: 72fec9c9a9cc45a45b23daca94578ebf, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

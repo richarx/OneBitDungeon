@@ -1,210 +1,251 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using TataSequencing;
 using UnityEngine;
 
 namespace Player.Scripts
 {
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(Sequencer))]
     public class PlayerTagRelayVfx : MonoBehaviour
     {
-        [Header("Outgoing Character")]
-        [SerializeField, Min(0.01f)] private float outgoingDuration = 0.16f;
-        [SerializeField, Min(0.0f)] private float outgoingRetreatDistance = 0.28f;
-
-        [Header("Afterimages")]
-        [SerializeField, Range(0, 8)] private int afterimageCount = 3;
-        [SerializeField, Min(0.0f)] private float afterimageInterval = 0.035f;
-        [SerializeField, Min(0.01f)] private float afterimageLifetime = 0.14f;
-        [SerializeField, Range(0.0f, 1.0f)] private float afterimageOpacity = 0.38f;
-        [SerializeField, Range(0.5f, 2.0f)] private float afterimageBrightness = 1.25f;
-
-        [Header("Incoming Character")]
-        [SerializeField, Min(0.0f)] private float incomingDelay = 0.025f;
-        [SerializeField, Min(0.01f)] private float incomingDuration = 0.18f;
-        [SerializeField, Min(0.0f)] private float incomingStartDistance = 0.48f;
-
-        private readonly List<GameObject> spawnedObjects = new List<GameObject>();
-        private readonly List<Afterimage> afterimages = new List<Afterimage>();
-
-        private Coroutine currentEffect;
-        private SpriteRenderer animatedIncoming;
-        private Color incomingOriginalColor;
-        private Vector3 incomingOriginalPosition;
-        private int incomingOriginalSortingOrder;
-
-        private sealed class Afterimage
+        public enum RelayActor
         {
-            public SpriteRenderer renderer;
-            public float spawnTime;
-            public float initialAlpha;
+            Outgoing,
+            Incoming
         }
 
-        public void Play(SpriteRenderer outgoing, SpriteRenderer incoming, Vector2 lookDirection)
-        {
-            CleanupCurrentEffect();
+        private Sequencer sequencer;
+        private GameObject outgoingGhostObject;
+        private SpriteRenderer outgoingGhost;
+        private Color outgoingOriginalColor;
+        private Vector3 outgoingOriginalLocalPosition;
+        private SpriteRenderer incoming;
+        private Color incomingOriginalColor;
+        private Vector3 incomingOriginalLocalPosition;
+        private int incomingOriginalSortingOrder;
+        private Vector3 backwardWorldDirection;
+        private bool hasPreparedTransition;
+        private readonly HashSet<Tween> activeTweens = new HashSet<Tween>();
 
-            if (outgoing == null || incoming == null || outgoing.sprite == null || incoming.sprite == null)
+        public bool HasPreparedTransition => hasPreparedTransition;
+        public SpriteRenderer OutgoingGhost => outgoingGhost;
+        public SpriteRenderer Incoming => incoming;
+        public Color IncomingOriginalColor => incomingOriginalColor;
+        public Vector3 IncomingOriginalLocalPosition => incomingOriginalLocalPosition;
+
+        private void Awake()
+        {
+            sequencer = GetComponent<Sequencer>();
+        }
+
+        public void Play(
+            SpriteRenderer outgoing,
+            SpriteRenderer newIncoming,
+            Vector2 lookDirection)
+        {
+            PlayAsync(outgoing, newIncoming, lookDirection).Forget();
+        }
+
+        public SpriteRenderer GetActorRenderer(RelayActor actor)
+        {
+            return actor == RelayActor.Outgoing
+                ? outgoingGhost
+                : incoming;
+        }
+
+        public Vector3 GetActorOriginalLocalPosition(RelayActor actor)
+        {
+            return actor == RelayActor.Outgoing
+                ? outgoingOriginalLocalPosition
+                : incomingOriginalLocalPosition;
+        }
+
+        public float GetActorOriginalAlpha(RelayActor actor)
+        {
+            return actor == RelayActor.Outgoing
+                ? outgoingOriginalColor.a
+                : incomingOriginalColor.a;
+        }
+
+        public float GetActorAlpha(RelayActor actor)
+        {
+            SpriteRenderer renderer = GetActorRenderer(actor);
+            return renderer != null ? renderer.color.a : 0.0f;
+        }
+
+        public Vector3 GetBackwardLocalOffset(Transform parent, float distance)
+        {
+            Vector3 worldOffset = backwardWorldDirection * distance;
+            return parent != null
+                ? parent.InverseTransformVector(worldOffset)
+                : worldOffset;
+        }
+
+        public void SetActorAlpha(RelayActor actor, float alpha)
+        {
+            SetAlpha(GetActorRenderer(actor), alpha);
+        }
+
+        public void TrackTween(Tween tween)
+        {
+            if (tween == null || !tween.IsActive())
                 return;
+
+            activeTweens.Add(tween);
+            _ = tween.OnKill(() => activeTweens.Remove(tween));
+        }
+
+        public async UniTask WaitForTrackedTweensAsync(CancellationToken cancellationToken)
+        {
+            await UniTask.WaitUntil(
+                () => !HasActiveTweens(),
+                cancellationToken: cancellationToken);
+        }
+
+        public void CompleteTransition()
+        {
+            KillTrackedTweens();
+            GetComponent<AfterImage>()?.Cancel();
+            RestoreIncoming();
+            DestroyOutgoingGhost();
+            hasPreparedTransition = false;
+        }
+
+        public void CancelTransition()
+        {
+            KillTrackedTweens();
+            GetComponent<AfterImage>()?.Cancel();
+            RestoreIncoming();
+            DestroyOutgoingGhost();
+            hasPreparedTransition = false;
+        }
+
+        private async UniTaskVoid PlayAsync(
+            SpriteRenderer outgoing,
+            SpriteRenderer newIncoming,
+            Vector2 lookDirection)
+        {
+            if (outgoing == null
+                || newIncoming == null
+                || outgoing.sprite == null
+                || newIncoming.sprite == null)
+            {
+                return;
+            }
+
+            if (sequencer == null)
+                sequencer = GetComponent<Sequencer>();
+
+            if (sequencer.IsPlaying)
+            {
+                sequencer.Stop();
+                await UniTask.WaitUntil(
+                    () => sequencer == null || sequencer.IsStopped,
+                    cancellationToken: this.GetCancellationTokenOnDestroy());
+            }
+
+            if (sequencer == null || !isActiveAndEnabled)
+                return;
+
+            PrepareTransition(outgoing, newIncoming, lookDirection);
+            sequencer.Play();
+        }
+
+        private void PrepareTransition(
+            SpriteRenderer outgoing,
+            SpriteRenderer newIncoming,
+            Vector2 lookDirection)
+        {
+            CancelTransition();
 
             Vector2 facing = lookDirection.sqrMagnitude > 0.01f
                 ? lookDirection.normalized
                 : Vector2.right;
-            Vector3 backwardWorldDirection = new Vector3(-facing.x, 0.0f, -facing.y);
+            backwardWorldDirection = new Vector3(-facing.x, 0.0f, -facing.y);
 
-            animatedIncoming = incoming;
+            incoming = newIncoming;
             incomingOriginalColor = incoming.color;
-            incomingOriginalPosition = incoming.transform.localPosition;
+            incomingOriginalLocalPosition = incoming.transform.localPosition;
             incomingOriginalSortingOrder = incoming.sortingOrder;
-
-            Vector3 incomingOffset = WorldOffsetToLocal(
-                incoming.transform.parent,
-                backwardWorldDirection * incomingStartDistance);
-
-            incoming.transform.localPosition = incomingOriginalPosition + incomingOffset;
             incoming.sortingOrder = incomingOriginalSortingOrder - 1;
-            SetAlpha(incoming, 0.0f);
+            SetActorAlpha(RelayActor.Incoming, 0.0f);
 
-            currentEffect = StartCoroutine(PlayEffect(
-                outgoing,
-                incoming,
-                backwardWorldDirection));
-        }
-
-        private IEnumerator PlayEffect(
-            SpriteRenderer outgoing,
-            SpriteRenderer incoming,
-            Vector3 backwardWorldDirection)
-        {
-            SpriteRenderer outgoingGhost = CreateGhost(outgoing, "Tag Outgoing");
-            Vector3 outgoingStartPosition = outgoingGhost.transform.localPosition;
-            Vector3 outgoingOffset = WorldOffsetToLocal(
-                outgoingGhost.transform.parent,
-                backwardWorldDirection * outgoingRetreatDistance);
-            Color outgoingColor = outgoingGhost.color;
-
-            int spawnedAfterimageCount = 0;
-            float nextAfterimageTime = afterimageInterval;
-            float totalDuration = Mathf.Max(
-                outgoingDuration,
-                incomingDelay + incomingDuration,
-                afterimageCount * afterimageInterval + afterimageLifetime);
-
-            float elapsed = 0.0f;
-            while (elapsed < totalDuration)
+            outgoingGhost = CreateGhost(outgoing);
+            if (outgoingGhost != null)
             {
-                float outgoingProgress = Mathf.Clamp01(elapsed / outgoingDuration);
-                outgoingGhost.transform.localPosition = Vector3.LerpUnclamped(
-                    outgoingStartPosition,
-                    outgoingStartPosition + outgoingOffset,
-                    EaseOutCubic(outgoingProgress));
-                SetAlpha(outgoingGhost, outgoingColor.a * (1.0f - EaseInCubic(outgoingProgress)));
-
-                while (spawnedAfterimageCount < afterimageCount && elapsed >= nextAfterimageTime)
-                {
-                    SpawnAfterimage(outgoing, outgoingGhost.transform, elapsed);
-                    spawnedAfterimageCount++;
-                    nextAfterimageTime += afterimageInterval;
-                }
-
-                UpdateAfterimages(elapsed);
-                UpdateIncoming(incoming, backwardWorldDirection, elapsed);
-
-                elapsed += Time.unscaledDeltaTime;
-                yield return null;
+                outgoingOriginalColor = outgoingGhost.color;
+                outgoingOriginalLocalPosition = outgoingGhost.transform.localPosition;
             }
-
-            RestoreIncoming();
-            currentEffect = null;
-            DestroySpawnedObjects();
+            hasPreparedTransition = outgoingGhost != null;
         }
 
-        private void UpdateIncoming(
-            SpriteRenderer incoming,
-            Vector3 backwardWorldDirection,
-            float elapsed)
+        private SpriteRenderer CreateGhost(SpriteRenderer source)
         {
-            if (elapsed < incomingDelay)
-                return;
+            outgoingGhostObject = new GameObject("Tag Outgoing");
+            outgoingGhostObject.layer = source.gameObject.layer;
 
-            float progress = Mathf.Clamp01((elapsed - incomingDelay) / incomingDuration);
-            Vector3 startOffset = WorldOffsetToLocal(
-                incoming.transform.parent,
-                backwardWorldDirection * incomingStartDistance);
-
-            incoming.transform.localPosition = Vector3.LerpUnclamped(
-                incomingOriginalPosition + startOffset,
-                incomingOriginalPosition,
-                EaseOutCubic(progress));
-            SetAlpha(incoming, incomingOriginalColor.a * SmoothStep(progress));
-        }
-
-        private void SpawnAfterimage(
-            SpriteRenderer source,
-            Transform movingGhost,
-            float spawnTime)
-        {
-            SpriteRenderer afterimage = CreateGhost(source, "Tag Afterimage");
-            afterimage.transform.localPosition = movingGhost.localPosition;
-            afterimage.transform.localRotation = movingGhost.localRotation;
-            afterimage.transform.localScale = movingGhost.localScale;
-            afterimage.sortingOrder = source.sortingOrder - 1;
-
-            Color color = source.color;
-            color.r *= afterimageBrightness;
-            color.g *= afterimageBrightness;
-            color.b *= afterimageBrightness;
-            color.a *= afterimageOpacity;
-            afterimage.color = color;
-
-            afterimages.Add(new Afterimage
-            {
-                renderer = afterimage,
-                spawnTime = spawnTime,
-                initialAlpha = color.a
-            });
-        }
-
-        private void UpdateAfterimages(float elapsed)
-        {
-            for (int i = afterimages.Count - 1; i >= 0; i--)
-            {
-                Afterimage afterimage = afterimages[i];
-                if (afterimage.renderer == null)
-                {
-                    afterimages.RemoveAt(i);
-                    continue;
-                }
-
-                float progress = Mathf.Clamp01((elapsed - afterimage.spawnTime) / afterimageLifetime);
-                SetAlpha(afterimage.renderer, afterimage.initialAlpha * (1.0f - EaseOutCubic(progress)));
-
-                if (progress >= 1.0f)
-                {
-                    afterimage.renderer.enabled = false;
-                    afterimages.RemoveAt(i);
-                }
-            }
-        }
-
-        private SpriteRenderer CreateGhost(SpriteRenderer source, string objectName)
-        {
-            GameObject ghostObject = new GameObject(objectName);
-            spawnedObjects.Add(ghostObject);
-            ghostObject.layer = source.gameObject.layer;
-
-            Transform ghostTransform = ghostObject.transform;
+            Transform ghostTransform = outgoingGhostObject.transform;
             ghostTransform.SetParent(source.transform.parent, false);
             ghostTransform.localPosition = source.transform.localPosition;
             ghostTransform.localRotation = source.transform.localRotation;
             ghostTransform.localScale = source.transform.localScale;
 
-            SpriteRenderer ghost = ghostObject.AddComponent<SpriteRenderer>();
+            SpriteRenderer ghost = outgoingGhostObject.AddComponent<SpriteRenderer>();
             CopyRenderer(source, ghost);
             ghost.color = source.color;
             return ghost;
         }
 
-        private static void CopyRenderer(SpriteRenderer source, SpriteRenderer destination)
+        private void RestoreIncoming()
+        {
+            if (incoming == null)
+                return;
+
+            incoming.color = incomingOriginalColor;
+            incoming.transform.localPosition = incomingOriginalLocalPosition;
+            incoming.sortingOrder = incomingOriginalSortingOrder;
+            incoming = null;
+        }
+
+        private void DestroyOutgoingGhost()
+        {
+            if (outgoingGhostObject != null)
+                Destroy(outgoingGhostObject);
+
+            outgoingGhostObject = null;
+            outgoingGhost = null;
+        }
+
+        private bool HasActiveTweens()
+        {
+            activeTweens.RemoveWhere(tween => tween == null || !tween.IsActive());
+            return activeTweens.Count > 0;
+        }
+
+        private void KillTrackedTweens()
+        {
+            if (activeTweens.Count == 0)
+                return;
+
+            Tween[] tweens = new Tween[activeTweens.Count];
+            activeTweens.CopyTo(tweens);
+
+            for (int i = 0; i < tweens.Length; i++)
+            {
+                Tween tween = tweens[i];
+                if (tween != null && tween.IsActive())
+                    tween.Kill(false);
+            }
+
+            activeTweens.Clear();
+        }
+
+        private static void CopyRenderer(
+            SpriteRenderer source,
+            SpriteRenderer destination)
         {
             destination.sprite = source.sprite;
             destination.sharedMaterial = source.sharedMaterial;
@@ -218,74 +259,20 @@ namespace Player.Scripts
             destination.sortingOrder = source.sortingOrder;
         }
 
-        private static Vector3 WorldOffsetToLocal(Transform parent, Vector3 worldOffset)
-        {
-            return parent != null
-                ? parent.InverseTransformVector(worldOffset)
-                : worldOffset;
-        }
-
         private static void SetAlpha(SpriteRenderer renderer, float alpha)
         {
+            if (renderer == null)
+                return;
+
             Color color = renderer.color;
             color.a = alpha;
             renderer.color = color;
         }
 
-        private static float EaseInCubic(float value)
-        {
-            return value * value * value;
-        }
-
-        private static float EaseOutCubic(float value)
-        {
-            float inverse = 1.0f - value;
-            return 1.0f - inverse * inverse * inverse;
-        }
-
-        private static float SmoothStep(float value)
-        {
-            return value * value * (3.0f - 2.0f * value);
-        }
-
-        private void RestoreIncoming()
-        {
-            if (animatedIncoming == null)
-                return;
-
-            animatedIncoming.color = incomingOriginalColor;
-            animatedIncoming.transform.localPosition = incomingOriginalPosition;
-            animatedIncoming.sortingOrder = incomingOriginalSortingOrder;
-            animatedIncoming = null;
-        }
-
-        private void CleanupCurrentEffect()
-        {
-            if (currentEffect != null)
-            {
-                StopCoroutine(currentEffect);
-                currentEffect = null;
-            }
-
-            RestoreIncoming();
-            DestroySpawnedObjects();
-        }
-
-        private void DestroySpawnedObjects()
-        {
-            for (int i = 0; i < spawnedObjects.Count; i++)
-            {
-                if (spawnedObjects[i] != null)
-                    Destroy(spawnedObjects[i]);
-            }
-
-            spawnedObjects.Clear();
-            afterimages.Clear();
-        }
-
         private void OnDisable()
         {
-            CleanupCurrentEffect();
+            sequencer?.Stop();
+            CancelTransition();
         }
     }
 }
