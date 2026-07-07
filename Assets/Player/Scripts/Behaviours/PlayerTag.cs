@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Player.Scripts
 {
@@ -18,6 +19,8 @@ namespace Player.Scripts
 
         public TagContext TagContext { get; private set; } = TagContext.None;
 
+        public UnityEvent<TagContext> OnPlayerTag = new UnityEvent<TagContext>();
+
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
             tagStartTimestamp = Time.time;
@@ -26,32 +29,52 @@ namespace Player.Scripts
             // We handle here the behaviour if last behaviour was an attack, a parry or a roll since the follow up is basically an attack with effect
             // Jump has its own follow up behaviour so it got its own behaviour PlayerJumpTag
 
-            if (previous is BehaviourType.Attack)
-            {
-                TagContext = TagContext.Attack;
-                player.ChangeBehaviour(player.playerAttack);
-            }
-            else if (previous is BehaviourType.Roll)
-            {
-                TagContext = TagContext.Roll;
-                player.ChangeBehaviour(player.playerAttack);
-            }
-            else if (previous is BehaviourType.Jump)
-            {
-                TagContext = TagContext.Jump;
-                player.ChangeBehaviour(player.playerJumpTag);
-            }
-            else if (previous is BehaviourType.Parry)
-            {
-                TagContext = TagContext.SucceededParry;
-                player.ChangeBehaviour(player.playerAttack);
-            }
-            else
-            {
-                TagContext = TagContext.None;
-                player.ChangeBehaviour(player.playerIdle);
-            }
+            TagContext = ComputeTagContext(previous);
+            OnPlayerTag?.Invoke(TagContext);
 
+            switch (TagContext)
+            {
+                case TagContext.None:
+                    player.ChangeBehaviour(player.playerIdle);
+                    break;
+                case TagContext.Attack:
+                    player.ChangeBehaviour(player.playerAttack);
+                    break;
+                case TagContext.Roll:
+                    player.ChangeBehaviour(player.playerAttack);
+                    break;
+                case TagContext.Jump:
+                    player.ChangeBehaviour(player.playerJumpTag);
+                    break;
+                case TagContext.SucceededParry:
+                    player.ChangeBehaviour(player.playerAttack);
+                    break;
+            }
+        }
+
+        private TagContext ComputeTagContext(BehaviourType previous)
+        {
+            switch (previous)
+            {
+                case BehaviourType.Attack:
+                    return TagContext.Attack;
+                case BehaviourType.Roll:
+                    return TagContext.Roll;
+                case BehaviourType.Jump:
+                    return TagContext.Jump;
+                case BehaviourType.Parry:
+                    return TagContext.SucceededParry;
+                case BehaviourType.Idle:
+                case BehaviourType.Run:
+                case BehaviourType.JumpTag:
+                case BehaviourType.Stagger:
+                case BehaviourType.Sit:
+                case BehaviourType.Dead:
+                case BehaviourType.Locked:
+                case BehaviourType.Tag:
+                default:
+                    return TagContext.None;
+            }
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)
