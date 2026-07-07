@@ -248,6 +248,10 @@ MonoBehaviour:
   sit_2: {fileID: 8300000, guid: 9171ecaa811a6da45ac2ca54b09598a5, type: 3}
   getUp_1: {fileID: 8300000, guid: 5dd27ac989d20f14cb55618a8e0e31d1, type: 3}
   getUp_2: {fileID: 8300000, guid: 7fc8d7d09d2aaba4f88d1ed764544b1a, type: 3}
+  tagIdle: {fileID: 8300000, guid: 6d3348a603291be4b92029ed47b00d0f, type: 3}
+  tagJumpSlam_1: {fileID: 8300000, guid: 66bbaeaf5ac99854285bb777d089b82b, type: 3}
+  tagJumpSlam_2: {fileID: 8300000, guid: 581f259f3d51afa4db71cb79ef1be392, type: 3}
+  tagJumpFlip: {fileID: 8300000, guid: 69c7be5b5c0e69544ad9d4ba4cdb6c77, type: 3}
 --- !u!114 &2174515811491700390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,7 +294,7 @@ MonoBehaviour:
   swordSlashDistance: 1
   parryVfx: {fileID: 2755547318002962695, guid: b425364a45397ab4ab939621c38073e7,
     type: 3}
-  parryFreezeDuration: 0.8
+  parryFreezeDuration: 0.15
   rollVfx: {fileID: 7980137014980868513, guid: dc0d24dd083978742ad4e8c585baf8d2, type: 3}
   jumpStartVfx: {fileID: 5691421544017041870, guid: e5f8090adf6affb47bf74e730671bd8c,
     type: 3}

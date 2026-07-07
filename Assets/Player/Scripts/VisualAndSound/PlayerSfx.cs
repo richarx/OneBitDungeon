@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Player.Sword_Hitboxes;
 using SFX;
@@ -26,6 +27,10 @@ namespace Player.Scripts
         [SerializeField] private AudioClip sit_2;
         [SerializeField] private AudioClip getUp_1;
         [SerializeField] private AudioClip getUp_2;
+        [SerializeField] private AudioClip tagIdle;
+        [SerializeField] private AudioClip tagJumpSlam_1;
+        [SerializeField] private AudioClip tagJumpSlam_2;
+        [SerializeField] private AudioClip tagJumpFlip;
 
         private PlayerStateMachine player;
 
@@ -74,6 +79,32 @@ namespace Player.Scripts
                 SFXManager.instance.PlaySFX(getUp_1, 0.05f);
                 SFXManager.instance.PlaySFX(getUp_2, 0.1f);
             });
+            player.playerTag.OnPlayerTag.AddListener(PlayTagSfx);
+        }
+
+        private void PlayTagSfx(TagContext tagContext)
+        {
+            switch (tagContext)
+            {
+                case TagContext.None:
+                    SFXManager.instance.PlaySFX(tagIdle, 0.1f);
+                    break;
+                case TagContext.Attack:
+                    break;
+                case TagContext.Roll:
+                    break;
+                case TagContext.Jump:
+                    if (player.playerTagSystem.ActiveSlotIndex == 0)
+                    {
+                        SFXManager.instance.PlaySFX(tagJumpSlam_1, 0.1f);
+                        SFXManager.instance.PlaySFX(tagJumpSlam_2, 0.1f, 0.1f);
+                    }
+                    else
+                        SFXManager.instance.PlaySFX(tagJumpFlip, 0.05f);
+                    break;
+                case TagContext.SucceededParry:
+                    break;
+            }
         }
     }
 }
