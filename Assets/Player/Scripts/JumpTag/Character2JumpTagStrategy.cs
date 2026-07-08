@@ -17,7 +17,7 @@ namespace Player.Scripts
 
         public CodeAnimator.AnimationType SelectAnimation()
         {
-            return CodeAnimator.AnimationType.Jump;
+            return CodeAnimator.AnimationType.JumpTag;
         }
 
         public void StartJumpTag(PlayerStateMachine player, PlayerJumpTag jumpTag)
@@ -52,6 +52,11 @@ namespace Player.Scripts
                 Vector3 targetVelocity = backdashDirection * backdashSpeed;
                 player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, targetVelocity.x, acceleration * Time.fixedDeltaTime);
                 player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, targetVelocity.z, acceleration * Time.fixedDeltaTime);
+            }
+            else
+            {
+                player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, deceleration * Time.fixedDeltaTime);
+                player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, deceleration * Time.fixedDeltaTime);
             }
 
             player.ApplyMovement();

@@ -26,10 +26,10 @@ MonoBehaviour:
       Data: 0|Player.Scripts.Character2JumpTagStrategy, Assembly-CSharp
     - Name: backdashDuration
       Entry: 4
-      Data: 0.16
+      Data: 0.32
     - Name: totalDuration
       Entry: 4
-      Data: 0.32
+      Data: 0.64
     - Name: backdashSpeed
       Entry: 4
       Data: 14
@@ -38,7 +38,7 @@ MonoBehaviour:
       Data: 180
     - Name: deceleration
       Entry: 4
-      Data: 140
+      Data: 60
     - Name: 
       Entry: 8
       Data: 
