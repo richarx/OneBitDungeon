@@ -20,7 +20,6 @@ public class PlayerArrogantSpin : IPlayerBehaviour
     {
 
         Vector2 inputDirection = player.moveInput.magnitude >= 0.15f ? player.moveInput.normalized : player.LastLookDirection * -1.0f;
-        //player.SetLastLookDirection(inputDirection);
         spinDirection = inputDirection.ToVector3();
         spinStartPosition = player.position;
         spinStartTimestamp = Time.time;
@@ -28,8 +27,6 @@ public class PlayerArrogantSpin : IPlayerBehaviour
         float angle = Vector3.SignedAngle(player.LastLookDirection.ToVector3(), spinDirection, Vector3.up);
         IsSpinningClockwise = angle <= 0.0f;
         IsSpinningClockwise = player.LastLookDirection.y <= 0 ? !IsSpinningClockwise : IsSpinningClockwise;
-
-        Debug.Log($"Angle : {angle} / {IsSpinningClockwise} / {player.LastLookDirection.y}");
 
         //player.playerStamina.ConsumeStamina(player.playerData.rollStaminaCost);
 
