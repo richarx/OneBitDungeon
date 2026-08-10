@@ -7,10 +7,20 @@ namespace Player.Scripts
     {
         [Header("Movement")]
         public float walkMaxSpeed;
-        public float arrogantWalkMaxSpeed;
         public float dialogWalkMaxSpeed;
         public float groundAcceleration;
         public float groundDeceleration;
+
+        [Space]
+        [Header("Arrogance")]
+        public float arrogantWalkMaxSpeed;
+        public float spinMaxSpeed;
+        public float spinMaxDistance;
+        public float spinMaxDuration;
+        public float spinAcceleration;
+        public float spinDeceleration;
+        public float spinDecelerationDistanceThreshold;
+        public float spinCooldown;
 
         [Space]
         [Header("Roll")]

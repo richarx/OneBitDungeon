@@ -7,6 +7,8 @@ public class AnimationsHolderData : ScriptableObject
     public AnimationData ArrogantIdle;
     public AnimationData Walk;
     public AnimationData ArrogantWalk;
+    public AnimationData ArrogantSpinLeft;
+    public AnimationData ArrogantSpinRight;
     public AnimationData Jump;
     public AnimationData Roll;
     public AnimationData Attack;

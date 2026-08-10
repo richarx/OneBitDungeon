@@ -7,6 +7,7 @@ namespace Player.Scripts
         Run,
         ArrogantRun,
         Roll,
+        ArrogantSpin,
         Jump,
         JumpTag,
         Attack,

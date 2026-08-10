@@ -13,6 +13,8 @@ public class CodeAnimator : MonoBehaviour
         ArrogantWalk,
         Jump,
         Roll,
+        ArrogantSpinLeft,
+        ArrogantSpinRight,
         Attack,
         ParryStart,
         ParrySuccess,
@@ -148,6 +150,10 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.JumpTag;
             case AnimationType.Roll:
                 return animationsHolder.Roll;
+            case AnimationType.ArrogantSpinLeft:
+                return animationsHolder.ArrogantSpinLeft;
+            case AnimationType.ArrogantSpinRight:
+                return animationsHolder.ArrogantSpinRight;
             case AnimationType.Attack:
                 return animationsHolder.Attack;
             case AnimationType.ParryStart:

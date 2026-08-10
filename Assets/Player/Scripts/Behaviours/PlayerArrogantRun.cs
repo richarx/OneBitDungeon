@@ -23,15 +23,9 @@ public class PlayerArrogantRun : IPlayerBehaviour
             return;
         }
 
-        if (player.playerTagSystem != null && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
+        if (player.playerArrogantSpin.CanSpin(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
         {
-            player.ChangeBehaviour(player.playerTag);
-            return;
-        }
-
-        if (player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
-        {
-            player.ChangeBehaviour(player.playerRoll);
+            player.ChangeBehaviour(player.playerArrogantSpin);
             return;
         }
 

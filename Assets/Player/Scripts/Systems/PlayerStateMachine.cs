@@ -24,6 +24,7 @@ namespace Player.Scripts
         public PlayerRun playerRun = new PlayerRun();
         public PlayerArrogantRun playerArrogantRun = new PlayerArrogantRun();
         public PlayerRoll playerRoll = new PlayerRoll();
+        public PlayerArrogantSpin playerArrogantSpin = new PlayerArrogantSpin();
         public PlayerJump playerJump = new PlayerJump();
         public PlayerJumpTag playerJumpTag;
         public PlayerStagger playerStagger = new PlayerStagger();

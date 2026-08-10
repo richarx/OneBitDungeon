@@ -10,9 +10,9 @@ public class PlayerArrogantIdle : IPlayerBehaviour
 
     public void UpdateBehaviour(PlayerStateMachine player)
     {
-        if (player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
+        if (player.playerArrogantSpin.CanSpin(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
         {
-            player.ChangeBehaviour(player.playerRoll);
+            player.ChangeBehaviour(player.playerArrogantSpin);
             return;
         }
 

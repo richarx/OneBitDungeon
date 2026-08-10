@@ -51,6 +51,9 @@ namespace Player.Scripts
                 case BehaviourType.Roll:
                     PlayRollAnimation();
                     break;
+                case BehaviourType.ArrogantSpin:
+                    PlayArrogantSpinAnimation();
+                    break;
                 case BehaviourType.Jump:
                     PlayJumpAnimation();
                     break;
@@ -133,6 +136,11 @@ namespace Player.Scripts
         private void PlayRollAnimation()
         {
             codeAnimator.PlayAnimation(AnimationType.Roll, ComputeCardinalAnimationDirection());
+        }
+
+        private void PlayArrogantSpinAnimation()
+        {
+            codeAnimator.PlayAnimation(player.playerArrogantSpin.IsSpinningClockwise ? AnimationType.ArrogantSpinLeft : AnimationType.ArrogantSpinRight, ComputeAnimationDirection());
         }
 
         private void PlayJumpAnimation()

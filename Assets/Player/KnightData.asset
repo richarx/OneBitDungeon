@@ -13,10 +13,17 @@ MonoBehaviour:
   m_Name: KnightData
   m_EditorClassIdentifier: 
   walkMaxSpeed: 8
-  arrogantWalkMaxSpeed: 3
   dialogWalkMaxSpeed: 2
   groundAcceleration: 80
   groundDeceleration: 120
+  arrogantWalkMaxSpeed: 3
+  spinMaxSpeed: 10
+  spinMaxDistance: 2.5
+  spinMaxDuration: 0.3
+  spinAcceleration: 200
+  spinDeceleration: 60
+  spinDecelerationDistanceThreshold: 0.8
+  spinCooldown: 0
   rollMaxSpeed: 30
   rollMaxDistance: 4.5
   rollMaxDuration: 0.2
