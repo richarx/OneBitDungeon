@@ -39,8 +39,14 @@ namespace Player.Scripts
                 case BehaviourType.Idle:
                     PlayIdleAnimation();
                     break;
+                case BehaviourType.ArrogantIdle:
+                    PlayArrogantIdleAnimation();
+                    break;
                 case BehaviourType.Run:
                     PlayRunAnimation();
+                    break;
+                case BehaviourType.ArrogantRun:
+                    PlayArrogantRunAnimation();
                     break;
                 case BehaviourType.Roll:
                     PlayRollAnimation();
@@ -109,9 +115,19 @@ namespace Player.Scripts
             codeAnimator.PlayAnimation(AnimationType.Idle, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
         }
 
+        private void PlayArrogantIdleAnimation()
+        {
+            codeAnimator.PlayAnimation(AnimationType.ArrogantIdle, ComputeAnimationDirection(), false);
+        }
+
         private void PlayRunAnimation()
         {
             codeAnimator.PlayAnimation(AnimationType.Walk, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
+        }
+
+        private void PlayArrogantRunAnimation()
+        {
+            codeAnimator.PlayAnimation(AnimationType.ArrogantWalk, ComputeAnimationDirection(), false);
         }
 
         private void PlayRollAnimation()

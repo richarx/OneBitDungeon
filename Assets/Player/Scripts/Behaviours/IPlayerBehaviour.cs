@@ -3,7 +3,9 @@ namespace Player.Scripts
     public enum BehaviourType
     {
         Idle,
+        ArrogantIdle,
         Run,
+        ArrogantRun,
         Roll,
         Jump,
         JumpTag,

@@ -7,6 +7,7 @@ namespace Player.Scripts
     {
         [Header("Movement")]
         public float walkMaxSpeed;
+        public float arrogantWalkMaxSpeed;
         public float dialogWalkMaxSpeed;
         public float groundAcceleration;
         public float groundDeceleration;

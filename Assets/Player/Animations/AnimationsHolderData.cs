@@ -4,7 +4,9 @@ using UnityEngine;
 public class AnimationsHolderData : ScriptableObject
 {
     public AnimationData Idle;
+    public AnimationData ArrogantIdle;
     public AnimationData Walk;
+    public AnimationData ArrogantWalk;
     public AnimationData Jump;
     public AnimationData Roll;
     public AnimationData Attack;

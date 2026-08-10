@@ -8,7 +8,9 @@ public class CodeAnimator : MonoBehaviour
     public enum AnimationType
     {
         Idle,
+        ArrogantIdle,
         Walk,
+        ArrogantWalk,
         Jump,
         Roll,
         Attack,
@@ -134,8 +136,12 @@ public class CodeAnimator : MonoBehaviour
             default:
             case AnimationType.Idle:
                 return animationsHolder.Idle;
+            case AnimationType.ArrogantIdle:
+                return animationsHolder.ArrogantIdle;
             case AnimationType.Walk:
                 return animationsHolder.Walk;
+            case AnimationType.ArrogantWalk:
+                return animationsHolder.ArrogantWalk;
             case AnimationType.Jump:
                 return animationsHolder.Jump;
             case AnimationType.JumpTag:

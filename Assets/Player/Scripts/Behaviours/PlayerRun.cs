@@ -54,9 +54,14 @@ namespace Player.Scripts
                 return;
             }
 
+            if (player.inputPackage.GetArroganceMode.isPressed)
+            {
+                player.ChangeBehaviour(player.playerArrogantRun);
+            }
+
             if (player.moveInput.magnitude < 0.15f)
             {
-                player.ChangeBehaviour(player.playerIdle);
+                player.ChangeBehaviour(player.inputPackage.GetArroganceMode.isPressed ? player.playerArrogantIdle : player.playerIdle);
                 return;
             }
 

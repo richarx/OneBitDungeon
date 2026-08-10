@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: KnightData
   m_EditorClassIdentifier: 
   walkMaxSpeed: 8
+  arrogantWalkMaxSpeed: 3
   dialogWalkMaxSpeed: 2
   groundAcceleration: 80
   groundDeceleration: 120

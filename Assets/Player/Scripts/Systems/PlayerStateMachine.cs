@@ -20,7 +20,9 @@ namespace Player.Scripts
 
         // Behaviour States
         public PlayerIdle playerIdle = new PlayerIdle();
+        public PlayerArrogantIdle playerArrogantIdle = new PlayerArrogantIdle();
         public PlayerRun playerRun = new PlayerRun();
+        public PlayerArrogantRun playerArrogantRun = new PlayerArrogantRun();
         public PlayerRoll playerRoll = new PlayerRoll();
         public PlayerJump playerJump = new PlayerJump();
         public PlayerJumpTag playerJumpTag;

@@ -20,6 +20,12 @@ namespace Player.Scripts
                 return;
             }
 
+            if (player.inputPackage.GetArroganceMode.isPressed)
+            {
+                player.ChangeBehaviour(player.playerArrogantIdle);
+                return;
+            }
+
             if (player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerRoll);
