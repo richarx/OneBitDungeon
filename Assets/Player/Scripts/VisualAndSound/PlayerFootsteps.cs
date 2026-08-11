@@ -8,6 +8,7 @@ namespace Player.Scripts
     public class PlayerFootsteps : MonoBehaviour
     {
         [SerializeField] private float metersBetweenSteps;
+        [SerializeField] private float metersBetweenArrogantSteps;
         [SerializeField] private float volume;
         [SerializeField] private List<AudioClip> stepSounds;
         [SerializeField] private List<GameObject> stepPrefabs;
@@ -22,6 +23,7 @@ namespace Player.Scripts
             player = GetComponent<PlayerStateMachine>();
 
             player.playerAttack.OnPlayerAttack.AddListener((d) => SpawnStepVfx());
+            player.playerArrogantSpin.OnStartSpin.AddListener(() => SpawnStepVfx());
         }
 
         private void LateUpdate()
@@ -72,7 +74,9 @@ namespace Player.Scripts
 
         private bool IsTimeToTakeStep()
         {
-            if (!IsBehaviourAllowed(player.currentBehaviour.GetBehaviourType()))
+            BehaviourType currentBehaviour = player.currentBehaviour.GetBehaviourType();
+
+            if (!IsBehaviourAllowed(currentBehaviour))
                 return false;
 
             Vector3 horizontalVelocity = player.moveVelocity;
@@ -80,7 +84,8 @@ namespace Player.Scripts
 
             currentMeters += horizontalVelocity.magnitude * Time.deltaTime;
 
-            float distance = metersBetweenSteps;
+            bool isArrogantWalking = currentBehaviour == BehaviourType.ArrogantRun;
+            float distance = isArrogantWalking ? metersBetweenArrogantSteps : metersBetweenSteps;
 
             if (currentMeters >= distance)
             {
@@ -93,7 +98,7 @@ namespace Player.Scripts
 
         private bool IsBehaviourAllowed(BehaviourType behaviour)
         {
-            return behaviour == BehaviourType.Run;
+            return behaviour == BehaviourType.Run || behaviour == BehaviourType.ArrogantRun;
         }
     }
 }

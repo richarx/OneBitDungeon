@@ -1,8 +1,12 @@
 using Player.Scripts;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerArrogantRun : IPlayerBehaviour
 {
+    public UnityEvent OnStartBeingArrogant = new UnityEvent();
+    public UnityEvent OnStopBeingArrogant = new UnityEvent();
+
     private bool isSkippingFrame;
     public bool IsSkippingFrame => isSkippingFrame;
 
@@ -13,6 +17,9 @@ public class PlayerArrogantRun : IPlayerBehaviour
             isSkippingFrame = true;
             player.inputPacker.ResetBuffers();
         }
+
+        if (previous != BehaviourType.ArrogantIdle && previous != BehaviourType.ArrogantSpin)
+            OnStartBeingArrogant?.Invoke();
     }
 
     public void UpdateBehaviour(PlayerStateMachine player)
@@ -110,7 +117,8 @@ public class PlayerArrogantRun : IPlayerBehaviour
 
     public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
     {
-
+        if (next != BehaviourType.ArrogantIdle && next != BehaviourType.ArrogantSpin)
+            OnStopBeingArrogant?.Invoke();
     }
 
     public BehaviourType GetBehaviourType()

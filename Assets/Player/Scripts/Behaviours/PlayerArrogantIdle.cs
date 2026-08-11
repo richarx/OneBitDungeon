@@ -1,10 +1,18 @@
 using Player.Scripts;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerArrogantIdle : IPlayerBehaviour
 {
+    public UnityEvent OnStartBeingArrogant = new UnityEvent();
+    public UnityEvent OnStopBeingArrogant = new UnityEvent();
+
+
     public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
     {
+        if (previous != BehaviourType.ArrogantRun && previous != BehaviourType.ArrogantSpin)
+            OnStartBeingArrogant?.Invoke();
+
         //Debug.Log("ARROGANT IDLE");
     }
 
@@ -63,7 +71,8 @@ public class PlayerArrogantIdle : IPlayerBehaviour
 
     public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
     {
-
+        if (next != BehaviourType.ArrogantRun && next != BehaviourType.ArrogantSpin)
+            OnStopBeingArrogant?.Invoke();
     }
 
     public BehaviourType GetBehaviourType()

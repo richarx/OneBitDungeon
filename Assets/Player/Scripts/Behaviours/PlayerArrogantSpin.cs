@@ -7,6 +7,8 @@ public class PlayerArrogantSpin : IPlayerBehaviour
 {
     public UnityEvent OnStartSpin = new UnityEvent();
     public UnityEvent OnStopSpin = new UnityEvent();
+    public UnityEvent OnStopBeingArrogant = new UnityEvent();
+
 
     private Vector3 spinDirection;
     private Vector3 spinStartPosition;
@@ -90,6 +92,9 @@ public class PlayerArrogantSpin : IPlayerBehaviour
         spinCooldownTimestamp = Time.time + player.playerData.spinCooldown;
         player.moveVelocity = Vector3.ClampMagnitude(player.moveVelocity, player.inputPackage.GetArroganceMode.isPressed ? player.playerData.arrogantWalkMaxSpeed : player.playerData.walkMaxSpeed);
         OnStopSpin?.Invoke();
+
+        if (next != BehaviourType.ArrogantIdle && next != BehaviourType.ArrogantRun)
+            OnStopBeingArrogant?.Invoke();
     }
 
     public BehaviourType GetBehaviourType()

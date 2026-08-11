@@ -18,7 +18,7 @@ MonoBehaviour:
   groundDeceleration: 120
   arrogantWalkMaxSpeed: 3
   spinMaxSpeed: 10
-  spinMaxDistance: 2.5
+  spinMaxDistance: 3
   spinMaxDuration: 0.3
   spinAcceleration: 200
   spinDeceleration: 60

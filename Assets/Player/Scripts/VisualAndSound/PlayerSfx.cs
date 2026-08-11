@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Player.Sword_Hitboxes;
 using SFX;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Player.Scripts
 {
@@ -31,6 +32,9 @@ namespace Player.Scripts
         [SerializeField] private AudioClip tagJumpSlam_1;
         [SerializeField] private AudioClip tagJumpSlam_2;
         [SerializeField] private AudioClip tagJumpFlip;
+        [SerializeField] private AudioClip arrogantStart;
+        [SerializeField] private AudioClip arrogantStop;
+        [SerializeField] private AudioClip arrogantSpin;
 
         private PlayerStateMachine player;
 
@@ -80,6 +84,26 @@ namespace Player.Scripts
                 SFXManager.instance.PlaySFX(getUp_2, 0.1f);
             });
             player.playerTag.OnPlayerTag.AddListener(PlayTagSfx);
+            player.playerArrogantSpin.OnStartSpin.AddListener(() => SFXManager.instance.PlaySFX(arrogantSpin, 0.1f));
+            player.playerArrogantIdle.OnStartBeingArrogant.AddListener(PlayStartBeingArrogantSfx);
+            player.playerArrogantRun.OnStartBeingArrogant.AddListener(PlayStartBeingArrogantSfx);
+            player.playerArrogantIdle.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
+            player.playerArrogantRun.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
+            player.playerArrogantSpin.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
+        }
+
+        private void PlayStartBeingArrogantSfx()
+        {
+            SFXManager.instance.PlaySFX(arrogantStart, 0.03f);
+            if (player.playerSword.IsSwordInHand)
+                SFXManager.instance.PlaySFX(sheatheSword, 0.1f, 0.15f);
+        }
+
+        private void PlayStopBeingArrogantSfx()
+        {
+            SFXManager.instance.PlaySFX(arrogantStop, 0.03f);
+            if (player.playerSword.IsSwordInHand)
+                SFXManager.instance.PlaySFX(unsheatheSword, 0.1f, 0.15f);
         }
 
         private void PlayTagSfx(TagContext tagContext)

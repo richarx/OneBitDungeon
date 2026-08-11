@@ -156,13 +156,24 @@ namespace Player.Scripts
             {
                 if (playerInteraction.IsInteractableInRange)
                     playerInteraction.InteractWithItem();
-                else
+                else if (CanSwapSword())
                     playerSword.SwapSword();
 
                 return true;
             }
 
             return false;
+        }
+
+        private bool CanSwapSword()
+        {
+            BehaviourType current = currentBehaviour.GetBehaviourType();
+
+            return current != BehaviourType.Sit
+                && current != BehaviourType.Dead
+                && current != BehaviourType.ArrogantIdle
+                && current != BehaviourType.ArrogantRun
+                && current != BehaviourType.ArrogantSpin;
         }
 
         public bool IsAllowedToInteract()

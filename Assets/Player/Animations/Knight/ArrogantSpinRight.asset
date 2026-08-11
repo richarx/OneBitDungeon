@@ -87,7 +87,7 @@ MonoBehaviour:
   - {fileID: -855393547, guid: 147650c78c4e88745b351c33d92361d1, type: 3}
   - {fileID: -1677185835, guid: 147650c78c4e88745b351c33d92361d1, type: 3}
   directionCount: 0
-  timeBetweenFrames: 0.05
+  timeBetweenFrames: 0.042857144
   isLooping: 1
   canSelfCancel: 0
   nextAnimation: {fileID: 11400000, guid: 8fa166e97824a4f449be3e1437258f46, type: 2}
