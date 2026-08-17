@@ -35,6 +35,7 @@ namespace Player.Scripts
         [SerializeField] private AudioClip arrogantStart;
         [SerializeField] private AudioClip arrogantStop;
         [SerializeField] private AudioClip arrogantSpin;
+        [SerializeField] private AudioClip arrogantDodge;
 
         private PlayerStateMachine player;
 
@@ -91,6 +92,15 @@ namespace Player.Scripts
             player.playerArrogantIdle.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
             player.playerArrogantRun.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
             player.playerArrogantSpin.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
+            ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
+        }
+
+        private void HandleArrogantDodge(ArroganceGainResult result)
+        {
+            if (result.request.reason != ArroganceGainReason.CloseDodge)
+                return;
+
+            SFXManager.instance.PlaySFX(arrogantDodge, 0.1f);
         }
 
         private void PlayStartBeingArrogantSfx()

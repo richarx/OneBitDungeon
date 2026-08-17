@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 8868877689981523211}
   - component: {fileID: 8954279075693937328}
   - component: {fileID: 2298097891096850778}
+  - component: {fileID: 8885984390240367102}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -182,6 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   metersBetweenSteps: 2
+  metersBetweenArrogantSteps: 1.5
   volume: 0.015
   stepSounds:
   - {fileID: 8300000, guid: a97b600dc6bc0e94a99752f5ebe323c2, type: 3}
@@ -255,6 +257,10 @@ MonoBehaviour:
   tagJumpSlam_1: {fileID: 8300000, guid: 66bbaeaf5ac99854285bb777d089b82b, type: 3}
   tagJumpSlam_2: {fileID: 8300000, guid: 581f259f3d51afa4db71cb79ef1be392, type: 3}
   tagJumpFlip: {fileID: 8300000, guid: 69c7be5b5c0e69544ad9d4ba4cdb6c77, type: 3}
+  arrogantStart: {fileID: 8300000, guid: 6af34274e208fec4381253c0be53e4f5, type: 3}
+  arrogantStop: {fileID: 8300000, guid: 97743fcee599d9049ad39741e0467a19, type: 3}
+  arrogantSpin: {fileID: 8300000, guid: 2334a322a9431bf429271225b8191305, type: 3}
+  arrogantDodge: {fileID: 8300000, guid: 9d1a531f70f98d0449718fe4d326b1c4, type: 3}
 --- !u!114 &2174515811491700390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +312,11 @@ MonoBehaviour:
   hurtVfx: {fileID: 4296958320210530305, guid: 4b923a4ea4a2b474288adc18114c7a0f, type: 3}
   hurtFreezeDuration: 0.1
   freezeDelay: 0.03
+  shockWaveEffect: {fileID: 2100000, guid: a2459f21609d1714ca42cf6f535e03cb, type: 2}
+  waterBlastEffect: {fileID: 1932552764689772, guid: 8be8417b019612748a50c5177c810889,
+    type: 3}
+  flashBlastEffect: {fileID: 1661340255121968, guid: 8db78d0cf1683ae4f8e62cae23ebe8b9,
+    type: 3}
 --- !u!114 &1957020731844466397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,8 +358,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7d8a451cf0d4bb3ab5c2cbecbdd80a5, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7752480334871691922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,8 +370,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e4c8d3a9f6b4e2c8a1d7f0b3c5e9a61, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6973867706479936140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +456,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graphics: {fileID: 1856159283365252140}
   animationsHolder: {fileID: 11400000, guid: 2cfee0c57a75410478dd09f2170acaaf, type: 2}
+--- !u!114 &8885984390240367102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642427038457234017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5948384fcccef7e46b5769aa0fe781ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1856159283365252140}
+  afterImagePrefab: {fileID: -3171381641984677486, guid: 2a6df096adee6614eb23a2929557fb63,
+    type: 3}
+  frequency: 20
+  fadeDuration: 1
+  OnTriggerCancel:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &797996720833813185
 GameObject:
   m_ObjectHideFlags: 0

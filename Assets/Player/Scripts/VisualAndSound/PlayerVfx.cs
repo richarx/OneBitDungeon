@@ -3,7 +3,7 @@ using Player.Sword_Hitboxes;
 using Sirenix.OdinInspector;
 using Tools_and_Scripts;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.InputSystem;
 
 namespace Player.Scripts
 {
@@ -69,8 +69,17 @@ namespace Player.Scripts
         [FoldoutGroup(FreezeGroup, true), LabelText("Delay"), MinValue(0.0f), SerializeField]
         private float freezeDelay;
 
+        [FoldoutGroup(ArrogantDodge, true), LabelText("ShockWave Material"), SerializeField]
+        private Material shockWaveEffect;
+
+        [FoldoutGroup(ArrogantDodge, true), LabelText("First particle effect"), SerializeField]
+        private GameObject waterBlastEffect;
+
+        [FoldoutGroup(ArrogantDodge, true), LabelText("Second particle effect"), SerializeField]
+        private GameObject flashBlastEffect;
 
         private PlayerStateMachine player;
+        private AfterImage afterImage;
 
         private bool isTimeFrozen;
         private bool hasSubscribed;
@@ -79,8 +88,18 @@ namespace Player.Scripts
         private void Start()
         {
             player = PlayerStateMachine.instance;
+            afterImage = GetComponent<AfterImage>();
             SubscribeToEvents();
         }
+
+        //Used for quick testing
+        /*
+        private void Update()
+        {
+            if (Gamepad.current.buttonEast.wasPressedThisFrame)
+                HandleArrogantDodge(new ArroganceGainResult(new ArroganceGainRequest(10.0f, ArroganceGainReason.CloseDodge), 10.0f));
+        }
+        */
 
         private void OnDestroy()
         {
@@ -101,6 +120,7 @@ namespace Player.Scripts
             player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
             player.playerJump.OnStartJump.AddListener(SpawnStartJumpVfx);
             player.playerJump.OnLandJump.AddListener(SpawnLandJumpVfx);
+            ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
             hasSubscribed = true;
         }
 
@@ -120,9 +140,45 @@ namespace Player.Scripts
                 player.playerRoll.OnStartRoll.RemoveListener(SpawnRollVfx);
                 player.playerJump.OnStartJump.RemoveListener(SpawnStartJumpVfx);
                 player.playerJump.OnLandJump.RemoveListener(SpawnLandJumpVfx);
+                ArroganceGainEvents.OnGainProcessed -= HandleArrogantDodge;
             }
 
             hasSubscribed = false;
+        }
+
+        private void HandleArrogantDodge(ArroganceGainResult result)
+        {
+            if (result.request.reason != ArroganceGainReason.CloseDodge)
+                return;
+
+            StartCoroutine(SpawnShockWave());
+            StartCoroutine(SlowTimeCoroutine(0.5f, 0.3f));
+            afterImage.SpawnSnapshot();
+            Instantiate(waterBlastEffect, player.position, Quaternion.identity);
+            Instantiate(flashBlastEffect, player.position, Quaternion.identity);
+        }
+
+        private IEnumerator SpawnShockWave()
+        {
+            float size = shockWaveEffect.GetFloat("_Size");
+            float timer = -size;
+            float maxTimer = 0.5f - size;
+            while (timer <= maxTimer)
+            {
+                shockWaveEffect.SetFloat("_Progress", timer);
+                yield return null;
+                timer += Time.deltaTime;
+            }
+            shockWaveEffect.SetFloat("_Progress", -size);
+        }
+
+        private IEnumerator SlowTimeCoroutine(float duration, float timeScale)
+        {
+            isTimeFrozen = true;
+            timeScaleBeforeFreeze = Time.timeScale;
+            Time.timeScale = timeScale;
+            yield return new WaitForSecondsRealtime(duration);
+            RestoreTimeScale();
         }
 
         private void HandleHitEnemy(Vector3 position)
@@ -284,6 +340,7 @@ namespace Player.Scripts
         private const string RollGroup = MovementVfxGroup + "/Roll";
         private const string JumpGroup = MovementVfxGroup + "/Jump";
         private const string FreezeGroup = "Freeze Timings";
+        private const string ArrogantDodge = "Arrogant Dodge effects";
         #endregion
     }
 }

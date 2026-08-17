@@ -75,6 +75,7 @@ public class AfterImage : MonoBehaviour
     {
         if (target == null || target.sprite == null || afterImagePrefab == null)
             return;
+
         Instantiate(afterImagePrefab, target.transform.position, target.transform.rotation)
             .Setup(this, target, fadeDuration);
     }
