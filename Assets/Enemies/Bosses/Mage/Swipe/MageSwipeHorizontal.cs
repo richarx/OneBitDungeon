@@ -28,7 +28,7 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
         randomPosition.y = 0.0f;
 
         if (!isSubBehaviour)
-            closeDodgeSession = null;
+            closeDodgeSession = new CloseDodgeSession(5);
 
         bool isSecondPhase = enemy.currentPhase > 0;
 

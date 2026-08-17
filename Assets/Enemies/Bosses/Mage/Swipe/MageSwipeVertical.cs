@@ -27,7 +27,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
         bool isSecondPhase = enemy.currentPhase > 0;
 
         if (!isSubBehaviour)
-            closeDodgeSession = null;
+            closeDodgeSession = new CloseDodgeSession(5);
 
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
