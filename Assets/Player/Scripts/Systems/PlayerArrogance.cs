@@ -23,13 +23,13 @@ namespace Player.Scripts
 
         private void OnEnable()
         {
-            ArroganceGainEvents.OnGainRequested += HandleGainRequest;
+            ArroganceGainEvents.OnGainProcessed += HandleProcessedGain;
             GameManager.OnRestartLevel.AddListener(ClearArrogance);
         }
 
         private void OnDisable()
         {
-            ArroganceGainEvents.OnGainRequested -= HandleGainRequest;
+            ArroganceGainEvents.OnGainProcessed -= HandleProcessedGain;
             GameManager.OnRestartLevel.RemoveListener(ClearArrogance);
         }
 
@@ -45,23 +45,12 @@ namespace Player.Scripts
                 ClearArrogance();
         }
 
-        private void HandleGainRequest(ArroganceGainRequest request)
+        private void HandleProcessedGain(ArroganceGainResult result)
         {
-            if (request == null)
+            if (result == null)
                 return;
 
-            GainArrogance(ComputeFinalGainAmount(request));
-        }
-
-        private float ComputeFinalGainAmount(ArroganceGainRequest request)
-        {
-            float amount = request.baseAmount;
-            CloseDodgeGainContext closeDodgeContext = request.context as CloseDodgeGainContext;
-
-            if (closeDodgeContext != null && closeDodgeContext.wasArroganceModeActiveOnExit)
-                amount *= playerData.arroganceStateGainMultiplier;
-
-            return Mathf.Max(0.0f, amount);
+            GainArrogance(result.totalAmount);
         }
 
         private void GainArrogance(float amount)
@@ -83,7 +72,6 @@ namespace Player.Scripts
             if (playerData == null)
                 return;
 
-            float timestamp = Time.time;
             ArroganceGainEvents.RequestGain(new ArroganceGainRequest(
                 playerData.arroganceGainOnCloseDodge,
                 ArroganceGainReason.Debug,
