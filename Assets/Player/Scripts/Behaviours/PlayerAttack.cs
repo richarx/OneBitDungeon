@@ -78,8 +78,8 @@ namespace Player.Scripts
             hasHitObstacle = false;
             attackCount = previous == BehaviourType.Attack ? attackCount + 1 : 1;
 
-            TagContext tagContext = previous == BehaviourType.Tag ? player.playerTag.TagContext : TagContext.None;
-            currentAttackPayload = SelectCurrentAttack(tagContext);
+            // TAG TEMPORAIREMENT DÉSACTIVÉ : aucune attaque spéciale ne peut être déclenchée par un échange.
+            currentAttackPayload = SelectCurrentAttack(TagContext.None);
             currentStrategy.OnAttackStart(player, currentAttackPayload);
 
             ComputeDashTarget(player, currentAttackPayload);
@@ -123,11 +123,14 @@ namespace Player.Scripts
                 return;
             }
 
+            /*
+            // TAG TEMPORAIREMENT DÉSACTIVÉ
             if (canAttackBeCanceled && player.playerTagSystem != null && CanAttack(player) && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerTag);
                 return;
             }
+            */
 
             if (canAttackBeCanceled && player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
             {

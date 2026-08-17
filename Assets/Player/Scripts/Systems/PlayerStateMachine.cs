@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Player.Scripts
 {
+    [RequireComponent(typeof(PlayerArrogance))]
     public class PlayerStateMachine : MonoBehaviour
     {
         public PlayerData playerData;
@@ -41,6 +42,9 @@ namespace Player.Scripts
         public float hitBoxRadius => 0.15f;
         public bool isLocked => currentBehaviour.GetBehaviourType() == BehaviourType.Locked || playerRun.IsSkippingFrame;
         public bool isLockedAndHidden => currentBehaviour.GetBehaviourType() == BehaviourType.Locked && playerLocked.GetLockState == PlayerLocked.LockState.Hidden;
+        public bool isInArroganceMode => currentBehaviour.GetBehaviourType() == BehaviourType.ArrogantIdle
+            || currentBehaviour.GetBehaviourType() == BehaviourType.ArrogantRun
+            || currentBehaviour.GetBehaviourType() == BehaviourType.ArrogantSpin;
 
         [HideInInspector] public Vector2 moveInput;
         [HideInInspector] public Vector3 moveVelocity;
@@ -50,6 +54,7 @@ namespace Player.Scripts
         [HideInInspector] public PlayerTargeting playerTargeting;
         [HideInInspector] public PlayerHealth playerHealth;
         [HideInInspector] public PlayerStamina playerStamina;
+        [HideInInspector] public PlayerArrogance playerArrogance;
         [HideInInspector] public PlayerInteraction playerInteraction;
         [HideInInspector] public PlayerTagSystem playerTagSystem;
         [HideInInspector] public PlayerAnimation playerAnimation;
@@ -69,6 +74,7 @@ namespace Player.Scripts
             playerTargeting = GetComponent<PlayerTargeting>();
             playerHealth = GetComponent<PlayerHealth>();
             playerStamina = GetComponent<PlayerStamina>();
+            playerArrogance = GetComponent<PlayerArrogance>();
             playerInteraction = GetComponent<PlayerInteraction>();
             playerAnimation = GetComponent<PlayerAnimation>();
             codeAnimator = GetComponent<CodeAnimator>();
@@ -92,6 +98,7 @@ namespace Player.Scripts
         {
             inputPackage = inputPacker.ComputeInputPackage();
             moveInput = inputPackage.GetMove;
+            playerArrogance.UpdateArrogance(inputPackage);
 
             //if (PauseMenu.instance.IsPaused)
             //    return;

@@ -43,11 +43,14 @@ namespace Player.Scripts
 
         public void UpdateBehaviour(PlayerStateMachine player)
         {
+            /*
+            // TAG TEMPORAIREMENT DÉSACTIVÉ
             if (wasSuccessful && player.playerTagSystem != null && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerTag);
                 return;
             }
+            */
 
             if (player.inputPackage.GetParry.WasPressedWithBuffer())
             {

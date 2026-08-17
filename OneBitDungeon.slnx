@@ -1,0 +1,12 @@
+﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Febucci.TextAnimatorForUnity.Runtime.csproj" />
+  <Project Path="PrimeTween.Demo.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
+  <Project Path="Febucci.TextAnimatorForUnity.TMP.Runtime.csproj" />
+  <Project Path="Febucci.TextAnimatorForUnity.Input.Runtime.csproj" />
+  <Project Path="Febucci.Attributes.Runtime.csproj" />
+  <Project Path="Sirenix.OdinInspector.Modules.UnityMathematics.csproj" />
+  <Project Path="PrimeTween.Debug.csproj" />
+  <Project Path="PrimeTween.Installer.csproj" />
+</Solution>

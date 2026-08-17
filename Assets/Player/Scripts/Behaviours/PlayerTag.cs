@@ -23,6 +23,10 @@ namespace Player.Scripts
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
+            // TAG TEMPORAIREMENT DÉSACTIVÉ : sécurité si cet état est demandé par un appel externe.
+            player.ChangeBehaviour(player.playerIdle);
+
+            /*
             tagStartTimestamp = Time.time;
             player.playerTagSystem.Swap();
 
@@ -50,6 +54,7 @@ namespace Player.Scripts
                     player.ChangeBehaviour(player.playerAttack);
                     break;
             }
+            */
         }
 
         private TagContext ComputeTagContext(BehaviourType previous)

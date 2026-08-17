@@ -24,10 +24,15 @@ public class RectangleDamageZone : MonoBehaviour
     private float fillDuration;
     private bool hasBeenParried;
 
+    private CloseDodgeDetector _closeDodgeDetector;
+
     private DealDamageToPlayer dealDamageToPlayer;
     private Sequence currentSequence;
 
     private bool isCheckingForDamage;
+
+
+    private PlayerStateMachine _playerInstance;
 
     public void Setup(Vector2 moveDirection, float _spawnDuration, float _fillDuration)
     {
@@ -52,6 +57,14 @@ public class RectangleDamageZone : MonoBehaviour
         float targetPositionX = transform.localPosition.x + size.x * transform.localScale.x * moveDirection.x;
         float targetPositionZ = transform.localPosition.z + size.y * transform.localScale.y * moveDirection.y;
 
+        _playerInstance = PlayerStateMachine.instance;
+        float damageTimestamp = Time.time + spawnDuration + fillDuration + 0.05f;
+        _closeDodgeDetector = new CloseDodgeDetector();
+        _closeDodgeDetector.Setup(damageTimestamp,
+                                    _playerInstance.playerData.closeDodgeWindowDuration,
+                                    _playerInstance.playerData.arroganceGainOnCloseDodge, this);
+
+
         currentSequence = Sequence.Create()
         .Chain(Tween.MaterialProperty(spriteRenderer.material, alphaId, 1.0f, spawnDuration))
         .Group(Tween.MaterialProperty(spriteRenderer.material, sizeId, size, spawnDuration, spawnEase))
@@ -60,7 +73,11 @@ public class RectangleDamageZone : MonoBehaviour
         .Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, Mathf.Min(size.x, size.y), fillDuration, fillEase))
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
-        .ChainCallback(() => isCheckingForDamage = true)
+        .ChainCallback(() =>
+        {
+            isCheckingForDamage = true;
+            _closeDodgeDetector.Resolve(IsPlayerInside(), _playerInstance.isInArroganceMode);
+        })
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
         .ChainCallback(() => isCheckingForDamage = false)
@@ -79,6 +96,8 @@ public class RectangleDamageZone : MonoBehaviour
 
     private void Update()
     {
+        _closeDodgeDetector.Update(IsPlayerInside(), _playerInstance.isInArroganceMode);
+
         if (isCheckingForDamage && !hasBeenParried)
             CheckForPlayerHit();
     }
@@ -107,6 +126,21 @@ public class RectangleDamageZone : MonoBehaviour
 
         if (damageApplied)
             isCheckingForDamage = false;
+    }
+
+    public bool IsPlayerInside()
+    {
+        Vector3 position = transform.position;
+        float X = size.x * transform.localScale.x + PlayerStateMachine.instance.hitBoxRadius;
+        float Y = size.y * transform.localScale.y + PlayerStateMachine.instance.hitBoxRadius;
+
+        Vector2 P = PlayerStateMachine.instance.position.ToVector2();
+        Vector2 A = (position - transform.right * X + transform.up * Y).ToVector2();
+        Vector2 B = (position + transform.right * X + transform.up * Y).ToVector2();
+        Vector2 C = (position + transform.right * X - transform.up * Y).ToVector2();
+        Vector2 D = (position - transform.right * X - transform.up * Y).ToVector2();
+
+        return PointInTriangle(P, A, B, C) || PointInTriangle(P, A, C, D);
     }
 
     public static bool PointInTriangle(Vector2 p, Vector2 p0, Vector2 p1, Vector2 p2)
@@ -152,6 +186,8 @@ public class RectangleDamageZone : MonoBehaviour
     {
         if (!currentSequence.isAlive)
             return;
+
+        _closeDodgeDetector.Cancel();
 
         currentSequence.Stop();
 

@@ -40,10 +40,13 @@ namespace Player.Scripts
             isLeftDirection = (position - player.position).normalized.x <= 0.0;
             hasTargetBeenSet = true;
 
+            // TAG TEMPORAIREMENT DÉSACTIVÉ : le feu restaure uniquement le personnage actif.
+            /*
             if (player.playerTagSystem != null)
                 player.playerTagSystem.ResetBothCharacters();
             else
-                player.playerHealth.ResetHealth();
+            */
+            player.playerHealth.ResetHealth();
             player.ChangeBehaviour(player.playerSit);
             GameManager.instance.SetRespawnPosition();
         }

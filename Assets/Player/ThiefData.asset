@@ -16,6 +16,10 @@ MonoBehaviour:
   dialogWalkMaxSpeed: 2
   groundAcceleration: 80
   groundDeceleration: 120
+  maxArrogance: 100
+  arroganceGainOnCloseDodge: 10
+  closeDodgeWindowDuration: 0.25
+  arroganceStateGainMultiplier: 2
   rollMaxSpeed: 30
   rollMaxDistance: 4.5
   rollMaxDuration: 0.2

@@ -28,9 +28,14 @@ namespace Player.Scripts
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
+            // TAG TEMPORAIREMENT DÉSACTIVÉ : cet état retourne immédiatement à Idle s'il est invoqué.
+            player.ChangeBehaviour(player.playerIdle);
+
+            /*
             currentStrategy.Initialize(player);
             currentStrategy.StartJumpTag(player, this);
             OnStartJumpTag?.Invoke();
+            */
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)

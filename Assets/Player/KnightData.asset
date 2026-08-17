@@ -24,6 +24,10 @@ MonoBehaviour:
   spinDeceleration: 60
   spinDecelerationDistanceThreshold: 0.8
   spinCooldown: 0
+  maxArrogance: 100
+  arroganceGainOnCloseDodge: 10
+  closeDodgeWindowDuration: 0.5
+  arroganceStateGainMultiplier: 2
   rollMaxSpeed: 30
   rollMaxDistance: 4.5
   rollMaxDuration: 0.2

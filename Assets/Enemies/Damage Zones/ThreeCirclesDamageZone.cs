@@ -15,6 +15,7 @@ public class ThreeCirclesDamageZone : MonoBehaviour
     [SerializeField] private Color filledOutlineColor;
 
     private DealDamageToPlayer dealDamageToPlayer;
+    private CloseDodgeDetector _closeDodgeDetector;
     private SpriteRenderer spriteRenderer;
     private bool isInit;
 
@@ -31,6 +32,8 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     private bool isCheckingForDamage;
 
+    private PlayerStateMachine _playerInstance;
+
 
     public void Setup(float _radius, float _spawnDuration, float _fillDuration)
     {
@@ -42,6 +45,7 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         spawnDuration = _spawnDuration;
         fillDuration = _fillDuration;
 
+        _playerInstance = PlayerStateMachine.instance;
         isInit = true;
     }
 
@@ -59,6 +63,12 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         spriteRenderer.material.SetFloat($"_Shape{circleIndex + 1}Radius", 0.0f);
 
         int rasiusId = Shader.PropertyToID($"_Shape{circleIndex + 1}Radius");
+
+        float damageTimestamp = Time.time + spawnDuration + fillDuration + 0.05f;
+        _closeDodgeDetector = new CloseDodgeDetector();
+        _closeDodgeDetector.Setup(damageTimestamp,
+                                    _playerInstance.playerData.closeDodgeWindowDuration,
+                                    _playerInstance.playerData.arroganceGainOnCloseDodge, this);
 
         Sequence.Create()
         .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId, radius, spawnDuration, spawnEase));
@@ -87,7 +97,11 @@ public class ThreeCirclesDamageZone : MonoBehaviour
         .Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, radius, fillDuration, fillEase))
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
-        .ChainCallback(() => isCheckingForDamage = true)
+        .ChainCallback(() =>
+        {
+            _closeDodgeDetector.Resolve(IsPlayerInside(), _playerInstance.isInArroganceMode);
+            isCheckingForDamage = true;
+        })
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
         .ChainCallback(() => isCheckingForDamage = false)
@@ -111,14 +125,14 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     private void CheckForPlayerHit()
     {
-        Vector3 playerPosition = PlayerStateMachine.instance.position;
+        Vector3 playerPosition = _playerInstance.position;
         playerPosition.y = 0.0f;
         Vector3 direction1 = playerPosition - circlePosition1;
         Vector3 direction2 = playerPosition - circlePosition2;
         Vector3 direction3 = playerPosition - circlePosition3;
-        float damageDistance = (radius * transform.localScale.x) + PlayerStateMachine.instance.hitBoxRadius;
+        float damageDistance = (radius * transform.localScale.x) + _playerInstance.hitBoxRadius;
 
-        bool damageApplied = false;
+        bool damageApplied = IsPlayerInside();
 
         if (direction1.magnitude <= damageDistance)
             damageApplied |= dealDamageToPlayer.TryDealDamage(direction1);
@@ -131,6 +145,18 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
         if (damageApplied)
             isCheckingForDamage = false;
+    }
+
+    public bool IsPlayerInside()
+    {
+        Vector3 playerPosition = _playerInstance.position;
+        playerPosition.y = 0.0f;
+        Vector3 direction1 = playerPosition - circlePosition1;
+        Vector3 direction2 = playerPosition - circlePosition2;
+        Vector3 direction3 = playerPosition - circlePosition3;
+        float damageDistance = (radius * transform.localScale.x) + _playerInstance.hitBoxRadius;
+
+        return direction1.magnitude <= damageDistance || direction2.magnitude <= damageDistance || direction3.magnitude <= damageDistance;
     }
 
     public void MoveCircle(int circleIndex, Vector2 position)
@@ -168,6 +194,8 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     public void Cancel()
     {
+        _closeDodgeDetector?.Cancel();
+
         int rasiusId_1 = Shader.PropertyToID($"_Shape1Radius");
         int rasiusId_2 = Shader.PropertyToID($"_Shape2Radius");
         int rasiusId_3 = Shader.PropertyToID($"_Shape3Radius");

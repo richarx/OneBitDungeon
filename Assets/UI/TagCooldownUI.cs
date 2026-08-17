@@ -12,13 +12,20 @@ namespace UI
 
         private void Start()
         {
+            // TAG TEMPORAIREMENT DÉSACTIVÉ : masque l'indicateur inutilisable.
+            gameObject.SetActive(false);
+
+            /*
             player = PlayerStateMachine.instance;
+            */
         }
 
+        /*
         private void Update()
         {
             var tagSystem = player.playerTagSystem;
             fillImage.fillAmount = tagSystem != null ? tagSystem.TagCooldownProgress : 1f;
         }
+        */
     }
 }

@@ -37,14 +37,15 @@ namespace Tools_and_Scripts
         public Vector2 GetMove => lastInputType == InputType.Gamepad ? gamepadMove : keyboardMove;
         public Vector2 GetLook => lastInputType == InputType.Gamepad ? gamepadLook : keyboardLook;
 
-        public InputData GetRoll => lastInputType == InputType.Gamepad ? eastButton : shiftKey;
-        public InputData GetJump => lastInputType == InputType.Gamepad ? southButton : spaceKey;
+        public InputData GetRoll => lastInputType == InputType.Gamepad ? eastButton : spaceKey;
+        public InputData GetJump => lastInputType == InputType.Gamepad ? southButton : shiftKey;
         public InputData GetAttack => lastInputType == InputType.Gamepad ? westButton : leftMouse;
         public InputData GetParry => lastInputType == InputType.Gamepad ? leftShoulder : rightMouse;
         public InputData GetInteraction => lastInputType == InputType.Gamepad ? northButton : eKey;
         public InputData GetSitDown => lastInputType == InputType.Gamepad ? downArrowButton : cKey;
         public InputData GetTag => lastInputType == InputType.Gamepad ? rightShoulder : tabKey;
-        public InputData GetArroganceMode => lastInputType == InputType.Gamepad ? rightTrigger : xKey;
+        public InputData GetClearArrogance => tabKey;
+        public InputData GetArroganceMode => lastInputType == InputType.Gamepad ? rightTrigger : middleMouse;
 
         public InputData GetMenuLeft => lastInputType == InputType.Gamepad ? leftArrowButton : leftKey;
         public InputData GetMenuUp => lastInputType == InputType.Gamepad ? upArrowButton : upKey;
@@ -158,7 +159,7 @@ namespace Tools_and_Scripts
 
             inputs.leftMouse = ComputeKeyboardInput(Mouse.current.leftButton, previousPackage.leftMouse.lastPressTimestamp);
             inputs.rightMouse = ComputeKeyboardInput(Mouse.current.rightButton, previousPackage.rightMouse.lastPressTimestamp);
-            inputs.middleMouse = ComputeMiddleMouse(previousPackage.middleMouse.lastPressTimestamp);
+            inputs.middleMouse = ComputeKeyboardInput(Mouse.current.middleButton, previousPackage.middleMouse.lastPressTimestamp);
 
             inputs.leftKey = ComputeDualKeyboardInput(Keyboard.current.aKey, Keyboard.current.qKey, previousPackage.leftKey.lastPressTimestamp);
             inputs.upKey = ComputeDualKeyboardInput(Keyboard.current.zKey, Keyboard.current.wKey, previousPackage.upKey.lastPressTimestamp);

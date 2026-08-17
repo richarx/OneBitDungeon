@@ -24,11 +24,14 @@ namespace Player.Scripts
                 return;
             }
 
+            /*
+            // TAG TEMPORAIREMENT DÉSACTIVÉ
             if (player.playerTagSystem != null && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
             {
                 player.ChangeBehaviour(player.playerTag);
                 return;
             }
+            */
 
             if (player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
             {

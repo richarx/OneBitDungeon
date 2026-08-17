@@ -79,6 +79,10 @@ namespace Player.Scripts
 
         public void Swap()
         {
+            // TAG TEMPORAIREMENT DÉSACTIVÉ : l'échange de personnage est conservé ci-dessous, mais ne s'exécute plus.
+            return;
+
+            /*
             if (!CanTag) return;
 
             int oldIndex = activeSlotIndex;
@@ -129,6 +133,7 @@ namespace Player.Scripts
             lastSwapTimestamp = Time.time;
             inactiveHealthAccumulator = 0f;
             OnTagSwap?.Invoke(activeSlotIndex);
+            */
         }
 
         public void ResetBothCharacters()

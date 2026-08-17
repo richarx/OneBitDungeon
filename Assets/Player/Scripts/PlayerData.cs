@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Player.Scripts
@@ -21,6 +22,18 @@ namespace Player.Scripts
         public float spinDeceleration;
         public float spinDecelerationDistanceThreshold;
         public float spinCooldown;
+
+        [TitleGroup("Insolence"), LabelText("Maximum Arrogance"), MinValue(0.0f)]
+        public float maxArrogance = 100.0f;
+
+        [TitleGroup("Insolence"), LabelText("Arrogance Gained on Close Dodge"), MinValue(0.0f)]
+        public float arroganceGainOnCloseDodge = 10.0f;
+
+        [TitleGroup("Insolence"), LabelText("Close Dodge Window Duration"), SuffixLabel("Seconds"), MinValue(0.0f)]
+        public float closeDodgeWindowDuration = 0.25f;
+
+        [TitleGroup("Insolence"), LabelText("Arrogance State Gain Multiplier"), MinValue(1.0f)]
+        public float arroganceStateGainMultiplier = 2.0f;
 
         [Space]
         [Header("Roll")]
@@ -94,9 +107,9 @@ namespace Player.Scripts
 
         [Space]
         [Header("Tag")]
-        public float tagCooldown;
-        public float tagDuration;
-        public float inactiveHealthRegenRate;
-        public float inactiveStaminaRegenRate;
+        [HideInInspector] public float tagCooldown;
+        [HideInInspector] public float tagDuration;
+        [HideInInspector] public float inactiveHealthRegenRate;
+        [HideInInspector] public float inactiveStaminaRegenRate;
     }
 }
