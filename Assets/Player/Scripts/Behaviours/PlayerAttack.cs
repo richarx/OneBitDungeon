@@ -118,12 +118,12 @@ namespace Player.Scripts
                 OnRemoveDamageBox?.Invoke();
             }
 
-            if (canAttackBeCanceled && player.inputPackage.GetCriticalAttack.WasPressedWithBuffer() && player.TryStartCriticalAttack())
+            if (canAttackBeCanceled && player.TryStartCriticalAttack())
             {
                 return;
             }
 
-            if (canAttackBeCanceled && attackCount < player.playerData.maxAttackCountInCombo && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
+            if (canAttackBeCanceled && attackCount < player.playerData.maxAttackCountInCombo && player.TryStartAttack())
             {
                 StartBehaviour(player, BehaviourType.Attack);
                 return;

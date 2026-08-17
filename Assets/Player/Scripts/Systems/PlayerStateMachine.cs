@@ -159,7 +159,7 @@ namespace Player.Scripts
 
         public bool TryStartAttack()
         {
-            if (playerAttack.CanAttack(this))
+            if (playerAttack.CanAttack(this) && inputPackage.GetAttack.WasPressedWithBuffer())
             {
                 ChangeBehaviour(playerAttack);
                 return true;
@@ -170,11 +170,13 @@ namespace Player.Scripts
 
         public bool TryStartCriticalAttack()
         {
-            if (!playerCriticalAttack.CanCriticalAttack(this))
-                return false;
+            if (playerCriticalAttack.CanCriticalAttack(this) && inputPackage.GetCriticalAttack.WasPressedWithBuffer())
+            {
+                ChangeBehaviour(playerCriticalAttack);
+                return true;
+            }
 
-            ChangeBehaviour(playerCriticalAttack);
-            return true;
+            return false;
         }
 
         public bool CheckForInteraction()

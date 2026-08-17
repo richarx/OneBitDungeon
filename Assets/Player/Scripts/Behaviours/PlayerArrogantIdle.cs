@@ -24,12 +24,12 @@ public class PlayerArrogantIdle : IPlayerBehaviour
             return;
         }
 
-        if (player.inputPackage.GetCriticalAttack.WasPressedWithBuffer() && player.TryStartCriticalAttack())
+        if (player.TryStartCriticalAttack())
         {
             return;
         }
 
-        if (player.inputPackage.GetAttack.WasPressedWithBuffer() && player.TryStartAttack())
+        if (player.TryStartAttack())
         {
             return;
         }
