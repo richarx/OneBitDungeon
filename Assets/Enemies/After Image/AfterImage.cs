@@ -26,12 +26,12 @@ public class AfterImage : MonoBehaviour
         target = newTarget;
     }
 
-    public void SpawnSnapshot()
+    public void SpawnSnapshot(Vector3 position)
     {
         if (target == null || target.sprite == null || afterImagePrefab == null)
             return;
 
-        SpawnAfterImage();
+        SpawnAfterImage(position);
     }
 
     public void Trigger(SpriteRenderer newTarget, float duration)
@@ -65,18 +65,18 @@ public class AfterImage : MonoBehaviour
 
         while (timer <= duration && !isCancel)
         {
-            SpawnAfterImage();
+            SpawnAfterImage(target.transform.position);
             yield return new WaitForSeconds(increment);
             timer += increment;
         }
     }
 
-    private void SpawnAfterImage()
+    private void SpawnAfterImage(Vector3 position)
     {
         if (target == null || target.sprite == null || afterImagePrefab == null)
             return;
 
-        Instantiate(afterImagePrefab, target.transform.position, target.transform.rotation)
+        Instantiate(afterImagePrefab, position, target.transform.rotation)
             .Setup(this, target, fadeDuration);
     }
 

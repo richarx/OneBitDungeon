@@ -148,14 +148,16 @@ namespace Player.Scripts
 
         private void HandleArrogantDodge(ArroganceGainResult result)
         {
-            if (result.request.reason != ArroganceGainReason.CloseDodge)
+            if (result.request.reason != ArroganceGainReason.CloseDodge || player.playerArrogantSpin.TimeSinceLastSpin >= 0.5f)
                 return;
 
             StartCoroutine(SpawnShockWave());
             StartCoroutine(SlowTimeCoroutine(0.5f, 0.3f));
-            afterImage.SpawnSnapshot();
-            Instantiate(waterBlastEffect, player.position, Quaternion.identity);
-            Instantiate(flashBlastEffect, player.position, Quaternion.identity);
+
+            Vector3 position = player.playerArrogantSpin.SpinStartPosition;
+            afterImage.SpawnSnapshot(position);
+            Instantiate(waterBlastEffect, position, Quaternion.identity);
+            Instantiate(flashBlastEffect, position, Quaternion.identity);
         }
 
         private IEnumerator SpawnShockWave()

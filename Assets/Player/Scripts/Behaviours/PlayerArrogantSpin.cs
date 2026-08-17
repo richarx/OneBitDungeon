@@ -12,11 +12,13 @@ public class PlayerArrogantSpin : IPlayerBehaviour
 
     private Vector3 spinDirection;
     private Vector3 spinStartPosition;
-    private float spinStartTimestamp;
+    private float spinStartTimestamp = -1.0f;
     private float spinCooldownTimestamp = -1.0f;
 
     public bool IsRollingLeft => spinDirection.x >= 0.0f;
     public bool IsSpinningClockwise;
+    public Vector3 SpinStartPosition => spinStartPosition;
+    public float TimeSinceLastSpin => Time.time - spinStartTimestamp;
 
     public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
     {
@@ -37,7 +39,7 @@ public class PlayerArrogantSpin : IPlayerBehaviour
 
     public void UpdateBehaviour(PlayerStateMachine player)
     {
-        if (Time.time - spinStartTimestamp >= player.playerData.spinMaxDuration)
+        if (TimeSinceLastSpin >= player.playerData.spinMaxDuration)
         {
             StopSpin(player);
             return;
