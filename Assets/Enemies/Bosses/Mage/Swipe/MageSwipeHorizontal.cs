@@ -13,6 +13,12 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
     private Sequence attackSequence;
 
     private List<MageSwipeSpell> spells = new List<MageSwipeSpell>();
+    private CloseDodgeSession closeDodgeSession;
+
+    public void SetCloseDodgeSession(CloseDodgeSession session)
+    {
+        closeDodgeSession = session;
+    }
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -20,6 +26,9 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
 
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
+
+        if (!isSubBehaviour)
+            closeDodgeSession = null;
 
         bool isSecondPhase = enemy.currentPhase > 0;
 
@@ -54,7 +63,7 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() =>
             {
                 MageSwipeSpell spell = Instantiate(mageSwipeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-                spell.Setup(direction, mageData.swipeSpawnDuration, mageData.swipeFillDuration);
+                spell.Setup(direction, mageData.swipeSpawnDuration, mageData.swipeFillDuration, closeDodgeSession);
                 spells.Add(spell);
             });
     }

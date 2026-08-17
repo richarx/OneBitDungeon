@@ -25,6 +25,7 @@ public class RectangleDamageZone : MonoBehaviour
     private bool hasBeenParried;
 
     private CloseDodgeDetector _closeDodgeDetector;
+    private CloseDodgeSession closeDodgeSession;
 
     private DealDamageToPlayer dealDamageToPlayer;
     private Sequence currentSequence;
@@ -34,10 +35,11 @@ public class RectangleDamageZone : MonoBehaviour
 
     private PlayerStateMachine _playerInstance;
 
-    public void Setup(Vector2 moveDirection, float _spawnDuration, float _fillDuration)
+    public void Setup(Vector2 moveDirection, float _spawnDuration, float _fillDuration, CloseDodgeSession session = null)
     {
         spawnDuration = _spawnDuration;
         fillDuration = _fillDuration;
+        closeDodgeSession = session;
 
         dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -62,7 +64,7 @@ public class RectangleDamageZone : MonoBehaviour
         _closeDodgeDetector = new CloseDodgeDetector();
         _closeDodgeDetector.Setup(damageTimestamp,
                                     _playerInstance.playerData.closeDodgeWindowDuration,
-                                    _playerInstance.playerData.arroganceGainOnCloseDodge, this);
+                                    _playerInstance.playerData.arroganceGainOnCloseDodge, this, closeDodgeSession);
 
 
         currentSequence = Sequence.Create()
@@ -80,7 +82,11 @@ public class RectangleDamageZone : MonoBehaviour
         })
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
-        .ChainCallback(() => isCheckingForDamage = false)
+        .ChainCallback(() =>
+        {
+            isCheckingForDamage = false;
+            closeDodgeSession?.CompleteDamageCheck();
+        })
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
         .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration * 0.9f))
@@ -125,7 +131,10 @@ public class RectangleDamageZone : MonoBehaviour
             damageApplied = dealDamageToPlayer.TryDealDamage(direction);
 
         if (damageApplied)
+        {
+            closeDodgeSession?.RegisterHit();
             isCheckingForDamage = false;
+        }
     }
 
     public bool IsPlayerInside()
@@ -188,6 +197,7 @@ public class RectangleDamageZone : MonoBehaviour
             return;
 
         _closeDodgeDetector.Cancel();
+        closeDodgeSession?.Cancel();
 
         currentSequence.Stop();
 

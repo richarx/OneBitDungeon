@@ -13,12 +13,21 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
     private Sequence attackSequence;
 
     private List<MageSwipeSpell> spells = new List<MageSwipeSpell>();
+    private CloseDodgeSession closeDodgeSession;
+
+    public void SetCloseDodgeSession(CloseDodgeSession session)
+    {
+        closeDodgeSession = session;
+    }
 
     public void StartBehaviour(EnemyController enemy)
     {
         Debug.Log("Mage SWIPE VERTICAL");
 
         bool isSecondPhase = enemy.currentPhase > 0;
+
+        if (!isSubBehaviour)
+            closeDodgeSession = null;
 
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
@@ -54,7 +63,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() =>
             {
                 MageSwipeSpell spell = Instantiate(mageSwipeSpellPrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
-                spell.Setup(direction, mageData.swipeSpawnDuration, mageData.swipeFillDuration);
+                spell.Setup(direction, mageData.swipeSpawnDuration, mageData.swipeFillDuration, closeDodgeSession);
                 spells.Add(spell);
             });
     }

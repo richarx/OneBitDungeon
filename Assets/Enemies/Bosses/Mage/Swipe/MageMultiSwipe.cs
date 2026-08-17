@@ -12,6 +12,7 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
 
     private Sequence currentSequence;
     private Sequence moveSequence;
+    private CloseDodgeSession closeDodgeSession;
 
     public void StartBehaviour(EnemyController enemy)
     {
@@ -19,6 +20,11 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
 
         if (vertical == null)
             SetupBehaviours();
+
+        // Five vertical and five horizontal zones form one salvo.
+        closeDodgeSession = new CloseDodgeSession(10);
+        verticalSwipeObject.GetComponent<MageSwipeVertical>().SetCloseDodgeSession(closeDodgeSession);
+        HorizontalSwipeObject.GetComponent<MageSwipeHorizontal>().SetCloseDodgeSession(closeDodgeSession);
 
         vertical.SetSubBehaviourState(true);
         horizontal.SetSubBehaviourState(true);
@@ -77,6 +83,7 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
 
         vertical.CancelBehaviour(enemy);
         horizontal.CancelBehaviour(enemy);
+        closeDodgeSession?.Cancel();
     }
 
     public void SetSubBehaviourState(bool state)

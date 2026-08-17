@@ -10,10 +10,10 @@ public class MageSwipeSpell : MonoBehaviour
     private RectangleDamageZone rectangleDamageZone;
     private Projectile projectile;
 
-    public void Setup(Vector2 direction, float spawnDuration, float fillDuration)
+    public void Setup(Vector2 direction, float spawnDuration, float fillDuration, CloseDodgeSession closeDodgeSession = null)
     {
         rectangleDamageZone = GetComponent<RectangleDamageZone>();
-        rectangleDamageZone.Setup(direction, spawnDuration, fillDuration);
+        rectangleDamageZone.Setup(direction, spawnDuration, fillDuration, closeDodgeSession);
 
         Vector3 hoverPosition = transform.position;
         Vector3 spawnPosition = hoverPosition + direction.ToVector3() * -2.0f;
