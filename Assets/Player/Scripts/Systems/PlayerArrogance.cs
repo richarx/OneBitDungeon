@@ -1,3 +1,4 @@
+using Game_Manager;
 using Sirenix.OdinInspector;
 using Tools_and_Scripts;
 using UnityEngine;
@@ -23,11 +24,13 @@ namespace Player.Scripts
         private void OnEnable()
         {
             ArroganceGainEvents.OnGainRequested += HandleGainRequest;
+            GameManager.OnRestartLevel.AddListener(ClearArrogance);
         }
 
         private void OnDisable()
         {
             ArroganceGainEvents.OnGainRequested -= HandleGainRequest;
+            GameManager.OnRestartLevel.RemoveListener(ClearArrogance);
         }
 
         private void Start()
