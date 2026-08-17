@@ -51,7 +51,7 @@ public class CircleDamageZone : MonoBehaviour
         int outlineColorId = Shader.PropertyToID("_OutlineColor");
 
         _playerInstance = PlayerStateMachine.instance;
-        float damageTimestamp = Time.time + spawnDuration + fillDuration + ColorTransitionDuration;
+        float damageTimestamp = Time.time + spawnDuration + fillDuration; //+ ColorTransitionDuration;
         _closeDodgeDetector = new CloseDodgeDetector();
         _closeDodgeDetector.Setup(damageTimestamp, 
                                     _playerInstance.playerData.closeDodgeWindowDuration,
@@ -91,7 +91,7 @@ public class CircleDamageZone : MonoBehaviour
 
     private void Update()
     {
-        _closeDodgeDetector?.Update(IsPlayerInside(), _playerInstance.isInArroganceMode);
+        _closeDodgeDetector.Update(IsPlayerInside(), _playerInstance.isInArroganceMode);
 
         if (isCheckingForDamage)
             CheckForPlayerHit();

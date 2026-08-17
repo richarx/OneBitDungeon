@@ -16,8 +16,6 @@ public class MageThrowSpell : MonoBehaviour
     private RectangleDamageZone rectangleDamageZone;
     private Projectile projectile;
 
-    public Vector3 rotationDirection { get; private set; }
-
     public void Setup(float duration, float dampening, float rockMovementDuration, float spawnDuration, float fillDuration, Action onShootCallback)
     {
         rotationDuration = duration;
@@ -55,7 +53,7 @@ public class MageThrowSpell : MonoBehaviour
     private Vector3 ComputeProjectileTargetPosition(Vector3 startingPosition)
     {
         float targetDistance = 20.0f;
-        Vector3 direction = rotationDirection.ToVector2().AddAngleToDirection(-90.0f).ToVector3();
+        Vector3 direction = rectangleDamageZone.transform.right;
 
         return startingPosition + direction * targetDistance;
     }
@@ -63,16 +61,14 @@ public class MageThrowSpell : MonoBehaviour
     public void Update()
     {
         if (Time.time - throwTimestamp <= rotationDuration)
-            rotationDirection = RotateThrowTowardPlayer();
+            RotateThrowTowardPlayer();
     }
 
-    private Vector3 RotateThrowTowardPlayer()
+    private void RotateThrowTowardPlayer()
     {
         Vector3 position = transform.position;
         Vector3 direction = (PlayerStateMachine.instance.position - position).normalized.ToVector2().AddAngleToDirection(90.0f).ToVector3();
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime / rotationDampening);
-
-        return direction;
     }
 }

@@ -44,8 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a06cc04847e9a224c87d84d88ceed667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationDampening: 0.1
-  rotationDuration: 0.5
+  rotationDampening: 0.2
   rockMovementDuration: 0.5
   mageThrowSpellPrefab: {fileID: 1563654819030307539, guid: c4071b6254e971c4ea63a4be60895759,
     type: 3}

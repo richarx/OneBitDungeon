@@ -64,7 +64,7 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
         int rasiusId = Shader.PropertyToID($"_Shape{circleIndex + 1}Radius");
 
-        float damageTimestamp = Time.time + spawnDuration + fillDuration + 0.05f;
+        float damageTimestamp = Time.time + spawnDuration + fillDuration; //+ 0.05f;
         _closeDodgeDetector = new CloseDodgeDetector();
         _closeDodgeDetector.Setup(damageTimestamp,
                                     _playerInstance.playerData.closeDodgeWindowDuration,
@@ -119,6 +119,8 @@ public class ThreeCirclesDamageZone : MonoBehaviour
 
     private void Update()
     {
+        _closeDodgeDetector.Update(IsPlayerInside(), _playerInstance.isInArroganceMode);
+
         if (isCheckingForDamage)
             CheckForPlayerHit();
     }
