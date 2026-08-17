@@ -50,16 +50,12 @@ namespace Player.Scripts
             if (result == null)
                 return;
 
-            GainArrogance(result.totalAmount);
-        }
-
-        private void GainArrogance(float amount)
-        {
             if (playerData == null)
                 return;
 
-            currentArrogance = Mathf.Clamp(currentArrogance + amount, 0.0f, playerData.maxArrogance);
+            currentArrogance = Mathf.Clamp(currentArrogance + result.totalAmount, 0.0f, playerData.maxArrogance);
         }
+
 
         public void ClearArrogance()
         {
