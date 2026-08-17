@@ -8,6 +8,7 @@ namespace Player.Scripts
     public class PlayerTargeting : MonoBehaviour
     {
         private GameObject target;
+        public GameObject Target => target;
         public float targetDistance => (targetPosition - transform.position).magnitude;
         public Vector3 targetPosition => target.transform.position;
         public Vector3 directionToTarget => (targetPosition - transform.position).normalized;

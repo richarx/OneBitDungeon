@@ -1,6 +1,5 @@
 using Game_Manager;
 using Sirenix.OdinInspector;
-using Tools_and_Scripts;
 using UnityEngine;
 
 namespace Player.Scripts
@@ -17,6 +16,8 @@ namespace Player.Scripts
         private float currentArrogance;
 
         public float CurrentArrogance => currentArrogance;
+        public bool IsFull => playerData != null && playerData.maxArrogance > 0.0f
+            && currentArrogance >= playerData.maxArrogance;
         public float NormalizedArrogance => playerData == null || playerData.maxArrogance <= 0.0f
             ? 0.0f
             : currentArrogance / playerData.maxArrogance;
@@ -39,14 +40,9 @@ namespace Player.Scripts
             currentArrogance = Mathf.Clamp(currentArrogance, 0.0f, playerData.maxArrogance);
         }
 
-        public void UpdateArrogance(InputPackage inputPackage)
-        {
-            if (inputPackage.GetClearArrogance.wasPressedThisFrame)
-                ClearArrogance();
-        }
-
         private void HandleProcessedGain(ArroganceGainResult result)
         {
+
             if (result == null)
                 return;
 
@@ -60,6 +56,15 @@ namespace Player.Scripts
         public void ClearArrogance()
         {
             currentArrogance = 0.0f;
+        }
+
+        public bool ConsumeFullArrogance()
+        {
+            if (!IsFull)
+                return false;
+
+            ClearArrogance();
+            return true;
         }
 
         [TitleGroup("Debug"), Button("Gain Debug Arrogance"), EnableIf(nameof(IsPlaying))]

@@ -44,7 +44,7 @@ namespace Tools_and_Scripts
         public InputData GetInteraction => lastInputType == InputType.Gamepad ? northButton : eKey;
         public InputData GetSitDown => lastInputType == InputType.Gamepad ? downArrowButton : cKey;
         public InputData GetTag => lastInputType == InputType.Gamepad ? rightShoulder : tabKey;
-        public InputData GetClearArrogance => tabKey;
+        public InputData GetCriticalAttack => tabKey;
         public InputData GetArroganceMode => lastInputType == InputType.Gamepad ? rightTrigger : middleMouse;
 
         public InputData GetMenuLeft => lastInputType == InputType.Gamepad ? leftArrowButton : leftKey;

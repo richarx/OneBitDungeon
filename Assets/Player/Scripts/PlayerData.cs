@@ -29,11 +29,26 @@ namespace Player.Scripts
         [TitleGroup("Insolence"), LabelText("Arrogance Gained on Close Dodge"), MinValue(0.0f)]
         public float arroganceGainOnCloseDodge = 10.0f;
 
+        [TitleGroup("Insolence"), LabelText("Use Progressive Arrogance Gain")]
+        public bool useProgressiveArroganceGain;
+
+        [TitleGroup("Insolence"), LabelText("Progressive Arrogance Gain Easing"), ShowIf(nameof(useProgressiveArroganceGain))]
+        public ArroganceGainEasing progressiveArroganceGainEasing;
+
         [TitleGroup("Insolence"), LabelText("Close Dodge Window Duration"), SuffixLabel("Seconds"), MinValue(0.0f)]
         public float closeDodgeWindowDuration = 0.25f;
 
         [TitleGroup("Insolence"), LabelText("Arrogance State Gain Multiplier"), MinValue(1.0f)]
         public float arroganceStateGainMultiplier = 2.0f;
+
+        [TitleGroup("Insolence"), LabelText("Insolence Attack Damage"), MinValue(0)]
+        public int insolenceAttackDamage = 20;
+
+        [TitleGroup("Insolence"), LabelText("Insolence Range"), MinValue(0)]
+        public float insolenceRange = 10f;
+
+        [TitleGroup("Insolence"), LabelText("Insolence Past Target Distance"), MinValue(0)]
+        public float insolencePastTargetDistance = 10f;
 
         [Space]
         [Header("Roll")]
@@ -57,6 +72,7 @@ namespace Player.Scripts
 
         [Space]
         [Header("Combat")]
+        public int normalAttackDamage = 10;
         public int maxAttackCountInCombo;
         public float attackDuration;
         public float attackCancelTimer;
@@ -65,6 +81,7 @@ namespace Player.Scripts
         public float attackDashDuration;
         public float attackDashMaxDistance;
         public float attackDashDeceleration;
+
 
         [Space]
         [Header("Stagger")]

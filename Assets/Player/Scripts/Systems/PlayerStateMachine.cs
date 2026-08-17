@@ -33,6 +33,7 @@ namespace Player.Scripts
         public PlayerSit playerSit = new PlayerSit();
         public PlayerDead playerDead = new PlayerDead();
         public PlayerAttack playerAttack;
+        public PlayerCriticalAttack playerCriticalAttack = new PlayerCriticalAttack();
         public PlayerTag playerTag = new PlayerTag();
         public PlayerLocked playerLocked = new PlayerLocked();
 
@@ -98,7 +99,6 @@ namespace Player.Scripts
         {
             inputPackage = inputPacker.ComputeInputPackage();
             moveInput = inputPackage.GetMove;
-            playerArrogance.UpdateArrogance(inputPackage);
 
             //if (PauseMenu.instance.IsPaused)
             //    return;
@@ -157,6 +157,26 @@ namespace Player.Scripts
             moveVelocity.y = 0.0f;
         }
 
+        public bool TryStartAttack()
+        {
+            if (playerAttack.CanAttack(this))
+            {
+                ChangeBehaviour(playerAttack);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool TryStartCriticalAttack()
+        {
+            if (!playerCriticalAttack.CanCriticalAttack(this))
+                return false;
+
+            ChangeBehaviour(playerCriticalAttack);
+            return true;
+        }
+
         public bool CheckForInteraction()
         {
             if (inputPackage.GetInteraction.wasPressedThisFrame)
@@ -192,7 +212,9 @@ namespace Player.Scripts
 
         public int ComputeCurrentDamage()
         {
-            return 10;
+            return currentBehaviour.GetBehaviourType() == BehaviourType.CriticalAttack
+                ? playerData.insolenceAttackDamage
+                : playerData.normalAttackDamage;
         }
     }
 }

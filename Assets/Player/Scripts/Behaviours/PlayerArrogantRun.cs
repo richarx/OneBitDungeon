@@ -42,9 +42,13 @@ public class PlayerArrogantRun : IPlayerBehaviour
             return;
         }
 
-        if (player.playerAttack.CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())
+        if (player.inputPackage.GetCriticalAttack.WasPressedWithBuffer() && player.TryStartCriticalAttack())
         {
-            player.ChangeBehaviour(player.playerAttack);
+            return;
+        }
+
+        if (player.inputPackage.GetAttack.WasPressedWithBuffer() && player.TryStartAttack())
+        {
             return;
         }
 

@@ -9,8 +9,9 @@ public class CloseDodgeDetector
     private Object source;
 
     private bool wasInsideZone;
-    private bool wasInsideZoneOnPreviousUpdate;
+    private bool wasInsideZoneOnPreviousUpdate = false;
     private bool wasArroganceModeActiveOnExit;
+    private float normalizedExitTime;
     private bool isActive;
     private bool isResolved;
 
@@ -20,8 +21,11 @@ public class CloseDodgeDetector
             return;
 
         this.damageTimestamp = damageTimestamp;
-        windowStartTimestamp = Mathf.Max(Time.time, damageTimestamp - windowDuration);
+        windowStartTimestamp = damageTimestamp - windowDuration;
         this.baseAmount = baseAmount;
+        wasInsideZone = false;
+        wasArroganceModeActiveOnExit = false;
+        wasInsideZone = false;
         this.source = source;
         isActive = true;
     }
@@ -42,6 +46,7 @@ public class CloseDodgeDetector
         if (!isActive || isResolved)
             return;
 
+
         if (Time.time >= windowStartTimestamp)
             TrackPlayerPresence(isPlayerInsideZone, isArroganceModeActive);
 
@@ -54,13 +59,16 @@ public class CloseDodgeDetector
             baseAmount,
             ArroganceGainReason.CloseDodge,
             source,
-            new CloseDodgeGainContext(wasArroganceModeActiveOnExit)));
+            new CloseDodgeGainContext(wasArroganceModeActiveOnExit, normalizedExitTime)));
     }
 
     private void TrackPlayerPresence(bool isPlayerInsideZone, bool isArroganceModeActive)
     {
         if (wasInsideZoneOnPreviousUpdate && !isPlayerInsideZone)
+        {
             wasArroganceModeActiveOnExit = isArroganceModeActive;
+            normalizedExitTime = Mathf.InverseLerp(windowStartTimestamp, damageTimestamp, Time.time);
+        }
 
         wasInsideZone |= isPlayerInsideZone;
         wasInsideZoneOnPreviousUpdate = isPlayerInsideZone;

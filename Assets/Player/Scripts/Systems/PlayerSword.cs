@@ -43,6 +43,10 @@ namespace Player.Scripts
             player.playerAttack.OnSpawnDamageBox.AddListener(SpawnHitbox);
             player.playerAttack.OnRemoveDamageBox.AddListener(RemoveHitbox);
 
+            player.playerCriticalAttack.OnPlayerAttack.AddListener(HandlePlayerAttack);
+            player.playerCriticalAttack.OnSpawnDamageBox.AddListener(SpawnHitbox);
+            player.playerCriticalAttack.OnRemoveDamageBox.AddListener(RemoveHitbox);
+
             player.playerJumpTag.OnStartJumpTag.AddListener(HandleJumpTagStart);
             player.playerJumpTag.OnSpawnDamageBox.AddListener(SpawnJumpTagHitbox);
             player.playerJumpTag.OnRemoveDamageBox.AddListener(RemoveHitbox);

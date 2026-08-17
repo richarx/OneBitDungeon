@@ -96,6 +96,7 @@ namespace Player.Scripts
             WeaponDamageTrigger.OnHitEnemy.AddListener(HandleHitEnemy);
             player.playerHealth.OnPlayerTakeDamage.AddListener(HandlePlayerTakeDamage);
             player.playerAttack.OnPlayerAttack.AddListener(HandlePlayerAttack);
+            player.playerCriticalAttack.OnPlayerAttack.AddListener(HandlePlayerAttack);
             player.playerParry.OnSuccessfulParry.AddListener(HandleSuccessfulParry);
             player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
             player.playerJump.OnStartJump.AddListener(SpawnStartJumpVfx);
@@ -114,6 +115,7 @@ namespace Player.Scripts
             {
                 player.playerHealth.OnPlayerTakeDamage.RemoveListener(HandlePlayerTakeDamage);
                 player.playerAttack.OnPlayerAttack.RemoveListener(HandlePlayerAttack);
+                player.playerCriticalAttack.OnPlayerAttack.RemoveListener(HandlePlayerAttack);
                 player.playerParry.OnSuccessfulParry.RemoveListener(HandleSuccessfulParry);
                 player.playerRoll.OnStartRoll.RemoveListener(SpawnRollVfx);
                 player.playerJump.OnStartJump.RemoveListener(SpawnStartJumpVfx);
@@ -188,7 +190,7 @@ namespace Player.Scripts
                 yield break;
             }
 
-            SpawnDirectionalSwordSlash(player.playerAttack.IsSecondAttack);
+            SpawnDirectionalSwordSlash(attackPayload.Type != AttackType.Critical && player.playerAttack.IsSecondAttack);
         }
 
         private void SpawnDirectionalSwordSlash(bool isSecondAttack)

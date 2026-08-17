@@ -11,6 +11,7 @@ namespace Player.Scripts
         Jump,
         JumpTag,
         Attack,
+        CriticalAttack,
         Stagger,
         Parry,
         Sit,

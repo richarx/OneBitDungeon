@@ -23,6 +23,7 @@ namespace Player.Scripts
             player = GetComponent<PlayerStateMachine>();
 
             player.playerAttack.OnPlayerAttack.AddListener((d) => SpawnStepVfx());
+            player.playerCriticalAttack.OnPlayerAttack.AddListener((d) => SpawnStepVfx());
             player.playerArrogantSpin.OnStartSpin.AddListener(() => SpawnStepVfx());
         }
 

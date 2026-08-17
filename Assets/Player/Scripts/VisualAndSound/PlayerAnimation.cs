@@ -21,6 +21,7 @@ namespace Player.Scripts
             codeAnimator = GetComponent<CodeAnimator>();
 
             player.playerAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
+            player.playerCriticalAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
             player.playerJumpTag.OnStartJumpTag.AddListener(PlayJumpTagAnimation);
             player.playerStagger.OnStagger.AddListener(PlayStaggerAnimation);
 
@@ -66,6 +67,7 @@ namespace Player.Scripts
                     break;
                 case BehaviourType.Parry:
                 case BehaviourType.Attack:
+                case BehaviourType.CriticalAttack:
                 case BehaviourType.JumpTag:
                 case BehaviourType.Stagger:
                     break;

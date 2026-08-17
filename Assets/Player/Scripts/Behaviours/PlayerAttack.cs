@@ -9,8 +9,9 @@ namespace Player.Scripts
     public enum AttackType
     {
         Light,
-        Special, 
-        Punish
+        Special,
+        Punish,
+        Critical
     }
 
     public class AttackPayload
@@ -115,6 +116,11 @@ namespace Player.Scripts
             {
                 hasRemovedDamageBox = true;
                 OnRemoveDamageBox?.Invoke();
+            }
+
+            if (canAttackBeCanceled && player.inputPackage.GetCriticalAttack.WasPressedWithBuffer() && player.TryStartCriticalAttack())
+            {
+                return;
             }
 
             if (canAttackBeCanceled && attackCount < player.playerData.maxAttackCountInCombo && CanAttack(player) && player.inputPackage.GetAttack.WasPressedWithBuffer())

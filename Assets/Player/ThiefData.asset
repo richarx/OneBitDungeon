@@ -18,8 +18,12 @@ MonoBehaviour:
   groundDeceleration: 120
   maxArrogance: 100
   arroganceGainOnCloseDodge: 10
+  useProgressiveArroganceGain: 0
+  progressiveArroganceGainEasing: 0
   closeDodgeWindowDuration: 0.25
   arroganceStateGainMultiplier: 2
+  normalAttackDamage: 10
+  criticalAttackDamage: 20
   rollMaxSpeed: 30
   rollMaxDistance: 4.5
   rollMaxDuration: 0.2
