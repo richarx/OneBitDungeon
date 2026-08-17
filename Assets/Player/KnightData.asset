@@ -28,7 +28,7 @@ MonoBehaviour:
   arroganceGainOnCloseDodge: 20
   useProgressiveArroganceGain: 1
   progressiveArroganceGainEasing: 2
-  closeDodgeWindowDuration: 0.5
+  closeDodgeWindowDuration: 0.3
   arroganceStateGainMultiplier: 1
   insolenceAttackDamage: 50
   insolenceRange: 8

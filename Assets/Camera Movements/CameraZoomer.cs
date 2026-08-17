@@ -1,3 +1,4 @@
+using System;
 using Player.Scripts;
 using PrimeTween;
 using UnityEngine;
@@ -6,6 +7,10 @@ public class CameraZoomer : MonoBehaviour
 {
     [SerializeField] private float zoomPowerOnParry;
     [SerializeField] private float zoomDurationOnParry;
+
+    [Space]
+    [SerializeField] private float zoomPowerOnDodge;
+    [SerializeField] private float zoomDurationOnDodge;
 
     [Space]
     [SerializeField] private Ease easeIn;
@@ -24,6 +29,15 @@ public class CameraZoomer : MonoBehaviour
         decorCamera = CamerasHolder.instance.decorCamera;
 
         PlayerStateMachine.instance.playerParry.OnSuccessfulParry.AddListener(() => StartZoom(zoomDurationOnParry, zoomPowerOnParry));
+        ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
+    }
+
+    private void HandleArrogantDodge(ArroganceGainResult result)
+    {
+        if (result.request.reason != ArroganceGainReason.CloseDodge || PlayerStateMachine.instance.playerArrogantSpin.TimeSinceLastSpin >= 0.5f)
+            return;
+
+        StartZoom(zoomDurationOnDodge, zoomPowerOnDodge);
     }
 
     private void StartZoom(float duration, float zoomPower)

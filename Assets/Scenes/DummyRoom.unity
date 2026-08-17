@@ -1225,6 +1225,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoomPowerOnParry: 5
   zoomDurationOnParry: 0.1
+  zoomPowerOnDodge: 5
+  zoomDurationOnDodge: 0.5
   easeIn: 0
   easeOut: 0
 --- !u!1 &328170770
