@@ -93,25 +93,4 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
     {
     }
 
-    public bool TryCreateInlineBehaviour(out MageMultiThrowBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = null;
-        error = null;
-
-        if (mageThrowSpellPrefab == null)
-        {
-            error = "the MageThrowSpell prefab is missing";
-            return false;
-        }
-
-        if (mageData == null)
-        {
-            error = "MageData is missing";
-            return false;
-        }
-
-        inlineBehaviour = new MageMultiThrowBehaviour(rotationDampening, rockMovementDuration, mageThrowSpellPrefab, mageData);
-        return true;
-    }
-
 }

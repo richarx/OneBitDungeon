@@ -73,18 +73,4 @@ public class MageSpawn : MonoBehaviour, IEnemyBehaviour
             spawnSequence.Stop();
     }
 
-    public bool TryCreateInlineBehaviour(out MageSpawnBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = null;
-        error = null;
-
-        if (circleDamageZonePrefab == null)
-        {
-            error = "the CircleDamageZone prefab is missing";
-            return false;
-        }
-
-        inlineBehaviour = new MageSpawnBehaviour(radius, circleDamageZonePrefab);
-        return true;
-    }
 }

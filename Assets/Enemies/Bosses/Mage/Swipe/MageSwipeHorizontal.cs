@@ -115,25 +115,4 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
         isSubBehaviour = state;
     }
 
-    public bool TryCreateInlineBehaviour(out MageSwipeHorizontalBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = null;
-        error = null;
-
-        if (mageSwipeSpellPrefab == null)
-        {
-            error = "the MageSwipeSpell prefab is missing";
-            return false;
-        }
-
-        if (mageData == null)
-        {
-            error = "MageData is missing";
-            return false;
-        }
-
-        inlineBehaviour = new MageSwipeHorizontalBehaviour(mageSwipeSpellPrefab, mageData);
-        return true;
-    }
-
 }

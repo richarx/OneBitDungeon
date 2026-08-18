@@ -58,10 +58,4 @@ public class MageDeath : MonoBehaviour, IEnemyBehaviour
     {
     }
 
-    public bool TryCreateInlineBehaviour(out MageDeathBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = new MageDeathBehaviour();
-        error = null;
-        return true;
-    }
 }

@@ -63,24 +63,4 @@ public class DummyCircleAttack : MonoBehaviour, IEnemyBehaviour
     {
     }
 
-    public bool TryCreateInlineBehaviour(out DummyCircleAttackBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = null;
-        error = null;
-
-        if (circleDamageZonePrefab == null)
-        {
-            error = "the legacy DummyCircleAttack has no CircleDamageZone prefab";
-            return false;
-        }
-
-        inlineBehaviour = new DummyCircleAttackBehaviour(
-            circleDamageZonePrefab,
-            attackInterval,
-            radius,
-            spawnDuration,
-            fillDuration
-        );
-        return true;
-    }
 }

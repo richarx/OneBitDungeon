@@ -108,44 +108,4 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
     {
     }
 
-    public bool TryCreateInlineBehaviour(out MageMultiSwipeBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = null;
-        error = null;
-
-        if (verticalSwipeObject == null)
-        {
-            error = "the vertical swipe behaviour object is missing";
-            return false;
-        }
-
-        if (HorizontalSwipeObject == null)
-        {
-            error = "the horizontal swipe behaviour object is missing";
-            return false;
-        }
-
-        MageSwipeVertical verticalLegacy = verticalSwipeObject.GetComponent<MageSwipeVertical>();
-        if (verticalLegacy == null)
-        {
-            error = "the vertical swipe object has no MageSwipeVertical";
-            return false;
-        }
-
-        MageSwipeHorizontal horizontalLegacy = HorizontalSwipeObject.GetComponent<MageSwipeHorizontal>();
-        if (horizontalLegacy == null)
-        {
-            error = "the horizontal swipe object has no MageSwipeHorizontal";
-            return false;
-        }
-
-        if (!verticalLegacy.TryCreateInlineBehaviour(out MageSwipeVerticalBehaviour verticalInline, out error))
-            return false;
-
-        if (!horizontalLegacy.TryCreateInlineBehaviour(out MageSwipeHorizontalBehaviour horizontalInline, out error))
-            return false;
-
-        inlineBehaviour = new MageMultiSwipeBehaviour(verticalInline, horizontalInline);
-        return true;
-    }
 }

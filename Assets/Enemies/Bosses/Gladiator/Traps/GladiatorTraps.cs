@@ -103,30 +103,4 @@ public class GladiatorTraps : MonoBehaviour, IEnemyBehaviour
     {
     }
 
-    public bool TryCreateInlineBehaviour(out GladiatorTrapsBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = null;
-        error = null;
-
-        if (gladiatorData == null)
-        {
-            error = "GladiatorData is missing";
-            return false;
-        }
-
-        if (circleDamageZonePrefab == null)
-        {
-            error = "the circle damage-zone prefab is missing";
-            return false;
-        }
-
-        if (trapControllerPrefab == null)
-        {
-            error = "the trap prefab is missing";
-            return false;
-        }
-
-        inlineBehaviour = new GladiatorTrapsBehaviour(gladiatorData, circleDamageZonePrefab, trapControllerPrefab);
-        return true;
-    }
 }

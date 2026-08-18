@@ -34,10 +34,4 @@ public class GladiatorSpawn : MonoBehaviour, IEnemyBehaviour
     {
     }
 
-    public bool TryCreateInlineBehaviour(out GladiatorSpawnBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = new GladiatorSpawnBehaviour();
-        error = null;
-        return true;
-    }
 }

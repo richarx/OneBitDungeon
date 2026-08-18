@@ -90,25 +90,4 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
         isSubBehaviour = state;
     }
 
-    public bool TryCreateInlineBehaviour(out MageRainBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = null;
-        error = null;
-
-        if (mageRainSpellPrefab == null)
-        {
-            error = "the MageRainSpell prefab is missing";
-            return false;
-        }
-
-        if (mageData == null)
-        {
-            error = "MageData is missing";
-            return false;
-        }
-
-        inlineBehaviour = new MageRainBehaviour(mageRainSpellPrefab, mageData);
-        return true;
-    }
-
 }

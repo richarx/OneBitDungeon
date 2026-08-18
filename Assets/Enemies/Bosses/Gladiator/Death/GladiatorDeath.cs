@@ -50,10 +50,4 @@ public class GladiatorDeath : MonoBehaviour, IEnemyBehaviour
     {
     }
 
-    public bool TryCreateInlineBehaviour(out GladiatorDeathBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = new GladiatorDeathBehaviour();
-        error = null;
-        return true;
-    }
 }
