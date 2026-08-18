@@ -31,7 +31,7 @@ MonoBehaviour:
   closeDodgeWindowDuration: 0.3
   arroganceStateGainMultiplier: 1
   insolenceAttackDamage: 50
-  insolenceRange: 8
+  insolenceRange: 20
   insolencePastTargetDistance: 3
   rollMaxSpeed: 30
   rollMaxDistance: 4.5
