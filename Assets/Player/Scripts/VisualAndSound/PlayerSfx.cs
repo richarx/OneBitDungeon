@@ -36,6 +36,11 @@ namespace Player.Scripts
         [SerializeField] private AudioClip arrogantStop;
         [SerializeField] private AudioClip arrogantSpin;
         [SerializeField] private AudioClip arrogantDodge;
+        [SerializeField] private AudioClip insolentPrepareAttack;
+        [SerializeField] private AudioClip insolentAttackDash;
+        [SerializeField] private AudioClip insolentAttackHit_1;
+        [SerializeField] private AudioClip insolentAttackHit_2;
+
 
         private PlayerStateMachine player;
 
@@ -50,7 +55,6 @@ namespace Player.Scripts
             player.playerSword.OnEquipSword.AddListener(() => SFXManager.instance.PlaySFX(unsheatheSword, 0.1f));
             player.playerSword.OnSheatheSword.AddListener(() => SFXManager.instance.PlaySFX(sheatheSword, 0.1f));
             player.playerAttack.OnPlayerAttack.AddListener((_) => SFXManager.instance.PlayRandomSFX(swordSlash));
-            player.playerCriticalAttack.OnPlayerAttack.AddListener((_) => SFXManager.instance.PlayRandomSFX(swordSlash));
             WeaponDamageTrigger.OnHitEnemy.AddListener((_) => SFXManager.instance.PlayRandomSFX(hitEnemy));
             player.playerHealth.OnPlayerTakeDamage.AddListener((_) =>
             {
@@ -93,6 +97,13 @@ namespace Player.Scripts
             player.playerArrogantRun.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
             player.playerArrogantSpin.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
             ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
+            player.playerCriticalAttack.OnPlayerAttack.AddListener((_) => SFXManager.instance.PlaySFX(insolentPrepareAttack, 0.1f));
+            player.playerCriticalAttack.OnStartDash.AddListener(() =>
+            {
+                SFXManager.instance.PlaySFX(insolentAttackDash, 0.5f);
+                SFXManager.instance.PlaySFX(insolentAttackHit_1, 0.3f);
+                SFXManager.instance.PlaySFX(insolentAttackHit_2);
+            });
         }
 
         private void HandleArrogantDodge(ArroganceGainResult result)

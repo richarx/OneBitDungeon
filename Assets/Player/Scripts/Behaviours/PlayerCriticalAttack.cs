@@ -11,6 +11,7 @@ namespace Player.Scripts
         public UnityEvent<AttackPayload> OnPlayerAttack = new UnityEvent<AttackPayload>();
         public UnityEvent OnSpawnDamageBox = new UnityEvent();
         public UnityEvent OnRemoveDamageBox = new UnityEvent();
+        public UnityEvent OnStartDash = new UnityEvent();
         public UnityEvent OnReachedTarget = new UnityEvent();
 
         private Vector3 dashStartPosition;
@@ -56,6 +57,7 @@ namespace Player.Scripts
             if (!hasStartedDash && Time.time - attackStartTimestamp >= player.playerData.attackDashDelay)
             {
                 OnSpawnDamageBox?.Invoke();
+                OnStartDash?.Invoke();
                 hasStartedDash = true;
             }
 

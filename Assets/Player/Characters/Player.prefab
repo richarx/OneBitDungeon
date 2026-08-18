@@ -261,6 +261,11 @@ MonoBehaviour:
   arrogantStop: {fileID: 8300000, guid: 97743fcee599d9049ad39741e0467a19, type: 3}
   arrogantSpin: {fileID: 8300000, guid: 2334a322a9431bf429271225b8191305, type: 3}
   arrogantDodge: {fileID: 8300000, guid: 9d1a531f70f98d0449718fe4d326b1c4, type: 3}
+  insolentPrepareAttack: {fileID: 8300000, guid: 64dc85f27d323fa439923d1627a54727,
+    type: 3}
+  insolentAttackDash: {fileID: 8300000, guid: 45ff7c3619d563848b007f49c720e513, type: 3}
+  insolentAttackHit_1: {fileID: 8300000, guid: b10c5d50e28de3e4382a06eb5612b4bf, type: 3}
+  insolentAttackHit_2: {fileID: 8300000, guid: 65ee4d87910bd02478de20666a79741b, type: 3}
 --- !u!114 &2174515811491700390
 MonoBehaviour:
   m_ObjectHideFlags: 0
