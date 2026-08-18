@@ -298,6 +298,10 @@ MonoBehaviour:
     type: 3}
   swordSecondSlashPrefab: {fileID: 1936735994176848030, guid: f4537d8cc33edab4bbd17f2d43eef7b5,
     type: 3}
+  swordCritStabPrefab: {fileID: 1473356317183098, guid: 331bf660516f21b44b42b987b5348882,
+    type: 3}
+  swordCritTrailPrefab: {fileID: 1218474259193278, guid: 32880282445ce1e46b8159e9eb1d8a6a,
+    type: 3}
   swordSlashDelay: 0.1
   swordSlashHeight: 1
   swordSlashDistance: 1

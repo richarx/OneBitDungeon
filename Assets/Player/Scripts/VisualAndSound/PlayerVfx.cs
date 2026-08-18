@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Player.Sword_Hitboxes;
 using Sirenix.OdinInspector;
@@ -35,6 +36,12 @@ namespace Player.Scripts
 
         [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Second Prefab"), SerializeField]
         private GameObject swordSecondSlashPrefab;
+
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Crit Stab Prefab"), SerializeField]
+        private GameObject swordCritStabPrefab;
+
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Crit Trail Prefab"), SerializeField]
+        private GameObject swordCritTrailPrefab;
 
         [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Spawn Delay"), MinValue(0.0f), SerializeField]
         private float swordSlashDelay;
@@ -115,7 +122,8 @@ namespace Player.Scripts
             WeaponDamageTrigger.OnHitEnemy.AddListener(HandleHitEnemy);
             player.playerHealth.OnPlayerTakeDamage.AddListener(HandlePlayerTakeDamage);
             player.playerAttack.OnPlayerAttack.AddListener(HandlePlayerAttack);
-            player.playerCriticalAttack.OnPlayerAttack.AddListener(HandlePlayerAttack);
+            player.playerCriticalAttack.OnPlayerAttack.AddListener(HandleCritStrike);
+            player.playerCriticalAttack.OnReachedTarget.AddListener(HandleCritStrikeReachedTarget);
             player.playerParry.OnSuccessfulParry.AddListener(HandleSuccessfulParry);
             player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
             player.playerJump.OnStartJump.AddListener(SpawnStartJumpVfx);
@@ -135,7 +143,8 @@ namespace Player.Scripts
             {
                 player.playerHealth.OnPlayerTakeDamage.RemoveListener(HandlePlayerTakeDamage);
                 player.playerAttack.OnPlayerAttack.RemoveListener(HandlePlayerAttack);
-                player.playerCriticalAttack.OnPlayerAttack.RemoveListener(HandlePlayerAttack);
+                player.playerCriticalAttack.OnPlayerAttack.RemoveListener(HandleCritStrike);
+                player.playerCriticalAttack.OnReachedTarget.RemoveListener(HandleCritStrikeReachedTarget);
                 player.playerParry.OnSuccessfulParry.RemoveListener(HandleSuccessfulParry);
                 player.playerRoll.OnStartRoll.RemoveListener(SpawnRollVfx);
                 player.playerJump.OnStartJump.RemoveListener(SpawnStartJumpVfx);
@@ -144,6 +153,23 @@ namespace Player.Scripts
             }
 
             hasSubscribed = false;
+        }
+
+        GameObject critTrail;
+        private void HandleCritStrike(AttackPayload attackPayload)
+        {
+            StartCoroutine(SlowTimeCoroutine(0.5f, 0.1f));
+            critTrail = Instantiate(swordCritTrailPrefab, player.position, Quaternion.identity);
+            critTrail.transform.SetParent(player.transform);
+        }
+
+        private void HandleCritStrikeReachedTarget()
+        {
+            SpawnAttackSwordSlash(false);
+            SpawnDirectionalSwordSlash(swordCritStabPrefab, false, -90.0f, 0.5f);
+
+            if (critTrail != null)
+                critTrail.GetComponent<ParticleSystem>().Stop();
         }
 
         private void HandleArrogantDodge(ArroganceGainResult result)
@@ -197,7 +223,7 @@ namespace Player.Scripts
 
         private void HandlePlayerAttack(AttackPayload attackPayload)
         {
-            StartCoroutine(WaitAndSpawnSwordSlash(attackPayload));
+            StartCoroutine(WaitAndSpawnSwordSlash(attackPayload, swordSlashDelay));
         }
 
         private void HandleSuccessfulParry()
@@ -238,9 +264,9 @@ namespace Player.Scripts
             InstantiateVfx(parryVfx, player.position, Quaternion.identity);
         }
 
-        private IEnumerator WaitAndSpawnSwordSlash(AttackPayload attackPayload)
+        private IEnumerator WaitAndSpawnSwordSlash(AttackPayload attackPayload, float delay)
         {
-            yield return new WaitForSeconds(swordSlashDelay);
+            yield return new WaitForSeconds(delay);
 
             if (attackPayload.Type == AttackType.Special)
             {
@@ -248,17 +274,24 @@ namespace Player.Scripts
                 yield break;
             }
 
-            SpawnDirectionalSwordSlash(attackPayload.Type != AttackType.Critical && player.playerAttack.IsSecondAttack);
+            SpawnAttackSwordSlash(attackPayload.Type != AttackType.Critical && player.playerAttack.IsSecondAttack);
         }
 
-        private void SpawnDirectionalSwordSlash(bool isSecondAttack)
+        private void SpawnAttackSwordSlash(bool isSecondAttack)
         {
             GameObject prefab = isSecondAttack ? swordSecondSlashPrefab : swordSlashPrefab;
-            Vector3 position = player.position + (Vector3.up * swordSlashHeight) + (player.LastLookDirection.ToVector3() * swordSlashDistance);
+            SpawnDirectionalSwordSlash(prefab);
+        }
+
+        private void SpawnDirectionalSwordSlash(GameObject prefab, bool attachedToPlayer = false, float bonusAngle = 0.0f, float distanceBonus = 0.0f)
+        {
+            Vector3 position = player.position + (Vector3.up * swordSlashHeight) + (player.LastLookDirection.ToVector3() * (swordSlashDistance + distanceBonus));
 
             Transform slash = InstantiateVfx(prefab, position, Quaternion.identity).transform;
+            slash.RotateAround(slash.position, Vector3.up, 360.0f - player.LastLookDirection.AddAngleToDirection(bonusAngle).ToDegree());
 
-            slash.RotateAround(slash.position, Vector3.up, 360.0f - player.LastLookDirection.ToDegree());
+            if (attachedToPlayer)
+                slash.SetParent(player.transform);
         }
 
         private void SpawnSwordWhirlwindSlash()

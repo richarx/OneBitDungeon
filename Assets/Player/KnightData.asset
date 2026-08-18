@@ -54,6 +54,7 @@ MonoBehaviour:
   attackSpawnHitBoxTimer: 0.083333336
   attackRemoveHitBoxTimer: 0.16666667
   attackDashDuration: 0.15
+  attackDashDelay: 0.1
   attackDashMaxDistance: 3.5
   attackDashDeceleration: 500
   staggerDuration: 0.4

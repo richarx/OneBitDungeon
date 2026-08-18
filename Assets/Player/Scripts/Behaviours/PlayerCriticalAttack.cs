@@ -8,18 +8,24 @@ namespace Player.Scripts
 {
     public class PlayerCriticalAttack : IPlayerBehaviour
     {
-
         public UnityEvent<AttackPayload> OnPlayerAttack = new UnityEvent<AttackPayload>();
         public UnityEvent OnSpawnDamageBox = new UnityEvent();
         public UnityEvent OnRemoveDamageBox = new UnityEvent();
+        public UnityEvent OnReachedTarget = new UnityEvent();
 
+        private Vector3 dashStartPosition;
         private Vector3 dashTarget;
         private float dashSpeed;
         private float attackStartTimestamp;
-        private bool hasRemovedDamageBox;
+        private float reachedTargetTimestamp;
+        private bool hasReachedTarget => reachedTargetTimestamp > 0.0f;
+
         private bool hasHitObstacle;
+        private bool hasStartedDash = false;
+
         private readonly List<Collider> playerColliders = new List<Collider>();
         private readonly List<Collider> targetColliders = new List<Collider>();
+
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
@@ -30,7 +36,9 @@ namespace Player.Scripts
             }
 
             attackStartTimestamp = Time.time;
-            hasRemovedDamageBox = false;
+            reachedTargetTimestamp = -1.0f;
+            dashStartPosition = player.position;
+            hasStartedDash = false;
             hasHitObstacle = false;
 
             Vector3 direction = player.playerTargeting.directionToTarget.ToVector2().normalized.ToVector3();
@@ -41,28 +49,39 @@ namespace Player.Scripts
 
             player.playerStamina.ConsumeStamina(player.playerData.attackStaminaCost);
             OnPlayerAttack?.Invoke(new AttackPayload("Critical_Attack", AttackType.Critical, 1));
-            OnSpawnDamageBox?.Invoke();
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)
         {
-            float elapsedTime = Time.time - attackStartTimestamp;
-
-            float hitboxRemovalTime = GetHitboxRemovalTime(player);
-
-            if (!hasRemovedDamageBox && elapsedTime >= hitboxRemovalTime)
+            if (!hasStartedDash && Time.time - attackStartTimestamp >= player.playerData.attackDashDelay)
             {
-                hasRemovedDamageBox = true;
-                OnRemoveDamageBox?.Invoke();
+                OnSpawnDamageBox?.Invoke();
+                hasStartedDash = true;
             }
 
-            if (elapsedTime >= Mathf.Max(player.playerData.attackDuration, hitboxRemovalTime))
+            if (!hasReachedTarget && CheckIfReachedTarget(player))
+            {
+                OnReachedTarget?.Invoke();
+                reachedTargetTimestamp = Time.time;
+            }
+
+            if (hasReachedTarget && Time.time - reachedTargetTimestamp >= 0.3f)
+            {
+                OnRemoveDamageBox?.Invoke();
                 StopCriticalAttack(player);
+            }
+        }
+        private bool CheckIfReachedTarget(PlayerStateMachine player)
+        {
+            if (hasHitObstacle)
+                return true;
+
+            return Vector3.Distance(dashStartPosition, player.position) >= Vector3.Distance(dashStartPosition, dashTarget);
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)
         {
-            if (!hasHitObstacle && Time.time - attackStartTimestamp <= player.playerData.attackDashDuration)
+            if (hasStartedDash && !hasReachedTarget)
                 DashTowardTarget(player);
             else
                 player.moveVelocity = Vector3.zero;
@@ -98,23 +117,11 @@ namespace Player.Scripts
 
             return dashDistance / dashDuration;
         }
-
-        private float GetHitboxRemovalTime(PlayerStateMachine player)
-        {
-            return Mathf.Max(player.playerData.attackRemoveHitBoxTimer, player.playerData.attackDashDuration);
-        }
-
         private void DashTowardTarget(PlayerStateMachine player)
         {
             Vector3 position = player.position;
             Vector3 toTarget = dashTarget - position;
             float remainingDistance = toTarget.magnitude;
-
-            if (remainingDistance <= 0.05f)
-            {
-                player.moveVelocity = Vector3.zero;
-                return;
-            }
 
             float stepDistance = dashSpeed * Time.fixedDeltaTime;
             Vector3 direction = toTarget / remainingDistance;

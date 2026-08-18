@@ -79,6 +79,7 @@ namespace Player.Scripts
         public float attackSpawnHitBoxTimer;
         public float attackRemoveHitBoxTimer;
         public float attackDashDuration;
+        public float attackDashDelay;
         public float attackDashMaxDistance;
         public float attackDashDeceleration;
 
