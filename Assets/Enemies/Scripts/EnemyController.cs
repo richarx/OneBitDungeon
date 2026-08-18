@@ -31,14 +31,14 @@ public class EnemyController : SerializedMonoBehaviour
 
 
     // Runtime Components and state
-    [field: NonSerialized] public Animator animator { get; private set; }
-    [field: NonSerialized] public Damageable damageable { get; private set; }
-    [field: NonSerialized] public AfterImage afterImage { get; private set; }
-    [NonSerialized] private SphereCollider sphereCollider;
+    public Animator animator { get; private set; }
+    public Damageable damageable { get; private set; }
+    public AfterImage afterImage { get; private set; }
+    private SphereCollider sphereCollider;
 
-    [NonSerialized] private bool isDead;
-    [NonSerialized] private BehaviourExecution activeExecution;
-    [NonSerialized] private int executionId;
+    private bool isDead;
+    private BehaviourExecution activeExecution;
+    private int executionId;
 
 
 
@@ -46,12 +46,12 @@ public class EnemyController : SerializedMonoBehaviour
 
     [NonSerialized] public UnityEvent OnChangeBehaviour = new UnityEvent();
 
-    [NonSerialized] public List<IEnemyBehaviour> enemyBehaviours;
-    [field: NonSerialized] public IEnemyBehaviour currentBehaviour { get; private set; }
-    [field: NonSerialized] public IEnemyBehaviour startingBehaviour { get; private set; }
-    [field: NonSerialized] public IEnemyBehaviour phaseTransitionBehaviour { get; private set; }
+    private List<IEnemyBehaviour> enemyBehaviours;
+    public IEnemyBehaviour currentBehaviour { get; private set; }
+    public IEnemyBehaviour startingBehaviour { get; private set; }
+    public IEnemyBehaviour phaseTransitionBehaviour { get; private set; }
 
-    [field: NonSerialized] public int currentPhase { get; private set; } = 0;
+    public int currentPhase { get; private set; } = 0;
     private bool isLastPhase => currentPhase >= GetPhaseCount() - 1;
 
 
@@ -60,6 +60,7 @@ public class EnemyController : SerializedMonoBehaviour
     protected virtual void Start()
     {
         BindPhaseOwners();
+
         ResetRuntimeState();
         animator = Sprite.GetComponent<Animator>();
         sphereCollider = GetComponent<SphereCollider>();
@@ -183,7 +184,10 @@ public class EnemyController : SerializedMonoBehaviour
     public void TryCompleteBehaviour(BehaviourExecution execution)
     {
         if (!IsExecutionActive(execution))
+        {
+            Debug.LogWarning("[" + name + "] Attempted to complete a behaviour execution that is not active.", this);
             return;
+        }
 
         IEnemyBehaviour completedBehaviour = currentBehaviour;
         bool wasTransition = completedBehaviour == startingBehaviour;

@@ -21,8 +21,8 @@ public sealed class MageEvadeBehaviour : IEnemyBehaviour
     [OdinSerialize, MinValue(0f), LabelText("Durée de Recovery")]
     private float evadeRecoveryDuration = 1f;
 
-    [NonSerialized] private Sequence attackSequence;
-    [NonSerialized] private MageEvadeSpell spell;
+    private Sequence attackSequence;
+    private MageEvadeSpell spell;
 
     public MageEvadeBehaviour()
     {

@@ -23,11 +23,11 @@ public sealed class MageSwipeHorizontalBehaviour : IEnemyBehaviour
     [OdinSerialize, MinValue(0f), LabelText("Durée de Recovery")]
     private float swipeRecoveryDuration = 1f;
 
-    [NonSerialized] private bool isSubBehaviour;
-    [NonSerialized] private Sequence attackSequence;
-    [NonSerialized] private List<MageSwipeSpell> spells = new List<MageSwipeSpell>();
-    [NonSerialized] private CloseDodgeSession closeDodgeSession;
-    [NonSerialized] private bool ownsCloseDodgeSession;
+     private bool isSubBehaviour;
+    private Sequence attackSequence;
+    private List<MageSwipeSpell> spells = new List<MageSwipeSpell>();
+    private CloseDodgeSession closeDodgeSession;
+    private bool ownsCloseDodgeSession;
 
     public MageSwipeHorizontalBehaviour()
     {
