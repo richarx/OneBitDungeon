@@ -11,7 +11,15 @@ public sealed class MageEvadeBehaviour : IEnemyBehaviour
 {
     [OdinSerialize] private float radius;
     [OdinSerialize, Required] private MageEvadeSpell mageEvadeSpellPrefab;
-    [OdinSerialize, Required] private MageData mageData;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de spawn")]
+    private float evadeSpawnDuration = 0.3f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Fill")]
+    private float evadeFillDuration = 0.75f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Recovery")]
+    private float evadeRecoveryDuration = 1f;
 
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private MageEvadeSpell spell;
@@ -20,11 +28,18 @@ public sealed class MageEvadeBehaviour : IEnemyBehaviour
     {
     }
 
-    public MageEvadeBehaviour(float radius, MageEvadeSpell mageEvadeSpellPrefab, MageData mageData)
+    public MageEvadeBehaviour(
+        float radius,
+        MageEvadeSpell mageEvadeSpellPrefab,
+        float evadeSpawnDuration,
+        float evadeFillDuration,
+        float evadeRecoveryDuration)
     {
         this.radius = radius;
         this.mageEvadeSpellPrefab = mageEvadeSpellPrefab;
-        this.mageData = mageData;
+        this.evadeSpawnDuration = evadeSpawnDuration;
+        this.evadeFillDuration = evadeFillDuration;
+        this.evadeRecoveryDuration = evadeRecoveryDuration;
     }
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
@@ -40,7 +55,7 @@ public sealed class MageEvadeBehaviour : IEnemyBehaviour
             .ChainCallback(() => SpawnDamageZone(target))
             .Chain(MoveMageToPosition(enemy, target))
             .Chain(TeleportMageToPosition(enemy, evade))
-            .ChainDelay(isSecondPhase ? mageData.evadeRecoveryDuration_p2 : mageData.evadeRecoveryDuration)
+            .ChainDelay(evadeRecoveryDuration)
             .ChainCallback(() => execution.Complete());
     }
     public void UpdateBehaviour(EnemyController enemy) { }
@@ -65,11 +80,11 @@ public sealed class MageEvadeBehaviour : IEnemyBehaviour
             .ChainCallback(() =>
             {
                 if (isSecondPhase)
-                    enemy.afterImage.Trigger(mageData.evadeSpawnDuration);
+                    enemy.afterImage.Trigger(evadeSpawnDuration);
 
                 MageSFX.instance.PlayMageMove();
             })
-            .Group(Tween.Position(enemy.transform, position, mageData.evadeSpawnDuration, Ease.InOutCubic));
+            .Group(Tween.Position(enemy.transform, position, evadeSpawnDuration, Ease.InOutCubic));
     }
     private Sequence TeleportMageToPosition(EnemyController enemy, Vector3 position)
     {
@@ -82,7 +97,7 @@ public sealed class MageEvadeBehaviour : IEnemyBehaviour
     private void SpawnDamageZone(Vector3 position)
     {
         spell = UnityEngine.Object.Instantiate(mageEvadeSpellPrefab, position, Quaternion.Euler(90.0f, 0.0f, 0.0f));
-        spell.Setup(radius, mageData.evadeSpawnDuration, mageData.evadeFillDuration, null);
+        spell.Setup(radius, evadeSpawnDuration, evadeFillDuration, null);
     }
     private void ResetRuntimeState()
     {

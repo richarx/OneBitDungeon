@@ -12,7 +12,21 @@ public sealed class MageThrowBehaviour : IEnemyBehaviour
     [OdinSerialize] private float rotationDampening;
     [OdinSerialize] private float rockMovementDuration;
     [OdinSerialize, Required] private MageThrowSpell mageThrowSpellPrefab;
-    [OdinSerialize, Required] private MageData mageData;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de déplacement")]
+    private float throwMoveDuration = 1f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de spawn")]
+    private float throwSpawnDuration = 1f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Fill")]
+    private float throwFillDuration = 0.5f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de rotation")]
+    private float throwRotationDuration = 1.4f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Recovery")]
+    private float throwRecoveryDuration = 2f;
 
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private List<MageThrowSpell> spells = new List<MageThrowSpell>();
@@ -24,12 +38,20 @@ public sealed class MageThrowBehaviour : IEnemyBehaviour
         float rotationDampening,
         float rockMovementDuration,
         MageThrowSpell mageThrowSpellPrefab,
-        MageData mageData)
+        float throwMoveDuration,
+        float throwSpawnDuration,
+        float throwFillDuration,
+        float throwRotationDuration,
+        float throwRecoveryDuration)
     {
         this.rotationDampening = rotationDampening;
         this.rockMovementDuration = rockMovementDuration;
         this.mageThrowSpellPrefab = mageThrowSpellPrefab;
-        this.mageData = mageData;
+        this.throwMoveDuration = throwMoveDuration;
+        this.throwSpawnDuration = throwSpawnDuration;
+        this.throwFillDuration = throwFillDuration;
+        this.throwRotationDuration = throwRotationDuration;
+        this.throwRecoveryDuration = throwRecoveryDuration;
     }
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
@@ -44,7 +66,7 @@ public sealed class MageThrowBehaviour : IEnemyBehaviour
             .Chain(MoveMageToPosition(enemy, enemyPosition))
             .Chain(ShootRock(enemy, rightPosition, 0.0f, true))
             .Group(ShootRock(enemy, leftPosition, 0.5f, false))
-            .ChainDelay(isSecondPhase ? mageData.throwRecoveryDuration_p2 : mageData.throwRecoveryDuration)
+            .ChainDelay(throwRecoveryDuration)
             .ChainCallback(() => execution.Complete());
     }
     public void UpdateBehaviour(EnemyController enemy) { }
@@ -73,11 +95,11 @@ public sealed class MageThrowBehaviour : IEnemyBehaviour
                     position,
                     Quaternion.identity);
                 spell.Setup(
-                    mageData.throwRotationDuration,
+                    throwRotationDuration,
                     rotationDampening,
                     rockMovementDuration,
-                    mageData.throwSpawnDuration,
-                    mageData.throwFillDuration,
+                    throwSpawnDuration,
+                    throwFillDuration,
                     () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
                 spells.Add(spell);
             });
@@ -85,7 +107,7 @@ public sealed class MageThrowBehaviour : IEnemyBehaviour
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 position)
     {
         bool isSecondPhase = enemy.currentPhase > 0;
-        float duration = isSecondPhase ? mageData.throwMoveDuration_p2 : mageData.throwMoveDuration;
+        float duration = throwMoveDuration;
         return Sequence.Create()
             .ChainCallback(() =>
             {

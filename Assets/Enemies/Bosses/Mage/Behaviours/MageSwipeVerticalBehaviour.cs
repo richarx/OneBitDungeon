@@ -10,7 +10,31 @@ using UnityEngine;
 public sealed class MageSwipeVerticalBehaviour : IEnemyBehaviour
 {
     [OdinSerialize, Required] private MageSwipeSpell mageSwipeSpellPrefab;
-    [OdinSerialize, Required] private MageData mageData;
+
+    [OdinSerialize]
+    [MinValue(0f)]
+    [LabelText("Durée de déplacement")]
+    private float swipeMoveDuration = 1f;
+
+    [OdinSerialize]
+    [MinValue(0f)]
+    [LabelText("Durée de spawn")]
+    private float swipeSpawnDuration = 1f;
+
+    [OdinSerialize]
+    [MinValue(0f)]
+    [LabelText("Durée de Fill")]
+    private float swipeFillDuration = 0.5f;
+
+    [OdinSerialize]
+    [MinValue(0f)]
+    [LabelText("Durée de Recovery")]
+    private float swipeRecoveryDuration = 1f;
+
+    [OdinSerialize]
+    [LabelText("After Image")]
+    private bool triggerAfterImage = false  ;
+
 
     [NonSerialized] private bool isSubBehaviour;
     [NonSerialized] private Sequence attackSequence;
@@ -22,10 +46,13 @@ public sealed class MageSwipeVerticalBehaviour : IEnemyBehaviour
     {
     }
 
-    public MageSwipeVerticalBehaviour(MageSwipeSpell mageSwipeSpellPrefab, MageData mageData)
+    public MageSwipeVerticalBehaviour(MageSwipeSpell mageSwipeSpellPrefab, float swipeMoveDuration, float swipeSpawnDuration, float swipeFillDuration, float swipeRecoveryDuration)
     {
         this.mageSwipeSpellPrefab = mageSwipeSpellPrefab;
-        this.mageData = mageData;
+        this.swipeMoveDuration = swipeMoveDuration;
+        this.swipeSpawnDuration = swipeSpawnDuration;
+        this.swipeFillDuration = swipeFillDuration;
+        this.swipeRecoveryDuration = swipeRecoveryDuration;
     }
 
     public void SetCloseDodgeSession(CloseDodgeSession session)
@@ -47,7 +74,6 @@ public sealed class MageSwipeVerticalBehaviour : IEnemyBehaviour
         }
 
         Debug.Log("Mage SWIPE VERTICAL");
-        bool isSecondPhase = enemy.currentPhase > 0;
         Vector3 randomPosition = UnityEngine.Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
 
@@ -61,7 +87,7 @@ public sealed class MageSwipeVerticalBehaviour : IEnemyBehaviour
                 .Group(CastSwipeSpell(new Vector3(0.0f, 0.0f, 10.0f), Vector2.down, 0.1f))
                 .Group(CastSwipeSpell(new Vector3(-4.58f, 0.0f, -10.0f), Vector2.up, 0.15f))
                 .Group(CastSwipeSpell(new Vector3(-9.11f, 0.0f, 10.0f), Vector2.down, 0.2f))
-                .ChainDelay(isSecondPhase ? mageData.swipeRecoveryDuration_2 : mageData.swipeRecoveryDuration)
+                .ChainDelay(swipeRecoveryDuration)
                 .ChainCallback(() => execution.Complete());
         }
         else
@@ -102,18 +128,17 @@ public sealed class MageSwipeVerticalBehaviour : IEnemyBehaviour
         return Sequence.Create().ChainDelay(delay).ChainCallback(() =>
         {
             MageSwipeSpell spell = UnityEngine.Object.Instantiate(mageSwipeSpellPrefab, position, Quaternion.Euler(90.0f, 0.0f, 0.0f));
-            spell.Setup(direction, mageData.swipeSpawnDuration, mageData.swipeFillDuration, closeDodgeSession);
+            spell.Setup(direction, swipeSpawnDuration, swipeFillDuration, closeDodgeSession);
             spells.Add(spell);
         });
     }
 
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 position)
     {
-        bool isSecondPhase = enemy.currentPhase > 0;
-        float duration = isSecondPhase ? mageData.swipeMoveDuration_p2 : mageData.swipeMoveDuration;
+        float duration = swipeMoveDuration;
         return Sequence.Create().ChainDelay(0.5f).ChainCallback(() =>
         {
-            if (isSecondPhase)
+            if (triggerAfterImage)
                 enemy.afterImage.Trigger(duration);
             MageSFX.instance.PlayMageMove();
         }).Group(Tween.Position(enemy.transform, position, duration, Ease.InOutCubic));

@@ -8,33 +8,23 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public class EnemyController : SerializedMonoBehaviour
 {
-    [TitleGroup("Mort legacy")]
-    [ShowIf(nameof(UsesLegacyPhaseDefinitions))]
-    public GameObject deathBehaviourObject;
-
     // Exposed properties
     [TitleGroup("Phases")]
     [OdinSerialize]
-    [OnValueChanged(nameof(BindOdinPhaseOwners))]
+    [OnValueChanged(nameof(BindPhaseOwners))]
     [ListDrawerSettings(ShowFoldout = true)]
-    [LabelText("Phases Odin")]
-    private List<OdinEnemyPhase> odinEnemyPhases = new List<OdinEnemyPhase>();
+    [LabelText("Phases")]
+    private List<OdinEnemyPhase> phases = new List<OdinEnemyPhase>();
 
-    [TitleGroup("Mort Odin")]
-    [ShowIf(nameof(UsesOdinPhaseDefinitions))]
+    [TitleGroup("Mort")]
     [OdinSerialize]
-    [LabelText("Comportement de mort")]
+    [LabelText("Death Behaviour")]
     [HideReferenceObjectPicker]
     [TypeFilter(nameof(GetInlineBehaviourTypes))]
-    private IEnemyBehaviour odinDeathBehaviour;
-
-    [TitleGroup("Phases legacy")]
-    [ShowIf(nameof(UsesLegacyPhaseDefinitions))]
-    public List<EnemyPhase> enemyPhases;
+    private IEnemyBehaviour deathBehaviour;
 
     [field: SerializeField] public SpriteRenderer Sprite { get; private set; }
     [field: SerializeField] public SpriteRenderer shadowSprite { get; private set; }
@@ -47,8 +37,6 @@ public class EnemyController : SerializedMonoBehaviour
     [NonSerialized] private SphereCollider sphereCollider;
 
     [NonSerialized] private bool isDead;
-    [NonSerialized] private readonly Dictionary<GameObject, IEnemyBehaviour> runtimeBehaviourCache = new Dictionary<GameObject, IEnemyBehaviour>();
-    [NonSerialized] private Transform runtimeBehaviourRoot;
     [NonSerialized] private BehaviourExecution activeExecution;
     [NonSerialized] private int executionId;
 
@@ -65,15 +53,13 @@ public class EnemyController : SerializedMonoBehaviour
 
     [field: NonSerialized] public int currentPhase { get; private set; } = 0;
     private bool isLastPhase => currentPhase >= GetPhaseCount() - 1;
-    private bool UsesOdinPhaseDefinitions => odinEnemyPhases != null && odinEnemyPhases.Count > 0;
-    private bool UsesLegacyPhaseDefinitions => !UsesOdinPhaseDefinitions;
 
 
 
 
     protected virtual void Start()
     {
-        BindOdinPhaseOwners();
+        BindPhaseOwners();
         ResetRuntimeState();
         animator = Sprite.GetComponent<Animator>();
         sphereCollider = GetComponent<SphereCollider>();
@@ -132,8 +118,6 @@ public class EnemyController : SerializedMonoBehaviour
         enemyBehaviours = null;
         activeExecution = null;
         executionId = 0;
-        runtimeBehaviourCache.Clear();
-        runtimeBehaviourRoot = null;
     }
 
     private void InterruptCurrentBehaviour()
@@ -147,64 +131,10 @@ public class EnemyController : SerializedMonoBehaviour
 
     private IEnemyBehaviour GetDeathBehaviour()
     {
-        if (UsesOdinPhaseDefinitions)
-        {
-            if (odinDeathBehaviour == null)
-                Debug.LogWarning($"[{name}] No Odin death behaviour is configured; applying the safe death fallback.", this);
-
-            return odinDeathBehaviour;
-        }
-
-        IEnemyBehaviour deathBehaviour = ResolveBehaviour(deathBehaviourObject);
         if (deathBehaviour == null)
-            Debug.LogError($"[{name}] Could not resolve a valid death behaviour.", this);
+            Debug.LogWarning($"[{name}] No death behaviour is configured; applying the safe death fallback.", this);
 
         return deathBehaviour;
-    }
-
-    public IEnemyBehaviour ResolveBehaviour(GameObject behaviourPrefab)
-    {
-        if (behaviourPrefab == null)
-        {
-            Debug.LogError($"[{name}] Cannot resolve a missing behaviour prefab.", this);
-            return null;
-        }
-
-        if (runtimeBehaviourCache.TryGetValue(behaviourPrefab, out IEnemyBehaviour cachedBehaviour))
-        {
-            return cachedBehaviour;
-        }
-
-        GameObject runtimeBehaviourObject = Instantiate(behaviourPrefab, GetRuntimeBehaviourRoot());
-        if (runtimeBehaviourObject == null)
-        {
-            Debug.LogError($"[{name}] Failed to instantiate behaviour prefab '{behaviourPrefab.name}'.", behaviourPrefab);
-            runtimeBehaviourCache.Add(behaviourPrefab, null);
-            return null;
-        }
-
-        runtimeBehaviourObject.name = $"{behaviourPrefab.name} (Runtime)";
-        IEnemyBehaviour runtimeBehaviour = runtimeBehaviourObject.GetComponent<IEnemyBehaviour>();
-        if (runtimeBehaviour == null)
-        {
-            Debug.LogError($"[{name}] Behaviour prefab '{behaviourPrefab.name}' does not implement IEnemyBehaviour.", behaviourPrefab);
-            runtimeBehaviourCache.Add(behaviourPrefab, null);
-            Destroy(runtimeBehaviourObject);
-            return null;
-        }
-
-        runtimeBehaviourCache.Add(behaviourPrefab, runtimeBehaviour);
-        return runtimeBehaviour;
-    }
-
-    private Transform GetRuntimeBehaviourRoot()
-    {
-        if (runtimeBehaviourRoot != null)
-            return runtimeBehaviourRoot;
-
-        runtimeBehaviourRoot = new GameObject("Runtime Behaviours").transform;
-        runtimeBehaviourRoot.SetParent(transform, false);
-        return runtimeBehaviourRoot;
     }
 
     private void HandleMissingDeathBehaviour()
@@ -305,7 +235,7 @@ public class EnemyController : SerializedMonoBehaviour
 
     private int GetPhaseCount()
     {
-        return UsesOdinPhaseDefinitions ? odinEnemyPhases.Count : enemyPhases != null ? enemyPhases.Count : 0;
+        return phases != null ? phases.Count : 0;
     }
 
     private int GetPhaseHealthThreshold(int phaseIndex)
@@ -313,74 +243,44 @@ public class EnemyController : SerializedMonoBehaviour
         if (!IsPhaseInList(phaseIndex))
             return 0;
 
-        if (UsesOdinPhaseDefinitions)
-        {
-            OdinEnemyPhase phase = odinEnemyPhases[phaseIndex];
-            return phase != null ? phase.healthThresholdToTriggerTransition : 0;
-        }
-
-        EnemyPhase legacyPhase = enemyPhases[phaseIndex];
-        return legacyPhase != null ? legacyPhase.healthThresholdToTriggerTransition : 0;
+        OdinEnemyPhase phase = phases[phaseIndex];
+        return phase != null ? phase.healthThresholdToTriggerTransition : 0;
     }
 
     private List<IEnemyBehaviour> GetPhaseBehaviours(int phaseIndex)
     {
         if (!IsPhaseInList(phaseIndex))
         {
-            Debug.LogError($"[{name}] Cannot get behaviours for phase {phaseIndex}: the active phase source has no such phase.", this);
+            Debug.LogError($"[{name}] Cannot get behaviours for phase {phaseIndex}: no such phase is configured.", this);
             return new List<IEnemyBehaviour>();
         }
 
-        if (UsesOdinPhaseDefinitions)
+        OdinEnemyPhase phase = phases[phaseIndex];
+        if (phase == null)
         {
-            OdinEnemyPhase phase = odinEnemyPhases[phaseIndex];
-            if (phase == null)
-            {
-                Debug.LogError($"[{name}] Odin phase {phaseIndex} is missing.", this);
-                return new List<IEnemyBehaviour>();
-            }
-
-            return phase.GetBehaviours();
-        }
-
-        EnemyPhase legacyPhase = enemyPhases[phaseIndex];
-        if (legacyPhase == null)
-        {
-            Debug.LogError($"[{name}] Legacy phase {phaseIndex} is missing.", this);
+            Debug.LogError($"[{name}] Phase {phaseIndex} is missing.", this);
             return new List<IEnemyBehaviour>();
         }
 
-        return legacyPhase.GetBehaviours(this);
+        return phase.GetBehaviours();
     }
 
     private IEnemyBehaviour GetPhaseTransitionBehaviour(int phaseIndex)
     {
         if (!IsPhaseInList(phaseIndex))
         {
-            Debug.LogError($"[{name}] Cannot get transition for phase {phaseIndex}: the active phase source has no such phase.", this);
+            Debug.LogError($"[{name}] Cannot get transition for phase {phaseIndex}: no such phase is configured.", this);
             return null;
         }
 
-        if (UsesOdinPhaseDefinitions)
+        OdinEnemyPhase phase = phases[phaseIndex];
+        if (phase == null)
         {
-            OdinEnemyPhase phase = odinEnemyPhases[phaseIndex];
-            if (phase == null)
-            {
-                Debug.LogError($"[{name}] Odin phase {phaseIndex} is missing.", this);
-                return null;
-            }
-
-            return phase.transitionBehaviour;
-        }
-
-        EnemyPhase legacyPhase = enemyPhases[phaseIndex];
-        if (legacyPhase == null)
-        {
-            Debug.LogError($"[{name}] Legacy phase {phaseIndex} is missing.", this);
+            Debug.LogError($"[{name}] Phase {phaseIndex} is missing.", this);
             return null;
         }
 
-        return legacyPhase.GetTransitionBehaviour(this);
+        return phase.transitionBehaviour;
     }
 
     private bool IsPhaseInList(int phaseIndex)
@@ -395,20 +295,20 @@ public class EnemyController : SerializedMonoBehaviour
 
     private void OnEnable()
     {
-        BindOdinPhaseOwners();
+        BindPhaseOwners();
     }
 
     private void OnValidate()
     {
-        BindOdinPhaseOwners();
+        BindPhaseOwners();
     }
 
-    private void BindOdinPhaseOwners()
+    private void BindPhaseOwners()
     {
-        if (odinEnemyPhases == null)
+        if (phases == null)
             return;
 
-        foreach (OdinEnemyPhase phase in odinEnemyPhases)
+        foreach (OdinEnemyPhase phase in phases)
         {
             if (phase != null)
                 phase.BindOwner(this);

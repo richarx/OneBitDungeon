@@ -12,7 +12,27 @@ public sealed class MageMultiThrowBehaviour : IEnemyBehaviour
     [OdinSerialize] private float rotationDampening;
     [OdinSerialize] private float rockMovementDuration;
     [OdinSerialize, Required] private MageThrowSpell mageThrowSpellPrefab;
-    [OdinSerialize, Required] private MageData mageData;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de déplacement centre")]
+    private float multiThrowMoveDuration = 0.3f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de déplacement à droite")]
+    private float multiThrowMoveDurationToRight = 0.1f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de déplacement à gauche")]
+    private float multiThrowMoveDurationToLeft = 0.1f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de spawn")]
+    private float multiThrowSpawnDuration = 0.5f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Fill")]
+    private float multiThrowFillDuration = 0.5f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de rotation")]
+    private float multiThrowRotationDuration = 1f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Recovery")]
+    private float multiThrowRecoveryDuration = 0.3f;
 
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private List<MageThrowSpell> spells = new List<MageThrowSpell>();
@@ -25,12 +45,24 @@ public sealed class MageMultiThrowBehaviour : IEnemyBehaviour
         float rotationDampening,
         float rockMovementDuration,
         MageThrowSpell mageThrowSpellPrefab,
-        MageData mageData)
+        float multiThrowMoveDuration,
+        float multiThrowMoveDurationToRight,
+        float multiThrowMoveDurationToLeft,
+        float multiThrowSpawnDuration,
+        float multiThrowFillDuration,
+        float multiThrowRotationDuration,
+        float multiThrowRecoveryDuration)
     {
         this.rotationDampening = rotationDampening;
         this.rockMovementDuration = rockMovementDuration;
         this.mageThrowSpellPrefab = mageThrowSpellPrefab;
-        this.mageData = mageData;
+        this.multiThrowMoveDuration = multiThrowMoveDuration;
+        this.multiThrowMoveDurationToRight = multiThrowMoveDurationToRight;
+        this.multiThrowMoveDurationToLeft = multiThrowMoveDurationToLeft;
+        this.multiThrowSpawnDuration = multiThrowSpawnDuration;
+        this.multiThrowFillDuration = multiThrowFillDuration;
+        this.multiThrowRotationDuration = multiThrowRotationDuration;
+        this.multiThrowRecoveryDuration = multiThrowRecoveryDuration;
     }
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
@@ -43,19 +75,19 @@ public sealed class MageMultiThrowBehaviour : IEnemyBehaviour
         Vector3 left = new Vector3(-6.0f, 0.0f, 8.5f);
 
         attackSequence = Sequence.Create()
-            .Chain(MoveMageToPosition(enemy, center, mageData.multiThrowMoveDuration))
+            .Chain(MoveMageToPosition(enemy, center, multiThrowMoveDuration))
             .Chain(ShootRock(enemy, center + Vector3.right * 3.0f, 0.0f, true))
             .Group(ShootRock(enemy, center - Vector3.right * 3.0f, 0.5f, false))
             .ChainDelay(1.85f)
-            .Chain(MoveMageToPosition(enemy, right, mageData.multiThrowMoveDuration_toRight))
+            .Chain(MoveMageToPosition(enemy, right, multiThrowMoveDurationToRight))
             .Chain(ShootRock(enemy, right + Vector3.right * 3.0f, 0.0f, true))
             .Group(ShootRock(enemy, right - Vector3.right * 3.0f, 0.5f, false))
             .ChainDelay(1.65f)
-            .Chain(MoveMageToPosition(enemy, left, mageData.multiThrowMoveDuration_toLeft))
+            .Chain(MoveMageToPosition(enemy, left, multiThrowMoveDurationToLeft))
             .Chain(ShootRock(enemy, left + Vector3.right * 3.0f, 0.0f, true))
             .Group(ShootRock(enemy, left - Vector3.right * 3.0f, 0.5f, false))
             .ChainDelay(1.65f)
-            .ChainDelay(mageData.multiThrowRecoveryDuration)
+            .ChainDelay(multiThrowRecoveryDuration)
             .ChainCallback(() => execution.Complete());
     }
     public void UpdateBehaviour(EnemyController enemy) { }
@@ -80,11 +112,11 @@ public sealed class MageMultiThrowBehaviour : IEnemyBehaviour
                     position,
                     Quaternion.identity);
                 spell.Setup(
-                    mageData.multiThrowRotationDuration,
+                    multiThrowRotationDuration,
                     rotationDampening,
                     rockMovementDuration,
-                    mageData.multiThrowSpawnDuration,
-                    mageData.multiThrowFillDuration,
+                    multiThrowSpawnDuration,
+                    multiThrowFillDuration,
                     () => enemy.animator.Play(isRight ? "Shoot_Right" : "Shoot_Left"));
                 spells.Add(spell);
             });

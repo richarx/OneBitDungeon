@@ -10790,7 +10790,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: odinEnemyPhases
+    - Name: phases
       Entry: 7
       Data: 0|System.Collections.Generic.List`1[[OdinEnemyPhase, Assembly-CSharp]],
         mscorlib
@@ -10876,7 +10876,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: odinDeathBehaviour
+    - Name: deathBehaviour
       Entry: 7
       Data: 7|GladiatorDeathBehaviour, Assembly-CSharp
     - Name: 

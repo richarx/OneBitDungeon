@@ -10,7 +10,18 @@ using UnityEngine;
 public sealed class MageSwipeHorizontalBehaviour : IEnemyBehaviour
 {
     [OdinSerialize, Required] private MageSwipeSpell mageSwipeSpellPrefab;
-    [OdinSerialize, Required] private MageData mageData;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de déplacement")]
+    private float swipeMoveDuration = 1f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de spawn")]
+    private float swipeSpawnDuration = 1f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Fill")]
+    private float swipeFillDuration = 0.5f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Recovery")]
+    private float swipeRecoveryDuration = 1f;
 
     [NonSerialized] private bool isSubBehaviour;
     [NonSerialized] private Sequence attackSequence;
@@ -22,10 +33,18 @@ public sealed class MageSwipeHorizontalBehaviour : IEnemyBehaviour
     {
     }
 
-    public MageSwipeHorizontalBehaviour(MageSwipeSpell mageSwipeSpellPrefab, MageData mageData)
+    public MageSwipeHorizontalBehaviour(
+        MageSwipeSpell mageSwipeSpellPrefab,
+        float swipeMoveDuration,
+        float swipeSpawnDuration,
+        float swipeFillDuration,
+        float swipeRecoveryDuration)
     {
         this.mageSwipeSpellPrefab = mageSwipeSpellPrefab;
-        this.mageData = mageData;
+        this.swipeMoveDuration = swipeMoveDuration;
+        this.swipeSpawnDuration = swipeSpawnDuration;
+        this.swipeFillDuration = swipeFillDuration;
+        this.swipeRecoveryDuration = swipeRecoveryDuration;
     }
 
     public void SetCloseDodgeSession(CloseDodgeSession session)
@@ -50,8 +69,6 @@ public sealed class MageSwipeHorizontalBehaviour : IEnemyBehaviour
         Debug.Log("Mage SWIPE HORIZONTAL");
         Vector3 randomPosition = UnityEngine.Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
-        bool isSecondPhase = enemy.currentPhase > 0;
-
         if (!isSubBehaviour)
         {
             attackSequence = Sequence.Create()
@@ -62,7 +79,7 @@ public sealed class MageSwipeHorizontalBehaviour : IEnemyBehaviour
                 .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, 0.0f), Vector2.left, 0.1f))
                 .Group(CastSwipeSpell(new Vector3(-10.0f, 0.0f, -4.58f), Vector2.right, 0.15f))
                 .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, -9.11f), Vector2.left, 0.2f))
-                .ChainDelay(isSecondPhase ? mageData.swipeRecoveryDuration_2 : mageData.swipeRecoveryDuration)
+                .ChainDelay(swipeRecoveryDuration)
                 .ChainCallback(() => execution.Complete());
         }
         else
@@ -103,7 +120,7 @@ public sealed class MageSwipeHorizontalBehaviour : IEnemyBehaviour
         return Sequence.Create().ChainDelay(delay).ChainCallback(() =>
         {
             MageSwipeSpell spell = UnityEngine.Object.Instantiate(mageSwipeSpellPrefab, position, Quaternion.Euler(90.0f, 0.0f, 0.0f));
-            spell.Setup(direction, mageData.swipeSpawnDuration, mageData.swipeFillDuration, closeDodgeSession);
+            spell.Setup(direction, swipeSpawnDuration, swipeFillDuration, closeDodgeSession);
             spells.Add(spell);
         });
     }
@@ -111,7 +128,7 @@ public sealed class MageSwipeHorizontalBehaviour : IEnemyBehaviour
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 position)
     {
         bool isSecondPhase = enemy.currentPhase > 0;
-        float duration = isSecondPhase ? mageData.swipeMoveDuration_p2 : mageData.swipeMoveDuration;
+        float duration = swipeMoveDuration;
         return Sequence.Create().ChainDelay(0.5f).ChainCallback(() =>
         {
             if (isSecondPhase)

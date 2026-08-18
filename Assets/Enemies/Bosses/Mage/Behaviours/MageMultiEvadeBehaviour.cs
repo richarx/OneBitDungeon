@@ -13,7 +13,15 @@ public sealed class MageMultiEvadeBehaviour : IEnemyBehaviour
     [OdinSerialize] private float radius;
     [OdinSerialize, Required] private MageEvadeSpell mageEvadeSpellPrefab;
     [OdinSerialize, Required] private HollowCircleDamageZone hollowCircleDamageZonePrefab;
-    [OdinSerialize, Required] private MageData mageData;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de spawn")]
+    private float multiEvadeSpawnDuration = 0.3f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Fill")]
+    private float multiEvadeFillDuration = 0.7f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Recovery")]
+    private float multiEvadeRecoveryDuration = 0.5f;
 
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private HollowCircleDamageZone hollowCircle;
@@ -27,12 +35,16 @@ public sealed class MageMultiEvadeBehaviour : IEnemyBehaviour
         float radius,
         MageEvadeSpell mageEvadeSpellPrefab,
         HollowCircleDamageZone hollowCircleDamageZonePrefab,
-        MageData mageData)
+        float multiEvadeSpawnDuration,
+        float multiEvadeFillDuration,
+        float multiEvadeRecoveryDuration)
     {
         this.radius = radius;
         this.mageEvadeSpellPrefab = mageEvadeSpellPrefab;
         this.hollowCircleDamageZonePrefab = hollowCircleDamageZonePrefab;
-        this.mageData = mageData;
+        this.multiEvadeSpawnDuration = multiEvadeSpawnDuration;
+        this.multiEvadeFillDuration = multiEvadeFillDuration;
+        this.multiEvadeRecoveryDuration = multiEvadeRecoveryDuration;
     }
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
@@ -59,7 +71,7 @@ public sealed class MageMultiEvadeBehaviour : IEnemyBehaviour
             .ChainCallback(() => SpawnDamageZone(evade2, () => SpawnHollowCircle(evade2)))
             .Chain(MoveMageToPosition(enemy, evade2))
             .Chain(TeleportMageToPosition(enemy, evade3))
-            .ChainDelay(mageData.multiEvadeRecoveryDuration)
+            .ChainDelay(multiEvadeRecoveryDuration)
             .ChainCallback(() => execution.Complete());
     }
 
@@ -80,10 +92,10 @@ public sealed class MageMultiEvadeBehaviour : IEnemyBehaviour
         return Sequence.Create()
             .ChainCallback(() =>
             {
-                enemy.afterImage.Trigger(mageData.multiEvadeSpawnDuration);
+                enemy.afterImage.Trigger(multiEvadeSpawnDuration);
                 MageSFX.instance.PlayMageMove();
             })
-            .Group(Tween.Position(enemy.transform, position, mageData.multiEvadeSpawnDuration, Ease.InOutCubic));
+            .Group(Tween.Position(enemy.transform, position, multiEvadeSpawnDuration, Ease.InOutCubic));
     }
 
     private Sequence TeleportMageToPosition(EnemyController enemy, Vector3 position)
@@ -110,7 +122,7 @@ public sealed class MageMultiEvadeBehaviour : IEnemyBehaviour
             mageEvadeSpellPrefab,
             position,
             Quaternion.Euler(90.0f, 0.0f, 0.0f));
-        spell.Setup(radius, mageData.multiEvadeSpawnDuration, mageData.multiEvadeFillDuration, onShootCallback);
+        spell.Setup(radius, multiEvadeSpawnDuration, multiEvadeFillDuration, onShootCallback);
         spells.Add(spell);
     }
 

@@ -9,7 +9,18 @@ using UnityEngine;
 public sealed class MageRainBehaviour : IEnemyBehaviour
 {
     [OdinSerialize, Required] private MageRainSpell mageRainSpellPrefab;
-    [OdinSerialize, Required] private MageData mageData;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de déplacement")]
+    private float rainMoveDuration = 1f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de spawn")]
+    private float rainSpawnDuration = 0.5f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Fill")]
+    private float rainFillDuration = 0.3f;
+
+    [OdinSerialize, MinValue(0f), LabelText("Durée de Recovery")]
+    private float rainRecoveryDuration = 0.5f;
 
     [NonSerialized] private bool isSubBehaviour;
     [NonSerialized] private Sequence attackSequence;
@@ -18,10 +29,18 @@ public sealed class MageRainBehaviour : IEnemyBehaviour
     {
     }
 
-    public MageRainBehaviour(MageRainSpell mageRainSpellPrefab, MageData mageData)
+    public MageRainBehaviour(
+        MageRainSpell mageRainSpellPrefab,
+        float rainMoveDuration,
+        float rainSpawnDuration,
+        float rainFillDuration,
+        float rainRecoveryDuration)
     {
         this.mageRainSpellPrefab = mageRainSpellPrefab;
-        this.mageData = mageData;
+        this.rainMoveDuration = rainMoveDuration;
+        this.rainSpawnDuration = rainSpawnDuration;
+        this.rainFillDuration = rainFillDuration;
+        this.rainRecoveryDuration = rainRecoveryDuration;
     }
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
@@ -36,7 +55,7 @@ public sealed class MageRainBehaviour : IEnemyBehaviour
             attackSequence = Sequence.Create()
                 .Chain(MoveMageToPosition(enemy, randomPosition))
                 .Group(CastRainSpell())
-                .ChainDelay(second ? mageData.rainRecoveryDuration_p2 : mageData.rainRecoveryDuration)
+                .ChainDelay(rainRecoveryDuration)
                 .ChainCallback(() => execution.Complete());
         }
         else
@@ -70,13 +89,13 @@ public sealed class MageRainBehaviour : IEnemyBehaviour
                 mageRainSpellPrefab,
                 Vector3.zero,
                 Quaternion.Euler(90.0f, 0.0f, 0.0f));
-            spell.Setup(0.1f, mageData.rainSpawnDuration, mageData.rainFillDuration);
+            spell.Setup(0.1f, rainSpawnDuration, rainFillDuration);
         });
     }
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 position)
     {
         bool second = enemy.currentPhase > 0;
-        float duration = second ? mageData.rainMoveDuration_p2 : mageData.rainMoveDuration;
+        float duration = rainMoveDuration;
         return Sequence.Create()
             .ChainDelay(0.5f)
             .ChainCallback(() =>

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Enemies.Scripts;
 using Enemies.Scripts.Behaviours;
 using PrimeTween;
@@ -45,6 +46,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
     private Sequence stunSequence;
     private Sequence rageSequence;
     private BehaviourExecution activeExecution;
+    private readonly Dictionary<GameObject, IEnemyBehaviour> runtimeBehaviours = new Dictionary<GameObject, IEnemyBehaviour>();
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -124,7 +126,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
 
     private void StartSecondaryBehaviour(EnemyController enemy)
     {
-        attackBehaviour = enemy.ResolveBehaviour(attackBehaviourObject);
+        attackBehaviour = InstantiateBehaviour(enemy, attackBehaviourObject);
         if (attackBehaviour == null)
             return;
 
@@ -157,13 +159,13 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
         RockOrbiter.instance.DisplayRocks();
         RockOrbiter.instance.SetRockSpeed(1.0f);
 
-        rageBehaviour_1 = enemy.ResolveBehaviour(rageBehaviourObject_1);
+        rageBehaviour_1 = InstantiateBehaviour(enemy, rageBehaviourObject_1);
         if (rageBehaviour_1 == null)
             return;
 
         rageBehaviour_1.SetSubBehaviourState(true);
 
-        rageBehaviour_2 = enemy.ResolveBehaviour(rageBehaviourObject_2);
+        rageBehaviour_2 = InstantiateBehaviour(enemy, rageBehaviourObject_2);
         if (rageBehaviour_2 == null)
         {
             rageBehaviour_1.SetSubBehaviourState(false);
@@ -229,6 +231,39 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
             rageBehaviour_2.SetSubBehaviourState(false);
             rageBehaviour_2 = null;
         }
+    }
+
+    private IEnemyBehaviour InstantiateBehaviour(EnemyController enemy, GameObject behaviourPrefab)
+    {
+        if (behaviourPrefab == null)
+        {
+            Debug.LogError($"[{enemy.name}] Cannot instantiate a missing legacy behaviour prefab.", enemy);
+            return null;
+        }
+
+        if (runtimeBehaviours.TryGetValue(behaviourPrefab, out IEnemyBehaviour cachedBehaviour))
+            return cachedBehaviour;
+
+        GameObject runtimeBehaviourObject = Instantiate(behaviourPrefab, enemy.transform);
+        if (runtimeBehaviourObject == null)
+        {
+            Debug.LogError($"[{enemy.name}] Failed to instantiate legacy behaviour prefab '{behaviourPrefab.name}'.", behaviourPrefab);
+            runtimeBehaviours.Add(behaviourPrefab, null);
+            return null;
+        }
+
+        runtimeBehaviourObject.name = $"{behaviourPrefab.name} (Runtime)";
+        IEnemyBehaviour runtimeBehaviour = runtimeBehaviourObject.GetComponent<IEnemyBehaviour>();
+        if (runtimeBehaviour == null)
+        {
+            Debug.LogError($"[{enemy.name}] Legacy behaviour prefab '{behaviourPrefab.name}' does not implement IEnemyBehaviour.", behaviourPrefab);
+            runtimeBehaviours.Add(behaviourPrefab, null);
+            Destroy(runtimeBehaviourObject);
+            return null;
+        }
+
+        runtimeBehaviours.Add(behaviourPrefab, runtimeBehaviour);
+        return runtimeBehaviour;
     }
 
     public void SetSubBehaviourState(bool state)

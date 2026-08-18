@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Enemies.Scripts.Behaviours;
 using PrimeTween;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
     private Sequence currentSequence;
     private Sequence moveSequence;
     private CloseDodgeSession closeDodgeSession;
+    private readonly Dictionary<GameObject, IEnemyBehaviour> runtimeBehaviours = new Dictionary<GameObject, IEnemyBehaviour>();
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -60,8 +62,8 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
 
     private bool SetupBehaviours(EnemyController enemy)
     {
-        vertical = enemy.ResolveBehaviour(verticalSwipeObject);
-        horizontal = enemy.ResolveBehaviour(HorizontalSwipeObject);
+        vertical = InstantiateBehaviour(enemy, verticalSwipeObject);
+        horizontal = InstantiateBehaviour(enemy, HorizontalSwipeObject);
 
         verticalSwipe = vertical as MageSwipeVertical;
         horizontalSwipe = horizontal as MageSwipeHorizontal;
@@ -75,6 +77,39 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
         }
 
         return true;
+    }
+
+    private IEnemyBehaviour InstantiateBehaviour(EnemyController enemy, GameObject behaviourPrefab)
+    {
+        if (behaviourPrefab == null)
+        {
+            Debug.LogError($"[{enemy.name}] Cannot instantiate a missing legacy behaviour prefab.", enemy);
+            return null;
+        }
+
+        if (runtimeBehaviours.TryGetValue(behaviourPrefab, out IEnemyBehaviour cachedBehaviour))
+            return cachedBehaviour;
+
+        GameObject runtimeBehaviourObject = Instantiate(behaviourPrefab, enemy.transform);
+        if (runtimeBehaviourObject == null)
+        {
+            Debug.LogError($"[{enemy.name}] Failed to instantiate legacy behaviour prefab '{behaviourPrefab.name}'.", behaviourPrefab);
+            runtimeBehaviours.Add(behaviourPrefab, null);
+            return null;
+        }
+
+        runtimeBehaviourObject.name = $"{behaviourPrefab.name} (Runtime)";
+        IEnemyBehaviour runtimeBehaviour = runtimeBehaviourObject.GetComponent<IEnemyBehaviour>();
+        if (runtimeBehaviour == null)
+        {
+            Debug.LogError($"[{enemy.name}] Legacy behaviour prefab '{behaviourPrefab.name}' does not implement IEnemyBehaviour.", behaviourPrefab);
+            runtimeBehaviours.Add(behaviourPrefab, null);
+            Destroy(runtimeBehaviourObject);
+            return null;
+        }
+
+        runtimeBehaviours.Add(behaviourPrefab, runtimeBehaviour);
+        return runtimeBehaviour;
     }
 
     public void UpdateBehaviour(EnemyController enemy)

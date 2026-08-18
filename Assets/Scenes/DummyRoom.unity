@@ -7015,7 +7015,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: odinEnemyPhases
+    - Name: phases
       Entry: 7
       Data: 0|System.Collections.Generic.List`1[[OdinEnemyPhase, Assembly-CSharp]],
         mscorlib
