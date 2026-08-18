@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MageDeath : MonoBehaviour, IEnemyBehaviour
 {
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Transform camera = CamerasHolder.instance.transform;
         Vector3 cameraStartingPosition = camera.position;
@@ -30,8 +30,8 @@ public class MageDeath : MonoBehaviour, IEnemyBehaviour
             .Group(Tween.Rotation(camera, cameraStartingRotation, 0.3f, Ease.OutBack))
             .Group(Tween.Alpha(enemy.shadowSprite, 0.0f, 0.3f))
             .ChainCallback(() => CamerasHolder.instance.cameraFollowPlayer.SetLockState(false))
-            .Chain(Tween.Rotation(enemy.sprite.transform, new Vector3(90.0f, 0.0f, 0.0f), 0.5f, Ease.OutBounce))
-            .ChainCallback(() => enemy.sprite.sortingOrder = -1)
+            .Chain(Tween.Rotation(enemy.Sprite.transform, new Vector3(90.0f, 0.0f, 0.0f), 0.5f, Ease.OutBounce))
+            .ChainCallback(() => enemy.Sprite.sortingOrder = -1)
             .ChainCallback(() => enemy.DeactivateHitbox())
             .ChainCallback(() => GameManager.OnUnlockLevel?.Invoke())
             ;

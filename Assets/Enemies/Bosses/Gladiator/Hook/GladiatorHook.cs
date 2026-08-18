@@ -15,7 +15,7 @@ public class GladiatorHook : MonoBehaviour, IEnemyBehaviour
     private float startAimingTimestamp;
     public Vector3 rotationDirection { get; private set; }
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Vector3 randomPosition = new Vector3((Tools.RandomBool() ? 6.0f : -6.0f), 0.0f, 6.0f);
         string direction = (randomPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
@@ -30,7 +30,7 @@ public class GladiatorHook : MonoBehaviour, IEnemyBehaviour
             .ChainDelay(gladiatorData.hookAnimationDuration)
             .ChainCallback(() => SendHook(enemy))
             .ChainDelay(gladiatorData.hookFlyDuration * 2.0f)
-            .ChainCallback(() => enemy.SelectNewBehaviour());
+            .ChainCallback(() => execution.Complete());
     }
 
     private void SpawnRectangleZone(EnemyController enemy)
@@ -87,7 +87,8 @@ public class GladiatorHook : MonoBehaviour, IEnemyBehaviour
 
     public void CancelBehaviour(EnemyController enemy)
     {
-        rectangleDamageZone.Cancel();
+        if (rectangleDamageZone != null)
+            rectangleDamageZone.Cancel();
 
         if (attackSequence.isAlive)
             attackSequence.Stop();

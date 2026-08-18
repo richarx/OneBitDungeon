@@ -10,20 +10,41 @@ public class EnemyPhase
     public GameObject transitionBehaviour;
     public List<GameObject> phaseBehaviours;
 
-    public IEnemyBehaviour GetTransitionBehaviour()
+    public IEnemyBehaviour GetTransitionBehaviour(EnemyController enemy)
     {
-        return transitionBehaviour.GetComponent<IEnemyBehaviour>();
+        if (enemy == null)
+        {
+            Debug.LogError("[EnemyPhase] Cannot resolve a transition behaviour without an EnemyController.");
+            return null;
+        }
+
+        return enemy.ResolveBehaviour(transitionBehaviour);
     }
 
-    public List<IEnemyBehaviour> GetBehaviours()
+    public List<IEnemyBehaviour> GetBehaviours(EnemyController enemy)
     {
         List<IEnemyBehaviour> enemyBehaviours = new List<IEnemyBehaviour>();
 
+        if (enemy == null)
+        {
+            Debug.LogError("[EnemyPhase] Cannot resolve attack behaviours without an EnemyController.");
+            return enemyBehaviours;
+        }
+
+        if (phaseBehaviours == null)
+        {
+            Debug.LogWarning("[EnemyPhase] No attack behaviours are configured.");
+            return enemyBehaviours;
+        }
+
         foreach (GameObject behaviour in phaseBehaviours)
         {
-            IEnemyBehaviour behaviourPrefab = behaviour.GetComponent<IEnemyBehaviour>();
-            behaviourPrefab.SetSubBehaviourState(false);
-            enemyBehaviours.Add(behaviourPrefab);
+            IEnemyBehaviour runtimeBehaviour = enemy.ResolveBehaviour(behaviour);
+            if (runtimeBehaviour == null)
+                continue;
+
+            runtimeBehaviour.SetSubBehaviourState(false);
+            enemyBehaviours.Add(runtimeBehaviour);
         }
 
         return enemyBehaviours;

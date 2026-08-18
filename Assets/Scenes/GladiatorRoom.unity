@@ -10774,7 +10774,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b7f7e38a2ef73459e47afda7076594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathBehaviourObject: {fileID: 0}
+  deathBehaviourObject: {fileID: 8934140663497945167, guid: 5589a44bc5bd4a47a64dd93e9995d719,
+    type: 3}
   enemyPhases:
   - healthThresholdToTriggerTransition: 0
     transitionBehaviour: {fileID: 8934140663497945167, guid: 1582644138f62aa4581268594be418b5,

@@ -9,22 +9,27 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
 
     private IEnemyBehaviour vertical;
     private IEnemyBehaviour horizontal;
+    private MageSwipeVertical verticalSwipe;
+    private MageSwipeHorizontal horizontalSwipe;
 
     private Sequence currentSequence;
     private Sequence moveSequence;
     private CloseDodgeSession closeDodgeSession;
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Debug.Log("Mage MULTI SWIPE");
 
-        if (vertical == null)
-            SetupBehaviours();
+        if (vertical == null || horizontal == null)
+        {
+            if (!SetupBehaviours(enemy))
+                return;
+        }
 
         // Five vertical and five horizontal zones form one salvo.
         closeDodgeSession = new CloseDodgeSession(10);
-        verticalSwipeObject.GetComponent<MageSwipeVertical>().SetCloseDodgeSession(closeDodgeSession);
-        HorizontalSwipeObject.GetComponent<MageSwipeHorizontal>().SetCloseDodgeSession(closeDodgeSession);
+        verticalSwipe.SetCloseDodgeSession(closeDodgeSession);
+        horizontalSwipe.SetCloseDodgeSession(closeDodgeSession);
 
         vertical.SetSubBehaviourState(true);
         horizontal.SetSubBehaviourState(true);
@@ -45,18 +50,31 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
         .Chain(Tween.Position(enemy.transform, randomPosition, moveDuration, Ease.InOutCubic));
 
         currentSequence = Sequence.Create()
-            .ChainCallback(() => vertical.StartBehaviour(enemy))
+            .ChainCallback(() => vertical.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(0.1f)
-            .ChainCallback(() => horizontal.StartBehaviour(enemy))
+            .ChainCallback(() => horizontal.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(1.55f)
-            .ChainCallback(() => enemy.SelectNewBehaviour())
+            .ChainCallback(() => execution.Complete())
             ;
     }
 
-    private void SetupBehaviours()
+    private bool SetupBehaviours(EnemyController enemy)
     {
-        vertical = verticalSwipeObject.GetComponent<IEnemyBehaviour>();
-        horizontal = HorizontalSwipeObject.GetComponent<IEnemyBehaviour>();
+        vertical = enemy.ResolveBehaviour(verticalSwipeObject);
+        horizontal = enemy.ResolveBehaviour(HorizontalSwipeObject);
+
+        verticalSwipe = vertical as MageSwipeVertical;
+        horizontalSwipe = horizontal as MageSwipeHorizontal;
+
+        if (verticalSwipe == null || horizontalSwipe == null)
+        {
+            Debug.LogError($"[{enemy.name}] MageMultiSwipe requires MageSwipeVertical and MageSwipeHorizontal behaviour prefabs.", enemy);
+            vertical = null;
+            horizontal = null;
+            return false;
+        }
+
+        return true;
     }
 
     public void UpdateBehaviour(EnemyController enemy)
@@ -81,8 +99,8 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
         if (moveSequence.isAlive)
             moveSequence.Stop();
 
-        vertical.CancelBehaviour(enemy);
-        horizontal.CancelBehaviour(enemy);
+        vertical?.CancelBehaviour(enemy);
+        horizontal?.CancelBehaviour(enemy);
         closeDodgeSession?.Cancel();
     }
 

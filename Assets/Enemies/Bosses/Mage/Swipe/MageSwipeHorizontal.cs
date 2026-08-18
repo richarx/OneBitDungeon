@@ -20,7 +20,7 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
         closeDodgeSession = session;
     }
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Debug.Log("Mage SWIPE HORIZONTAL");
 
@@ -43,7 +43,7 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
                 .Group(CastSwipeSpell(new Vector3(-10.0f, 0.0f, -4.58f), Vector2.right, 0.15f))
                 .Group(CastSwipeSpell(new Vector3(10.0f, 0.0f, -9.11f), Vector2.left, 0.2f))
                 .ChainDelay(isSecondPhase ? mageData.swipeRecoveryDuration_2 : mageData.swipeRecoveryDuration)
-                .ChainCallback(() => enemy.SelectNewBehaviour());
+                .ChainCallback(() => execution.Complete());
         }
         else
         {
@@ -104,7 +104,10 @@ public class MageSwipeHorizontal : MonoBehaviour, IEnemyBehaviour
             attackSequence.Stop();
 
         foreach (MageSwipeSpell spell in spells)
-            spell.Cancel();
+        {
+            if (spell != null)
+                spell.Cancel();
+        }
     }
 
     public void SetSubBehaviourState(bool state)

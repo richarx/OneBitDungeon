@@ -14,7 +14,7 @@ public class DummyCircleAttack : MonoBehaviour, IEnemyBehaviour
     private float nextAttackTime;
     private readonly List<CircleDamageZone> activeZones = new List<CircleDamageZone>();
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         nextAttackTime = Time.time + attackInterval;
     }
@@ -61,5 +61,26 @@ public class DummyCircleAttack : MonoBehaviour, IEnemyBehaviour
 
     public void SetSubBehaviourState(bool state)
     {
+    }
+
+    public bool TryCreateInlineBehaviour(out DummyCircleAttackBehaviour inlineBehaviour, out string error)
+    {
+        inlineBehaviour = null;
+        error = null;
+
+        if (circleDamageZonePrefab == null)
+        {
+            error = "the legacy DummyCircleAttack has no CircleDamageZone prefab";
+            return false;
+        }
+
+        inlineBehaviour = new DummyCircleAttackBehaviour(
+            circleDamageZonePrefab,
+            attackInterval,
+            radius,
+            spawnDuration,
+            fillDuration
+        );
+        return true;
     }
 }

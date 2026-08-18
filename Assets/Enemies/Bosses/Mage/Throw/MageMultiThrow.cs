@@ -14,7 +14,7 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
 
     private List<MageThrowSpell> spells = new List<MageThrowSpell>();
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Debug.Log("Mage THROW");
 
@@ -36,7 +36,7 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
             .Group(ShootRock(enemy, enemyLeftPosition - Vector3.right * 3.0f, 0.5f, false))
             .ChainDelay(1.65f)
             .ChainDelay(mageData.multiThrowRecoveryDuration)
-            .ChainCallback(() => enemy.SelectNewBehaviour());
+            .ChainCallback(() => execution.Complete());
     }
 
     private Sequence ShootRock(EnemyController enemy, Vector3 startingPosition, float delay, bool isRight)
@@ -83,7 +83,10 @@ public class MageMultiThrow : MonoBehaviour, IEnemyBehaviour
             attackSequence.Stop();
 
         foreach (MageThrowSpell spell in spells)
-            spell.Cancel();
+        {
+            if (spell != null)
+                spell.Cancel();
+        }
     }
 
     public void SetSubBehaviourState(bool state)

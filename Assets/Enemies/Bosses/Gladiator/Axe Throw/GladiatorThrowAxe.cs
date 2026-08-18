@@ -15,7 +15,7 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
     private float startAimingTimestamp;
     public Vector3 rotationDirection { get; private set; }
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Vector3 randomPosition = new Vector3(Random.Range(-7.0f, 7.0f), 0.0f, Random.Range(6.0f, 8.0f));
         string direction = (randomPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
@@ -28,7 +28,7 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
                     .ChainDelay(gladiatorData.throwSpawnDuration + gladiatorData.throwFillDuration - gladiatorData.throwAnimationDuration)
                     .ChainCallback(() => enemy.animator.Play("ThrowAxe"))
                     .ChainDelay(gladiatorData.throwAnimationDuration)
-                    .ChainCallback(() => SpawnAxe(enemy));
+                    .ChainCallback(() => SpawnAxe(enemy, execution));
     }
 
     private void SpawnRectangleZone(EnemyController enemy)
@@ -39,19 +39,22 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
         rectangleDamageZone.Setup(Vector2.right, gladiatorData.throwSpawnDuration, gladiatorData.throwFillDuration);
     }
 
-    private void SpawnAxe(EnemyController enemy)
+    private void SpawnAxe(EnemyController enemy, BehaviourExecution execution)
     {
         Vector3 position = enemy.transform.position;
         AxeController axe = Instantiate(axePrefab, position, Quaternion.identity);
-        axe.Setup(rotationDirection, gladiatorData.throwAxeDistance, gladiatorData.throwAxeFlyDuration, () => CatchAxe(enemy));
+        axe.Setup(rotationDirection, gladiatorData.throwAxeDistance, gladiatorData.throwAxeFlyDuration, () => CatchAxe(enemy, execution));
     }
 
-    public void CatchAxe(EnemyController enemy)
+    public void CatchAxe(EnemyController enemy, BehaviourExecution execution)
     {
+        if (!enemy.IsExecutionActive(execution))
+            return;
+
         attackSequence = Sequence.Create()
             .ChainCallback(() => enemy.animator.Play("CatchAxe"))
             .ChainDelay(0.3f)
-            .ChainCallback(() => enemy.SelectNewBehaviour());
+            .ChainCallback(() => execution.Complete());
     }
 
     private Sequence MoveToPosition(EnemyController enemy, Vector3 enemyPosition, float moveDuration)
@@ -98,7 +101,8 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
 
     public void CancelBehaviour(EnemyController enemy)
     {
-        rectangleDamageZone.Cancel();
+        if (rectangleDamageZone != null)
+            rectangleDamageZone.Cancel();
 
         if (attackSequence.isAlive)
             attackSequence.Stop();

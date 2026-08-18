@@ -14,7 +14,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
     private Sequence attackSequence;
     private MageEvadeSpell spell;
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Debug.Log("Mage EVADE");
 
@@ -31,7 +31,7 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
             .Chain(MoveMageToPosition(enemy, targetPosition))
             .Chain(TeleportMageToPosition(enemy, evadePosition))
             .ChainDelay(isSecondPhase ? mageData.evadeRecoveryDuration_p2 : mageData.evadeRecoveryDuration)
-            .ChainCallback(() => enemy.SelectNewBehaviour());
+            .ChainCallback(() => execution.Complete());
     }
 
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 position)

@@ -14,9 +14,9 @@ public class DummyTransition : MonoBehaviour, IEnemyBehaviour
     {
     }
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
-        enemy.SelectNewBehaviour(true);
+        execution.Complete();
     }
 
     public void StopBehaviour(EnemyController enemy)
