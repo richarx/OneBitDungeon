@@ -93,4 +93,26 @@ public class MageEvade : MonoBehaviour, IEnemyBehaviour
     {
         isSubBehaviour = state;
     }
+
+    public bool TryCreateInlineBehaviour(out MageEvadeBehaviour inlineBehaviour, out string error)
+    {
+        inlineBehaviour = null;
+        error = null;
+
+        if (mageEvadeSpellPrefab == null)
+        {
+            error = "the MageEvadeSpell prefab is missing";
+            return false;
+        }
+
+        if (mageData == null)
+        {
+            error = "MageData is missing";
+            return false;
+        }
+
+        inlineBehaviour = new MageEvadeBehaviour(radius, mageEvadeSpellPrefab, mageData);
+        return true;
+    }
+
 }

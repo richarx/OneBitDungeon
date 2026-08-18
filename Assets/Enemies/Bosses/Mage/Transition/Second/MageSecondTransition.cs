@@ -112,4 +112,19 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
     public void SetSubBehaviourState(bool state)
     {
     }
+
+    public bool TryCreateInlineBehaviour(out MageSecondTransitionBehaviour inlineBehaviour, out string error)
+    {
+        inlineBehaviour = null;
+        error = null;
+
+        if (hollowCircleDamageZonePrefab == null)
+        {
+            error = "the HollowCircleDamageZone prefab is missing";
+            return false;
+        }
+
+        inlineBehaviour = new MageSecondTransitionBehaviour(hollowCircleDamageZonePrefab, maxBounceCount);
+        return true;
+    }
 }

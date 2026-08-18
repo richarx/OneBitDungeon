@@ -114,4 +114,26 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
     {
         isSubBehaviour = state;
     }
+
+    public bool TryCreateInlineBehaviour(out MageSwipeVerticalBehaviour inlineBehaviour, out string error)
+    {
+        inlineBehaviour = null;
+        error = null;
+
+        if (mageSwipeSpellPrefab == null)
+        {
+            error = "the MageSwipeSpell prefab is missing";
+            return false;
+        }
+
+        if (mageData == null)
+        {
+            error = "MageData is missing";
+            return false;
+        }
+
+        inlineBehaviour = new MageSwipeVerticalBehaviour(mageSwipeSpellPrefab, mageData);
+        return true;
+    }
+
 }

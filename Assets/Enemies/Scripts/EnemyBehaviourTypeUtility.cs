@@ -4,14 +4,14 @@ using System.Linq;
 using Enemies.Scripts.Behaviours;
 using UnityEngine;
 
-public static class InlineEnemyBehaviourTypeUtility
+public static class EnemyBehaviourTypeUtility
 {
-    public static IEnumerable<Type> GetInlineBehaviourTypes(EnemyController owner)
+    public static IEnumerable<Type> GetBehaviourTypes(EnemyController owner)
     {
-        return GetInlineBehaviourTypes(owner != null ? owner.gameObject.name : null);
+        return GetBehaviourTypes(owner != null ? owner.gameObject.name : null);
     }
 
-    public static IEnumerable<Type> GetInlineBehaviourTypes(string ownerName)
+    public static IEnumerable<Type> GetBehaviourTypes(string ownerName)
     {
         IEnumerable<Type> inlineTypes = typeof(IEnemyBehaviour).Assembly
             .GetTypes()

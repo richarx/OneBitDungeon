@@ -10898,6 +10898,408 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b7f7e38a2ef73459e47afda7076594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 5892917051957619975, guid: e091f3ccc2b118c42bbdd3ee9772c31e, type: 3}
+    - {fileID: 3966374943627719576, guid: 3931c0c19e6050f41a04b11fe390ac5e, type: 3}
+    - {fileID: 11400000, guid: adaac8d3b67e6b3438b53cea188e4b7c, type: 2}
+    - {fileID: 5390758198588875935, guid: d323355e4ca13ff4c8451e8f49cbf976, type: 3}
+    - {fileID: 4208395337139637402, guid: cb4820ae07df53541b4a4d1031cdcd5f, type: 3}
+    - {fileID: -4687576511174882052, guid: cb61cefcbae00b549afffc56c12cdad0, type: 3}
+    - {fileID: 7076405223461392294, guid: 986f59cec969d9d4fb352a06792ece97, type: 3}
+    - {fileID: 5892917051957619975, guid: 5201496f559050a45a4cfcfed0533fa7, type: 3}
+    - {fileID: 98420874541946916, guid: 3b7ff99e14c93ad4881a7bf8835f9ea2, type: 3}
+    - {fileID: 7121939905893168461, guid: bb2b62b24bf434848ad835df00e26f2c, type: 3}
+    - {fileID: 1563654819030307539, guid: c4071b6254e971c4ea63a4be60895759, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: odinEnemyPhases
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[OdinEnemyPhase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 1|OdinEnemyPhase, Assembly-CSharp
+    - Name: healthThresholdToTriggerTransition
+      Entry: 3
+      Data: 0
+    - Name: transitionBehaviour
+      Entry: 7
+      Data: 2|MageSpawnBehaviour, Assembly-CSharp
+    - Name: radius
+      Entry: 4
+      Data: 0.25
+    - Name: circleDamageZonePrefab
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: phaseBehaviours
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: 4|MageEvadeBehaviour, Assembly-CSharp
+    - Name: radius
+      Entry: 4
+      Data: 0.15
+    - Name: mageEvadeSpellPrefab
+      Entry: 10
+      Data: 1
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|MageSwipeHorizontalBehaviour, Assembly-CSharp
+    - Name: mageSwipeSpellPrefab
+      Entry: 10
+      Data: 3
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|MageSwipeVerticalBehaviour, Assembly-CSharp
+    - Name: mageSwipeSpellPrefab
+      Entry: 10
+      Data: 4
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|MageRainBehaviour, Assembly-CSharp
+    - Name: mageRainSpellPrefab
+      Entry: 10
+      Data: 5
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|MageThrowBehaviour, Assembly-CSharp
+    - Name: rotationDampening
+      Entry: 4
+      Data: 0.2
+    - Name: rockMovementDuration
+      Entry: 4
+      Data: 0.5
+    - Name: mageThrowSpellPrefab
+      Entry: 10
+      Data: 6
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|OdinEnemyPhase, Assembly-CSharp
+    - Name: healthThresholdToTriggerTransition
+      Entry: 3
+      Data: 400
+    - Name: transitionBehaviour
+      Entry: 7
+      Data: 10|MageTransitionBehaviour, Assembly-CSharp
+    - Name: circleDamageZonePrefab
+      Entry: 10
+      Data: 7
+    - Name: hollowCircleDamageZonePrefab
+      Entry: 10
+      Data: 8
+    - Name: pillarPrefab
+      Entry: 10
+      Data: 9
+    - Name: attackBehaviour
+      Entry: 7
+      Data: 11|MageRainBehaviour, Assembly-CSharp
+    - Name: mageRainSpellPrefab
+      Entry: 10
+      Data: 5
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: attackCooldown
+      Entry: 4
+      Data: 2
+    - Name: rageAttackCooldown
+      Entry: 4
+      Data: 3
+    - Name: rageBehaviour1
+      Entry: 7
+      Data: 12|MageSwipeHorizontalBehaviour, Assembly-CSharp
+    - Name: mageSwipeSpellPrefab
+      Entry: 10
+      Data: 3
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: rageBehaviour2
+      Entry: 7
+      Data: 13|MageSwipeVerticalBehaviour, Assembly-CSharp
+    - Name: mageSwipeSpellPrefab
+      Entry: 10
+      Data: 4
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: phaseBehaviours
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: 15|MageEvadeBehaviour, Assembly-CSharp
+    - Name: radius
+      Entry: 4
+      Data: 0.15
+    - Name: mageEvadeSpellPrefab
+      Entry: 10
+      Data: 1
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 16|MageRainBehaviour, Assembly-CSharp
+    - Name: mageRainSpellPrefab
+      Entry: 10
+      Data: 5
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|MageSwipeHorizontalBehaviour, Assembly-CSharp
+    - Name: mageSwipeSpellPrefab
+      Entry: 10
+      Data: 3
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 18|MageSwipeVerticalBehaviour, Assembly-CSharp
+    - Name: mageSwipeSpellPrefab
+      Entry: 10
+      Data: 4
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 19|MageThrowBehaviour, Assembly-CSharp
+    - Name: rotationDampening
+      Entry: 4
+      Data: 0.2
+    - Name: rockMovementDuration
+      Entry: 4
+      Data: 0.5
+    - Name: mageThrowSpellPrefab
+      Entry: 10
+      Data: 6
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 20|OdinEnemyPhase, Assembly-CSharp
+    - Name: healthThresholdToTriggerTransition
+      Entry: 3
+      Data: 100
+    - Name: transitionBehaviour
+      Entry: 7
+      Data: 21|MageSecondTransitionBehaviour, Assembly-CSharp
+    - Name: hollowCircleDamageZonePrefab
+      Entry: 10
+      Data: 8
+    - Name: maxBounceCount
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: phaseBehaviours
+      Entry: 7
+      Data: 22|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 23|MageMultiEvadeBehaviour, Assembly-CSharp
+    - Name: radius
+      Entry: 4
+      Data: 0.15
+    - Name: mageEvadeSpellPrefab
+      Entry: 10
+      Data: 1
+    - Name: hollowCircleDamageZonePrefab
+      Entry: 10
+      Data: 8
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 24|MageMultiThrowBehaviour, Assembly-CSharp
+    - Name: rotationDampening
+      Entry: 4
+      Data: 0.2
+    - Name: rockMovementDuration
+      Entry: 4
+      Data: 0.5
+    - Name: mageThrowSpellPrefab
+      Entry: 10
+      Data: 10
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 25|MageMultiSwipeBehaviour, Assembly-CSharp
+    - Name: verticalSwipe
+      Entry: 7
+      Data: 26|MageSwipeVerticalBehaviour, Assembly-CSharp
+    - Name: mageSwipeSpellPrefab
+      Entry: 10
+      Data: 4
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: horizontalSwipe
+      Entry: 7
+      Data: 27|MageSwipeHorizontalBehaviour, Assembly-CSharp
+    - Name: mageSwipeSpellPrefab
+      Entry: 10
+      Data: 3
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 28|MageRainBehaviour, Assembly-CSharp
+    - Name: mageRainSpellPrefab
+      Entry: 10
+      Data: 5
+    - Name: mageData
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: odinDeathBehaviour
+      Entry: 7
+      Data: 29|MageDeathBehaviour, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
   deathBehaviourObject: {fileID: 8934140663497945167, guid: 26d7ad74cab4cac4cafb9409cf191194,
     type: 3}
   enemyPhases:
@@ -10927,11 +11329,8 @@ MonoBehaviour:
     - {fileID: 8934140663497945167, guid: e6baddb1369bb3540ac22a7f51c0ca39, type: 3}
     - {fileID: 8934140663497945167, guid: d9b2d8db5a451394e8febe0452a0948b, type: 3}
     - {fileID: 8934140663497945167, guid: a2faebc49bcb1a34596342fe7887da22, type: 3}
-  sprite: {fileID: 5071313608623843290}
-  shadowSprite: {fileID: 2063661912}
-  OnChangeBehaviour:
-    m_PersistentCalls:
-      m_Calls: []
+  <Sprite>k__BackingField: {fileID: 5071313608623843290}
+  <shadowSprite>k__BackingField: {fileID: 2063661912}
 --- !u!114 &8182171200824653878
 MonoBehaviour:
   m_ObjectHideFlags: 0

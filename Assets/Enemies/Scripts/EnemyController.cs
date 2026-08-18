@@ -60,7 +60,7 @@ public class EnemyController : SerializedMonoBehaviour
 
     // Behaviour and phase state
 
-    [HideInInspector] public UnityEvent OnChangeBehaviour = new UnityEvent();
+    [NonSerialized] public UnityEvent OnChangeBehaviour = new UnityEvent();
 
     [NonSerialized] public List<IEnemyBehaviour> enemyBehaviours;
     [field: NonSerialized] public IEnemyBehaviour currentBehaviour { get; private set; }
@@ -394,7 +394,7 @@ public class EnemyController : SerializedMonoBehaviour
 
     private IEnumerable<Type> GetInlineBehaviourTypes()
     {
-        return InlineEnemyBehaviourTypeUtility.GetInlineBehaviourTypes(this);
+        return EnemyBehaviourTypeUtility.GetBehaviourTypes(this);
     }
 
     private void OnEnable()
@@ -699,6 +699,394 @@ public class EnemyController : SerializedMonoBehaviour
 
         inlineAttack = inlineTraps;
         return true;
+    }
+
+    [Button("Migrer le Mage legacy vers Odin", ButtonSizes.Large)]
+    [ShowIf(nameof(CanMigrateMageLegacyToOdin))]
+    private void MigrateMageLegacyToOdin()
+    {
+#if UNITY_EDITOR
+        if (Application.isPlaying)
+        {
+            Debug.LogError($"[{name}] Stop Play Mode before migrating legacy Mage data to Odin.", this);
+            return;
+        }
+
+        if (!TryCreateMageOdinConfiguration(out List<OdinEnemyPhase> phases, out IEnemyBehaviour death, out string error))
+        {
+            Debug.LogError($"[{name}] Mage Odin migration was not applied: {error}", this);
+            return;
+        }
+
+        Undo.RegisterCompleteObjectUndo(this, "Migrate Mage Legacy Behaviours to Odin");
+        odinEnemyPhases = phases;
+        odinDeathBehaviour = death;
+        BindOdinPhaseOwners();
+        EditorUtility.SetDirty(this);
+        EditorSceneManager.MarkSceneDirty(gameObject.scene);
+#endif
+    }
+
+    private bool CanMigrateMageLegacyToOdin()
+    {
+        if (HasOdinConfiguration() || deathBehaviourObject == null || deathBehaviourObject.GetComponent<MageDeath>() == null)
+            return false;
+
+        if (enemyPhases == null || enemyPhases.Count != 3)
+            return false;
+
+        Type[] transitions =
+        {
+            typeof(MageSpawn),
+            typeof(MageTransition),
+            typeof(MageSecondTransition)
+        };
+        Type[][] attacks =
+        {
+            new[]
+            {
+                typeof(MageEvade),
+                typeof(MageSwipeHorizontal),
+                typeof(MageSwipeVertical),
+                typeof(MageRain),
+                typeof(MageThrow)
+            },
+            new[]
+            {
+                typeof(MageEvade),
+                typeof(MageRain),
+                typeof(MageSwipeHorizontal),
+                typeof(MageSwipeVertical),
+                typeof(MageThrow)
+            },
+            new[]
+            {
+                typeof(MageMultiEvade),
+                typeof(MageMultiThrow),
+                typeof(MageMultiSwipe),
+                typeof(MageRain)
+            }
+        };
+
+        for (int phaseIndex = 0; phaseIndex < enemyPhases.Count; phaseIndex++)
+        {
+            EnemyPhase phase = enemyPhases[phaseIndex];
+            if (phase == null
+                || phase.transitionBehaviour == null
+                || phase.transitionBehaviour.GetComponent(transitions[phaseIndex]) == null)
+            {
+                return false;
+            }
+
+            if (phase.phaseBehaviours == null || phase.phaseBehaviours.Count != attacks[phaseIndex].Length)
+                return false;
+
+            for (int attackIndex = 0; attackIndex < attacks[phaseIndex].Length; attackIndex++)
+            {
+                GameObject attack = phase.phaseBehaviours[attackIndex];
+                if (attack == null || attack.GetComponent(attacks[phaseIndex][attackIndex]) == null)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    private bool TryCreateMageOdinConfiguration(out List<OdinEnemyPhase> phases, out IEnemyBehaviour death, out string error)
+    {
+        phases = null;
+        death = null;
+        error = null;
+
+        if (HasOdinConfiguration())
+        {
+            error = "an Odin configuration already exists";
+            return false;
+        }
+
+        if (deathBehaviourObject == null || deathBehaviourObject.GetComponent<MageDeath>() == null)
+        {
+            error = "the legacy death behaviour must be MageDeath";
+            return false;
+        }
+
+        if (!deathBehaviourObject.GetComponent<MageDeath>()
+                .TryCreateInlineBehaviour(out MageDeathBehaviour mageDeath, out error))
+        {
+            return false;
+        }
+
+        if (enemyPhases == null || enemyPhases.Count != 3)
+        {
+            error = "exactly three Mage phases are required";
+            return false;
+        }
+
+        Type[] transitions =
+        {
+            typeof(MageSpawn),
+            typeof(MageTransition),
+            typeof(MageSecondTransition)
+        };
+        Type[][] attacks =
+        {
+            new[]
+            {
+                typeof(MageEvade),
+                typeof(MageSwipeHorizontal),
+                typeof(MageSwipeVertical),
+                typeof(MageRain),
+                typeof(MageThrow)
+            },
+            new[]
+            {
+                typeof(MageEvade),
+                typeof(MageRain),
+                typeof(MageSwipeHorizontal),
+                typeof(MageSwipeVertical),
+                typeof(MageThrow)
+            },
+            new[]
+            {
+                typeof(MageMultiEvade),
+                typeof(MageMultiThrow),
+                typeof(MageMultiSwipe),
+                typeof(MageRain)
+            }
+        };
+
+        List<OdinEnemyPhase> result = new List<OdinEnemyPhase>();
+
+        for (int phaseIndex = 0; phaseIndex < 3; phaseIndex++)
+        {
+            if (!TryCreateMageOdinPhase(
+                    enemyPhases[phaseIndex],
+                    transitions[phaseIndex],
+                    attacks[phaseIndex],
+                    out OdinEnemyPhase phase,
+                    out error))
+            {
+                return false;
+            }
+
+            result.Add(phase);
+        }
+
+        phases = result;
+        death = mageDeath;
+        return true;
+    }
+
+    private bool TryCreateMageOdinPhase(
+        EnemyPhase legacyPhase,
+        Type transitionType,
+        Type[] attackTypes,
+        out OdinEnemyPhase phase,
+        out string error)
+    {
+        phase = null;
+        error = null;
+
+        if (legacyPhase == null
+            || legacyPhase.transitionBehaviour == null
+            || !transitionType.IsInstanceOfType(legacyPhase.transitionBehaviour.GetComponent(transitionType)))
+        {
+            error = "the Mage transition type does not match the required phase";
+            return false;
+        }
+
+        if (!TryCreateMageInlineBehaviour(
+                legacyPhase.transitionBehaviour,
+                out IEnemyBehaviour transition,
+                out error))
+        {
+            return false;
+        }
+
+        if (legacyPhase.phaseBehaviours == null
+            || legacyPhase.phaseBehaviours.Count != attackTypes.Length)
+        {
+            error = "the Mage attack count does not match the required phase";
+            return false;
+        }
+
+        List<IEnemyBehaviour> inlineAttacks = new List<IEnemyBehaviour>();
+
+        for (int attackIndex = 0; attackIndex < attackTypes.Length; attackIndex++)
+        {
+            GameObject legacyAttack = legacyPhase.phaseBehaviours[attackIndex];
+
+            if (legacyAttack == null
+                || !attackTypes[attackIndex].IsInstanceOfType(
+                    legacyAttack.GetComponent(attackTypes[attackIndex])))
+            {
+                error = "a Mage attack type does not match the required phase order";
+                return false;
+            }
+
+            if (!TryCreateMageInlineBehaviour(
+                    legacyAttack,
+                    out IEnemyBehaviour inlineAttack,
+                    out error))
+            {
+                return false;
+            }
+
+            inlineAttacks.Add(inlineAttack);
+        }
+
+        phase = new OdinEnemyPhase
+        {
+            healthThresholdToTriggerTransition = legacyPhase.healthThresholdToTriggerTransition,
+            transitionBehaviour = transition,
+            phaseBehaviours = inlineAttacks
+        };
+        return true;
+    }
+
+    private static bool TryCreateMageInlineBehaviour(GameObject legacyObject, out IEnemyBehaviour inlineBehaviour, out string error)
+    {
+        inlineBehaviour = null;
+        error = null;
+
+        if (legacyObject == null)
+        {
+            error = "a Mage behaviour object is missing";
+            return false;
+        }
+
+        int count = 0;
+        count += legacyObject.GetComponent<MageSpawn>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageTransition>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageSecondTransition>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageDeath>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageEvade>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageMultiEvade>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageSwipeHorizontal>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageSwipeVertical>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageRain>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageThrow>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageMultiThrow>() != null ? 1 : 0;
+        count += legacyObject.GetComponent<MageMultiSwipe>() != null ? 1 : 0;
+
+        if (count != 1)
+        {
+            error = "a Mage behaviour object must contain exactly one supported Mage behaviour";
+            return false;
+        }
+
+        MageSpawn spawn = legacyObject.GetComponent<MageSpawn>();
+        if (spawn != null)
+        {
+            if (!spawn.TryCreateInlineBehaviour(out MageSpawnBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        MageTransition transition = legacyObject.GetComponent<MageTransition>();
+        if (transition != null)
+        {
+            if (!transition.TryCreateInlineBehaviour(out MageTransitionBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        MageSecondTransition second = legacyObject.GetComponent<MageSecondTransition>();
+        if (second != null)
+        {
+            if (!second.TryCreateInlineBehaviour(out MageSecondTransitionBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        MageEvade evade = legacyObject.GetComponent<MageEvade>();
+        if (evade != null)
+        {
+            if (!evade.TryCreateInlineBehaviour(out MageEvadeBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        MageMultiEvade multiEvade = legacyObject.GetComponent<MageMultiEvade>();
+        if (multiEvade != null)
+        {
+            if (!multiEvade.TryCreateInlineBehaviour(out MageMultiEvadeBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        MageSwipeHorizontal horizontal = legacyObject.GetComponent<MageSwipeHorizontal>();
+        if (horizontal != null)
+        {
+            if (!horizontal.TryCreateInlineBehaviour(out MageSwipeHorizontalBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        MageSwipeVertical vertical = legacyObject.GetComponent<MageSwipeVertical>();
+        if (vertical != null)
+        {
+            if (!vertical.TryCreateInlineBehaviour(out MageSwipeVerticalBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        MageRain rain = legacyObject.GetComponent<MageRain>();
+        if (rain != null)
+        {
+            if (!rain.TryCreateInlineBehaviour(out MageRainBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        MageThrow mageThrow = legacyObject.GetComponent<MageThrow>();
+        if (mageThrow != null)
+        {
+            if (!mageThrow.TryCreateInlineBehaviour(out MageThrowBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        MageMultiThrow multiThrow = legacyObject.GetComponent<MageMultiThrow>();
+        if (multiThrow != null)
+        {
+            if (!multiThrow.TryCreateInlineBehaviour(out MageMultiThrowBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        MageMultiSwipe multiSwipe = legacyObject.GetComponent<MageMultiSwipe>();
+        if (multiSwipe != null)
+        {
+            if (!multiSwipe.TryCreateInlineBehaviour(out MageMultiSwipeBehaviour value, out error))
+                return false;
+
+            inlineBehaviour = value;
+            return true;
+        }
+
+        error = "MageDeath is not valid in a Mage phase";
+        return false;
     }
 
     private bool HasOdinConfiguration()

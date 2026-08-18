@@ -91,4 +91,26 @@ public class MageThrow : MonoBehaviour, IEnemyBehaviour
     public void SetSubBehaviourState(bool state)
     {
     }
+
+    public bool TryCreateInlineBehaviour(out MageThrowBehaviour inlineBehaviour, out string error)
+    {
+        inlineBehaviour = null;
+        error = null;
+
+        if (mageThrowSpellPrefab == null)
+        {
+            error = "the MageThrowSpell prefab is missing";
+            return false;
+        }
+
+        if (mageData == null)
+        {
+            error = "MageData is missing";
+            return false;
+        }
+
+        inlineBehaviour = new MageThrowBehaviour(rotationDampening, rockMovementDuration, mageThrowSpellPrefab, mageData);
+        return true;
+    }
+
 }

@@ -1,20 +1,30 @@
+using System;
 using Enemies.Scripts.Behaviours;
 using Game_Manager;
 using PrimeTween;
 using UnityEngine;
 
-public class MageDeath : MonoBehaviour, IEnemyBehaviour
+[Serializable]
+public sealed class MageDeathBehaviour : IEnemyBehaviour
 {
+    [NonSerialized] private Sequence deathSequence;
+    [NonSerialized] private bool hasUnlockedLevel;
+
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
+        if (deathSequence.isAlive)
+            deathSequence.Stop();
+
+        deathSequence = default;
+        hasUnlockedLevel = false;
         Transform camera = CamerasHolder.instance.transform;
-        Vector3 cameraStartingPosition = camera.position;
-        Quaternion cameraStartingRotation = camera.rotation;
+        Vector3 startPosition = camera.position;
+        Quaternion startRotation = camera.rotation;
         CamerasHolder.instance.cameraFollowPlayer.SetLockState(true);
         enemy.animator.Play("Death");
         enemy.afterImage.Cancel();
 
-        Sequence.Create(useUnscaledTime: true)
+        deathSequence = Sequence.Create(useUnscaledTime: true)
             .Group(Tween.GlobalTimeScale(0.15f, 0.5f, Ease.OutCirc))
             .Group(Tween.CameraFieldOfView(CamerasHolder.instance.mainCamera, 45.0f, 0.5f, Ease.InOutBack))
             .Group(Tween.CameraFieldOfView(CamerasHolder.instance.decorCamera, 45.0f, 0.5f, Ease.InOutBack))
@@ -26,42 +36,28 @@ public class MageDeath : MonoBehaviour, IEnemyBehaviour
             .Chain(Tween.GlobalTimeScale(1.0f, 0.3f, Ease.InOutExpo))
             .Group(Tween.CameraFieldOfView(CamerasHolder.instance.mainCamera, 60.0f, 0.3f, Ease.InOutBack))
             .Group(Tween.CameraFieldOfView(CamerasHolder.instance.decorCamera, 60.0f, 0.3f, Ease.InOutBack))
-            .Group(Tween.Position(camera, cameraStartingPosition, 0.3f, Ease.OutBack))
-            .Group(Tween.Rotation(camera, cameraStartingRotation, 0.3f, Ease.OutBack))
+            .Group(Tween.Position(camera, startPosition, 0.3f, Ease.OutBack))
+            .Group(Tween.Rotation(camera, startRotation, 0.3f, Ease.OutBack))
             .Group(Tween.Alpha(enemy.shadowSprite, 0.0f, 0.3f))
             .ChainCallback(() => CamerasHolder.instance.cameraFollowPlayer.SetLockState(false))
             .Chain(Tween.Rotation(enemy.Sprite.transform, new Vector3(90.0f, 0.0f, 0.0f), 0.5f, Ease.OutBounce))
             .ChainCallback(() => enemy.Sprite.sortingOrder = -1)
             .ChainCallback(() => enemy.DeactivateHitbox())
-            .ChainCallback(() => GameManager.OnUnlockLevel?.Invoke())
-            ;
+            .ChainCallback(UnlockLevelOnce);
     }
 
-    public void UpdateBehaviour(EnemyController enemy)
-    {
-    }
+    public void UpdateBehaviour(EnemyController enemy) { }
+    public void FixedUpdateBehaviour(EnemyController enemy) { }
+    public void StopBehaviour(EnemyController enemy) { }
+    public void CancelBehaviour(EnemyController enemy) { }
+    public void SetSubBehaviourState(bool state) { }
 
-    public void FixedUpdateBehaviour(EnemyController enemy)
+    private void UnlockLevelOnce()
     {
-    }
+        if (hasUnlockedLevel)
+            return;
 
-    public void StopBehaviour(EnemyController enemy)
-    {
-    }
-
-
-    public void SetSubBehaviourState(bool state)
-    {
-    }
-
-    public void CancelBehaviour(EnemyController enemy)
-    {
-    }
-
-    public bool TryCreateInlineBehaviour(out MageDeathBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = new MageDeathBehaviour();
-        error = null;
-        return true;
+        hasUnlockedLevel = true;
+        GameManager.OnUnlockLevel?.Invoke();
     }
 }

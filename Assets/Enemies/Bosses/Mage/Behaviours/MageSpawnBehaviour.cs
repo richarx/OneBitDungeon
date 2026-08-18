@@ -1,29 +1,36 @@
 using System;
 using Enemies.Scripts.Behaviours;
 using PrimeTween;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
-public class MageSpawn : MonoBehaviour, IEnemyBehaviour
+[Serializable]
+public sealed class MageSpawnBehaviour : IEnemyBehaviour
 {
-    [SerializeField] private float radius;
+    [OdinSerialize] private float radius;
+    [OdinSerialize, Required] private CircleDamageZone circleDamageZonePrefab;
 
-    [Space]
-    [SerializeField] private CircleDamageZone circleDamageZonePrefab;
-
-    private Sequence blastSequence;
-    private Sequence spawnSequence;
-
-    public void FixedUpdateBehaviour(EnemyController enemy)
+    [NonSerialized] private Sequence blastSequence;
+    [NonSerialized] private Sequence spawnSequence;
+    [NonSerialized] private CircleDamageZone circleDamageZone;
+    public MageSpawnBehaviour()
     {
+    }
+
+    public MageSpawnBehaviour(float radius, CircleDamageZone circleDamageZonePrefab)
+    {
+        this.radius = radius;
+        this.circleDamageZonePrefab = circleDamageZonePrefab;
     }
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
+        ResetRuntimeState();
         enemy.Sprite.transform.position = Vector3.up * 30.0f;
         enemy.shadowSprite.transform.localScale = Vector3.zero;
         enemy.DeactivateHitbox();
         enemy.animator.Play("Ball");
-
         blastSequence = Sequence.Create()
             .ChainDelay(7.45f)
             .ChainCallback(() =>
@@ -43,48 +50,35 @@ public class MageSpawn : MonoBehaviour, IEnemyBehaviour
             .ChainDelay(0.5f)
             .ChainCallback(() => execution.Complete());
     }
+    public void UpdateBehaviour(EnemyController enemy) { }
+    public void FixedUpdateBehaviour(EnemyController enemy) { }
+    public void StopBehaviour(EnemyController enemy) { }
+    public void CancelBehaviour(EnemyController enemy)
+    {
+        ResetRuntimeState();
+    }
+
+    public void SetSubBehaviourState(bool state) { }
 
     private void SpawnDamageZone(Vector3 position)
     {
-        CircleDamageZone circleDamageZone = Instantiate(circleDamageZonePrefab, position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+        circleDamageZone = UnityEngine.Object.Instantiate(
+            circleDamageZonePrefab,
+            position,
+            Quaternion.Euler(90.0f, 0.0f, 0.0f));
         circleDamageZone.Setup(radius, 3.0f, 2.5f);
     }
 
-    public void StopBehaviour(EnemyController enemy)
-    {
-    }
-
-    public void UpdateBehaviour(EnemyController enemy)
-    {
-    }
-
-    public bool isSubBehaviour;
-    public void SetSubBehaviourState(bool state)
-    {
-        isSubBehaviour = state;
-    }
-
-    public void CancelBehaviour(EnemyController enemy)
+    private void ResetRuntimeState()
     {
         if (blastSequence.isAlive)
             blastSequence.Stop();
 
         if (spawnSequence.isAlive)
             spawnSequence.Stop();
-    }
 
-    public bool TryCreateInlineBehaviour(out MageSpawnBehaviour inlineBehaviour, out string error)
-    {
-        inlineBehaviour = null;
-        error = null;
-
-        if (circleDamageZonePrefab == null)
-        {
-            error = "the CircleDamageZone prefab is missing";
-            return false;
-        }
-
-        inlineBehaviour = new MageSpawnBehaviour(radius, circleDamageZonePrefab);
-        return true;
+        blastSequence = default;
+        spawnSequence = default;
+        circleDamageZone = null;
     }
 }

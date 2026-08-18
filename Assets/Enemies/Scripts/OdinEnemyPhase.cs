@@ -55,6 +55,6 @@ public class OdinEnemyPhase
 
     private IEnumerable<Type> GetInlineBehaviourTypes()
     {
-        return InlineEnemyBehaviourTypeUtility.GetInlineBehaviourTypes(owner);
+        return EnemyBehaviourTypeUtility.GetBehaviourTypes(owner);
     }
 }
