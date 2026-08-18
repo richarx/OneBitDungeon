@@ -7009,6 +7009,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 5892917051957619975, guid: 80e2045c1640a1d40917d4872dbd38d7, type: 3}
+    - {fileID: 227854228040328757, guid: 3d0b20f83e069ce4eb9173c1dfe67aad, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -7063,22 +7064,22 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|DummyCircleAttackBehaviour, Assembly-CSharp
-    - Name: circleDamageZonePrefab
+      Data: 5|DummyRectangularAttackBehaviour, Assembly-CSharp
+    - Name: rectangularDamageZonePrefab
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: attackInterval
       Entry: 4
       Data: 4
-    - Name: radius
-      Entry: 4
-      Data: 0.25
     - Name: spawnDuration
       Entry: 4
       Data: 0.3
     - Name: fillDuration
       Entry: 4
       Data: 1
+    - Name: dampening
+      Entry: 4
+      Data: 0.2
     - Name: 
       Entry: 8
       Data: 
@@ -7103,8 +7104,8 @@ MonoBehaviour:
     transitionBehaviour: {fileID: 1362515348}
     phaseBehaviours:
     - {fileID: 1281219093}
-  sprite: {fileID: 160456277}
-  shadowSprite: {fileID: 646636857}
+  <Sprite>k__BackingField: {fileID: 160456277}
+  <shadowSprite>k__BackingField: {fileID: 646636857}
   OnChangeBehaviour:
     m_PersistentCalls:
       m_Calls: []

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Enemies.Scripts.Behaviours;
+using PrimeTween;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -33,8 +34,9 @@ public sealed class DummyCircleAttackBehaviour : IEnemyBehaviour
     [LabelText("Durée de remplissage")]
     private float fillDuration = 1.0f;
 
-    [NonSerialized] private float nextAttackTime;
-    [NonSerialized] private List<CircleDamageZone> activeZones;
+    [NonSerialized] private Sequence attackSequence;
+
+    [NonSerialized] private CircleDamageZone circleDamageZone;
 
     public DummyCircleAttackBehaviour()
     {
@@ -51,18 +53,15 @@ public sealed class DummyCircleAttackBehaviour : IEnemyBehaviour
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
-        CancelActiveZones();
-        activeZones = new List<CircleDamageZone>();
-        nextAttackTime = Time.time + attackInterval;
+
+        attackSequence = Sequence.Create()
+        .ChainCallback(() => SpawnCircleAttack(enemy))
+        .ChainDelay(attackInterval)
+        .ChainCallback(() => execution.Complete());
     }
 
     public void UpdateBehaviour(EnemyController enemy)
     {
-        if (enemy == null || Time.time < nextAttackTime)
-            return;
-
-        SpawnCircleAttack(enemy);
-        nextAttackTime = Time.time + attackInterval;
     }
 
     public void FixedUpdateBehaviour(EnemyController enemy)
@@ -71,11 +70,19 @@ public sealed class DummyCircleAttackBehaviour : IEnemyBehaviour
 
     public void StopBehaviour(EnemyController enemy)
     {
+        if (attackSequence.isAlive)
+            attackSequence.Stop();
+        if (circleDamageZone != null && !circleDamageZone.IsDestroyed)
+            circleDamageZone.Cancel();
     }
 
     public void CancelBehaviour(EnemyController enemy)
     {
-        CancelActiveZones();
+        if (attackSequence.isAlive)
+            attackSequence.Stop();
+
+        if (circleDamageZone != null)
+            circleDamageZone.Cancel();
     }
 
     public void SetSubBehaviourState(bool state)
@@ -97,20 +104,7 @@ public sealed class DummyCircleAttackBehaviour : IEnemyBehaviour
         );
 
         zone.Setup(radius, spawnDuration, fillDuration);
-        activeZones.Add(zone);
+        circleDamageZone = zone;
     }
 
-    private void CancelActiveZones()
-    {
-        if (activeZones == null)
-            return;
-
-        foreach (CircleDamageZone zone in activeZones)
-        {
-            if (zone != null)
-                zone.Cancel();
-        }
-
-        activeZones.Clear();
-    }
 }

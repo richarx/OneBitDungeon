@@ -247,7 +247,7 @@ public class EnemyController : SerializedMonoBehaviour
         SelectNextBehaviour(completedBehaviour, wasTransition);
     }
 
-    private bool IsExecutionActive(BehaviourExecution execution)
+    public bool IsExecutionActive(BehaviourExecution execution)
     {
         return !isDead
                && execution != null

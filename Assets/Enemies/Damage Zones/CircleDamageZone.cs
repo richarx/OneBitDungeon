@@ -22,7 +22,7 @@ public class CircleDamageZone : MonoBehaviour
     private Sequence currentSequence;
 
     private bool isCheckingForDamage;
-    private bool isDestroyed;
+    public bool IsDestroyed {get; private set;}
 
     private float radius;
     private float spawnDuration;
@@ -53,7 +53,7 @@ public class CircleDamageZone : MonoBehaviour
         _playerInstance = PlayerStateMachine.instance;
         float damageTimestamp = Time.time + spawnDuration + fillDuration; //+ ColorTransitionDuration;
         _closeDodgeDetector = new CloseDodgeDetector();
-        _closeDodgeDetector.Setup(damageTimestamp, 
+        _closeDodgeDetector.Setup(damageTimestamp,
                                     _playerInstance.playerData.closeDodgeWindowDuration,
                                     _playerInstance.playerData.arroganceGainOnCloseDodge, this);
 
@@ -121,10 +121,10 @@ public class CircleDamageZone : MonoBehaviour
 
     private void DestroyZone()
     {
-        if (isDestroyed)
+        if (IsDestroyed)
             return;
 
-        isDestroyed = true;
+        IsDestroyed = true;
         Destroy(gameObject);
     }
 }
