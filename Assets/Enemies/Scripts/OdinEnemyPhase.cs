@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Enemies.Scripts.Behaviours;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -10,6 +9,8 @@ using UnityEngine;
 [InlineProperty]
 public class OdinEnemyPhase
 {
+    [NonSerialized] private EnemyController owner;
+
     [OdinSerialize]
     [LabelText("Seuil de transition (PV)")]
     public int healthThresholdToTriggerTransition;
@@ -47,14 +48,13 @@ public class OdinEnemyPhase
         return behaviours;
     }
 
-    private static IEnumerable<Type> GetInlineBehaviourTypes()
+    public void BindOwner(EnemyController owner)
     {
-        return typeof(IEnemyBehaviour).Assembly
-            .GetTypes()
-            .Where(type => typeof(IEnemyBehaviour).IsAssignableFrom(type)
-                           && !type.IsAbstract
-                           && !type.IsInterface
-                           && !type.IsGenericType
-                           && !typeof(MonoBehaviour).IsAssignableFrom(type));
+        this.owner = owner;
+    }
+
+    private IEnumerable<Type> GetInlineBehaviourTypes()
+    {
+        return InlineEnemyBehaviourTypeUtility.GetInlineBehaviourTypes(owner);
     }
 }

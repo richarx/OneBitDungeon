@@ -111,4 +111,37 @@ public class GladiatorThrowAxe : MonoBehaviour, IEnemyBehaviour
     public void SetSubBehaviourState(bool state)
     {
     }
+
+    public bool TryCreateInlineBehaviour(out GladiatorThrowAxeBehaviour inlineBehaviour, out string error)
+    {
+        inlineBehaviour = null;
+        error = null;
+
+        if (gladiatorData == null)
+        {
+            error = "GladiatorData is missing";
+            return false;
+        }
+
+        if (rectangleDamageZonePrefab == null)
+        {
+            error = "the rectangle damage-zone prefab is missing";
+            return false;
+        }
+
+        if (rectangleDamageZonePrefab.GetComponentInChildren<RectangleDamageZone>() == null)
+        {
+            error = "the rectangle damage-zone prefab has no RectangleDamageZone";
+            return false;
+        }
+
+        if (axePrefab == null)
+        {
+            error = "the axe prefab is missing";
+            return false;
+        }
+
+        inlineBehaviour = new GladiatorThrowAxeBehaviour(gladiatorData, rectangleDamageZonePrefab, axePrefab);
+        return true;
+    }
 }

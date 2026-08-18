@@ -97,4 +97,37 @@ public class GladiatorHook : MonoBehaviour, IEnemyBehaviour
     public void SetSubBehaviourState(bool state)
     {
     }
+
+    public bool TryCreateInlineBehaviour(out GladiatorHookBehaviour inlineBehaviour, out string error)
+    {
+        inlineBehaviour = null;
+        error = null;
+
+        if (gladiatorData == null)
+        {
+            error = "GladiatorData is missing";
+            return false;
+        }
+
+        if (rectangleDamageZonePrefab == null)
+        {
+            error = "the rectangle damage-zone prefab is missing";
+            return false;
+        }
+
+        if (rectangleDamageZonePrefab.GetComponentInChildren<RectangleDamageZone>() == null)
+        {
+            error = "the rectangle damage-zone prefab has no RectangleDamageZone";
+            return false;
+        }
+
+        if (hookControllerPrefab == null)
+        {
+            error = "the hook prefab is missing";
+            return false;
+        }
+
+        inlineBehaviour = new GladiatorHookBehaviour(gladiatorData, rectangleDamageZonePrefab, hookControllerPrefab);
+        return true;
+    }
 }

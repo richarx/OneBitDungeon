@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -15,21 +16,32 @@ using UnityEditor.SceneManagement;
 
 public class EnemyController : SerializedMonoBehaviour
 {
+    [TitleGroup("Mort legacy")]
+    [ShowIf(nameof(UsesLegacyPhaseDefinitions))]
     public GameObject deathBehaviourObject;
 
     // Exposed properties
     [TitleGroup("Phases")]
     [OdinSerialize]
+    [OnValueChanged(nameof(BindOdinPhaseOwners))]
     [ListDrawerSettings(ShowFoldout = true)]
     [LabelText("Phases Odin")]
     private List<OdinEnemyPhase> odinEnemyPhases = new List<OdinEnemyPhase>();
+
+    [TitleGroup("Mort Odin")]
+    [ShowIf(nameof(UsesOdinPhaseDefinitions))]
+    [OdinSerialize]
+    [LabelText("Comportement de mort")]
+    [HideReferenceObjectPicker]
+    [TypeFilter(nameof(GetInlineBehaviourTypes))]
+    private IEnemyBehaviour odinDeathBehaviour;
 
     [TitleGroup("Phases legacy")]
     [ShowIf(nameof(UsesLegacyPhaseDefinitions))]
     public List<EnemyPhase> enemyPhases;
 
-    [field: SerializeField] public SpriteRenderer Sprite { get; private set; }
-    [field: SerializeField] public SpriteRenderer shadowSprite { get; private set; }
+    [field: SerializeField, FormerlySerializedAs("sprite")] public SpriteRenderer Sprite { get; private set; }
+    [field: SerializeField, FormerlySerializedAs("shadowSprite")] public SpriteRenderer shadowSprite { get; private set; }
 
 
     // Runtime Components and state
@@ -65,6 +77,7 @@ public class EnemyController : SerializedMonoBehaviour
 
     protected virtual void Start()
     {
+        BindOdinPhaseOwners();
         ResetRuntimeState();
         animator = Sprite.GetComponent<Animator>();
         sphereCollider = GetComponent<SphereCollider>();
@@ -138,6 +151,14 @@ public class EnemyController : SerializedMonoBehaviour
 
     private IEnemyBehaviour GetDeathBehaviour()
     {
+        if (UsesOdinPhaseDefinitions)
+        {
+            if (odinDeathBehaviour == null)
+                Debug.LogWarning($"[{name}] No Odin death behaviour is configured; applying the safe death fallback.", this);
+
+            return odinDeathBehaviour;
+        }
+
         IEnemyBehaviour deathBehaviour = ResolveBehaviour(deathBehaviourObject);
         if (deathBehaviour == null)
             Debug.LogError($"[{name}] Could not resolve a valid death behaviour.", this);
@@ -371,6 +392,33 @@ public class EnemyController : SerializedMonoBehaviour
         return phaseIndex >= 0 && phaseIndex < GetPhaseCount();
     }
 
+    private IEnumerable<Type> GetInlineBehaviourTypes()
+    {
+        return InlineEnemyBehaviourTypeUtility.GetInlineBehaviourTypes(this);
+    }
+
+    private void OnEnable()
+    {
+        BindOdinPhaseOwners();
+    }
+
+    private void OnValidate()
+    {
+        BindOdinPhaseOwners();
+    }
+
+    private void BindOdinPhaseOwners()
+    {
+        if (odinEnemyPhases == null)
+            return;
+
+        foreach (OdinEnemyPhase phase in odinEnemyPhases)
+        {
+            if (phase != null)
+                phase.BindOwner(this);
+        }
+    }
+
     [Button("Migrer le Dummy legacy vers Odin", ButtonSizes.Large)]
     [ShowIf(nameof(CanMigrateDummyLegacyToOdin))]
     private void MigrateDummyLegacyToOdin()
@@ -396,6 +444,7 @@ public class EnemyController : SerializedMonoBehaviour
 
         Undo.RegisterCompleteObjectUndo(this, "Migrate Dummy Legacy Phase to Odin");
         odinEnemyPhases = new List<OdinEnemyPhase> { migratedPhase };
+        BindOdinPhaseOwners();
         EditorUtility.SetDirty(this);
         EditorSceneManager.MarkSceneDirty(gameObject.scene);
 #else
@@ -456,6 +505,217 @@ public class EnemyController : SerializedMonoBehaviour
             phaseBehaviours = new List<IEnemyBehaviour> { inlineAttack }
         };
         return true;
+    }
+
+    [Button("Migrer le Gladiateur legacy vers Odin", ButtonSizes.Large)]
+    [ShowIf(nameof(CanMigrateGladiatorLegacyToOdin))]
+    private void MigrateGladiatorLegacyToOdin()
+    {
+#if UNITY_EDITOR
+        if (Application.isPlaying)
+        {
+            Debug.LogError($"[{name}] Stop Play Mode before migrating legacy Gladiator data to Odin.", this);
+            return;
+        }
+
+        if (HasOdinConfiguration())
+        {
+            Debug.LogError($"[{name}] Gladiator Odin migration was not applied because an Odin configuration already exists.", this);
+            return;
+        }
+
+        if (!TryCreateGladiatorOdinConfiguration(out List<OdinEnemyPhase> migratedPhases, out IEnemyBehaviour migratedDeathBehaviour, out string error))
+        {
+            Debug.LogError($"[{name}] Gladiator Odin migration was not applied: {error}", this);
+            return;
+        }
+
+        Undo.RegisterCompleteObjectUndo(this, "Migrate Gladiator Legacy Behaviours to Odin");
+        odinEnemyPhases = migratedPhases;
+        odinDeathBehaviour = migratedDeathBehaviour;
+        BindOdinPhaseOwners();
+        EditorUtility.SetDirty(this);
+        EditorSceneManager.MarkSceneDirty(gameObject.scene);
+#else
+        Debug.LogError("Gladiator Odin migration is only available in the Unity Editor.", this);
+#endif
+    }
+
+    private bool CanMigrateGladiatorLegacyToOdin()
+    {
+        if (HasOdinConfiguration() || enemyPhases == null || enemyPhases.Count == 0)
+            return false;
+
+        if (deathBehaviourObject == null || deathBehaviourObject.GetComponent<GladiatorDeath>() == null)
+            return false;
+
+        foreach (EnemyPhase phase in enemyPhases)
+        {
+            if (phase == null || phase.transitionBehaviour == null || phase.transitionBehaviour.GetComponent<GladiatorSpawn>() == null)
+                return false;
+
+            if (phase.phaseBehaviours == null || phase.phaseBehaviours.Count == 0)
+                return false;
+
+            foreach (GameObject attack in phase.phaseBehaviours)
+            {
+                if (!HasExactlyOneGladiatorAttackType(attack))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    private bool TryCreateGladiatorOdinConfiguration(out List<OdinEnemyPhase> migratedPhases, out IEnemyBehaviour migratedDeathBehaviour, out string error)
+    {
+        migratedPhases = null;
+        migratedDeathBehaviour = null;
+        error = null;
+
+        if (HasOdinConfiguration())
+        {
+            error = "an Odin configuration already exists";
+            return false;
+        }
+
+        if (deathBehaviourObject == null)
+        {
+            error = "the legacy GladiatorDeath behaviour is missing";
+            return false;
+        }
+
+        GladiatorDeath legacyDeath = deathBehaviourObject.GetComponent<GladiatorDeath>();
+        if (legacyDeath == null || !legacyDeath.TryCreateInlineBehaviour(out GladiatorDeathBehaviour inlineDeath, out error))
+        {
+            if (string.IsNullOrEmpty(error))
+                error = "the legacy death behaviour must be a GladiatorDeath";
+            return false;
+        }
+
+        if (enemyPhases == null || enemyPhases.Count == 0)
+        {
+            error = "at least one legacy phase is required";
+            return false;
+        }
+
+        List<OdinEnemyPhase> phases = new List<OdinEnemyPhase>();
+        foreach (EnemyPhase legacyPhase in enemyPhases)
+        {
+            if (!TryCreateGladiatorOdinPhase(legacyPhase, out OdinEnemyPhase migratedPhase, out error))
+                return false;
+
+            phases.Add(migratedPhase);
+        }
+
+        migratedPhases = phases;
+        migratedDeathBehaviour = inlineDeath;
+        return true;
+    }
+
+    private bool TryCreateGladiatorOdinPhase(EnemyPhase legacyPhase, out OdinEnemyPhase migratedPhase, out string error)
+    {
+        migratedPhase = null;
+        error = null;
+
+        if (legacyPhase == null)
+        {
+            error = "a legacy phase is missing";
+            return false;
+        }
+
+        if (legacyPhase.transitionBehaviour == null)
+        {
+            error = "a GladiatorSpawn transition is missing";
+            return false;
+        }
+
+        GladiatorSpawn legacySpawn = legacyPhase.transitionBehaviour.GetComponent<GladiatorSpawn>();
+        if (legacySpawn == null || !legacySpawn.TryCreateInlineBehaviour(out GladiatorSpawnBehaviour inlineSpawn, out error))
+        {
+            if (string.IsNullOrEmpty(error))
+                error = "the transition must be a GladiatorSpawn";
+            return false;
+        }
+
+        if (legacyPhase.phaseBehaviours == null || legacyPhase.phaseBehaviours.Count == 0)
+        {
+            error = "at least one Gladiator attack is required per phase";
+            return false;
+        }
+
+        List<IEnemyBehaviour> inlineAttacks = new List<IEnemyBehaviour>();
+        foreach (GameObject legacyAttack in legacyPhase.phaseBehaviours)
+        {
+            if (!TryCreateGladiatorInlineAttack(legacyAttack, out IEnemyBehaviour inlineAttack, out error))
+                return false;
+
+            inlineAttacks.Add(inlineAttack);
+        }
+
+        migratedPhase = new OdinEnemyPhase
+        {
+            healthThresholdToTriggerTransition = legacyPhase.healthThresholdToTriggerTransition,
+            transitionBehaviour = inlineSpawn,
+            phaseBehaviours = inlineAttacks
+        };
+        return true;
+    }
+
+    private bool TryCreateGladiatorInlineAttack(GameObject legacyAttack, out IEnemyBehaviour inlineAttack, out string error)
+    {
+        inlineAttack = null;
+        error = null;
+
+        if (!HasExactlyOneGladiatorAttackType(legacyAttack))
+        {
+            error = "an attack must contain exactly one of GladiatorThrowAxe, GladiatorHook, or GladiatorTraps";
+            return false;
+        }
+
+        GladiatorThrowAxe legacyAxe = legacyAttack.GetComponent<GladiatorThrowAxe>();
+        if (legacyAxe != null)
+        {
+            if (!legacyAxe.TryCreateInlineBehaviour(out GladiatorThrowAxeBehaviour inlineAxe, out error))
+                return false;
+
+            inlineAttack = inlineAxe;
+            return true;
+        }
+
+        GladiatorHook legacyHook = legacyAttack.GetComponent<GladiatorHook>();
+        if (legacyHook != null)
+        {
+            if (!legacyHook.TryCreateInlineBehaviour(out GladiatorHookBehaviour inlineHook, out error))
+                return false;
+
+            inlineAttack = inlineHook;
+            return true;
+        }
+
+        GladiatorTraps legacyTraps = legacyAttack.GetComponent<GladiatorTraps>();
+        if (!legacyTraps.TryCreateInlineBehaviour(out GladiatorTrapsBehaviour inlineTraps, out error))
+            return false;
+
+        inlineAttack = inlineTraps;
+        return true;
+    }
+
+    private bool HasOdinConfiguration()
+    {
+        return (odinEnemyPhases != null && odinEnemyPhases.Count > 0) || odinDeathBehaviour != null;
+    }
+
+    private static bool HasExactlyOneGladiatorAttackType(GameObject attack)
+    {
+        if (attack == null)
+            return false;
+
+        int typeCount = 0;
+        typeCount += attack.GetComponent<GladiatorThrowAxe>() != null ? 1 : 0;
+        typeCount += attack.GetComponent<GladiatorHook>() != null ? 1 : 0;
+        typeCount += attack.GetComponent<GladiatorTraps>() != null ? 1 : 0;
+        return typeCount == 1;
     }
 
 

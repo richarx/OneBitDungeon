@@ -10774,6 +10774,114 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b7f7e38a2ef73459e47afda7076594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 034e6da9e8a13fe49a4d6a890aacb3a6, type: 2}
+    - {fileID: 227854228040328757, guid: dd3dcb2841c964345bbca1dcf39a0011, type: 3}
+    - {fileID: 6920893645996063687, guid: b3a9d7f010918dc44ab5a81ab252a230, type: 3}
+    - {fileID: 227854228040328757, guid: 8f6e394d97d7811448e62cbac13316a0, type: 3}
+    - {fileID: 7095477881059379443, guid: 7114558925a661049b43929303dcbd7e, type: 3}
+    - {fileID: 2345212183736776820, guid: c25a446e78ae40142801added8efad5a, type: 3}
+    - {fileID: 2493789051471718068, guid: 15e9ceda3bd2d1e41af872a99af6f8c9, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: odinEnemyPhases
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[OdinEnemyPhase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|OdinEnemyPhase, Assembly-CSharp
+    - Name: healthThresholdToTriggerTransition
+      Entry: 3
+      Data: 0
+    - Name: transitionBehaviour
+      Entry: 7
+      Data: 2|GladiatorSpawnBehaviour, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: phaseBehaviours
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|GladiatorThrowAxeBehaviour, Assembly-CSharp
+    - Name: gladiatorData
+      Entry: 10
+      Data: 0
+    - Name: rectangleDamageZonePrefab
+      Entry: 10
+      Data: 1
+    - Name: axePrefab
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|GladiatorHookBehaviour, Assembly-CSharp
+    - Name: gladiatorData
+      Entry: 10
+      Data: 0
+    - Name: rectangleDamageZonePrefab
+      Entry: 10
+      Data: 3
+    - Name: hookControllerPrefab
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|GladiatorTrapsBehaviour, Assembly-CSharp
+    - Name: gladiatorData
+      Entry: 10
+      Data: 0
+    - Name: circleDamageZonePrefab
+      Entry: 10
+      Data: 5
+    - Name: trapControllerPrefab
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: odinDeathBehaviour
+      Entry: 7
+      Data: 7|GladiatorDeathBehaviour, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
   deathBehaviourObject: {fileID: 8934140663497945167, guid: 5589a44bc5bd4a47a64dd93e9995d719,
     type: 3}
   enemyPhases:
@@ -10784,8 +10892,8 @@ MonoBehaviour:
     - {fileID: 8934140663497945167, guid: e4d7d4f966f8d4f4bb2d3b2ab284eac4, type: 3}
     - {fileID: 8934140663497945167, guid: e465d994ead77934ebfd01fb43ff512d, type: 3}
     - {fileID: 8934140663497945167, guid: 2b435910f1ec1274eb3c3b7922eaf6ee, type: 3}
-  sprite: {fileID: 5071313608623843290}
-  shadowSprite: {fileID: 2063661912}
+  <Sprite>k__BackingField: {fileID: 5071313608623843290}
+  <shadowSprite>k__BackingField: {fileID: 2063661912}
   OnChangeBehaviour:
     m_PersistentCalls:
       m_Calls: []

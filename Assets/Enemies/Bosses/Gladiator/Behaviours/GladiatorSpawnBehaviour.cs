@@ -1,15 +1,19 @@
+using System;
 using Enemies.Scripts.Behaviours;
 using Enemies.Spawner;
 using PrimeTween;
-using UnityEngine;
 
-public class GladiatorSpawn : MonoBehaviour, IEnemyBehaviour
+[Serializable]
+public sealed class GladiatorSpawnBehaviour : IEnemyBehaviour
 {
+    [NonSerialized] private Sequence spawnSequence;
+
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
+        CancelSequence();
         EnemyHolder.instance.RegisterEnemy(enemy.gameObject);
 
-        Sequence.Create()
+        spawnSequence = Sequence.Create()
             .ChainDelay(3.0f)
             .ChainCallback(() => execution.Complete());
     }
@@ -28,16 +32,16 @@ public class GladiatorSpawn : MonoBehaviour, IEnemyBehaviour
 
     public void CancelBehaviour(EnemyController enemy)
     {
+        CancelSequence();
     }
 
     public void SetSubBehaviourState(bool state)
     {
     }
 
-    public bool TryCreateInlineBehaviour(out GladiatorSpawnBehaviour inlineBehaviour, out string error)
+    private void CancelSequence()
     {
-        inlineBehaviour = new GladiatorSpawnBehaviour();
-        error = null;
-        return true;
+        if (spawnSequence.isAlive)
+            spawnSequence.Stop();
     }
 }

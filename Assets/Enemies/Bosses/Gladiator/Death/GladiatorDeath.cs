@@ -49,4 +49,11 @@ public class GladiatorDeath : MonoBehaviour, IEnemyBehaviour
     public void SetSubBehaviourState(bool state)
     {
     }
+
+    public bool TryCreateInlineBehaviour(out GladiatorDeathBehaviour inlineBehaviour, out string error)
+    {
+        inlineBehaviour = new GladiatorDeathBehaviour();
+        error = null;
+        return true;
+    }
 }
