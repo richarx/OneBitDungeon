@@ -57,7 +57,7 @@ namespace Game_Manager
             yield return new WaitForSeconds(0.5f);
 
             yield return new WaitUntil(() => PlayerSpawnPosition.instance != null);
-            player.transform.position = PlayerSpawnPosition.instance.GetPosition;
+            player.TeleportPlayer(PlayerSpawnPosition.instance.GetPosition);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -86,24 +86,22 @@ namespace Game_Manager
             yield return new WaitForSecondsRealtime(2.0f);
             Time.timeScale = 0.1f;
             OnPrepareToChangeScene?.Invoke();
-            yield return Tools.Fade(blackScreen, 5.0f, true, scaledTime: false);
+            yield return Tools.Fade(blackScreen, 4.0f, true, scaledTime: false);
             Tween.StopAll();
+            Time.timeScale = 1.0f;
 
             PlayerStateMachine player = PlayerStateMachine.instance;
             player.ChangeBehaviour(player.playerSit);
             player.playerSit.Lock();
-
-            yield return new WaitForSeconds(0.5f);
 
             AsyncOperation operation = SceneManager.LoadSceneAsync(currentRespawnScene);
 
             yield return new WaitUntil(() => operation.isDone);
             yield return new WaitForSeconds(0.1f);
 
-            if (PlayerSpawnPosition.instance != null)
-                player.TeleportPlayer(PlayerSpawnPosition.instance.GetPosition);
+            yield return new WaitUntil(() => PlayerSpawnPosition.instance != null);
+            player.TeleportPlayer(PlayerSpawnPosition.instance.GetPosition);
 
-            Time.timeScale = 1.0f;
             yield return Tools.Fade(blackScreen, 1.0f, false);
 
             player.playerSit.Unlock();

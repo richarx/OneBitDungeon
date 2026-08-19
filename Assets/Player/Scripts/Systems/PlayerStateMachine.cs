@@ -111,7 +111,8 @@ namespace Player.Scripts
         public void TeleportPlayer(Vector3 newPosition)
         {
             newPosition.y = 0.0f;
-            rb.MovePosition(newPosition);
+            transform.position = newPosition;
+            rb.position = newPosition;
         }
 
         private void KeepOnGround()
