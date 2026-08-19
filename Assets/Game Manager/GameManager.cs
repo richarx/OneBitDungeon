@@ -46,9 +46,10 @@ namespace Game_Manager
                 yield return new WaitWhile(() => isInMainMenu);
                 Debug.Log("[Game Manager] : Trigger detected - setting up.");
             }
+            yield return null;
 
             PlayerStateMachine player = PlayerStateMachine.instance;
-            player.ChangeBehaviour(player.playerSit);
+            player.playerSit.SitAfterRespawn(player);
             player.playerSit.Lock();
             player.playerDead.OnPlayerDies.AddListener(RestartLevelOnPlayerDeath);
             SetRespawnPosition();
@@ -91,7 +92,7 @@ namespace Game_Manager
             Time.timeScale = 1.0f;
 
             PlayerStateMachine player = PlayerStateMachine.instance;
-            player.ChangeBehaviour(player.playerSit);
+            player.playerSit.SitAfterRespawn(player);
             player.playerSit.Lock();
 
             AsyncOperation operation = SceneManager.LoadSceneAsync(currentRespawnScene);

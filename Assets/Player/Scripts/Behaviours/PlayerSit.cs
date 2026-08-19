@@ -9,6 +9,7 @@ namespace Player.Scripts
     {
         public UnityEvent OnStartSittingDown = new UnityEvent();
         public UnityEvent OnStartGettingUp = new UnityEvent();
+        public UnityEvent OnSitInstant = new UnityEvent();
 
         private bool isLocked;
 
@@ -21,17 +22,28 @@ namespace Player.Scripts
         private bool isLeftDirection;
         private Vector2 targetDirection => isLeftDirection ? Vector2.left : Vector2.right;
 
+        bool isRespawning = false;
+
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
             sitDownTimestamp = Time.time;
             getUpTimestamp = -1.0f;
-            isRotating = true;
+            isRotating = !isRespawning;
 
             player.moveVelocity = Vector3.zero;
             player.ApplyMovement();
 
             if (!hasTargetBeenSet)
                 isLeftDirection = player.LastLookDirection.x <= 0.0f;
+        }
+
+        public void SitAfterRespawn(PlayerStateMachine player)
+        {
+            isRespawning = true;
+            hasTargetBeenSet = true;
+            player.SetLastLookDirection(Vector2.right);
+            OnSitInstant?.Invoke();
+            player.ChangeBehaviour(player.playerSit);
         }
 
         public void SitAtBonfire(PlayerStateMachine player, Vector3 position)

@@ -27,6 +27,7 @@ namespace Player.Scripts
 
             player.playerSit.OnStartSittingDown.AddListener(PlaySitAnimation);
             player.playerSit.OnStartGettingUp.AddListener(PlaySitAnimation);
+            player.playerSit.OnSitInstant.AddListener(PlaySitInstant);
 
             player.playerParry.OnStartParry.AddListener(PlayStartParryAnimation);
             player.playerParry.OnStopParry.AddListener(PlayRecoveryParryAnimation);
@@ -98,6 +99,11 @@ namespace Player.Scripts
                 codeAnimator.PlayAnimation(AnimationType.GetUp, ComputeLeftRightAnimationDirection());
             else
                 codeAnimator.PlayAnimation(AnimationType.SitDown, ComputeLeftRightAnimationDirection());
+        }
+
+        private void PlaySitInstant()
+        {
+            codeAnimator.PlayAnimation(AnimationType.Sit, ComputeLeftRightAnimationDirection());
         }
 
         private void PlayStartParryAnimation()
