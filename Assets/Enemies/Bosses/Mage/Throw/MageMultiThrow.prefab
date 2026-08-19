@@ -48,4 +48,10 @@ MonoBehaviour:
   rockMovementDuration: 0.5
   mageThrowSpellPrefab: {fileID: 1563654819030307539, guid: c4071b6254e971c4ea63a4be60895759,
     type: 3}
-  mageData: {fileID: 11400000, guid: adaac8d3b67e6b3438b53cea188e4b7c, type: 2}
+  multiThrowMoveDuration: 0.3
+  multiThrowMoveDurationToRight: 0.1
+  multiThrowMoveDurationToLeft: 0.1
+  multiThrowSpawnDuration: 0.5
+  multiThrowFillDuration: 0.5
+  multiThrowRotationDuration: 1
+  multiThrowRecoveryDuration: 0.3

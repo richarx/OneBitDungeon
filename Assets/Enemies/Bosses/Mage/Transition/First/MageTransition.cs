@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Enemies.Scripts;
 using Enemies.Scripts.Behaviours;
 using PrimeTween;
@@ -44,23 +45,26 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
     private Sequence immuneSequence;
     private Sequence stunSequence;
     private Sequence rageSequence;
+    private BehaviourExecution activeExecution;
+    private readonly Dictionary<GameObject, IEnemyBehaviour> runtimeBehaviours = new Dictionary<GameObject, IEnemyBehaviour>();
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
+        activeExecution = execution;
         currentPhase = TransitionPhase.Immune;
         enemy.DeactivateHitbox();
 
         Vector3 upperPillarPosition = new Vector3(7.5f, 0.0f, 7.5f);
-        topPillar = SpawnPillar(enemy, upperPillarPosition);
+        topPillar = SpawnPillar(enemy, upperPillarPosition, execution);
 
         Vector3 lowerPillarPosition = new Vector3(-7.5f, 0.0f, -7.5f);
-        botPillar = SpawnPillar(enemy, lowerPillarPosition);
+        botPillar = SpawnPillar(enemy, lowerPillarPosition, execution);
 
         brokenPillarCount = 0;
 
         immuneSequence = Sequence.Create()
             .Chain(Tween.LocalPosition(enemy.transform, Vector3.zero, 0.5f, Ease.InOutCubic))
-            .Chain(Tween.LocalPosition(enemy.sprite.transform, Vector3.up * 3.0f, 0.5f, Ease.OutBack))
+            .Chain(Tween.LocalPosition(enemy.Sprite.transform, Vector3.up * 3.0f, 0.5f, Ease.OutBack))
             .ChainCallback(() => enemy.animator.Play("Charge"))
             .ChainCallback(() => SpawnInitialDamageZone(upperPillarPosition))
             .ChainDelay(0.6f)
@@ -84,13 +88,14 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
         circleDamageZone.Setup(0.15f, 0.6f, 0.3f);
     }
 
-    private Transform SpawnPillar(EnemyController enemy, Vector3 position)
+    private Transform SpawnPillar(EnemyController enemy, Vector3 position, BehaviourExecution execution)
     {
         position += Vector3.up * 15.0f;
         Damageable damageable = Instantiate(pillarPrefab, position, Quaternion.identity);
         damageable.OnDie.AddListener(() =>
         {
-            OnBreakPillar(enemy);
+            if (enemy.IsExecutionActive(execution))
+                OnBreakPillar(enemy);
         });
         return damageable.transform;
     }
@@ -113,7 +118,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
             RockOrbiter.instance.HideRocks();
 
             stunSequence = Sequence.Create()
-                .Group(Tween.LocalPositionY(enemy.sprite.transform, 0.0f, 0.15f, Ease.OutBounce))
+                .Group(Tween.LocalPositionY(enemy.Sprite.transform, 0.0f, 0.15f, Ease.OutBounce))
                 .ChainCallback(() => enemy.animator.Play("Stun"))
                 .ChainCallback(() => enemy.ActivateHitbox());
         }
@@ -121,9 +126,12 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
 
     private void StartSecondaryBehaviour(EnemyController enemy)
     {
-        attackBehaviour = attackBehaviourObject.GetComponent<IEnemyBehaviour>();
+        attackBehaviour = InstantiateBehaviour(enemy, attackBehaviourObject);
+        if (attackBehaviour == null)
+            return;
+
         attackBehaviour.SetSubBehaviourState(true);
-        attackBehaviour.StartBehaviour(enemy);
+        attackBehaviour.StartBehaviour(enemy, BehaviourExecution.Uncontrolled);
         lastAttackTimestamp = Time.time;
     }
 
@@ -134,15 +142,15 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
 
         if (isAttackPhase && attackBehaviour != null && isAttackTime)
         {
-            attackBehaviour.StartBehaviour(enemy);
+            attackBehaviour.StartBehaviour(enemy, BehaviourExecution.Uncontrolled);
             lastAttackTimestamp = Time.time;
         }
 
         if (currentPhase == TransitionPhase.Stun && (enemy.damageable.currentHealth <= stunStartHealth - 50 || Time.time - stunStartTimestamp >= 5.0f))
-            StartRageSequence(enemy);
+            StartRageSequence(enemy, activeExecution);
     }
 
-    private void StartRageSequence(EnemyController enemy)
+    private void StartRageSequence(EnemyController enemy, BehaviourExecution execution)
     {
         currentPhase = TransitionPhase.Rage;
         lastAttackTimestamp = Time.time;
@@ -151,31 +159,41 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
         RockOrbiter.instance.DisplayRocks();
         RockOrbiter.instance.SetRockSpeed(1.0f);
 
-        rageBehaviour_1 = rageBehaviourObject_1.GetComponent<IEnemyBehaviour>();
+        rageBehaviour_1 = InstantiateBehaviour(enemy, rageBehaviourObject_1);
+        if (rageBehaviour_1 == null)
+            return;
+
         rageBehaviour_1.SetSubBehaviourState(true);
 
-        rageBehaviour_2 = rageBehaviourObject_2.GetComponent<IEnemyBehaviour>();
+        rageBehaviour_2 = InstantiateBehaviour(enemy, rageBehaviourObject_2);
+        if (rageBehaviour_2 == null)
+        {
+            rageBehaviour_1.SetSubBehaviourState(false);
+            rageBehaviour_1 = null;
+            return;
+        }
+
         rageBehaviour_2.SetSubBehaviourState(true);
 
         rageSequence = Sequence.Create()
-            .ChainCallback(() => rageBehaviour_1.StartBehaviour(enemy))
+            .ChainCallback(() => rageBehaviour_1.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(0.1f)
-            .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy))
+            .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(3.0f)
 
-            .ChainCallback(() => rageBehaviour_1.StartBehaviour(enemy))
+            .ChainCallback(() => rageBehaviour_1.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(0.1f)
-            .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy))
+            .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(3.0f)
 
-            .ChainCallback(() => rageBehaviour_1.StartBehaviour(enemy))
+            .ChainCallback(() => rageBehaviour_1.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(0.1f)
-            .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy))
+            .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(3.0f)
 
-            .ChainCallback(() => rageBehaviour_1.StartBehaviour(enemy))
+            .ChainCallback(() => rageBehaviour_1.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(0.1f)
-            .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy))
+            .ChainCallback(() => rageBehaviour_2.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(3.0f)
 
             .ChainCallback(() => lastAttackTimestamp = Time.time)
@@ -184,7 +202,7 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
             .ChainCallback(() =>
             {
                 ResetRageBehaviours(enemy);
-                enemy.SelectNewBehaviour(true);
+                execution.Complete();
             });
     }
 
@@ -215,6 +233,39 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
         }
     }
 
+    private IEnemyBehaviour InstantiateBehaviour(EnemyController enemy, GameObject behaviourPrefab)
+    {
+        if (behaviourPrefab == null)
+        {
+            Debug.LogError($"[{enemy.name}] Cannot instantiate a missing legacy behaviour prefab.", enemy);
+            return null;
+        }
+
+        if (runtimeBehaviours.TryGetValue(behaviourPrefab, out IEnemyBehaviour cachedBehaviour))
+            return cachedBehaviour;
+
+        GameObject runtimeBehaviourObject = Instantiate(behaviourPrefab, enemy.transform);
+        if (runtimeBehaviourObject == null)
+        {
+            Debug.LogError($"[{enemy.name}] Failed to instantiate legacy behaviour prefab '{behaviourPrefab.name}'.", behaviourPrefab);
+            runtimeBehaviours.Add(behaviourPrefab, null);
+            return null;
+        }
+
+        runtimeBehaviourObject.name = $"{behaviourPrefab.name} (Runtime)";
+        IEnemyBehaviour runtimeBehaviour = runtimeBehaviourObject.GetComponent<IEnemyBehaviour>();
+        if (runtimeBehaviour == null)
+        {
+            Debug.LogError($"[{enemy.name}] Legacy behaviour prefab '{behaviourPrefab.name}' does not implement IEnemyBehaviour.", behaviourPrefab);
+            runtimeBehaviours.Add(behaviourPrefab, null);
+            Destroy(runtimeBehaviourObject);
+            return null;
+        }
+
+        runtimeBehaviours.Add(behaviourPrefab, runtimeBehaviour);
+        return runtimeBehaviour;
+    }
+
     public void SetSubBehaviourState(bool state)
     {
     }
@@ -241,4 +292,5 @@ public class MageTransition : MonoBehaviour, IEnemyBehaviour
         ResetAttackBehaviour(enemy);
         ResetRageBehaviours(enemy);
     }
+
 }

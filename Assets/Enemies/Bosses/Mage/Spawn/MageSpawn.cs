@@ -10,31 +10,38 @@ public class MageSpawn : MonoBehaviour, IEnemyBehaviour
     [Space]
     [SerializeField] private CircleDamageZone circleDamageZonePrefab;
 
+    private Sequence blastSequence;
+    private Sequence spawnSequence;
+
     public void FixedUpdateBehaviour(EnemyController enemy)
     {
     }
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
-        enemy.sprite.transform.position = Vector3.up * 30.0f;
+        enemy.Sprite.transform.position = Vector3.up * 30.0f;
         enemy.shadowSprite.transform.localScale = Vector3.zero;
         enemy.DeactivateHitbox();
         enemy.animator.Play("Ball");
 
-        Sequence.Create()
+        blastSequence = Sequence.Create()
             .ChainDelay(7.45f)
-            .ChainCallback(() => enemy.animator.Play("Blast"));
+            .ChainCallback(() =>
+            {
+                if (enemy.IsExecutionActive(execution))
+                    enemy.animator.Play("Blast");
+            });
 
-        Sequence.Create()
+        spawnSequence = Sequence.Create()
             .ChainDelay(2.0f)
             .ChainCallback(() => SpawnDamageZone(enemy.transform.position))
             .ChainDelay(5.0f)
             .Chain(Tween.Alpha(enemy.shadowSprite, 1.0f, 1.0f))
             .Group(Tween.Scale(enemy.shadowSprite.transform, new Vector3(0.1f, 0.1f, 1.0f), Vector3.one, 0.5f))
-            .Group(Tween.LocalPositionY(enemy.sprite.transform, 30.0f, 0.0f, 0.5f, Ease.OutBounce))
+            .Group(Tween.LocalPositionY(enemy.Sprite.transform, 30.0f, 0.0f, 0.5f, Ease.OutBounce))
             .ChainCallback(() => enemy.ActivateHitbox())
             .ChainDelay(0.5f)
-            .ChainCallback(() => enemy.SelectNewBehaviour(true));
+            .ChainCallback(() => execution.Complete());
     }
 
     private void SpawnDamageZone(Vector3 position)
@@ -59,6 +66,11 @@ public class MageSpawn : MonoBehaviour, IEnemyBehaviour
 
     public void CancelBehaviour(EnemyController enemy)
     {
+        if (blastSequence.isAlive)
+            blastSequence.Stop();
 
+        if (spawnSequence.isAlive)
+            spawnSequence.Stop();
     }
+
 }

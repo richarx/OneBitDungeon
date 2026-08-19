@@ -12,7 +12,7 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
     private Sequence attackSequence;
     private MageRainSpell spell;
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Vector3 randomPosition = Random.insideUnitSphere * 7.0f;
         randomPosition.y = 0.0f;
@@ -27,7 +27,7 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
             .Chain(MoveMageToPosition(enemy, randomPosition))
             .Group(CastRainSpell())
             .ChainDelay(isSecondPhase ? mageData.rainRecoveryDuration_p2 : mageData.rainRecoveryDuration)
-            .ChainCallback(() => enemy.SelectNewBehaviour());
+            .ChainCallback(() => execution.Complete());
         }
         else
         {
@@ -89,4 +89,5 @@ public class MageRain : MonoBehaviour, IEnemyBehaviour
     {
         isSubBehaviour = state;
     }
+
 }

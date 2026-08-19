@@ -10,17 +10,19 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
 
     private Sequence bounceSequence;
     private int bounceCount;
+    private BehaviourExecution activeExecution;
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
+        activeExecution = execution;
         bounceCount = 0;
 
         bounceSequence = Sequence.Create()
             .Chain(Tween.LocalPosition(enemy.transform, Vector3.zero, 1.0f, Ease.InOutCubic))
             .ChainCallback(() => enemy.DeactivateHitbox())
             .ChainCallback(() => enemy.animator.Play("Charge"))
-            .Chain(Tween.LocalPositionY(enemy.sprite.transform, 5.0f, 1.5f, Ease.InOutCubic))
-            .Chain(Tween.ShakeScale(enemy.sprite.transform, Vector3.up, 0.5f))
+            .Chain(Tween.LocalPositionY(enemy.Sprite.transform, 5.0f, 1.5f, Ease.InOutCubic))
+            .Chain(Tween.ShakeScale(enemy.Sprite.transform, Vector3.up, 0.5f))
             .ChainCallback(() => enemy.animator.Play("Ball"))
             ;
     }
@@ -29,10 +31,10 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
     {
         bounceSequence = Sequence.Create()
             .Chain(Tween.LocalPosition(enemy.transform, position, 0.3f, Ease.InOutCubic))
-            .Chain(Tween.LocalPositionY(enemy.sprite.transform, 8.0f, 0.3f, Ease.OutBack))
-            .Chain(Tween.LocalPositionY(enemy.sprite.transform, 0.0f, 0.1f, Ease.OutBack))
+            .Chain(Tween.LocalPositionY(enemy.Sprite.transform, 8.0f, 0.3f, Ease.OutBack))
+            .Chain(Tween.LocalPositionY(enemy.Sprite.transform, 0.0f, 0.1f, Ease.OutBack))
             .ChainCallback(() => SpawnHollowCircle(position))
-            .Chain(Tween.LocalPositionY(enemy.sprite.transform, 8.0f, 0.5f, Ease.OutBack))
+            .Chain(Tween.LocalPositionY(enemy.Sprite.transform, 8.0f, 0.5f, Ease.OutBack))
             .Chain(Tween.LocalPosition(enemy.transform, ComputeRandomPosition(), 0.5f, Ease.InOutCubic))
             ;
     }
@@ -66,20 +68,20 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
             bounceCount += 1;
 
             if (bounceCount > maxBounceCount)
-                StopTransition(enemy);
+                StopTransition(enemy, activeExecution);
             else
                 BounceOnce(enemy, ComputeRandomPosition());
         }
     }
 
-    private void StopTransition(EnemyController enemy)
+    private void StopTransition(EnemyController enemy, BehaviourExecution execution)
     {
         bounceSequence = Sequence.Create()
             .Chain(Tween.LocalPosition(enemy.transform, Vector3.zero, 1.5f, Ease.InOutCubic))
-            .Chain(Tween.LocalPositionY(enemy.sprite.transform, 0.0f, 0.5f, Ease.OutBack))
+            .Chain(Tween.LocalPositionY(enemy.Sprite.transform, 0.0f, 0.5f, Ease.OutBack))
             .ChainCallback(() => enemy.animator.Play("Blast"))
             .ChainCallback(() => enemy.ActivateHitbox())
-            .ChainCallback(() => enemy.SelectNewBehaviour(true))
+            .ChainCallback(() => execution.Complete())
             ;
     }
 
@@ -94,7 +96,7 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
         if (bounceSequence.isAlive)
             bounceSequence.Stop();
 
-        enemy.sprite.transform.localPosition = Vector3.zero;
+        enemy.Sprite.transform.localPosition = Vector3.zero;
     }
 
     public void CancelBehaviour(EnemyController enemy)
@@ -104,10 +106,11 @@ public class MageSecondTransition : MonoBehaviour, IEnemyBehaviour
         if (bounceSequence.isAlive)
             bounceSequence.Stop();
 
-        enemy.sprite.transform.localPosition = Vector3.zero;
+        enemy.Sprite.transform.localPosition = Vector3.zero;
     }
 
     public void SetSubBehaviourState(bool state)
     {
     }
+
 }

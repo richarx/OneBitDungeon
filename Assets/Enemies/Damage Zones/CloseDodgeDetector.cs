@@ -131,8 +131,25 @@ public class CloseDodgeSession
 
         if (!playerWasHit)
         {
-            foreach (ArroganceGainRequest gain in pendingGains)
-                ArroganceGainEvents.RequestGain(gain);
+            // Version get all the gains from the pending list and request them at once.
+            
+            // foreach (ArroganceGainRequest gain in pendingGains)
+            //     ArroganceGainEvents.RequestGain(gain);
+
+            
+            
+            // Version get Max gain from the pending list and request it.
+            
+            if (pendingGains.Count > 0)
+            {
+                ArroganceGainRequest maxGain = pendingGains[0];
+                foreach (ArroganceGainRequest gain in pendingGains)
+                {
+                    if (gain.baseAmount > maxGain.baseAmount)
+                        maxGain = gain;
+                }
+                ArroganceGainEvents.RequestGain(maxGain);
+            }
         }
 
         pendingGains.Clear();

@@ -18,7 +18,7 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
     private HollowCircleDamageZone hollowCircle;
     private List<MageEvadeSpell> spells = new List<MageEvadeSpell>();
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Debug.Log("Mage MULTI EVADE");
 
@@ -43,7 +43,7 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
             .Chain(MoveMageToPosition(enemy, evadePosition_2))
             .Chain(TeleportMageToPosition(enemy, evadePosition_3))
             .ChainDelay(mageData.multiEvadeRecoveryDuration)
-            .ChainCallback(() => enemy.SelectNewBehaviour());
+            .ChainCallback(() => execution.Complete());
     }
 
     private Sequence MoveMageToPosition(EnemyController enemy, Vector3 enemyPosition)
@@ -107,7 +107,10 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
             attackSequence.Stop();
 
         foreach (MageEvadeSpell spell in spells)
-            spell.Cancel();
+        {
+            if (spell != null)
+                spell.Cancel();
+        }
 
         if (hollowCircle != null)
             hollowCircle.Cancel();
@@ -120,4 +123,5 @@ public class MageMultiEvade : MonoBehaviour, IEnemyBehaviour
     {
         isSubBehaviour = state;
     }
+
 }

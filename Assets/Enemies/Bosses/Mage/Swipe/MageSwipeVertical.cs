@@ -20,7 +20,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
         closeDodgeSession = session;
     }
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Debug.Log("Mage SWIPE VERTICAL");
 
@@ -43,7 +43,7 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
                 .Group(CastSwipeSpell(new Vector3(-4.58f, 0.0f, -10.0f), Vector2.up, 0.15f))
                 .Group(CastSwipeSpell(new Vector3(-9.11f, 0.0f, 10.0f), Vector2.down, 0.2f))
                 .ChainDelay(isSecondPhase ? mageData.swipeRecoveryDuration_2 : mageData.swipeRecoveryDuration)
-                .ChainCallback(() => enemy.SelectNewBehaviour());
+                .ChainCallback(() => execution.Complete());
         }
         else
         {
@@ -104,11 +104,15 @@ public class MageSwipeVertical : MonoBehaviour, IEnemyBehaviour
             attackSequence.Stop();
 
         foreach (MageSwipeSpell spell in spells)
-            spell.Cancel();
+        {
+            if (spell != null)
+                spell.Cancel();
+        }
     }
 
     public void SetSubBehaviourState(bool state)
     {
         isSubBehaviour = state;
     }
+
 }

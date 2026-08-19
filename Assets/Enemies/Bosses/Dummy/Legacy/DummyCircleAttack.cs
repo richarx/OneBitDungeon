@@ -14,7 +14,7 @@ public class DummyCircleAttack : MonoBehaviour, IEnemyBehaviour
     private float nextAttackTime;
     private readonly List<CircleDamageZone> activeZones = new List<CircleDamageZone>();
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         nextAttackTime = Time.time + attackInterval;
     }
@@ -62,4 +62,5 @@ public class DummyCircleAttack : MonoBehaviour, IEnemyBehaviour
     public void SetSubBehaviourState(bool state)
     {
     }
+
 }

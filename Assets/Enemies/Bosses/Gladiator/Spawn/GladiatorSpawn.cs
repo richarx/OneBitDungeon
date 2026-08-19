@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class GladiatorSpawn : MonoBehaviour, IEnemyBehaviour
 {
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         EnemyHolder.instance.RegisterEnemy(enemy.gameObject);
 
         Sequence.Create()
             .ChainDelay(3.0f)
-            .ChainCallback(() => enemy.SelectNewBehaviour(true));
+            .ChainCallback(() => execution.Complete());
     }
 
     public void UpdateBehaviour(EnemyController enemy)
@@ -33,4 +33,5 @@ public class GladiatorSpawn : MonoBehaviour, IEnemyBehaviour
     public void SetSubBehaviourState(bool state)
     {
     }
+
 }

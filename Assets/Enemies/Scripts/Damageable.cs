@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,7 @@ namespace Enemies.Scripts
     {
         [SerializeField] private int startingHealth;
         [SerializeField] private bool isInvincible;
+
 
         [HideInInspector] public UnityEvent OnTakeDamage = new UnityEvent();
         [HideInInspector] public UnityEvent OnDie = new UnityEvent();
@@ -32,6 +34,12 @@ namespace Enemies.Scripts
                 OnDie?.Invoke();
             else
                 OnTakeDamage?.Invoke();
+        }
+
+        [Button]
+        public void InstantKill()
+        {
+            TakeDamage(currentHealth);
         }
     }
 }

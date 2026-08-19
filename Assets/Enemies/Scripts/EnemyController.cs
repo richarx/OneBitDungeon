@@ -1,68 +1,156 @@
+using System;
 using System.Collections.Generic;
 using Enemies.Scripts;
 using Enemies.Scripts.Behaviours;
 using Enemies.Spawner;
+using Game_Manager;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : SerializedMonoBehaviour
 {
-    public GameObject deathBehaviourObject;
-    public List<EnemyPhase> enemyPhases;
-    public SpriteRenderer sprite;
-    public SpriteRenderer shadowSprite;
+    // Exposed properties
+    [TitleGroup("Phases")]
+    [OdinSerialize]
+    [OnValueChanged(nameof(BindPhaseOwners))]
+    [ListDrawerSettings(ShowFoldout = true)]
+    [LabelText("Phases")]
+    private List<OdinEnemyPhase> phases = new List<OdinEnemyPhase>();
+
+    [TitleGroup("Mort")]
+    [OdinSerialize]
+    [LabelText("Death Behaviour")]
+    [HideReferenceObjectPicker]
+    [TypeFilter(nameof(GetInlineBehaviourTypes))]
+    private IEnemyBehaviour deathBehaviour;
+
+    [field: SerializeField] public SpriteRenderer Sprite { get; private set; }
+    [field: SerializeField] public SpriteRenderer shadowSprite { get; private set; }
+
+
+    // Runtime Components and state
     public Animator animator { get; private set; }
     public Damageable damageable { get; private set; }
     public AfterImage afterImage { get; private set; }
+    private SphereCollider sphereCollider;
+
+    private bool isDead;
+    private BehaviourExecution activeExecution;
+    private int executionId;
 
 
-    [HideInInspector] public UnityEvent OnChangeBehaviour = new UnityEvent();
 
-    public List<IEnemyBehaviour> enemyBehaviours;
+    // Behaviour and phase state
+
+    [NonSerialized] public UnityEvent OnChangeBehaviour = new UnityEvent();
+
+    private List<IEnemyBehaviour> enemyBehaviours;
     public IEnemyBehaviour currentBehaviour { get; private set; }
     public IEnemyBehaviour startingBehaviour { get; private set; }
     public IEnemyBehaviour phaseTransitionBehaviour { get; private set; }
 
     public int currentPhase { get; private set; } = 0;
-    private bool isLastPhase => currentPhase >= enemyPhases.Count - 1;
+    private bool isLastPhase => currentPhase >= GetPhaseCount() - 1;
 
-    private SphereCollider sphereCollider;
+
+
 
     protected virtual void Start()
     {
-        animator = sprite.GetComponent<Animator>();
+        BindPhaseOwners();
+
+        ResetRuntimeState();
+        animator = Sprite.GetComponent<Animator>();
         sphereCollider = GetComponent<SphereCollider>();
         damageable = GetComponent<Damageable>();
         afterImage = GetComponent<AfterImage>();
 
         damageable.OnTakeDamage.AddListener(() =>
         {
-            if (!isLastPhase && currentBehaviour != startingBehaviour && damageable.currentHealth <= enemyPhases[currentPhase + 1].healthThresholdToTriggerTransition)
+            if (!isDead && !isLastPhase && currentBehaviour != startingBehaviour && damageable.currentHealth <= GetPhaseHealthThreshold(currentPhase + 1))
             {
                 Debug.Log("Trigger Next Phase !");
                 currentPhase += 1;
-                enemyBehaviours = enemyPhases[currentPhase].GetBehaviours();
-                CancelCurrentBehaviour();
-                startingBehaviour = enemyPhases[currentPhase].GetTransitionBehaviour();
-                ChangeBehaviour(startingBehaviour);
+                enemyBehaviours = GetPhaseBehaviours(currentPhase);
+                InterruptCurrentBehaviour();
+                startingBehaviour = GetPhaseTransitionBehaviour(currentPhase);
+                ExecuteBehaviour(startingBehaviour);
             }
         });
 
         damageable.OnDie.AddListener(() =>
         {
-            CancelCurrentBehaviour();
-            ChangeBehaviour(deathBehaviourObject.GetComponent<IEnemyBehaviour>());
+            if (isDead)
+                return;
+
+            isDead = true;
+            InterruptCurrentBehaviour();
+
+            IEnemyBehaviour deathBehaviour = GetDeathBehaviour();
+            if (deathBehaviour != null)
+            {
+                ExecuteBehaviour(deathBehaviour);
+                return;
+            }
+
+            HandleMissingDeathBehaviour();
         });
 
-        enemyBehaviours = enemyPhases[currentPhase].GetBehaviours();
+        if (GetPhaseCount() == 0)
+        {
+            Debug.LogError($"[{name}] No enemy phase is configured.", this);
+            return;
+        }
 
-        startingBehaviour = enemyPhases[currentPhase].GetTransitionBehaviour();
-        ChangeBehaviour(startingBehaviour);
+        enemyBehaviours = GetPhaseBehaviours(currentPhase);
+        startingBehaviour = GetPhaseTransitionBehaviour(currentPhase);
+        ExecuteBehaviour(startingBehaviour);
     }
 
-    private void CancelCurrentBehaviour()
+    private void ResetRuntimeState()
     {
-        currentBehaviour.CancelBehaviour(this);
+        isDead = false;
+        currentPhase = 0;
+        currentBehaviour = null;
+        startingBehaviour = null;
+        phaseTransitionBehaviour = null;
+        enemyBehaviours = null;
+        activeExecution = null;
+        executionId = 0;
+    }
+
+    private void InterruptCurrentBehaviour()
+    {
+        IEnemyBehaviour interruptedBehaviour = currentBehaviour;
+        RemoveCurrentBehaviourAndExecution();
+
+        if (interruptedBehaviour != null)
+            interruptedBehaviour.CancelBehaviour(this);
+    }
+
+    private IEnemyBehaviour GetDeathBehaviour()
+    {
+        if (deathBehaviour == null)
+            Debug.LogWarning($"[{name}] No death behaviour is configured; applying the safe death fallback.", this);
+
+        return deathBehaviour;
+    }
+
+    private void HandleMissingDeathBehaviour()
+    {
+        currentBehaviour = null;
+        DeactivateHitbox();
+
+        if (Sprite != null)
+            Sprite.enabled = false;
+
+        if (shadowSprite != null)
+            shadowSprite.enabled = false;
+
+        Debug.LogWarning($"[{name}] Applied the safe death fallback and unlocked the level.", this);
+        GameManager.OnUnlockLevel?.Invoke();
     }
 
     protected virtual void Update()
@@ -71,40 +159,173 @@ public class EnemyController : MonoBehaviour
             currentBehaviour.UpdateBehaviour(this);
     }
 
-    public void ChangeBehaviour(IEnemyBehaviour newBehaviour)
+    protected virtual void FixedUpdate()
     {
-        if (newBehaviour == null || newBehaviour == currentBehaviour)
-            return;
-
         if (currentBehaviour != null)
-            currentBehaviour.StopBehaviour(this);
-        currentBehaviour = newBehaviour;
-        currentBehaviour.SetSubBehaviourState(false);
-        currentBehaviour.StartBehaviour(this);
-
-        OnChangeBehaviour?.Invoke();
+            currentBehaviour.FixedUpdateBehaviour(this);
     }
 
-    public void SelectNewBehaviour(bool isFromTransition = false)
+    private void ExecuteBehaviour(IEnemyBehaviour newBehaviour)
     {
-        bool isInTransition = currentBehaviour == startingBehaviour;
-
-        if (isInTransition && !isFromTransition)
+        if (newBehaviour == null)
             return;
 
-        int count = isInTransition ? enemyBehaviours.Count : enemyBehaviours.Count - 1;
-        int randomBehaviourIndex = UnityEngine.Random.Range(0, count);
+        currentBehaviour = newBehaviour;
+        BehaviourExecution execution = new BehaviourExecution(this, currentBehaviour, ++executionId);
+        activeExecution = execution;
+        currentBehaviour.SetSubBehaviourState(false);
+        currentBehaviour.StartBehaviour(this, activeExecution);
 
-        if (enemyBehaviours[randomBehaviourIndex] == currentBehaviour)
-            randomBehaviourIndex += 1;
+        // condition uniquement si le comportement se Complete dans le StartBehaviour, ce qui est le cas du DummyImmediateTransitionBehaviour
+        if (activeExecution == execution)
+            OnChangeBehaviour?.Invoke();
+    }
 
-        ChangeBehaviour(enemyBehaviours[randomBehaviourIndex]);
+    public void TryCompleteBehaviour(BehaviourExecution execution)
+    {
+        if (!IsExecutionActive(execution))
+        {
+            Debug.LogWarning("[" + name + "] Attempted to complete a behaviour execution that is not active.", this);
+            return;
+        }
+
+        IEnemyBehaviour completedBehaviour = currentBehaviour;
+        bool wasTransition = completedBehaviour == startingBehaviour;
+
+        RemoveCurrentBehaviourAndExecution();
+        completedBehaviour.StopBehaviour(this);
+
+        SelectNextBehaviour(completedBehaviour, wasTransition);
+    }
+
+    public bool IsExecutionActive(BehaviourExecution execution)
+    {
+        return !isDead
+               && execution != null
+               && activeExecution == execution;
+    }
+
+    private void RemoveCurrentBehaviourAndExecution()
+    {
+        activeExecution = null;
+        currentBehaviour = null;
+    }
+
+    private void SelectNextBehaviour(IEnemyBehaviour completedBehaviour, bool wasTransition)
+    {
+        if (isDead)
+            return;
+
+        List<IEnemyBehaviour> validBehaviours = GetValidBehaviours();
+        if (validBehaviours.Count == 0)
+        {
+            Debug.LogWarning($"[{name}] No valid attack behaviour is configured for the current phase.", this);
+            return;
+        }
+
+        if (!wasTransition && validBehaviours.Count > 1 && validBehaviours.Contains(completedBehaviour))
+            validBehaviours.Remove(completedBehaviour);
+
+        ExecuteBehaviour(validBehaviours[UnityEngine.Random.Range(0, validBehaviours.Count)]);
+    }
+
+    private List<IEnemyBehaviour> GetValidBehaviours()
+    {
+        if (enemyBehaviours == null)
+            return new List<IEnemyBehaviour>();
+
+        return enemyBehaviours.FindAll(behaviour => behaviour != null);
+    }
+
+    private int GetPhaseCount()
+    {
+        return phases != null ? phases.Count : 0;
+    }
+
+    private int GetPhaseHealthThreshold(int phaseIndex)
+    {
+        if (!IsPhaseInList(phaseIndex))
+            return 0;
+
+        OdinEnemyPhase phase = phases[phaseIndex];
+        return phase != null ? phase.healthThresholdToTriggerTransition : 0;
+    }
+
+    private List<IEnemyBehaviour> GetPhaseBehaviours(int phaseIndex)
+    {
+        if (!IsPhaseInList(phaseIndex))
+        {
+            Debug.LogError($"[{name}] Cannot get behaviours for phase {phaseIndex}: no such phase is configured.", this);
+            return new List<IEnemyBehaviour>();
+        }
+
+        OdinEnemyPhase phase = phases[phaseIndex];
+        if (phase == null)
+        {
+            Debug.LogError($"[{name}] Phase {phaseIndex} is missing.", this);
+            return new List<IEnemyBehaviour>();
+        }
+
+        return phase.GetBehaviours();
+    }
+
+    private IEnemyBehaviour GetPhaseTransitionBehaviour(int phaseIndex)
+    {
+        if (!IsPhaseInList(phaseIndex))
+        {
+            Debug.LogError($"[{name}] Cannot get transition for phase {phaseIndex}: no such phase is configured.", this);
+            return null;
+        }
+
+        OdinEnemyPhase phase = phases[phaseIndex];
+        if (phase == null)
+        {
+            Debug.LogError($"[{name}] Phase {phaseIndex} is missing.", this);
+            return null;
+        }
+
+        return phase.transitionBehaviour;
+    }
+
+    private bool IsPhaseInList(int phaseIndex)
+    {
+        return phaseIndex >= 0 && phaseIndex < GetPhaseCount();
+    }
+
+    private IEnumerable<Type> GetInlineBehaviourTypes()
+    {
+        return EnemyBehaviourTypeUtility.GetBehaviourTypes(this);
+    }
+
+    private void OnEnable()
+    {
+        BindPhaseOwners();
+    }
+
+    private void OnValidate()
+    {
+        BindPhaseOwners();
+    }
+
+    private void BindPhaseOwners()
+    {
+        if (phases == null)
+            return;
+
+        foreach (OdinEnemyPhase phase in phases)
+        {
+            if (phase != null)
+                phase.BindOwner(this);
+        }
     }
 
     public void DeactivateHitbox()
     {
-        EnemyHolder.instance.UnRegisterEnemy(gameObject);
-        sphereCollider.enabled = false;
+        if (EnemyHolder.instance != null)
+            EnemyHolder.instance.UnRegisterEnemy(gameObject);
+
+        if (sphereCollider != null)
+            sphereCollider.enabled = false;
     }
 
     public void ActivateHitbox()

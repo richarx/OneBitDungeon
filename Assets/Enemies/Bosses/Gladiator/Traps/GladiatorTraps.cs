@@ -14,7 +14,7 @@ public class GladiatorTraps : MonoBehaviour, IEnemyBehaviour
     private Sequence attackSequence;
     private List<CircleDamageZone> circles;
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Vector3 randomPosition = new Vector3(Random.Range(-7.0f, 7.0f), 0.0f, Random.Range(-7.0f, 5.0f));
         string direction = (randomPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
@@ -27,7 +27,7 @@ public class GladiatorTraps : MonoBehaviour, IEnemyBehaviour
             .ChainDelay(gladiatorData.trapsAnimationDuration)
             .ChainCallback(() => SpawnTraps(enemy))
             .ChainDelay(0.5f)
-            .ChainCallback(() => enemy.SelectNewBehaviour());
+            .ChainCallback(() => execution.Complete());
     }
 
     private Sequence MoveToPosition(EnemyController enemy, Vector3 enemyPosition, float moveDuration)
@@ -89,13 +89,18 @@ public class GladiatorTraps : MonoBehaviour, IEnemyBehaviour
         if (attackSequence.isAlive)
             attackSequence.Stop();
 
+        if (circles == null)
+            return;
+
         foreach (CircleDamageZone circle in circles)
         {
-            circle.Cancel();
+            if (circle != null)
+                circle.Cancel();
         }
     }
 
     public void SetSubBehaviourState(bool state)
     {
     }
+
 }

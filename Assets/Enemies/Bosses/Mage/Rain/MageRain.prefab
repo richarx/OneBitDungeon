@@ -46,4 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mageRainSpellPrefab: {fileID: -4687576511174882052, guid: cb61cefcbae00b549afffc56c12cdad0,
     type: 3}
-  mageData: {fileID: 11400000, guid: adaac8d3b67e6b3438b53cea188e4b7c, type: 2}
+  rainMoveDuration: 1
+  rainSpawnDuration: 0.5
+  rainFillDuration: 0.3
+  rainRecoveryDuration: 0.5

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Enemies.Scripts.Behaviours;
 using PrimeTween;
 using UnityEngine;
@@ -9,22 +10,28 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
 
     private IEnemyBehaviour vertical;
     private IEnemyBehaviour horizontal;
+    private MageSwipeVertical verticalSwipe;
+    private MageSwipeHorizontal horizontalSwipe;
 
     private Sequence currentSequence;
     private Sequence moveSequence;
     private CloseDodgeSession closeDodgeSession;
+    private readonly Dictionary<GameObject, IEnemyBehaviour> runtimeBehaviours = new Dictionary<GameObject, IEnemyBehaviour>();
 
-    public void StartBehaviour(EnemyController enemy)
+    public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Debug.Log("Mage MULTI SWIPE");
 
-        if (vertical == null)
-            SetupBehaviours();
+        if (vertical == null || horizontal == null)
+        {
+            if (!SetupBehaviours(enemy))
+                return;
+        }
 
         // Five vertical and five horizontal zones form one salvo.
         closeDodgeSession = new CloseDodgeSession(10);
-        verticalSwipeObject.GetComponent<MageSwipeVertical>().SetCloseDodgeSession(closeDodgeSession);
-        HorizontalSwipeObject.GetComponent<MageSwipeHorizontal>().SetCloseDodgeSession(closeDodgeSession);
+        verticalSwipe.SetCloseDodgeSession(closeDodgeSession);
+        horizontalSwipe.SetCloseDodgeSession(closeDodgeSession);
 
         vertical.SetSubBehaviourState(true);
         horizontal.SetSubBehaviourState(true);
@@ -45,18 +52,64 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
         .Chain(Tween.Position(enemy.transform, randomPosition, moveDuration, Ease.InOutCubic));
 
         currentSequence = Sequence.Create()
-            .ChainCallback(() => vertical.StartBehaviour(enemy))
+            .ChainCallback(() => vertical.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(0.1f)
-            .ChainCallback(() => horizontal.StartBehaviour(enemy))
+            .ChainCallback(() => horizontal.StartBehaviour(enemy, BehaviourExecution.Uncontrolled))
             .ChainDelay(1.55f)
-            .ChainCallback(() => enemy.SelectNewBehaviour())
+            .ChainCallback(() => execution.Complete())
             ;
     }
 
-    private void SetupBehaviours()
+    private bool SetupBehaviours(EnemyController enemy)
     {
-        vertical = verticalSwipeObject.GetComponent<IEnemyBehaviour>();
-        horizontal = HorizontalSwipeObject.GetComponent<IEnemyBehaviour>();
+        vertical = InstantiateBehaviour(enemy, verticalSwipeObject);
+        horizontal = InstantiateBehaviour(enemy, HorizontalSwipeObject);
+
+        verticalSwipe = vertical as MageSwipeVertical;
+        horizontalSwipe = horizontal as MageSwipeHorizontal;
+
+        if (verticalSwipe == null || horizontalSwipe == null)
+        {
+            Debug.LogError($"[{enemy.name}] MageMultiSwipe requires MageSwipeVertical and MageSwipeHorizontal behaviour prefabs.", enemy);
+            vertical = null;
+            horizontal = null;
+            return false;
+        }
+
+        return true;
+    }
+
+    private IEnemyBehaviour InstantiateBehaviour(EnemyController enemy, GameObject behaviourPrefab)
+    {
+        if (behaviourPrefab == null)
+        {
+            Debug.LogError($"[{enemy.name}] Cannot instantiate a missing legacy behaviour prefab.", enemy);
+            return null;
+        }
+
+        if (runtimeBehaviours.TryGetValue(behaviourPrefab, out IEnemyBehaviour cachedBehaviour))
+            return cachedBehaviour;
+
+        GameObject runtimeBehaviourObject = Instantiate(behaviourPrefab, enemy.transform);
+        if (runtimeBehaviourObject == null)
+        {
+            Debug.LogError($"[{enemy.name}] Failed to instantiate legacy behaviour prefab '{behaviourPrefab.name}'.", behaviourPrefab);
+            runtimeBehaviours.Add(behaviourPrefab, null);
+            return null;
+        }
+
+        runtimeBehaviourObject.name = $"{behaviourPrefab.name} (Runtime)";
+        IEnemyBehaviour runtimeBehaviour = runtimeBehaviourObject.GetComponent<IEnemyBehaviour>();
+        if (runtimeBehaviour == null)
+        {
+            Debug.LogError($"[{enemy.name}] Legacy behaviour prefab '{behaviourPrefab.name}' does not implement IEnemyBehaviour.", behaviourPrefab);
+            runtimeBehaviours.Add(behaviourPrefab, null);
+            Destroy(runtimeBehaviourObject);
+            return null;
+        }
+
+        runtimeBehaviours.Add(behaviourPrefab, runtimeBehaviour);
+        return runtimeBehaviour;
     }
 
     public void UpdateBehaviour(EnemyController enemy)
@@ -81,12 +134,13 @@ public class MageMultiSwipe : MonoBehaviour, IEnemyBehaviour
         if (moveSequence.isAlive)
             moveSequence.Stop();
 
-        vertical.CancelBehaviour(enemy);
-        horizontal.CancelBehaviour(enemy);
+        vertical?.CancelBehaviour(enemy);
+        horizontal?.CancelBehaviour(enemy);
         closeDodgeSession?.Cancel();
     }
 
     public void SetSubBehaviourState(bool state)
     {
     }
+
 }
