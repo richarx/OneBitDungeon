@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Enemies;
 using Enemies.Scripts;
 using Player.Scripts;
+using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,7 +20,8 @@ namespace Player.Sword_Hitboxes
 
             if (damageable != null && !damageable.IsDead && !targetsHit.Contains(damageable))
             {
-                damageable.TakeDamage(PlayerStateMachine.instance.ComputeCurrentDamage());
+                Vector2 direction = (damageable.transform.position - PlayerStateMachine.instance.position).normalized.ToVector2();
+                damageable.TakeDamage(PlayerStateMachine.instance.ComputeCurrentDamage(), direction);
                 targetsHit.Add(damageable);
 
                 if (damageable.CompareTag("Enemy"))

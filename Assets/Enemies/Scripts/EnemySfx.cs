@@ -14,7 +14,7 @@ namespace Enemies.Scripts
         {
             Damageable damageable = GetComponent<Damageable>();
 
-            damageable.OnTakeDamage.AddListener(() => SFXManager.instance.PlayRandomSFX(hitSound));
+            damageable.OnTakeDamage.AddListener((_) => SFXManager.instance.PlayRandomSFX(hitSound));
             damageable.OnDie.AddListener(() => SFXManager.instance.PlayRandomSFX(deathSound));
         }
     }

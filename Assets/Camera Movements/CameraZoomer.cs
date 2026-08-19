@@ -25,26 +25,23 @@ public class CameraZoomer : MonoBehaviour
 
     private void Start()
     {
-        mainCamera = CamerasHolder.instance.mainCamera;
-        decorCamera = CamerasHolder.instance.decorCamera;
-
         PlayerStateMachine player = PlayerStateMachine.instance;
 
         player.playerParry.OnSuccessfulParry.AddListener(() => StartZoom(zoomDurationOnParry, zoomDurationOnParry, zoomPowerOnParry));
         player.playerCriticalAttack.OnPlayerAttack.AddListener(HandleCritStrike);
-        player.playerCriticalAttack.OnReachedTarget.AddListener(HandleCritStrikeReachedTarget);
 
         ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
+    }
+
+    private void SetupCameras()
+    {
+        mainCamera = CamerasHolder.instance.mainCamera;
+        decorCamera = CamerasHolder.instance.decorCamera;
     }
 
     private void HandleCritStrike(AttackPayload payload)
     {
         StartZoom(0.7f, 0.3f, 10.0f);
-    }
-
-    private void HandleCritStrikeReachedTarget()
-    {
-
     }
 
     private void HandleArrogantDodge(ArroganceGainResult result)
@@ -57,6 +54,9 @@ public class CameraZoomer : MonoBehaviour
 
     private void StartZoom(float durationIn, float durationOut, float zoomPower)
     {
+        if (mainCamera == null || decorCamera == null)
+            SetupCameras();
+
         if (currentSequence.isAlive)
             currentSequence.Stop();
 

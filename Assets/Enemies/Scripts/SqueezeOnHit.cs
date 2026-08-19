@@ -11,7 +11,7 @@ public class SqueezeOnHit : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<Damageable>().OnTakeDamage.AddListener(Squeeze);
+        GetComponent<Damageable>().OnTakeDamage.AddListener((_) => Squeeze());
     }
 
     private void Squeeze()

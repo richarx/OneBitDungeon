@@ -10,7 +10,7 @@ namespace Enemies.Scripts
         [SerializeField] private bool isInvincible;
 
 
-        [HideInInspector] public UnityEvent OnTakeDamage = new UnityEvent();
+        [HideInInspector] public UnityEvent<Vector2> OnTakeDamage = new UnityEvent<Vector2>();
         [HideInInspector] public UnityEvent OnDie = new UnityEvent();
 
         public int currentHealth { get; private set; }
@@ -22,7 +22,7 @@ namespace Enemies.Scripts
             currentHealth = startingHealth;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, Vector2 direction)
         {
             if (IsDead)
                 return;
@@ -33,13 +33,13 @@ namespace Enemies.Scripts
             if (IsDead)
                 OnDie?.Invoke();
             else
-                OnTakeDamage?.Invoke();
+                OnTakeDamage?.Invoke(direction);
         }
 
         [Button]
         public void InstantKill()
         {
-            TakeDamage(currentHealth);
+            TakeDamage(currentHealth, Vector2.left);
         }
     }
 }

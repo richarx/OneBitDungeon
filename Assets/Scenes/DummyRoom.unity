@@ -6984,6 +6984,7 @@ GameObject:
   - component: {fileID: 1315216166}
   - component: {fileID: 1315216165}
   - component: {fileID: 1315216164}
+  - component: {fileID: 1315216174}
   - component: {fileID: 1315216163}
   m_Layer: 9
   m_Name: DummyFighter
@@ -7286,6 +7287,20 @@ Transform:
   - {fileID: 1362515350}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1315216174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315216162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adb501c859ead724786725724c967d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteTarget: {fileID: 1240589656}
+  strength: 1
 --- !u!1 &1318852391
 GameObject:
   m_ObjectHideFlags: 0
@@ -11470,6 +11485,7 @@ GameObject:
   - component: {fileID: 8182171200824653878}
   - component: {fileID: 8182171200824653875}
   - component: {fileID: 8182171200824653879}
+  - component: {fileID: 8182171200824653880}
   m_Layer: 9
   m_Name: Dummy
   m_TagString: Enemy
@@ -11522,6 +11538,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be28031ef95f9244faca5cc4ccd86529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8182171200824653880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171200824653874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adb501c859ead724786725724c967d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteTarget: {fileID: 1060446578}
+  strength: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

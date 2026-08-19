@@ -15,7 +15,7 @@ namespace Enemies.Scripts
         {
             startingColor = spriteRenderer.color;
 
-            GetComponent<Damageable>().OnTakeDamage.AddListener(() =>
+            GetComponent<Damageable>().OnTakeDamage.AddListener((_) =>
             {
                 StopAllCoroutines();
                 StartCoroutine(SwapColors());

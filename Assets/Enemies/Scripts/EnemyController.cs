@@ -67,7 +67,7 @@ public class EnemyController : SerializedMonoBehaviour
         damageable = GetComponent<Damageable>();
         afterImage = GetComponent<AfterImage>();
 
-        damageable.OnTakeDamage.AddListener(() =>
+        damageable.OnTakeDamage.AddListener((_) =>
         {
             if (!isDead && !isLastPhase && currentBehaviour != startingBehaviour && damageable.currentHealth <= GetPhaseHealthThreshold(currentPhase + 1))
             {
