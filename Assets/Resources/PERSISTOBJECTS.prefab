@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2098965877191280482}
   - component: {fileID: 8140914090946263077}
-  - component: {fileID: 371970417788312103}
+  - component: {fileID: 8447739434497278732}
   m_Layer: 7
   m_Name: Player UI
   m_TagString: Untagged
@@ -32,6 +32,7 @@ RectTransform:
   m_Children:
   - {fileID: 4672297116528927478}
   - {fileID: 4536065913821206255}
+  - {fileID: 1358066249225837415}
   m_Father: {fileID: 6290042719379423616}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -51,7 +52,7 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
---- !u!114 &371970417788312103
+--- !u!114 &8447739434497278732
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,13 +61,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 114452667336980745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daa1aa39e294c3449aa4b99ebcf36b9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f6f5926726712b4b8d84eeebdbaed3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotIndex: 1
-  canvasGroup: {fileID: 8140914090946263077}
-  activeAlpha: 1
-  inactiveAlpha: 0.2
 --- !u!1 &251213756143674021
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,7 +219,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 740197831664793563}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
@@ -230,7 +227,7 @@ RectTransform:
   - {fileID: 6202708062414152540}
   - {fileID: 2148968875798327772}
   - {fileID: 6636824143702259946}
-  m_Father: {fileID: 6290042719379423616}
+  m_Father: {fileID: 2098965877191280482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -992,7 +989,6 @@ RectTransform:
   - {fileID: 4996292678184669035}
   - {fileID: 2098965877191280482}
   - {fileID: 702079650586487959}
-  - {fileID: 1358066249225837415}
   - {fileID: 5878643741616659172}
   m_Father: {fileID: 6936680747847662569}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1249,10 +1245,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topBar: {fileID: 5983134464178866192}
   botBar: {fileID: 4705208605680646374}
-  transitionInDuration: 1
-  transitionInEase: 21
-  transitionOutDuration: 0.5
-  transitionOutEase: 20
 --- !u!1 &4072077649201883204
 GameObject:
   m_ObjectHideFlags: 0
@@ -2960,6 +2952,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3599857382993739372, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: cinematicBlackBars
+      value: 
+      objectReference: {fileID: 7153244879569418216}
+    - target: {fileID: 3599857382993739372, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: splitScreenMaterialController
+      value: 
+      objectReference: {fileID: 1028144929545061229}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

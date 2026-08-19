@@ -70,6 +70,23 @@ public class SplitScreenMaterialController : MonoBehaviour
     }
 
     /// <summary>
+    /// Grab la camera dans la scene
+    /// </summary>
+    public void SetNewCamera()
+    {
+        if (CamerasHolder.instance != null && CamerasHolder.instance.mainCamera != null)
+            effectCamera = CamerasHolder.instance.mainCamera;
+    }
+
+    public void SetSplitLineFromWorldPositions(Vector3 playerPosition, Vector3 bossPosition)
+    {
+        if (effectCamera == null)
+            SetNewCamera();
+
+        SetSplitLineFromViewport(effectCamera.WorldToViewportPoint(playerPosition), effectCamera.WorldToViewportPoint(bossPosition));
+    }
+
+    /// <summary>
     /// Écrit une droite à partir de deux positions viewport (x et y entre 0 et 1).
     /// Utile si les positions ont déjà été projetées à l'écran.
     /// </summary>
@@ -80,6 +97,9 @@ public class SplitScreenMaterialController : MonoBehaviour
             Debug.LogWarning("SplitScreenMaterialController : aucun matériau SplitScreen n'est assigné.", this);
             return;
         }
+
+        if (effectCamera == null)
+            SetNewCamera();
 
         float deltaX = bossViewportPosition.x - playerViewportPosition.x;
         float safeDeltaX = Mathf.Abs(deltaX) < minimumHorizontalSeparation
@@ -99,10 +119,10 @@ public class SplitScreenMaterialController : MonoBehaviour
         GameObject currentTarget = player.playerTargeting.Target;
 
         SetSplitLine(player.position, currentTarget.transform.position);
-        PlayPowerDecalageAnimation(testPowerDecalage);
+        PlayTestPowerDecalageAnimation(testPowerDecalage);
     }
 
-    private void PlayPowerDecalageAnimation(float powerDecalage = 1.0f)
+    private void PlayTestPowerDecalageAnimation(float powerDecalage = 1.0f)
     {
         if (splitScreenMaterial == null)
             return;
@@ -117,6 +137,23 @@ public class SplitScreenMaterialController : MonoBehaviour
         testSequence = Sequence.Create()
             .Chain(Tween.MaterialProperty(splitScreenMaterial, PowerDecalageId, normalizedPower, testDuration, Ease.OutQuad))
             .Chain(Tween.MaterialProperty(splitScreenMaterial, PowerDecalageId, 0.0f, testDuration, Ease.InQuad));
+    }
+
+    public void PlayPowerDecalageAnimation(float powerDecalage, float durationIn, float durationOut)
+    {
+        if (splitScreenMaterial == null)
+            return;
+
+        if (testSequence.isAlive)
+            testSequence.Stop();
+
+        float pente = splitScreenMaterial.GetFloat(PenteId);
+        float normalizedPower = powerDecalage / Mathf.Sqrt(1.0f + (pente * pente));
+
+        splitScreenMaterial.SetFloat(PowerDecalageId, 0.0f);
+        testSequence = Sequence.Create()
+            .Chain(Tween.MaterialProperty(splitScreenMaterial, PowerDecalageId, normalizedPower, durationIn, Ease.OutExpo))
+            .Chain(Tween.MaterialProperty(splitScreenMaterial, PowerDecalageId, 0.0f, durationOut, Ease.OutBack));
     }
 
     private bool CanTestCurrentTarget()

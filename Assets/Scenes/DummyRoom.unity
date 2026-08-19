@@ -7098,17 +7098,11 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  deathBehaviourObject: {fileID: 0}
-  enemyPhases:
-  - healthThresholdToTriggerTransition: 0
-    transitionBehaviour: {fileID: 1362515348}
-    phaseBehaviours:
-    - {fileID: 1281219093}
+    - Name: deathBehaviour
+      Entry: 6
+      Data: 
   <Sprite>k__BackingField: {fileID: 160456277}
   <shadowSprite>k__BackingField: {fileID: 646636857}
-  OnChangeBehaviour:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1315216164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8442,7 +8436,7 @@ GameObject:
   - component: {fileID: 1554434918}
   - component: {fileID: 1554434917}
   m_Layer: 9
-  m_Name: Sprite (1)
+  m_Name: Sword on the ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

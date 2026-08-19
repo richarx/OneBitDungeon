@@ -114,7 +114,7 @@ public class DialogueManager : MonoBehaviour
 
         currentSequence = Sequence.Create()
             .ChainCallback(() => PlayerStateMachine.instance.playerLocked.SetLockState(PlayerStateMachine.instance, PlayerLocked.LockState.Dialog))
-            .ChainCallback(() => cinematicBlackBars.Display())
+            .ChainCallback(() => cinematicBlackBars.Display(1.0f, Ease.OutCirc, 200.0f))
             .ChainDelay(0.5f)
             .ChainCallback(() => npcName.Display(npc))
             .ChainDelay(0.5f)
@@ -145,7 +145,7 @@ public class DialogueManager : MonoBehaviour
             .ChainDelay(0.3f)
             .ChainCallback(() => npcName.Hide())
             .ChainCallback(() => portrait.Hide())
-            .ChainCallback(() => cinematicBlackBars.Hide())
+            .ChainCallback(() => cinematicBlackBars.Hide(0.5f, Ease.InCirc))
             .ChainCallback(() => CamerasHolder.instance.cameraFollowPlayer.SetLockState(true))
             .ChainCallback(() => PlayerStateMachine.instance.playerLocked.UnlockPlayer(PlayerStateMachine.instance));
     }

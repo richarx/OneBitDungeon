@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Player.Sword_Hitboxes;
+using PrimeTween;
 using Sirenix.OdinInspector;
 using Tools_and_Scripts;
 using UnityEngine;
@@ -36,12 +37,6 @@ namespace Player.Scripts
 
         [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Second Prefab"), SerializeField]
         private GameObject swordSecondSlashPrefab;
-
-        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Crit Stab Prefab"), SerializeField]
-        private GameObject swordCritStabPrefab;
-
-        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Crit Trail Prefab"), SerializeField]
-        private GameObject swordCritTrailPrefab;
 
         [FoldoutGroup(CombatVfxGroup, true), BoxGroup(SwordSlashGroup), LabelText("Spawn Delay"), MinValue(0.0f), SerializeField]
         private float swordSlashDelay;
@@ -85,6 +80,18 @@ namespace Player.Scripts
         [FoldoutGroup(ArrogantDodge, true), LabelText("Second particle effect"), SerializeField]
         private GameObject flashBlastEffect;
 
+        [FoldoutGroup(InsolentStrike, true), LabelText("Crit Stab Prefab"), SerializeField]
+        private GameObject swordCritStabPrefab;
+
+        [FoldoutGroup(InsolentStrike, true), LabelText("Crit Trail Prefab"), SerializeField]
+        private GameObject swordCritTrailPrefab;
+
+        [FoldoutGroup(InsolentStrike, true), LabelText("Split Screen Controller"), SerializeField]
+        private SplitScreenMaterialController splitScreenMaterialController;
+
+        [FoldoutGroup(InsolentStrike, true), LabelText("Cinematic Black Bars"), SerializeField]
+        private CinematicBlackBars cinematicBlackBars;
+
         private PlayerStateMachine player;
         private AfterImage afterImage;
 
@@ -123,6 +130,7 @@ namespace Player.Scripts
             player.playerHealth.OnPlayerTakeDamage.AddListener(HandlePlayerTakeDamage);
             player.playerAttack.OnPlayerAttack.AddListener(HandlePlayerAttack);
             player.playerCriticalAttack.OnPlayerAttack.AddListener(HandleCritStrike);
+            player.playerCriticalAttack.OnStartDash.AddListener(HandleCritStrikeDash);
             player.playerCriticalAttack.OnReachedTarget.AddListener(HandleCritStrikeReachedTarget);
             player.playerParry.OnSuccessfulParry.AddListener(HandleSuccessfulParry);
             player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
@@ -144,6 +152,7 @@ namespace Player.Scripts
                 player.playerHealth.OnPlayerTakeDamage.RemoveListener(HandlePlayerTakeDamage);
                 player.playerAttack.OnPlayerAttack.RemoveListener(HandlePlayerAttack);
                 player.playerCriticalAttack.OnPlayerAttack.RemoveListener(HandleCritStrike);
+                player.playerCriticalAttack.OnStartDash.RemoveListener(HandleCritStrikeDash);
                 player.playerCriticalAttack.OnReachedTarget.RemoveListener(HandleCritStrikeReachedTarget);
                 player.playerParry.OnSuccessfulParry.RemoveListener(HandleSuccessfulParry);
                 player.playerRoll.OnStartRoll.RemoveListener(SpawnRollVfx);
@@ -161,12 +170,20 @@ namespace Player.Scripts
             StartCoroutine(SlowTimeCoroutine(0.5f, 0.1f));
             critTrail = Instantiate(swordCritTrailPrefab, player.position, Quaternion.identity);
             critTrail.transform.SetParent(player.transform);
+            cinematicBlackBars.Display(0.15f, Ease.OutCirc, 150.0f);
+        }
+
+        private void HandleCritStrikeDash()
+        {
+            splitScreenMaterialController.SetSplitLineFromWorldPositions(player.position, player.playerTargeting.targetPosition + Vector3.up);
+            splitScreenMaterialController.PlayPowerDecalageAnimation(0.07f, 0.2f, 0.15f);
         }
 
         private void HandleCritStrikeReachedTarget()
         {
             SpawnAttackSwordSlash(false);
             SpawnDirectionalSwordSlash(swordCritStabPrefab, false, -90.0f, 0.5f);
+            cinematicBlackBars.Hide(0.1f, Ease.InCirc);
 
             if (critTrail != null)
                 critTrail.GetComponent<ParticleSystem>().Stop();
@@ -377,6 +394,7 @@ namespace Player.Scripts
         private const string JumpGroup = MovementVfxGroup + "/Jump";
         private const string FreezeGroup = "Freeze Timings";
         private const string ArrogantDodge = "Arrogant Dodge effects";
+        private const string InsolentStrike = "Insolent Crit Strike effects";
         #endregion
     }
 }

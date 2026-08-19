@@ -117,8 +117,8 @@ TextureImporter:
         y: 166
         width: 37
         height: 37
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -126,6 +126,27 @@ TextureImporter:
       bones: []
       spriteID: f0a56ee816a4b17479cda8ce33f511ab
       internalID: -1398284294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemies-Bosses-1bit_1
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 166
+        width: 36
+        height: 26
+      alignment: 9
+      pivot: {x: 0.705, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 419705e6cd52fa64d8814f3be383fa55
+      internalID: -760495025
       vertices: []
       indices: 
       edges: []
@@ -142,6 +163,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       enemies-Bosses-1bit_0: -1398284294
+      enemies-Bosses-1bit_1: -760495025
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
