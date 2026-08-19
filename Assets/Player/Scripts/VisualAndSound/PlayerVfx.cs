@@ -202,8 +202,9 @@ namespace Player.Scripts
 
         private IEnumerator SlowTimeCoroutine(float duration, float timeScale)
         {
+            yield return new WaitWhile(() => isTimeFrozen);
+
             isTimeFrozen = true;
-            timeScaleBeforeFreeze = Time.timeScale;
             Time.timeScale = timeScale;
             yield return new WaitForSecondsRealtime(duration);
             RestoreTimeScale();
@@ -359,7 +360,7 @@ namespace Player.Scripts
             if (!isTimeFrozen)
                 return;
 
-            Time.timeScale = timeScaleBeforeFreeze;
+            Time.timeScale = 1.0f;
             isTimeFrozen = false;
         }
 
