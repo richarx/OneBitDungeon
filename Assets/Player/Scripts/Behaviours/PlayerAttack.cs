@@ -97,7 +97,10 @@ namespace Player.Scripts
         {
             if (Time.time - attackStartTimestamp >= player.playerData.attackDuration)
             {
-                player.ChangeBehaviour(player.playerIdle);
+                if (player.inputPackage.GetArroganceMode.isPressed)
+                    player.ChangeBehaviour(player.playerArrogantIdle);
+                else
+                    player.ChangeBehaviour(player.playerIdle);
                 return;
             }
 
@@ -140,7 +143,10 @@ namespace Player.Scripts
 
             if (canAttackBeCanceled && player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
             {
-                player.ChangeBehaviour(player.playerRoll);
+                if (player.inputPackage.GetArroganceMode.isPressed)
+                    player.ChangeBehaviour(player.playerArrogantSpin);
+                else
+                    player.ChangeBehaviour(player.playerRoll);
                 return;
             }
 
