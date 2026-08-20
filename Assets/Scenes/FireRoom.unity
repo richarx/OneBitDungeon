@@ -237,12 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d34754163d9044db046f3090c60881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomPowerOnParry: 5
-  zoomDurationOnParry: 0.1
-  zoomPowerOnDodge: 5
-  zoomDurationOnDodge: 0.5
-  easeIn: 0
-  easeOut: 0
 --- !u!114 &28134166
 MonoBehaviour:
   m_ObjectHideFlags: 0

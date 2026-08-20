@@ -22,20 +22,37 @@ namespace Player.Scripts
         [Space]
         [SerializeField] private Color staminaTargetColor;
 
+        [Space]
+        [SerializeField][ColorUsage(true, true)] private Color materialStaggerTargetColor;
+
         private PlayerData playerData;
         private PlayerHealth playerHealth;
         private PlayerStamina playerStamina;
+
+        private Material material;
+        private int materialColorId;
+
         private Color startingColor;
+        private Color startingMaterialColor;
+
+
         private SpriteState currentState;
         private Sequence currentSequence;
 
         private void Start()
         {
             startingColor = spriteRenderer.color;
+            material = spriteRenderer.material;
+            materialColorId = Shader.PropertyToID("_Emission");
+            startingMaterialColor = material.GetColor(materialColorId);
+
+            Debug.Log($"Color : {startingMaterialColor}");
 
             playerData = PlayerStateMachine.instance.playerData;
             playerHealth = GetComponent<PlayerHealth>();
             playerStamina = GetComponent<PlayerStamina>();
+
+            currentState = SpriteState.Initial;
         }
 
         private void LateUpdate()
@@ -48,6 +65,7 @@ namespace Player.Scripts
 
         private void TransitionToNewState(SpriteState newState)
         {
+            SpriteState previousState = currentState;
             currentState = newState;
 
             Color targetColor = ComputeColorFromState(newState);
@@ -57,6 +75,13 @@ namespace Player.Scripts
 
             currentSequence = Sequence.Create(useUnscaledTime: true)
                 .Group(Tween.Color(spriteRenderer, targetColor, transitionDuration, transitionEase));
+
+            if (newState == SpriteState.Staggered)
+                currentSequence.Group(Tween.MaterialColor(material, materialColorId, materialStaggerTargetColor, transitionDuration, transitionEase));
+
+            if (previousState == SpriteState.Staggered)
+                currentSequence.Group(Tween.MaterialColor(material, materialColorId, startingMaterialColor, transitionDuration, transitionEase));
+
         }
 
         private Color ComputeColorFromState(SpriteState newState)

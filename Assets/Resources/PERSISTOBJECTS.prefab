@@ -3171,6 +3171,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1856159283365252140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856159283365252140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856159283365252140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2043135623, guid: 302e0220a4ca41c4a84f438bba9a5189,
+        type: 3}
+    - target: {fileID: 1856159283365252140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856159283365252140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e17516aa1ef6efd409bcd8b42155d50d, type: 2}
     - target: {fileID: 3599857382993739372, guid: 72fec9c9a9cc45a45b23daca94578ebf,
         type: 3}
       propertyPath: cinematicBlackBars
@@ -3181,6 +3207,46 @@ PrefabInstance:
       propertyPath: splitScreenMaterialController
       value: 
       objectReference: {fileID: 1028144929545061229}
+    - target: {fileID: 6973867706479936140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: staggerTargetColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973867706479936140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: staggerTargetColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973867706479936140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: staggerTargetColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973867706479936140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: materialStaggerTargetColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973867706479936140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: materialStaggerTargetColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973867706479936140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: materialStaggerTargetColor.g
+      value: 0.041884817
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973867706479936140, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: materialStaggerTargetColor.r
+      value: 7.9999995
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996010813403847570, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
