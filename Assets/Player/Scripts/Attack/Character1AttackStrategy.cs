@@ -28,11 +28,11 @@ namespace Player.Scripts
         public AttackPayload SelectAttackPayload(int attackCount, TagContext tagContext)
         {
             if (tagContext == TagContext.Attack)
-                return new AttackPayload("Sword_Whirlwind", AttackType.Special, attackCount, tagContext);
+                return new AttackPayload("Sword_Whirlwind", AttackType.Special, attackCount, 10, tagContext);
             else if (tagContext == TagContext.SucceededParry)
-                return new AttackPayload("Counter_Attack", AttackType.Punish, attackCount, tagContext);
+                return new AttackPayload("Counter_Attack", AttackType.Punish, attackCount, 10, tagContext);
 
-            return new AttackPayload("Attack_1", AttackType.Light, attackCount, tagContext);
+            return new AttackPayload("Attack_1", AttackType.Light, attackCount, 10, tagContext);
         }
 
         public void OnAttackStart(PlayerStateMachine player, AttackPayload attackPayload) { }

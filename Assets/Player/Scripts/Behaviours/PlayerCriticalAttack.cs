@@ -27,6 +27,7 @@ namespace Player.Scripts
         private readonly List<Collider> playerColliders = new List<Collider>();
         private readonly List<Collider> targetColliders = new List<Collider>();
 
+        private AttackPayload currentAttackPayload;
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
@@ -49,7 +50,8 @@ namespace Player.Scripts
             IgnoreTargetCollisions(player);
 
             player.playerStamina.ConsumeStamina(player.playerData.attackStaminaCost);
-            OnPlayerAttack?.Invoke(new AttackPayload("Critical_Attack", AttackType.Critical, 1));
+            currentAttackPayload = new AttackPayload("Critical_Attack", AttackType.Critical, 1, player.playerData.insolenceAttackDamage);
+            OnPlayerAttack?.Invoke(currentAttackPayload);
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)

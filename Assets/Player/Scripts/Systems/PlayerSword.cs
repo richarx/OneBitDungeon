@@ -1,3 +1,4 @@
+using Player.Sword_Hitboxes;
 using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
@@ -69,7 +70,6 @@ namespace Player.Scripts
             if (currentHitbox != null)
                 RemoveHitbox();
 
-
             // Plus tard ajouter le knockback dans l'attack payload
             if (currentAttackPayload != null && (currentAttackPayload.Type == AttackType.Special || currentAttackPayload.Type == AttackType.Punish))
                 SpawnWhirlwindHitbox();
@@ -81,6 +81,8 @@ namespace Player.Scripts
         {
             currentHitbox = Instantiate(hitboxPrefab, player.position, Quaternion.identity, transform);
             currentHitbox.transform.RotateAround(player.position, Vector3.up, ComputeHitboxDirection());
+
+            currentHitbox.transform.GetChild(0).GetComponent<WeaponDamageTrigger>().SetPayload(currentAttackPayload);
         }
 
         private void SpawnWhirlwindHitbox()

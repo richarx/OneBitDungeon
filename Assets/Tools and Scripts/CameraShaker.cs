@@ -27,7 +27,7 @@ namespace Tools_and_Scripts
         {
             startingPosition = transform.localPosition;
             player = PlayerStateMachine.instance;
-            WeaponDamageTrigger.OnHitEnemy.AddListener((_) => StartShake());
+            WeaponDamageTrigger.OnHitEnemy.AddListener((_, _) => StartShake());
             player.playerHealth.OnPlayerTakeDamage.AddListener((_) => StartShake(1.3f, 1.3f, 2.0f));
             player.playerParry.OnSuccessfulParry.AddListener(() => StartShake());
             player.playerJump.OnLandJump.AddListener(() => StartShake(0.3f, 0.3f, 0.3f));

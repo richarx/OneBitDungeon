@@ -19,18 +19,20 @@ namespace Player.Scripts
         public string AttackName { get; private set; }
         public AttackType Type { get; private set; } = AttackType.Light;
 
+        public int damage { get; private set; }
         public int AttackCount { get; private set; }
         public TagContext TagContext { get; private set; }
 
-        public AttackPayload(string attackName, AttackType type, int attackCount)
-            : this(attackName, type, attackCount, TagContext.None)
+        public AttackPayload(string attackName, AttackType type, int damage, int attackCount)
+            : this(attackName, type, damage, attackCount, TagContext.None)
         {
         }
 
-        public AttackPayload(string attackName, AttackType type, int attackCount, TagContext tagContext)
+        public AttackPayload(string attackName, AttackType type, int damage, int attackCount, TagContext tagContext)
         {
             this.AttackName = attackName;
             this.Type = type;
+            this.damage = damage;
             this.AttackCount = attackCount;
             this.TagContext = tagContext;
         }
@@ -80,7 +82,7 @@ namespace Player.Scripts
             attackCount = previous == BehaviourType.Attack ? attackCount + 1 : 1;
 
             // TAG TEMPORAIREMENT DÉSACTIVÉ : aucune attaque spéciale ne peut être déclenchée par un échange.
-            currentAttackPayload = SelectCurrentAttack(TagContext.None);
+            currentAttackPayload = new AttackPayload("Attack", AttackType.Light, attackCount, player.playerData.normalAttackDamage);
             currentStrategy.OnAttackStart(player, currentAttackPayload);
 
             ComputeDashTarget(player, currentAttackPayload);

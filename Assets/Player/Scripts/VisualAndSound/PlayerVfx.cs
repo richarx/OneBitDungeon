@@ -227,7 +227,7 @@ namespace Player.Scripts
             RestoreTimeScale();
         }
 
-        private void HandleHitEnemy(Vector3 position)
+        private void HandleHitEnemy(AttackPayload payload, Vector3 position)
         {
             SpawnSwordHit(position);
             FreezeTime(hitFreezeDuration);

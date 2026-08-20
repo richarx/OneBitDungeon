@@ -55,7 +55,16 @@ namespace Player.Scripts
             player.playerSword.OnEquipSword.AddListener(() => SFXManager.instance.PlaySFX(unsheatheSword, 0.1f));
             player.playerSword.OnSheatheSword.AddListener(() => SFXManager.instance.PlaySFX(sheatheSword, 0.1f));
             player.playerAttack.OnPlayerAttack.AddListener((_) => SFXManager.instance.PlayRandomSFX(swordSlash));
-            WeaponDamageTrigger.OnHitEnemy.AddListener((_) => SFXManager.instance.PlayRandomSFX(hitEnemy));
+            WeaponDamageTrigger.OnHitEnemy.AddListener((payload, _) =>
+            {
+                if (payload.Type == AttackType.Light)
+                    SFXManager.instance.PlayRandomSFX(hitEnemy);
+                else if (payload.Type == AttackType.Critical)
+                {
+                    SFXManager.instance.PlaySFX(insolentAttackHit_1, 0.3f);
+                    SFXManager.instance.PlaySFX(insolentAttackHit_2);
+                }
+            });
             player.playerHealth.OnPlayerTakeDamage.AddListener((_) =>
             {
                 SFXManager.instance.PlayRandomSFX(hurt, delay: 0.05f);
@@ -98,12 +107,7 @@ namespace Player.Scripts
             player.playerArrogantSpin.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
             ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
             player.playerCriticalAttack.OnPlayerAttack.AddListener((_) => SFXManager.instance.PlaySFX(insolentPrepareAttack, 0.1f));
-            player.playerCriticalAttack.OnStartDash.AddListener(() =>
-            {
-                SFXManager.instance.PlaySFX(insolentAttackDash, 0.5f);
-                SFXManager.instance.PlaySFX(insolentAttackHit_1, 0.3f);
-                SFXManager.instance.PlaySFX(insolentAttackHit_2);
-            });
+            player.playerCriticalAttack.OnStartDash.AddListener(() => SFXManager.instance.PlaySFX(insolentAttackDash, 0.5f));
         }
 
         private void HandleArrogantDodge(ArroganceGainResult result)
