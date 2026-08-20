@@ -236,6 +236,8 @@ namespace Player.Scripts
         private void HandlePlayerTakeDamage(Vector3 direction)
         {
             FreezeTime(hurtFreezeDuration);
+            if (!player.playerHealth.IsDead)
+                StartCoroutine(SlowTimeCoroutine(0.2f, 0.2f));
             SpawnHurtVfx(direction);
         }
 

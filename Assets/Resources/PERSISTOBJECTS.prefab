@@ -3204,6 +3204,11 @@ PrefabInstance:
       objectReference: {fileID: 7153244879569418216}
     - target: {fileID: 3599857382993739372, guid: 72fec9c9a9cc45a45b23daca94578ebf,
         type: 3}
+      propertyPath: hurtFreezeDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3599857382993739372, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
       propertyPath: splitScreenMaterialController
       value: 
       objectReference: {fileID: 1028144929545061229}
