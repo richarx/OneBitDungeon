@@ -51,6 +51,12 @@ namespace Player.Scripts
             player.playerJumpTag.OnStartJumpTag.AddListener(HandleJumpTagStart);
             player.playerJumpTag.OnSpawnDamageBox.AddListener(SpawnJumpTagHitbox);
             player.playerJumpTag.OnRemoveDamageBox.AddListener(RemoveHitbox);
+
+            WeaponDamageTrigger.OnHitEnemy.AddListener((payload, direction) =>
+            {
+                if (payload.Type == AttackType.Light)
+                    ArroganceGainEvents.RequestGain(new ArroganceGainRequest(player.playerData.arroganceGainOnAttack, ArroganceGainReason.Attack));
+            });
         }
 
         private void HandlePlayerAttack(AttackPayload attackPayload)

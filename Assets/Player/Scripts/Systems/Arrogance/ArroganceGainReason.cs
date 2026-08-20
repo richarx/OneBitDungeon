@@ -3,6 +3,9 @@ namespace Player.Scripts
     public enum ArroganceGainReason
     {
         Debug,
-        CloseDodge
+        CloseDodge,
+        Parry,
+        Attack,
+        Taunt
     }
 }

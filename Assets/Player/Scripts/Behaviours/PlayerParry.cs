@@ -38,6 +38,7 @@ namespace Player.Scripts
             wasSuccessful = true;
             successfulParryTimestamp = Time.time;
             player.playerStamina.GainStamina(player.playerData.parryStaminaGainOnSuccess);
+            ArroganceGainEvents.RequestGain(new ArroganceGainRequest(player.playerData.arroganceGainOnParry, ArroganceGainReason.Parry));
             OnSuccessfulParry?.Invoke();
         }
 
@@ -117,7 +118,6 @@ namespace Player.Scripts
 
         public bool IsParrying(PlayerStateMachine player)
         {
-
             return player.currentBehaviour.GetBehaviourType() == BehaviourType.Parry && !isInRecovery && (!wasSuccessful || Time.time - successfulParryTimestamp <= player.playerData.parryGracePeriodDuration);
         }
 
