@@ -27,7 +27,7 @@ MonoBehaviour:
   - {fileID: -1630522719, guid: 070c3ddfd0ac68d45a9f456ccbdb2f4c, type: 3}
   weaponInHandSprites: []
   directionCount: 2
-  timeBetweenFrames: 0.083333336
+  timeBetweenFrames: 0.04
   isLooping: 0
   canSelfCancel: 0
   nextAnimation: {fileID: 0}

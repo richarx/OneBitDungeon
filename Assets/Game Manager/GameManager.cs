@@ -1,20 +1,17 @@
 using System.Collections;
 using Decor.Door;
-using Enemies.Spawner;
 using Player.Scripts;
 using PrimeTween;
-using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using static Decor.Door.DoorController;
 
 namespace Game_Manager
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private Image blackScreen;
+        [SerializeField] private BlackScreenTransition blackScreenTransition;
 
         public static UnityEvent OnLockLevel = new UnityEvent();
         public static UnityEvent OnUnlockLevel = new UnityEvent();
@@ -54,7 +51,7 @@ namespace Game_Manager
             player.playerDead.OnPlayerDies.AddListener(RestartLevelOnPlayerDeath);
             SetRespawnPosition();
 
-            blackScreen.gameObject.SetActive(true);
+            blackScreenTransition.DisplayInstant();
             yield return new WaitForSeconds(0.5f);
 
             yield return new WaitUntil(() => PlayerSpawnPosition.instance != null);
@@ -62,7 +59,7 @@ namespace Game_Manager
 
             yield return new WaitForSeconds(0.5f);
 
-            yield return Tools.Fade(blackScreen, 1.0f, false);
+            yield return blackScreenTransition.OpenCircle(player.position, 3.0f);
 
             player.playerSit.Unlock();
 
@@ -87,7 +84,7 @@ namespace Game_Manager
             yield return new WaitForSecondsRealtime(2.0f);
             Time.timeScale = 0.1f;
             OnPrepareToChangeScene?.Invoke();
-            yield return Tools.Fade(blackScreen, 4.0f, true, scaledTime: false);
+            yield return blackScreenTransition.FadeIn(2.5f, false);
             Tween.StopAll();
             Time.timeScale = 1.0f;
 
@@ -103,7 +100,7 @@ namespace Game_Manager
             yield return new WaitUntil(() => PlayerSpawnPosition.instance != null);
             player.TeleportPlayer(PlayerSpawnPosition.instance.GetPosition);
 
-            yield return Tools.Fade(blackScreen, 1.0f, false);
+            yield return blackScreenTransition.OpenCircle(player.position, 1.0f);
 
             player.playerSit.Unlock();
 
@@ -125,7 +122,7 @@ namespace Game_Manager
             player.playerLocked.SetLockState(player);
             OnPrepareToChangeScene?.Invoke();
             OnPrepareToLeaveRoom?.Invoke(targetDoor);
-            yield return Tools.Fade(blackScreen, 0.5f, true);
+            yield return blackScreenTransition.FadeIn(0.5f);
             Tween.StopAll();
 
             AsyncOperation operation = SceneManager.LoadSceneAsync(targetSceneName);
@@ -137,7 +134,7 @@ namespace Game_Manager
             Vector3 spawnPosition = door.ComputeSpawnPosition();
             player.rb.position = spawnPosition;
 
-            yield return Tools.Fade(blackScreen, 0.5f, false);
+            yield return blackScreenTransition.FadeOut(0.5f);
 
             UnlockPlayer();
 

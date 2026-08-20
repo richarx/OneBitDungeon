@@ -660,7 +660,7 @@ namespace Tools_and_Scripts
             return images;
         }
 
-        public static Image SetImageColor(Image image, float alpha = 1.0f)
+        public static Image SetImageAlpha(Image image, float alpha = 1.0f)
         {
             Color color = image.color;
             color.a = alpha;
