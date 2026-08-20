@@ -13,33 +13,56 @@ namespace Player.Scripts
         public float groundDeceleration;
 
         [Space]
-        [Header("Arrogance")]
+        [TitleGroup("Arrogance"), LabelText("Arrogant Walk Max Speed"), MinValue(0.0f)]
         public float arrogantWalkMaxSpeed;
+
+        [TitleGroup("Arrogance"), LabelText("Spin Max Speed"), MinValue(0.0f)]
         public float spinMaxSpeed;
+
+        [TitleGroup("Arrogance"), LabelText("Spin Max Distance"), MinValue(0.0f)]
         public float spinMaxDistance;
+
+        [TitleGroup("Arrogance"), LabelText("Spin Max Duration"), MinValue(0.0f)]
         public float spinMaxDuration;
+
+        [TitleGroup("Arrogance"), LabelText("Spin Acceleration"), MinValue(0.0f)]
         public float spinAcceleration;
+
+        [TitleGroup("Arrogance"), LabelText("Spin Deceleration"), MinValue(0.0f)]
         public float spinDeceleration;
+
+        [TitleGroup("Arrogance"), LabelText("Spin Deceleration Distance Threshold"), MinValue(0.0f)]
         public float spinDecelerationDistanceThreshold;
+
+        [TitleGroup("Arrogance"), LabelText("Spin Cooldown"), MinValue(0.0f)]
         public float spinCooldown;
 
-        [TitleGroup("Insolence"), LabelText("Maximum Arrogance"), MinValue(0.0f)]
-        public float maxArrogance = 100.0f;
-
-        [TitleGroup("Insolence"), LabelText("Arrogance Gained on Close Dodge"), MinValue(0.0f)]
-        public float arroganceGainOnCloseDodge = 10.0f;
-
-        [TitleGroup("Insolence"), LabelText("Use Progressive Arrogance Gain")]
-        public bool useProgressiveArroganceGain;
-
-        [TitleGroup("Insolence"), LabelText("Progressive Arrogance Gain Easing"), ShowIf(nameof(useProgressiveArroganceGain))]
-        public ArroganceGainEasing progressiveArroganceGainEasing;
-
-        [TitleGroup("Insolence"), LabelText("Close Dodge Window Duration"), SuffixLabel("Seconds"), MinValue(0.0f)]
+        [TitleGroup("Arrogance"), LabelText("Close Dodge Window Duration"), SuffixLabel("Seconds"), MinValue(0.0f)]
         public float closeDodgeWindowDuration = 0.25f;
 
-        [TitleGroup("Insolence"), LabelText("Arrogance State Gain Multiplier"), MinValue(1.0f)]
+
+        [TitleGroup("Arrogance Gain"), LabelText("Maximum Arrogance"), MinValue(0.0f)]
+        public float maxArrogance = 100.0f;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Arrogance Gained on Close Dodge"), MinValue(0.0f)]
+        public float arroganceGainOnCloseDodge = 10.0f;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Arrogance Gained on Parry"), MinValue(0.0f)]
+        public float arroganceGainOnParry = 10.0f;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Arrogance Gained on Regualr Attack"), MinValue(0.0f)]
+        public float arroganceGainOnAttack = 10.0f;
+
+        [Space]
+        [TitleGroup("Arrogance Gain"), LabelText("Use Progressive Arrogance Gain")]
+        public bool useProgressiveArroganceGain;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Progressive Arrogance Gain Easing"), ShowIf(nameof(useProgressiveArroganceGain))]
+        public ArroganceGainEasing progressiveArroganceGainEasing;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Arrogance State Gain Multiplier"), MinValue(1.0f)]
         public float arroganceStateGainMultiplier = 2.0f;
+
 
         [TitleGroup("Insolence"), LabelText("Insolence Attack Damage"), MinValue(0)]
         public int insolenceAttackDamage = 20;

@@ -24,8 +24,10 @@ MonoBehaviour:
   spinDeceleration: 60
   spinDecelerationDistanceThreshold: 0.8
   spinCooldown: 0
-  maxArrogance: 100
   arroganceGainOnCloseDodge: 20
+  arroganceGainOnParry: 10
+  arroganceGainOnAttack: 2
+  maxArrogance: 100
   useProgressiveArroganceGain: 0
   progressiveArroganceGainEasing: 2
   closeDodgeWindowDuration: 0.3
