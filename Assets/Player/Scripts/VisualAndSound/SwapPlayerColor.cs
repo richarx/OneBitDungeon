@@ -46,8 +46,6 @@ namespace Player.Scripts
             materialColorId = Shader.PropertyToID("_Emission");
             startingMaterialColor = material.GetColor(materialColorId);
 
-            Debug.Log($"Color : {startingMaterialColor}");
-
             playerData = PlayerStateMachine.instance.playerData;
             playerHealth = GetComponent<PlayerHealth>();
             playerStamina = GetComponent<PlayerStamina>();
