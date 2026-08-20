@@ -5,17 +5,6 @@ using UnityEngine;
 
 public class CameraZoomer : MonoBehaviour
 {
-    [SerializeField] private float zoomPowerOnParry;
-    [SerializeField] private float zoomDurationOnParry;
-
-    [Space]
-    [SerializeField] private float zoomPowerOnDodge;
-    [SerializeField] private float zoomDurationOnDodge;
-
-    [Space]
-    [SerializeField] private Ease easeIn;
-    [SerializeField] private Ease easeOut;
-
     private Camera mainCamera;
     private Camera decorCamera;
 
@@ -27,8 +16,9 @@ public class CameraZoomer : MonoBehaviour
     {
         PlayerStateMachine player = PlayerStateMachine.instance;
 
-        player.playerParry.OnSuccessfulParry.AddListener(() => StartZoom(zoomDurationOnParry, zoomDurationOnParry, zoomPowerOnParry));
+        player.playerParry.OnSuccessfulParry.AddListener(() => StartZoom(0.1f, 0.3f, 8.0f));
         player.playerCriticalAttack.OnPlayerAttack.AddListener(HandleCritStrike);
+        player.playerHealth.OnPlayerTakeDamage.AddListener((_) => StartZoom(0.1f, 0.5f, 12.0f));
 
         ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
     }
@@ -49,7 +39,7 @@ public class CameraZoomer : MonoBehaviour
         if (result.request.reason != ArroganceGainReason.CloseDodge || PlayerStateMachine.instance.playerArrogantSpin.TimeSinceLastSpin >= 0.5f)
             return;
 
-        StartZoom(zoomDurationOnDodge, zoomDurationOnDodge, zoomPowerOnDodge);
+        StartZoom(0.5f, 0.5f, 8.0f);
     }
 
     private void StartZoom(float durationIn, float durationOut, float zoomPower)
@@ -61,9 +51,9 @@ public class CameraZoomer : MonoBehaviour
             currentSequence.Stop();
 
         currentSequence = Sequence.Create(useUnscaledTime: true)
-            .Group(Tween.CameraFieldOfView(mainCamera, startingFov - zoomPower, durationIn, easeIn))
-            .Group(Tween.CameraFieldOfView(decorCamera, startingFov - zoomPower, durationIn, easeIn))
-            .Chain(Tween.CameraFieldOfView(mainCamera, startingFov, durationOut, easeOut))
-            .Group(Tween.CameraFieldOfView(decorCamera, startingFov, durationOut, easeOut));
+            .Group(Tween.CameraFieldOfView(mainCamera, startingFov - zoomPower, durationIn, Ease.OutCirc))
+            .Group(Tween.CameraFieldOfView(decorCamera, startingFov - zoomPower, durationIn, Ease.OutCirc))
+            .Chain(Tween.CameraFieldOfView(mainCamera, startingFov, durationOut, Ease.OutBack))
+            .Group(Tween.CameraFieldOfView(decorCamera, startingFov, durationOut, Ease.OutBack));
     }
 }
