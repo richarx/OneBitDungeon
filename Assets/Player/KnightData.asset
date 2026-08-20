@@ -26,7 +26,7 @@ MonoBehaviour:
   spinCooldown: 0
   maxArrogance: 100
   arroganceGainOnCloseDodge: 20
-  useProgressiveArroganceGain: 1
+  useProgressiveArroganceGain: 0
   progressiveArroganceGainEasing: 2
   closeDodgeWindowDuration: 0.3
   arroganceStateGainMultiplier: 1

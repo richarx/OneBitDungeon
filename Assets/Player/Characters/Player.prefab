@@ -28,6 +28,8 @@ GameObject:
   - component: {fileID: 8954279075693937328}
   - component: {fileID: 2298097891096850778}
   - component: {fileID: 8885984390240367102}
+  - component: {fileID: 2249564331457561026}
+  - component: {fileID: 6642227003520850648}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -303,10 +305,6 @@ MonoBehaviour:
     type: 3}
   swordSecondSlashPrefab: {fileID: 1936735994176848030, guid: f4537d8cc33edab4bbd17f2d43eef7b5,
     type: 3}
-  swordCritStabPrefab: {fileID: 1473356317183098, guid: 331bf660516f21b44b42b987b5348882,
-    type: 3}
-  swordCritTrailPrefab: {fileID: 1218474259193278, guid: 32880282445ce1e46b8159e9eb1d8a6a,
-    type: 3}
   swordSlashDelay: 0.1
   swordSlashHeight: 1
   swordSlashDistance: 1
@@ -319,13 +317,19 @@ MonoBehaviour:
   jumpLandVfx: {fileID: 7017189974637437493, guid: c165d7914e579e64182e4d25670b465d,
     type: 3}
   hurtVfx: {fileID: 4296958320210530305, guid: 4b923a4ea4a2b474288adc18114c7a0f, type: 3}
-  hurtFreezeDuration: 0.1
+  hurtFreezeDuration: 0.2
   freezeDelay: 0.03
   shockWaveEffect: {fileID: 2100000, guid: a2459f21609d1714ca42cf6f535e03cb, type: 2}
   waterBlastEffect: {fileID: 1932552764689772, guid: 8be8417b019612748a50c5177c810889,
     type: 3}
   flashBlastEffect: {fileID: 1661340255121968, guid: 8db78d0cf1683ae4f8e62cae23ebe8b9,
     type: 3}
+  swordCritStabPrefab: {fileID: 1473356317183098, guid: 331bf660516f21b44b42b987b5348882,
+    type: 3}
+  swordCritTrailPrefab: {fileID: 1218474259193278, guid: 32880282445ce1e46b8159e9eb1d8a6a,
+    type: 3}
+  splitScreenMaterialController: {fileID: 0}
+  cinematicBlackBars: {fileID: 0}
 --- !u!114 &1957020731844466397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,8 +400,9 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1856159283365252140}
   transitionDuration: 0.1
   transitionEase: 1
-  staggerTargetColor: {r: 0.6792453, g: 0.08009967, b: 0.08009967, a: 1}
+  staggerTargetColor: {r: 1, g: 0, b: 0, a: 1}
   staminaTargetColor: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
+  materialStaggerTargetColor: {r: 7.9999995, g: 0.041884817, b: 0, a: 1}
 --- !u!114 &9195213419997846752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,6 +490,38 @@ MonoBehaviour:
   OnTriggerCancel:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2249564331457561026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642427038457234017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86643ff02b0e1994b80763c1aa30a7f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerGraphic: {fileID: 1856159283365252140}
+  alpha: 0.1
+  transparentDuration: 0.1
+  visibleDuration: 0.2
+--- !u!114 &6642227003520850648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642427038457234017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2df3111a12cd05740968133aaa1d9fd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSqueeze: 1.8
+  ySqueeze: 0.2
+  duration: 0.15
+  GraphicsObject: {fileID: 5802077024740571042}
 --- !u!1 &797996720833813185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1038,7 +1075,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 41044f904fe60da479433b27d1203f47, type: 2}
+  - {fileID: 2100000, guid: e17516aa1ef6efd409bcd8b42155d50d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1059,15 +1096,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -697531588, guid: 76bdc43b6ba589e4388f819e6d80dc04, type: 3}
+  m_Sprite: {fileID: -2043135623, guid: 302e0220a4ca41c4a84f438bba9a5189, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.9375, y: 2.25}
+  m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!1 &7996010813403847570

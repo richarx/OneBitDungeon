@@ -669,6 +669,14 @@ namespace Tools_and_Scripts
             return image;
         }
 
+        public static SpriteRenderer SetSpriteAlpha(SpriteRenderer image, float alpha = 1.0f)
+        {
+            Color color = image.color;
+            color.a = alpha;
+            image.color = color;
+
+            return image;
+        }
         public static TextMeshProUGUI SetTextColor(TextMeshProUGUI text, float alpha = 1.0f)
         {
             if (alpha > 0.0f)
