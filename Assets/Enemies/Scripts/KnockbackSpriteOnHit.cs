@@ -32,6 +32,7 @@ public class KnockbackSpriteOnHit : MonoBehaviour
             currentSequence.Stop();
 
         currentSequence = Sequence.Create()
-            .Chain(Tween.PunchLocalPosition(spriteTarget, direction.ToVector3() * strength, 0.3f, easeBetweenShakes: Ease.OutBack));
+            .Chain(Tween.PunchLocalPosition(spriteTarget, direction.ToVector3() * strength, 0.3f, easeBetweenShakes: Ease.OutBack))
+            .ChainCallback(() => spriteTarget.localPosition = Vector3.zero);
     }
 }
