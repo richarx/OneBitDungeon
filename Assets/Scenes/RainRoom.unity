@@ -9553,6 +9553,74 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fef2afd6b6ea674c8112032d1ca8900, type: 3}
+--- !u!1001 &2492978486761946163
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1807919034704249988, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_Name
+      value: Prince Sparrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133675308826971373, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133675308826971373, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133675308826971373, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133675308826971373, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133675308826971373, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133675308826971373, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133675308826971373, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133675308826971373, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133675308826971373, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133675308826971373, guid: dc26207ac9f60b04f8da1757bec7bd51,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dc26207ac9f60b04f8da1757bec7bd51, type: 3}
 --- !u!1001 &3604610765123140064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10132,3 +10200,4 @@ SceneRoots:
   - {fileID: 417690093062081676}
   - {fileID: 951127991}
   - {fileID: 1424538498}
+  - {fileID: 2492978486761946163}
