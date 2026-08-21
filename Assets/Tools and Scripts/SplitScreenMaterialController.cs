@@ -171,4 +171,10 @@ public class SplitScreenMaterialController : MonoBehaviour
         if (testSequence.isAlive)
             testSequence.Stop();
     }
+
+    private void OnDestroy()
+    {
+        splitScreenMaterial.SetFloat(PenteId, 0.0f);
+        splitScreenMaterial.SetFloat(OrigineId, 0.0f);
+    }
 }
