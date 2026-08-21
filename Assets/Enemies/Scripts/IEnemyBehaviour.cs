@@ -9,4 +9,9 @@ namespace Enemies.Scripts.Behaviours
         public void CancelBehaviour(EnemyController enemy);
         public void SetSubBehaviourState(bool state);
     }
+
+    public interface IConditionalEnemyBehaviour
+    {
+        public bool CanExecute(EnemyController enemy);
+    }
 }

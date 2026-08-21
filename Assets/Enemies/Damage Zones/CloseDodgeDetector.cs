@@ -92,6 +92,13 @@ public class CloseDodgeDetector
 /// Delays close-dodge rewards until every damage zone in one attack salvo has
 /// finished its damage check. A hit from any zone invalidates the whole salvo.
 /// </summary>
+public enum CloseDodgeSessionOutcome
+{
+    Hit,
+    CloseDodge,
+    NoCloseDodge
+}
+
 public class CloseDodgeSession
 {
     private readonly int expectedDamageChecks;
@@ -100,6 +107,8 @@ public class CloseDodgeSession
     private int completedDamageChecks;
     private bool playerWasHit;
     private bool isCompleted;
+
+    public event System.Action<CloseDodgeSessionOutcome> OnCompleted;
 
     public CloseDodgeSession(int expectedDamageChecks)
     {
@@ -129,6 +138,12 @@ public class CloseDodgeSession
 
         isCompleted = true;
 
+        CloseDodgeSessionOutcome outcome = playerWasHit
+            ? CloseDodgeSessionOutcome.Hit
+            : pendingGains.Count > 0
+                ? CloseDodgeSessionOutcome.CloseDodge
+                : CloseDodgeSessionOutcome.NoCloseDodge;
+
         if (!playerWasHit)
         {
             // Version get all the gains from the pending list and request them at once.
@@ -153,6 +168,7 @@ public class CloseDodgeSession
         }
 
         pendingGains.Clear();
+        OnCompleted?.Invoke(outcome);
     }
 
     public void Cancel()

@@ -54,7 +54,20 @@ public class EnemyController : SerializedMonoBehaviour
     public int currentPhase { get; private set; } = 0;
     private bool isLastPhase => currentPhase >= GetPhaseCount() - 1;
 
+    // DEBUG
 
+    [TitleGroup("Debug")]
+    [SerializeField]
+    [LabelText("Debug Mode")]
+    private bool debugMode = false;
+
+    [ShowIf(nameof(debugMode))]
+    [TitleGroup("Debug")]
+    [OdinSerialize]
+    [LabelText("Debug Behaviour")]
+    [HideReferenceObjectPicker]
+    [TypeFilter(nameof(GetInlineBehaviourTypes))]
+    private IEnemyBehaviour debugBehaviour;
 
 
     protected virtual void Start()
@@ -66,6 +79,9 @@ public class EnemyController : SerializedMonoBehaviour
         sphereCollider = GetComponent<SphereCollider>();
         damageable = GetComponent<Damageable>();
         afterImage = GetComponent<AfterImage>();
+
+        if (debugMode)
+            return;
 
         damageable.OnTakeDamage.AddListener((_) =>
         {
@@ -194,8 +210,11 @@ public class EnemyController : SerializedMonoBehaviour
 
         RemoveCurrentBehaviourAndExecution();
         completedBehaviour.StopBehaviour(this);
+        if (!debugMode)
+            SelectNextBehaviour(completedBehaviour, wasTransition);
+        else
+            ExecuteDebugBehaviour();
 
-        SelectNextBehaviour(completedBehaviour, wasTransition);
     }
 
     public bool IsExecutionActive(BehaviourExecution execution)
@@ -234,7 +253,10 @@ public class EnemyController : SerializedMonoBehaviour
         if (enemyBehaviours == null)
             return new List<IEnemyBehaviour>();
 
-        return enemyBehaviours.FindAll(behaviour => behaviour != null);
+        return enemyBehaviours.FindAll(behaviour =>
+            behaviour != null
+            && (!(behaviour is IConditionalEnemyBehaviour conditionalBehaviour)
+                || conditionalBehaviour.CanExecute(this)));
     }
 
     private int GetPhaseCount()
@@ -332,5 +354,26 @@ public class EnemyController : SerializedMonoBehaviour
     {
         EnemyHolder.instance.RegisterEnemy(gameObject);
         sphereCollider.enabled = true;
+    }
+
+    [ShowIf(nameof(debugMode))]
+    [Button("Execute Debug Behaviour")]
+    private void ExecuteDebugBehaviour()
+    {
+        if (debugBehaviour == null)
+        {
+            Debug.LogWarning($"[{name}] No debug behaviour is configured.", this);
+            return;
+        }
+
+        InterruptCurrentBehaviour();
+        ExecuteBehaviour(debugBehaviour);
+    }
+
+    [ShowIf(nameof(debugMode))]
+    [Button("Stop Debug Behaviour")]
+    private void StopDebugBehaviour()
+    {
+        InterruptCurrentBehaviour();
     }
 }

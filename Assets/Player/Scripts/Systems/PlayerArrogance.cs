@@ -58,6 +58,19 @@ namespace Player.Scripts
             currentArrogance = 0.0f;
         }
 
+        public void FillArrogance()
+        {
+            if (playerData == null)
+                return;
+
+            currentArrogance = playerData.maxArrogance;
+        }
+
+        public void LoseArrogance(float amount)
+        {
+            currentArrogance = Mathf.Max(0.0f, currentArrogance - Mathf.Max(0.0f, amount));
+        }
+
         public bool ConsumeFullArrogance()
         {
             if (!IsFull)

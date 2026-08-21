@@ -10,6 +10,8 @@ namespace Player.Scripts
     {
         [SerializeField] private int startingHealth;
 
+        [SerializeField] private bool isInvincible = false;
+
         [HideInInspector] public UnityEvent<Vector3> OnPlayerTakeDamage = new UnityEvent<Vector3>();
 
         private PlayerStateMachine player;
@@ -90,10 +92,12 @@ namespace Player.Scripts
 
         public bool TakeDamage(int damage, Vector3 direction)
         {
+
+            
             if (IsDead)
                 return false;
 
-            if (IsInvincibleFromLastHit)
+            if (IsInvincibleFromLastHit || isInvincible)
                 return false;
 
             if (player.playerData.rollHasIFrames && player.currentBehaviour.GetBehaviourType() == BehaviourType.Roll)
