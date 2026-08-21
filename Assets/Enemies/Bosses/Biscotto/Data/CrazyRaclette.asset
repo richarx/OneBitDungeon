@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d44dd59b9c3479ba2ed4806b382e39d, type: 3}
+  m_Name: CrazyRaclette
+  m_EditorClassIdentifier: 
+  <DamageZonePrefab>k__BackingField: {fileID: 5892917051957619975, guid: 74048a843c06413481ff735378060465,
+    type: 3}
+  <RadiusOptions>k__BackingField:
+  - 0.18
+  - 0.2
+  - 0.22
+  <HitStaggerPower>k__BackingField: 30
+  <SpawnDuration>k__BackingField: 0.35
+  <FillDuration>k__BackingField: 1.1
+  <SpinDuration>k__BackingField: 0.9
+  <ZoneHeight>k__BackingField: 0.06
+  <EnableSecondWind>k__BackingField: 1
+  <SecondWindChance>k__BackingField: 0.75
+  <SecondWindPauseDuration>k__BackingField: 1.5
+  <SecondSpawnDuration>k__BackingField: 0.2
+  <SecondFillDuration>k__BackingField: 0.55
+  <SecondSpinDuration>k__BackingField: 0.65
+  <SecondRadius>k__BackingField: 0.15
+  <FinalRecoveryDuration>k__BackingField: 4
+  <AnticipationAnimation>k__BackingField: 
+  <SpinAnimation>k__BackingField: 
+  <FatigueAnimation>k__BackingField: 
+  <SecondWindAnimation>k__BackingField: 

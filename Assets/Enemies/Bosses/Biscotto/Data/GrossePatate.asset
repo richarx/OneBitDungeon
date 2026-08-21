@@ -21,12 +21,12 @@ MonoBehaviour:
       guid: 09c0e16c4786d514eb6f8565609c163c, type: 3}
     <DamageZoneWidth>k__BackingField: 4
     <DamageZoneLength>k__BackingField: 8
-    <DamageZoneSideOffset>k__BackingField: 1
+    <DamageZoneSideOffset>k__BackingField: 2
     <DamageZoneSide>k__BackingField: 0
     <SpawnDuration>k__BackingField: 0.3
     <FillDuration>k__BackingField: 1.5
     <LockBeforeImpact>k__BackingField: 0.3
-    <DelayAfterImpact>k__BackingField: 0.2
+    <DelayAfterImpact>k__BackingField: 0.1
     <MoveBesidePlayer>k__BackingField: 1
     <SideSelection>k__BackingField: 0
     <SideMoveDistance>k__BackingField: 2
@@ -35,4 +35,4 @@ MonoBehaviour:
     <ImpactAnimation>k__BackingField: 
   <RotationDampening>k__BackingField: 0.08
   <FinalRecoveryDuration>k__BackingField: 2
-  <TriggerAfterImageOnSideMove>k__BackingField: 0
+  <TriggerAfterImageOnSideMove>k__BackingField: 1

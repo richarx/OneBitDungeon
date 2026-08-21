@@ -13,32 +13,34 @@ public sealed class BiscottoCrazyRacletteData : ScriptableObject
     [field: SerializeField]
     [field: ListDrawerSettings(ShowFoldout = true, DefaultExpandedState = true)]
     [field: LabelText("Rayons possibles")]
+    [field: SuffixLabel("mètres")]
     public List<float> RadiusOptions { get; private set; } = new List<float> { 0.12f, 0.15f, 0.18f };
+
+    [Title("Impact")]
+    [field: SerializeField]
+    [field: MinValue(0.0f)]
+    [field: LabelText("Puissance de projection")]
+    public float HitStaggerPower { get; private set; } = 30.0f;
 
     [Title("Premier tour")]
     [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: LabelText("Durée d'apparition")]
+    [field: SuffixLabel("secondes")]
     public float SpawnDuration { get; private set; } = 0.35f;
 
     [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: LabelText("Durée de remplissage")]
+    [field: SuffixLabel("secondes")]
     public float FillDuration { get; private set; } = 1.1f;
 
     [field: SerializeField]
     [field: MinValue(0.05f)]
     [field: LabelText("Durée du tour")]
+    [field: SuffixLabel("secondes")]
     public float SpinDuration { get; private set; } = 0.9f;
 
-    [field: SerializeField]
-    [field: LabelText("Rotation du visuel")]
-    public float SpinDegrees { get; private set; } = 720.0f;
-
-    [field: SerializeField]
-    [field: MinValue(0.0f)]
-    [field: LabelText("Hauteur de la zone")]
-    public float ZoneHeight { get; private set; } = 0.06f;
 
     [Title("Second souffle")]
     [field: SerializeField]
@@ -49,47 +51,49 @@ public sealed class BiscottoCrazyRacletteData : ScriptableObject
     [field: ShowIf(nameof(EnableSecondWind))]
     [field: PropertyRange(0.0f, 1.0f)]
     [field: LabelText("Chance de repartir")]
+    [field: SuffixLabel("secondes")]
     public float SecondWindChance { get; private set; } = 1.0f;
 
     [field: SerializeField]
     [field: ShowIf(nameof(EnableSecondWind))]
     [field: MinValue(0.0f)]
     [field: LabelText("Fausse fatigue")]
+    [field: SuffixLabel("secondes")]
     public float SecondWindPauseDuration { get; private set; } = 0.5f;
 
     [field: SerializeField]
     [field: ShowIf(nameof(EnableSecondWind))]
     [field: MinValue(0.0f)]
-    [field: LabelText("Durée d'apparition V2")]
+    [field: LabelText("Durée d'apparition Second souffle")]
+    [field: SuffixLabel("secondes")]
     public float SecondSpawnDuration { get; private set; } = 0.2f;
 
     [field: SerializeField]
     [field: ShowIf(nameof(EnableSecondWind))]
     [field: MinValue(0.0f)]
-    [field: LabelText("Télégraphe du second tour")]
+    [field: LabelText("Fill du Second souffle")]
+    [field: SuffixLabel("secondes")]
     public float SecondFillDuration { get; private set; } = 0.55f;
 
     [field: SerializeField]
     [field: ShowIf(nameof(EnableSecondWind))]
     [field: MinValue(0.05f)]
     [field: LabelText("Durée du second tour")]
+    [field: SuffixLabel("secondes")]
     public float SecondSpinDuration { get; private set; } = 0.65f;
 
     [field: SerializeField]
     [field: ShowIf(nameof(EnableSecondWind))]
-    [field: LabelText("Rotation V2")]
-    public float SecondSpinDegrees { get; private set; } = -540.0f;
-
-    [field: SerializeField]
-    [field: ShowIf(nameof(EnableSecondWind))]
-    [field: MinValue(0.1f)]
-    [field: LabelText("Multiplicateur de rayon V2")]
-    public float SecondRadiusMultiplier { get; private set; } = 1.0f;
+    [field: MinValue(0.0f)]
+    [field: LabelText("Rayon du second tour")]
+    [field: SuffixLabel("mètres")]
+    public float SecondRadius { get; private set; } = 0.15f;
 
     [Title("Récupération")]
     [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: LabelText("Fatigue finale")]
+    [field: SuffixLabel("secondes")]
     public float FinalRecoveryDuration { get; private set; } = 1.1f;
 
     [Title("Animations")]

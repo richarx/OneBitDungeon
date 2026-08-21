@@ -90,7 +90,7 @@ namespace Player.Scripts
             player.playerParry.TriggerSuccessfulParry(player);
         }
 
-        public bool TakeDamage(int damage, Vector3 direction)
+        public bool TakeDamage(int damage, Vector3 direction, float staggerPower = -1.0f)
         {
 
 
@@ -109,7 +109,7 @@ namespace Player.Scripts
             }
             lastHitTimestamp = Time.time;
 
-
+            player.playerStagger.TriggerStagger(player, direction, staggerPower);
             OnPlayerTakeDamage?.Invoke(direction);
 
             return true;

@@ -16,13 +16,13 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
     [LabelText("Data")]
     private BiscottoTsarBombaData data;
 
-    [NonSerialized] private Sequence attackSequence;
-    [NonSerialized] private Sequence jumpSequence;
-    [NonSerialized] private CircleDamageZone currentDamageZone;
-    [NonSerialized] private bool isTrackingPlayer;
-    [NonSerialized] private bool enemyHitboxIsDisabled;
-    [NonSerialized] private float groundY;
-    [NonSerialized] private Vector3 lockedLandingPosition;
+    private Sequence attackSequence;
+    private Sequence jumpSequence;
+    private CircleDamageZone currentDamageZone;
+    private bool isTrackingPlayer;
+    private bool enemyHitboxIsDisabled;
+    private float groundY;
+    private Vector3 lockedLandingPosition;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {

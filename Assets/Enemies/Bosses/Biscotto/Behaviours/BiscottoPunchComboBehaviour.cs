@@ -31,13 +31,13 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
     [LabelText("Data")]
     private BiscottoPunchComboData data;
 
-    [NonSerialized] private Sequence attackSequence;
-    [NonSerialized] private Sequence moveSequence;
-    [NonSerialized] private RectangleDamageZone currentDamageZone;
-    [NonSerialized] private Transform currentDamageZoneRoot;
-    [NonSerialized] private BiscottoPunchStep currentPunchStep;
-    [NonSerialized] private float currentAimEndTimestamp;
-    [NonSerialized] private List<RectangleDamageZone> spawnedDamageZones = new List<RectangleDamageZone>();
+    private Sequence attackSequence;
+    private Sequence moveSequence;
+    private RectangleDamageZone currentDamageZone;
+    private Transform currentDamageZoneRoot;
+    private BiscottoPunchStep currentPunchStep;
+    private float currentAimEndTimestamp;
+    private List<RectangleDamageZone> spawnedDamageZones = new List<RectangleDamageZone>();
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -202,7 +202,7 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
 
         currentDamageZoneRoot.position = enemy.transform.position + ComputeDamageZoneOffset(enemy, currentPunchStep);
 
-        Vector3 direction = PlayerStateMachine.instance.position - enemy.transform.position;
+        Vector3 direction = PlayerStateMachine.instance.position - currentDamageZoneRoot.position;
         direction.y = 0.0f;
 
         if (direction.sqrMagnitude <= 0.0001f)
@@ -232,16 +232,23 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
         if (moveSequence.isAlive)
             moveSequence.Stop();
 
-        Vector3 destination = ComputeSideDestination(enemy, step);
+        float sideSign = GetSideSign(step.SideSelection);
+        Vector3 startPosition = enemy.transform.position;
+        Vector3 pivotPosition = PlayerStateMachine.instance.position;
+        pivotPosition.y = startPosition.y;
+        Vector3 destination = ComputeSideDestination(enemy, step, sideSign);
 
         if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
             enemy.afterImage.Trigger(step.SideMoveDuration);
 
         moveSequence = Sequence.Create()
-            .Group(Tween.Position(enemy.transform, destination, step.SideMoveDuration, Ease.InOutCubic));
+            .Group(Tween.Custom(0.0f, 1.0f, step.SideMoveDuration, progress =>
+            {
+                enemy.transform.position = GetSideMoveArcPosition(startPosition, destination, pivotPosition, progress);
+            }, Ease.InOutSine));
     }
 
-    private static Vector3 ComputeSideDestination(EnemyController enemy, BiscottoPunchStep step)
+    private static Vector3 ComputeSideDestination(EnemyController enemy, BiscottoPunchStep step, float sideSign)
     {
         Vector3 playerPosition = PlayerStateMachine.instance.position;
         Vector3 directionToPlayer = playerPosition - enemy.transform.position;
@@ -253,23 +260,45 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
         directionToPlayer.Normalize();
         Vector3 clockwiseSide = new Vector3(directionToPlayer.z, 0.0f, -directionToPlayer.x);
 
-        float sideSign;
-        switch (step.SideSelection)
-        {
-            case BiscottoSideSelection.Clockwise:
-                sideSign = 1.0f;
-                break;
-            case BiscottoSideSelection.CounterClockwise:
-                sideSign = -1.0f;
-                break;
-            default:
-                sideSign = UnityEngine.Random.value < 0.5f ? -1.0f : 1.0f;
-                break;
-        }
-
         Vector3 destination = playerPosition + clockwiseSide * sideSign * step.SideMoveDistance;
         destination.y = enemy.transform.position.y;
         return destination;
+    }
+
+    private static float GetSideSign(BiscottoSideSelection sideSelection)
+    {
+        switch (sideSelection)
+        {
+            case BiscottoSideSelection.Clockwise:
+                return 1.0f;
+            case BiscottoSideSelection.CounterClockwise:
+                return -1.0f;
+            default:
+                return UnityEngine.Random.value < 0.5f ? -1.0f : 1.0f;
+        }
+    }
+
+    private static Vector3 GetSideMoveArcPosition(Vector3 startPosition, Vector3 destination, Vector3 pivotPosition, float progress)
+    {
+        Vector2 startOffset = (startPosition - pivotPosition).ToVector2();
+        Vector2 endOffset = (destination - pivotPosition).ToVector2();
+
+        float startRadius = startOffset.magnitude;
+        float endRadius = endOffset.magnitude;
+
+        if (startRadius <= 0.0001f || endRadius <= 0.0001f)
+            return Vector3.Lerp(startPosition, destination, progress);
+
+        float startAngle = Mathf.Atan2(startOffset.y, startOffset.x) * Mathf.Rad2Deg;
+        float endAngle = Mathf.Atan2(endOffset.y, endOffset.x) * Mathf.Rad2Deg;
+        float angle = startAngle + Mathf.DeltaAngle(startAngle, endAngle) * progress;
+        float radius = Mathf.Lerp(startRadius, endRadius, progress);
+        float angleInRadians = angle * Mathf.Deg2Rad;
+
+        return new Vector3(
+            pivotPosition.x + Mathf.Cos(angleInRadians) * radius,
+            Mathf.Lerp(startPosition.y, destination.y, progress),
+            pivotPosition.z + Mathf.Sin(angleInRadians) * radius);
     }
 
     private static void PlayAnimation(EnemyController enemy, string animationName)

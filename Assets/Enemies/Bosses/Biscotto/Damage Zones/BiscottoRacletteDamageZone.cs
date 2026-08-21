@@ -24,14 +24,16 @@ public sealed class BiscottoRacletteDamageZone : MonoBehaviour
     private Sequence currentSequence;
 
     private float radius;
+    private float hitStaggerPower;
     private bool isDamageActive;
     private bool hasHitPlayer;
 
     public bool IsDestroyed { get; private set; }
 
-    public void Setup(float attackRadius, float spawnDuration, float fillDuration, float activeDuration)
+    public void Setup(float attackRadius, float spawnDuration, float fillDuration, float activeDuration, float staggerPower)
     {
         radius = attackRadius;
+        hitStaggerPower = Mathf.Max(0.0f, staggerPower);
         dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         player = PlayerStateMachine.instance;
 
@@ -120,6 +122,10 @@ public sealed class BiscottoRacletteDamageZone : MonoBehaviour
 
         if (isPlayerInside)
             TryDamagePlayer();
+
+        // Publish the close-dodge result at the damage timestamp, while the
+        // player spin is still recent enough for the Arrogant Dodge feedback.
+        closeDodgeSession?.CompleteDamageCheck();
     }
 
     private void TryDamagePlayer()
@@ -130,7 +136,7 @@ public sealed class BiscottoRacletteDamageZone : MonoBehaviour
         if (direction.sqrMagnitude <= 0.0001f)
             direction = Vector3.forward;
 
-        hasHitPlayer = dealDamageToPlayer.TryDealDamage(direction);
+        hasHitPlayer = dealDamageToPlayer.TryDealDamage(direction, hitStaggerPower);
 
         if (hasHitPlayer)
             closeDodgeSession?.RegisterHit();
@@ -139,7 +145,6 @@ public sealed class BiscottoRacletteDamageZone : MonoBehaviour
     private void FinishDamageWindow()
     {
         isDamageActive = false;
-        closeDodgeSession?.CompleteDamageCheck();
     }
 
     private bool IsPlayerInside()

@@ -92,7 +92,6 @@ namespace Player.Scripts
             if (!Application.isEditor)
                 Cursor.visible = false;
 
-            playerHealth.OnPlayerTakeDamage.AddListener((direction) => playerStagger.TriggerStagger(this, direction));
         }
 
         private void Update()
