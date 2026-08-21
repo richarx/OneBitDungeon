@@ -1,3 +1,4 @@
+using System;
 using Game_Manager;
 using Tools_and_Scripts;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Player.Scripts
 
         private float sitDownTimestamp = -1.0f;
         private float getUpTimestamp = -1.0f;
+        private float lastArroganceGainTimestamp = -1.0f;
         public bool IsGettingUp => getUpTimestamp >= 0.0f;
         public bool isRotating { get; private set; }
 
@@ -28,6 +30,7 @@ namespace Player.Scripts
         {
             sitDownTimestamp = Time.time;
             getUpTimestamp = -1.0f;
+            lastArroganceGainTimestamp = Time.time;
             isRotating = !isRespawning;
 
             player.moveVelocity = Vector3.zero;
@@ -72,6 +75,18 @@ namespace Player.Scripts
 
             if (IsGettingUp && Time.time - getUpTimestamp >= 0.5f)
                 player.ChangeBehaviour(player.playerIdle);
+
+            if (player.playerTargeting.hasTarget && isRespawning == false)
+                ComputeArroganceGain(player);
+        }
+
+        private void ComputeArroganceGain(PlayerStateMachine player)
+        {
+            if (Time.time - lastArroganceGainTimestamp >= 0.5f)
+            {
+                ArroganceGainEvents.RequestGain(new ArroganceGainRequest(player.playerData.arroganceGainWhileSitting, ArroganceGainReason.Taunt));
+                lastArroganceGainTimestamp = Time.time;
+            }
         }
 
         private void HandleRotation(PlayerStateMachine player)
@@ -140,6 +155,7 @@ namespace Player.Scripts
         {
             getUpTimestamp = -1.0f;
             hasTargetBeenSet = false;
+            isRespawning = false;
         }
 
         public BehaviourType GetBehaviourType()

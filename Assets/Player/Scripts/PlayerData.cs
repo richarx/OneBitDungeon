@@ -50,8 +50,11 @@ namespace Player.Scripts
         [TitleGroup("Arrogance Gain"), LabelText("Arrogance Gained on Parry"), MinValue(0.0f)]
         public float arroganceGainOnParry = 10.0f;
 
-        [TitleGroup("Arrogance Gain"), LabelText("Arrogance Gained on Regualr Attack"), MinValue(0.0f)]
+        [TitleGroup("Arrogance Gain"), LabelText("Arrogance Gained on Regualar Attack"), MinValue(0.0f)]
         public float arroganceGainOnAttack = 10.0f;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Arrogance Gained while sitting"), SuffixLabel("Arrogance/HalfSeconds"), MinValue(0.0f)]
+        public float arroganceGainWhileSitting = 10.0f;
 
         [Space]
         [TitleGroup("Arrogance Gain"), LabelText("Use Progressive Arrogance Gain")]
