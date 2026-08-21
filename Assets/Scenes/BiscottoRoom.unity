@@ -10570,7 +10570,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1246712000, guid: 4b4a5ea5b05697e4ebd92c006303d778, type: 3}
+  m_Sprite: {fileID: -1398284294, guid: db1a3b49e8462c546a780792092b75d0, type: 3}
   m_Color: {r: 0.99, g: 0.99, b: 0.99, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10679,7 +10679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 650
-  isInvincible: 0
+  isInvincible: 1
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -10840,7 +10840,7 @@ GameObject:
   - component: {fileID: 8182171200824653877}
   - component: {fileID: 8182171200824653879}
   m_Layer: 9
-  m_Name: Mage
+  m_Name: Biscotto
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10878,7 +10878,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: d8f1b736f5216e641a132b61aff92e1e, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -10898,13 +10899,20 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: deathBehaviour
+      Entry: 6
+      Data: 
+    - Name: debugBehaviour
       Entry: 7
-      Data: 1|MageDeathBehaviour, Assembly-CSharp
+      Data: 1|BiscottoPunchComboBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
   <Sprite>k__BackingField: {fileID: 5071313608623843290}
   <shadowSprite>k__BackingField: {fileID: 2063661912}
+  debugMode: 1
 --- !u!114 &8182171200824653878
 MonoBehaviour:
   m_ObjectHideFlags: 0

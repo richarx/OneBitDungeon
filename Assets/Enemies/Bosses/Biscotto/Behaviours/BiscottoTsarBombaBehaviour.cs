@@ -13,57 +13,8 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
 
     [OdinSerialize]
     [Required]
-    [LabelText("Prefab de zone circulaire")]
-    private CircleDamageZone circleDamageZonePrefab;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Rayon")]
-    private float radius = 0.16f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Durée d'apparition")]
-    private float spawnDuration = 0.3f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Durée de suivi")]
-    private float fillDuration = 0.9f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Verrouillage avant impact")]
-    [SuffixLabel("secondes")]
-    private float lockBeforeImpact = 0.32f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Hauteur du saut")]
-    private float jumpHeight = 2.0f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Hauteur de la zone")]
-    private float zoneHeight = 0.06f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Récupération")]
-    private float recoveryDuration = 0.8f;
-
-    [Title("Animations")]
-    [OdinSerialize]
-    [LabelText("Anticipation")]
-    private string anticipationAnimation;
-
-    [OdinSerialize]
-    [LabelText("Saut")]
-    private string jumpAnimation;
-
-    [OdinSerialize]
-    [LabelText("Impact")]
-    private string impactAnimation;
+    [LabelText("Data")]
+    private BiscottoTsarBombaData data;
 
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private Sequence jumpSequence;
@@ -78,7 +29,14 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         ResetRuntimeState(enemy, false);
         groundY = enemy.transform.position.y;
 
-        if (circleDamageZonePrefab == null)
+        if (data == null)
+        {
+            Debug.LogError("[BiscottoTsarBombaBehaviour] Un data Tsar Bomba est requis.", enemy);
+            execution.Complete();
+            return;
+        }
+
+        if (data.CircleDamageZonePrefab == null)
         {
             Debug.LogError("[BiscottoTsarBombaBehaviour] Un prefab de zone circulaire est requis.", enemy);
             execution.Complete();
@@ -92,21 +50,21 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             return;
         }
 
-        float timeToDamage = spawnDuration + fillDuration + DamageColorTransitionDuration;
-        float effectiveLockDuration = Mathf.Min(lockBeforeImpact, timeToDamage);
+        float timeToDamage = data.SpawnDuration + data.FillDuration;
+        float effectiveLockDuration = Mathf.Min(data.LockBeforeImpact, timeToDamage);
         float trackingDuration = Mathf.Max(0.0f, timeToDamage - effectiveLockDuration);
 
         attackSequence = Sequence.Create()
             .ChainCallback(() =>
             {
-                PlayAnimation(enemy, anticipationAnimation);
+                PlayAnimation(enemy, data.AnticipationAnimation);
                 SpawnTrackingZone(enemy);
             })
             .ChainDelay(trackingDuration)
             .ChainCallback(() => LockTargetAndJump(enemy, effectiveLockDuration))
             .ChainDelay(effectiveLockDuration)
             .ChainCallback(() => FinishLanding(enemy))
-            .ChainDelay(recoveryDuration)
+            .ChainDelay(data.RecoveryDuration)
             .ChainCallback(() => execution.Complete());
     }
 
@@ -115,7 +73,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         if (!isTrackingPlayer || currentDamageZone == null || PlayerStateMachine.instance == null)
             return;
 
-        currentDamageZone.transform.position = GetZonePosition(enemy, PlayerStateMachine.instance.position);
+        currentDamageZone.transform.position = new Vector3(PlayerStateMachine.instance.position.x, groundY, PlayerStateMachine.instance.position.z);
     }
 
     public void FixedUpdateBehaviour(EnemyController enemy)
@@ -138,13 +96,13 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
 
     private void SpawnTrackingZone(EnemyController enemy)
     {
-        Vector3 zonePosition = GetZonePosition(enemy, PlayerStateMachine.instance.position);
+        Vector3 zonePosition = new Vector3(PlayerStateMachine.instance.position.x, groundY, PlayerStateMachine.instance.position.z);
         currentDamageZone = UnityEngine.Object.Instantiate(
-            circleDamageZonePrefab,
+            data.CircleDamageZonePrefab,
             zonePosition,
             Quaternion.Euler(90.0f, 0.0f, 0.0f));
 
-        currentDamageZone.Setup(radius, spawnDuration, fillDuration);
+        currentDamageZone.Setup(data.Radius, data.SpawnDuration, data.FillDuration);
         isTrackingPlayer = true;
     }
 
@@ -157,7 +115,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             : PlayerStateMachine.instance.position;
 
         lockedLandingPosition = new Vector3(target.x, groundY, target.z);
-        PlayAnimation(enemy, jumpAnimation);
+        PlayAnimation(enemy, data.JumpAnimation);
 
         enemy.DeactivateHitbox();
         enemyHitboxIsDisabled = true;
@@ -169,12 +127,16 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         }
 
         Vector3 startPosition = enemy.transform.position;
-        Vector3 apexPosition = Vector3.Lerp(startPosition, lockedLandingPosition, 0.5f) + Vector3.up * jumpHeight;
-        float halfDuration = jumpDuration * 0.5f;
+        Vector3 apexPosition = Vector3.Lerp(startPosition, lockedLandingPosition, 0.5f) + Vector3.up * data.JumpHeight;
+        float ascentDuration = jumpDuration * data.RatioAscentToFall;
+        float descentDuration = jumpDuration - ascentDuration;
 
         jumpSequence = Sequence.Create()
-            .Chain(Tween.Position(enemy.transform, apexPosition, halfDuration, Ease.OutQuad))
-            .Chain(Tween.Position(enemy.transform, lockedLandingPosition, halfDuration, Ease.InQuad));
+            .Chain(Tween.Custom(0.0f, 1.0f, ascentDuration, progress =>
+            {
+                enemy.transform.position = GetJumpAscentPosition(startPosition, apexPosition, progress);
+            }, Ease.Linear))
+            .Chain(Tween.Position(enemy.transform, lockedLandingPosition, descentDuration, Ease.Linear));
     }
 
     private void FinishLanding(EnemyController enemy)
@@ -184,12 +146,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
 
         enemy.transform.position = lockedLandingPosition;
         RestoreEnemyHitbox(enemy);
-        PlayAnimation(enemy, impactAnimation);
-    }
-
-    private Vector3 GetZonePosition(EnemyController enemy, Vector3 targetPosition)
-    {
-        return new Vector3(targetPosition.x, groundY + zoneHeight, targetPosition.z);
+        PlayAnimation(enemy, data.ImpactAnimation);
     }
 
     private void ResetRuntimeState(EnemyController enemy, bool restoreGroundPosition)
@@ -227,6 +184,14 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
 
         if (enemy.damageable == null || !enemy.damageable.IsDead)
             enemy.ActivateHitbox();
+    }
+
+    private static Vector3 GetJumpAscentPosition(Vector3 startPosition, Vector3 apexPosition, float progress)
+    {
+        float clampedProgress = Mathf.Clamp01(progress);
+        Vector3 position = Vector3.Lerp(startPosition, apexPosition, clampedProgress);
+        position.y = Mathf.Lerp(startPosition.y, apexPosition.y, Mathf.Sin(clampedProgress * Mathf.PI * 0.5f));
+        return position;
     }
 
     private static void PlayAnimation(EnemyController enemy, string animationName)

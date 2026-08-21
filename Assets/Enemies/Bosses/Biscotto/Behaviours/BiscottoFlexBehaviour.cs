@@ -8,29 +8,22 @@ using Sirenix.Serialization;
 public sealed class BiscottoFlexBehaviour : IEnemyBehaviour, IConditionalEnemyBehaviour
 {
     [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Durée du flex")]
-    private float flexDuration = 1.2f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Arrogance gagnée")]
-    private float arroganceGain = 34.0f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Récupération")]
-    private float recoveryDuration = 0.35f;
-
-    [OdinSerialize]
-    [LabelText("Animation")]
-    private string flexAnimation;
+    [Required]
+    [LabelText("Data")]
+    private BiscottoFlexData data;
 
     [NonSerialized] private Sequence flexSequence;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         ResetRuntimeState();
+
+        if (data == null)
+        {
+            UnityEngine.Debug.LogError("[BiscottoFlexBehaviour] Un data de flex est requis.", enemy);
+            execution.Complete();
+            return;
+        }
 
         BiscottoArrogance arrogance = enemy.GetComponent<BiscottoArrogance>();
         if (arrogance == null)
@@ -40,11 +33,11 @@ public sealed class BiscottoFlexBehaviour : IEnemyBehaviour, IConditionalEnemyBe
             return;
         }
 
-        PlayAnimation(enemy, flexAnimation);
+        PlayAnimation(enemy, data.FlexAnimation);
         flexSequence = Sequence.Create()
-            .ChainDelay(flexDuration)
-            .ChainCallback(() => arrogance.AddArrogance(arroganceGain))
-            .ChainDelay(recoveryDuration)
+            .ChainDelay(data.FlexDuration)
+            .ChainCallback(() => arrogance.AddArrogance(data.ArroganceGain))
+            .ChainDelay(data.RecoveryDuration)
             .ChainCallback(() => execution.Complete());
     }
 

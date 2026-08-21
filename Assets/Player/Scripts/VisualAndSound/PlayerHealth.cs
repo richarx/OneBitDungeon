@@ -93,18 +93,22 @@ namespace Player.Scripts
         public bool TakeDamage(int damage, Vector3 direction)
         {
 
-            
+
             if (IsDead)
                 return false;
 
-            if (IsInvincibleFromLastHit || isInvincible)
+            if (IsInvincibleFromLastHit)
                 return false;
 
             if (player.playerData.rollHasIFrames && player.currentBehaviour.GetBehaviourType() == BehaviourType.Roll)
                 return false;
 
-            currentHealth -= damage;
+            if (!isInvincible)
+            {
+                currentHealth -= damage;
+            }
             lastHitTimestamp = Time.time;
+
 
             OnPlayerTakeDamage?.Invoke(direction);
 

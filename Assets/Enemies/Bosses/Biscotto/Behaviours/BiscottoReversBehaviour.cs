@@ -15,81 +15,8 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
 
     [OdinSerialize]
     [Required]
-    [LabelText("Prefab de zone Revers")]
-    private GameObject rectangularDamageZonePrefab;
-
-    [Title("Télégraphe")]
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Durée d'apparition")]
-    private float spawnDuration = 0.35f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Durée de remplissage")]
-    private float fillDuration = 1.0f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Verrouillage avant impact")]
-    private float lockBeforeImpact = 0.3f;
-
-    [OdinSerialize]
-    [MinValue(0.001f)]
-    [LabelText("Lissage de la visée")]
-    private float rotationDampening = 0.08f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Anticipation animation d'impact")]
-    private float impactAnimationLeadTime = 0.1f;
-
-    [Title("Résultats")]
-    [OdinSerialize]
-    [MinValue(0)]
-    [LabelText("Dégâts retournés à Biscotto")]
-    private int selfDamage = 50;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Perte d'arrogance sur esquive précoce")]
-    private float earlyDodgeArroganceLoss;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Récupération si le joueur est touché")]
-    private float hitRecoveryDuration = 0.8f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Récupération sur esquive précoce")]
-    private float earlyDodgeRecoveryDuration = 0.45f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Stun après retour")]
-    private float reflectedStunDuration = 1.6f;
-
-    [Title("Animations")]
-    [OdinSerialize]
-    [LabelText("Invitation")]
-    private string invitationAnimation;
-
-    [OdinSerialize]
-    [LabelText("Revers")]
-    private string impactAnimation;
-
-    [OdinSerialize]
-    [LabelText("Réussite de Biscotto")]
-    private string hitPlayerAnimation;
-
-    [OdinSerialize]
-    [LabelText("Provocation esquive précoce")]
-    private string earlyDodgeAnimation;
-
-    [OdinSerialize]
-    [LabelText("Revers retourné")]
-    private string reflectedAnimation;
+    [LabelText("Data")]
+    private BiscottoReversData data;
 
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private Sequence outcomeSequence;
@@ -110,6 +37,13 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
         currentExecution = execution;
         biscottoArrogance = enemy.GetComponent<BiscottoArrogance>();
 
+        if (data == null)
+        {
+            Debug.LogError("[BiscottoReversBehaviour] Un data Revers est requis.", enemy);
+            execution.Complete();
+            return;
+        }
+
         if (biscottoArrogance == null)
         {
             Debug.LogError("[BiscottoReversBehaviour] BiscottoArrogance est requis sur le boss.", enemy);
@@ -123,7 +57,7 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             return;
         }
 
-        if (rectangularDamageZonePrefab == null)
+        if (data.RectangularDamageZonePrefab == null)
         {
             Debug.LogError("[BiscottoReversBehaviour] Un prefab de zone rectangulaire est requis.", enemy);
             execution.Complete();
@@ -140,17 +74,17 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
         closeDodgeSession = new CloseDodgeSession(1);
         closeDodgeSession.OnCompleted += HandleOutcome;
 
-        float timeToDamage = spawnDuration + fillDuration + FilledColorTransitionDuration;
-        float impactLeadTime = Mathf.Min(impactAnimationLeadTime, timeToDamage);
+        float timeToDamage = data.SpawnDuration + data.FillDuration + FilledColorTransitionDuration;
+        float impactLeadTime = Mathf.Min(data.ImpactAnimationLeadTime, timeToDamage);
 
         attackSequence = Sequence.Create()
             .ChainCallback(() =>
             {
-                PlayAnimation(enemy, invitationAnimation);
+                PlayAnimation(enemy, data.InvitationAnimation);
                 SpawnDamageZone(enemy);
             })
             .ChainDelay(timeToDamage - impactLeadTime)
-            .ChainCallback(() => PlayAnimation(enemy, impactAnimation))
+            .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
             .ChainDelay(impactLeadTime + DamageFlashDuration);
     }
 
@@ -189,7 +123,7 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
     private void SpawnDamageZone(EnemyController enemy)
     {
         GameObject zoneObject = UnityEngine.Object.Instantiate(
-            rectangularDamageZonePrefab,
+            data.RectangularDamageZonePrefab,
             enemy.transform.position,
             Quaternion.identity);
 
@@ -204,11 +138,11 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             return;
         }
 
-        float timeToDamage = spawnDuration + fillDuration + FilledColorTransitionDuration;
-        aimEndTimestamp = Time.time + Mathf.Max(0.0f, timeToDamage - lockBeforeImpact);
+        float timeToDamage = data.SpawnDuration + data.FillDuration + FilledColorTransitionDuration;
+        aimEndTimestamp = Time.time + Mathf.Max(0.0f, timeToDamage - data.LockBeforeImpact);
 
         RotateZoneTowardPlayer(enemy, true);
-        currentDamageZone.Setup(Vector2.right, spawnDuration, fillDuration, closeDodgeSession);
+        currentDamageZone.Setup(Vector2.right, data.SpawnDuration, data.FillDuration, closeDodgeSession);
     }
 
     private void RotateZoneTowardPlayer(EnemyController enemy, bool immediate = false)
@@ -234,7 +168,7 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
         currentDamageZoneRoot.rotation = Quaternion.Slerp(
             currentDamageZoneRoot.rotation,
             targetRotation,
-            Time.deltaTime / Mathf.Max(0.001f, rotationDampening));
+            Time.deltaTime / Mathf.Max(0.001f, data.RotationDampening));
     }
 
     private void HandleOutcome(CloseDodgeSessionOutcome outcome)
@@ -257,35 +191,35 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             case CloseDodgeSessionOutcome.Hit:
                 biscottoArrogance.ConsumeFullArrogance();
                 playerArrogance?.ClearArrogance();
-                PlayAnimation(currentEnemy, hitPlayerAnimation);
-                CompleteAfterDelay(hitRecoveryDuration);
+                PlayAnimation(currentEnemy, data.HitPlayerAnimation);
+                CompleteAfterDelay(data.HitRecoveryDuration);
                 break;
 
             case CloseDodgeSessionOutcome.CloseDodge:
                 biscottoArrogance.ConsumeFullArrogance();
                 playerArrogance?.FillArrogance();
-                PlayAnimation(currentEnemy, reflectedAnimation);
+                PlayAnimation(currentEnemy, data.ReflectedAnimation);
                 ApplyReflectedDamage();
 
                 if (currentEnemy.IsExecutionActive(currentExecution))
-                    CompleteAfterDelay(reflectedStunDuration);
+                    CompleteAfterDelay(data.ReflectedStunDuration);
                 break;
 
             default:
-                playerArrogance?.LoseArrogance(earlyDodgeArroganceLoss);
-                PlayAnimation(currentEnemy, earlyDodgeAnimation);
-                CompleteAfterDelay(earlyDodgeRecoveryDuration);
+                playerArrogance?.LoseArrogance(data.EarlyDodgeArroganceLoss);
+                PlayAnimation(currentEnemy, data.EarlyDodgeAnimation);
+                CompleteAfterDelay(data.EarlyDodgeRecoveryDuration);
                 break;
         }
     }
 
     private void ApplyReflectedDamage()
     {
-        if (selfDamage <= 0 || currentEnemy.damageable == null)
+        if (data.SelfDamage <= 0 || currentEnemy.damageable == null)
             return;
 
         Vector3 direction = currentEnemy.transform.position - PlayerStateMachine.instance.position;
-        currentEnemy.damageable.TakeDamage(selfDamage, new Vector2(direction.x, direction.z).normalized);
+        currentEnemy.damageable.TakeDamage(data.SelfDamage, new Vector2(direction.x, direction.z).normalized);
     }
 
     private void CompleteAfterDelay(float delay)
