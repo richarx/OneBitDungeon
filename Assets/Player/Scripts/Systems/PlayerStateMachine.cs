@@ -212,12 +212,5 @@ namespace Player.Scripts
 
             return current != BehaviourType.Sit;
         }
-
-        public int ComputeCurrentDamage()
-        {
-            return currentBehaviour.GetBehaviourType() == BehaviourType.CriticalAttack
-                ? playerData.insolenceAttackDamage
-                : playerData.normalAttackDamage;
-        }
     }
 }
