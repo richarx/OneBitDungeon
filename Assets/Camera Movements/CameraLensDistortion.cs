@@ -17,12 +17,6 @@ public class CameraLensDistortion : MonoBehaviour
     {
         profile = GetComponent<Volume>().profile;
         profile.TryGet(out lensDistortion);
-
-        GameManager.OnPrepareToLeaveRoom.AddListener((d) =>
-        {
-            StopAllCoroutines();
-            StartCoroutine(TriggerTransition());
-        });
     }
 
     private IEnumerator TriggerTransition()

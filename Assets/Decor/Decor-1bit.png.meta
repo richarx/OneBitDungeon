@@ -508,6 +508,153 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_19
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 22
+        width: 69
+        height: 69
+      alignment: 9
+      pivot: {x: 0.24, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 536ea75adafe91041ac5a3653afb44ee
+      internalID: 2104041674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_20
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 230
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 083bdff4b7e4608438933ca260daa462
+      internalID: 1911032202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_21
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 222
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f74ea99bdef6bc7409cbd95bd54ab2a3
+      internalID: -14088381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_22
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 217
+        width: 9
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc7c0ba5a426ce24cbf95951fdd304dd
+      internalID: -1659025824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_23
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 214
+        width: 15
+        height: 22
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e13c402f008f43f47b7f63f74473c537
+      internalID: -803558943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_24
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 213
+        width: 12
+        height: 20
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d0605d738f39204c8ef5cff57512366
+      internalID: 2105273719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Decor-1bit_25
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 213
+        width: 12
+        height: 20
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68706c6699687694e9a8ced4b8783cc4
+      internalID: 1983765242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -530,7 +677,14 @@ TextureImporter:
       Decor-1bit_16: 2025915326
       Decor-1bit_17: 1819820023
       Decor-1bit_18: 1949295413
+      Decor-1bit_19: 2104041674
       Decor-1bit_2: 1101449112
+      Decor-1bit_20: 1911032202
+      Decor-1bit_21: -14088381
+      Decor-1bit_22: -1659025824
+      Decor-1bit_23: -803558943
+      Decor-1bit_24: 2105273719
+      Decor-1bit_25: 1983765242
       Decor-1bit_3: -901731748
       Decor-1bit_4: -724202128
       Decor-1bit_5: -1300790890
