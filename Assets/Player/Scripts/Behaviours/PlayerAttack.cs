@@ -82,7 +82,7 @@ namespace Player.Scripts
             attackCount = previous == BehaviourType.Attack ? attackCount + 1 : 1;
 
             // TAG TEMPORAIREMENT DÉSACTIVÉ : aucune attaque spéciale ne peut être déclenchée par un échange.
-            currentAttackPayload = new AttackPayload("Attack", AttackType.Light, attackCount, player.playerData.normalAttackDamage);
+            currentAttackPayload = new AttackPayload("Attack", AttackType.Light, player.playerData.normalAttackDamage, attackCount);
             currentStrategy.OnAttackStart(player, currentAttackPayload);
 
             ComputeDashTarget(player, currentAttackPayload);

@@ -50,7 +50,7 @@ namespace Player.Scripts
             IgnoreTargetCollisions(player);
 
             player.playerStamina.ConsumeStamina(player.playerData.attackStaminaCost);
-            currentAttackPayload = new AttackPayload("Critical_Attack", AttackType.Critical, 1, player.playerData.insolenceAttackDamage);
+            currentAttackPayload = new AttackPayload("Critical_Attack", AttackType.Critical, player.playerData.insolenceAttackDamage, 1);
             OnPlayerAttack?.Invoke(currentAttackPayload);
         }
 
