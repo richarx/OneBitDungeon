@@ -10127,6 +10127,7 @@ MonoBehaviour:
   dialogueDatas:
   - {fileID: 11400000, guid: 89887a99c5d34654cbf18e4964248cb3, type: 2}
   - {fileID: 11400000, guid: fb386a480f6c1b74c83baf954344d413, type: 2}
+  dialogueSelection: 2
   npcSprite: {fileID: 21300000, guid: 53d4a0b826523e94ea331eb46b1095b5, type: 3}
   npcName: Esteemed Frog Sorcerer
   cameraTargetPivot: {fileID: 1427305570}

@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a863d035d7ecb64e8a1c323a530e267, type: 3}
-  m_Name: FrogDialogue
+  m_Name: Dialogue 1
   m_EditorClassIdentifier: 
   dialogueLines:
-  - decu de motorslice
-  - c'est tres desagreable a jouer
-  - les controlles sont janky af
-  - les sections de plateforme sont pas complique et pourtant tu sautes dans le vide
-    h24 parceque l'air control est affreux
+  - Welcome into my swamp... Froggit
+  - Has anyone ever told you that you had an arrogant look ?
+  - Anyway... If you go further east, you shall meet foes whose arrogance dwarfs
+    yours
+  - Lower your self esteem and come back to talk to me if you need more information
+    on how to defeat those foes
