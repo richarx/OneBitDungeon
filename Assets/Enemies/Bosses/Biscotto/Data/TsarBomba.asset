@@ -16,11 +16,11 @@ MonoBehaviour:
     type: 3}
   <Radius>k__BackingField: 0.28
   <SpawnDuration>k__BackingField: 1.07
-  <FillDuration>k__BackingField: 1.64
-  <LockBeforeImpact>k__BackingField: 2.59
-  <RatioAscentToFall>k__BackingField: 0.81
-  <JumpHeight>k__BackingField: 50
-  <RecoveryDuration>k__BackingField: 2
+  <FillDuration>k__BackingField: 1.95
+  <LockBeforeImpact>k__BackingField: 1
+  <RatioAscentToFall>k__BackingField: 0.2
+  <JumpHeight>k__BackingField: 40
+  <RecoveryDuration>k__BackingField: 1
   <AnticipationAnimation>k__BackingField: 
   <JumpAnimation>k__BackingField: 
   <ImpactAnimation>k__BackingField: 

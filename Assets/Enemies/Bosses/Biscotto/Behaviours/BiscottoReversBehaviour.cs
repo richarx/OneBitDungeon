@@ -79,9 +79,9 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
         attackSequence = Sequence.Create()
             .ChainCallback(() =>
             {
-                StartSideMove(enemy);
+                StartMove(enemy);
             })
-            .ChainDelay(data.SideMoveDuration)
+            .ChainDelay(data.MoveDuration)
             .ChainCallback(() =>
             {
                 PlayAnimation(enemy, data.InvitationAnimation);
@@ -131,7 +131,7 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             enemy.transform.position,
             Quaternion.identity);
 
-        float timeToDamage = data.SpawnDuration + data.FillDuration + FilledColorTransitionDuration;
+        float timeToDamage = data.SpawnDuration + data.FillDuration;
         aimEndTimestamp = Time.time + Mathf.Max(0.0f, timeToDamage - data.LockBeforeImpact);
 
         RotateZoneTowardPlayer(enemy, true);
@@ -144,80 +144,29 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             closeDodgeSession);
     }
 
-    private void StartSideMove(EnemyController enemy)
+    private void StartMove(EnemyController enemy)
     {
-        if (PlayerStateMachine.instance == null || data.SideMoveDuration <= 0.0f)
+        if (PlayerStateMachine.instance == null || data.MoveDuration <= 0.0f)
             return;
 
         if (moveSequence.isAlive)
             moveSequence.Stop();
 
-        float sideSign = GetSideSign(data.SideSelection);
-        Vector3 startPosition = enemy.transform.position;
         Vector3 pivotPosition = PlayerStateMachine.instance.position;
-        pivotPosition.y = startPosition.y;
-        Vector3 destination = ComputeSideDestination(enemy, sideSign);
+        pivotPosition.y = enemy.transform.position.y;
+        Vector3 destination = BiscottoMovementUtility.ComputeDestination(
+            enemy.transform,
+            PlayerStateMachine.instance.position,
+            data.MoveDistance);
 
         if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
-            enemy.afterImage.Trigger(data.SideMoveDuration);
+            enemy.afterImage.Trigger(data.MoveDuration);
 
-        moveSequence = Sequence.Create()
-            .Group(Tween.Custom(0.0f, 1.0f, data.SideMoveDuration, progress =>
-            {
-                enemy.transform.position = GetSideMoveArcPosition(startPosition, destination, pivotPosition, progress);
-            }, Ease.InOutSine));
-    }
-
-    private Vector3 ComputeSideDestination(EnemyController enemy, float sideSign)
-    {
-        Vector3 playerPosition = PlayerStateMachine.instance.position;
-        Vector3 directionToPlayer = playerPosition - enemy.transform.position;
-        directionToPlayer.y = 0.0f;
-
-        if (directionToPlayer.sqrMagnitude <= 0.0001f)
-            directionToPlayer = enemy.transform.forward;
-
-        directionToPlayer.Normalize();
-        Vector3 clockwiseSide = new Vector3(directionToPlayer.z, 0.0f, -directionToPlayer.x);
-
-        Vector3 destination = playerPosition + clockwiseSide * sideSign * data.SideMoveDistance;
-        destination.y = enemy.transform.position.y;
-        return destination;
-    }
-
-    private static float GetSideSign(BiscottoSideSelection sideSelection)
-    {
-        switch (sideSelection)
-        {
-            case BiscottoSideSelection.Clockwise:
-                return 1.0f;
-            case BiscottoSideSelection.CounterClockwise:
-                return -1.0f;
-            default:
-                return UnityEngine.Random.value < 0.5f ? -1.0f : 1.0f;
-        }
-    }
-
-    private static Vector3 GetSideMoveArcPosition(Vector3 startPosition, Vector3 destination, Vector3 pivotPosition, float progress)
-    {
-        Vector2 startOffset = new Vector2(startPosition.x - pivotPosition.x, startPosition.z - pivotPosition.z);
-        Vector2 endOffset = new Vector2(destination.x - pivotPosition.x, destination.z - pivotPosition.z);
-        float startRadius = startOffset.magnitude;
-        float endRadius = endOffset.magnitude;
-
-        if (startRadius <= 0.0001f || endRadius <= 0.0001f)
-            return Vector3.Lerp(startPosition, destination, progress);
-
-        float startAngle = Mathf.Atan2(startOffset.y, startOffset.x) * Mathf.Rad2Deg;
-        float endAngle = Mathf.Atan2(endOffset.y, endOffset.x) * Mathf.Rad2Deg;
-        float angle = startAngle + Mathf.DeltaAngle(startAngle, endAngle) * progress;
-        float radius = Mathf.Lerp(startRadius, endRadius, progress);
-        float angleInRadians = angle * Mathf.Deg2Rad;
-
-        return new Vector3(
-            pivotPosition.x + Mathf.Cos(angleInRadians) * radius,
-            Mathf.Lerp(startPosition.y, destination.y, progress),
-            pivotPosition.z + Mathf.Sin(angleInRadians) * radius);
+        moveSequence = BiscottoMovementUtility.CreateArcMove(
+            enemy.transform,
+            destination,
+            pivotPosition,
+            data.MoveDuration);
     }
 
     private void RotateZoneTowardPlayer(EnemyController enemy, bool immediate = false)

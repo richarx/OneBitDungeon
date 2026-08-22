@@ -6,16 +6,10 @@ namespace Player.Scripts
 {
     public class PlayerArrogance : MonoBehaviour
     {
-        [TitleGroup("Insolence"), ShowInInspector, ReadOnly, LabelText("Current Arrogance")]
-        private float InspectorCurrentArrogance => currentArrogance;
-
-        [TitleGroup("Insolence"), ShowInInspector, ReadOnly, ProgressBar(0.0f, 1.0f), LabelText("Arrogance Fill")]
-        private float InspectorNormalizedArrogance => NormalizedArrogance;
 
         private PlayerData playerData;
         private float currentArrogance;
 
-        public float CurrentArrogance => currentArrogance;
         public bool IsFull => playerData != null && playerData.maxArrogance > 0.0f
             && currentArrogance >= playerData.maxArrogance;
         public float NormalizedArrogance => playerData == null || playerData.maxArrogance <= 0.0f

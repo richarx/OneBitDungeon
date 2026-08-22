@@ -44,8 +44,8 @@ Material:
     m_Floats:
     - _LoopInEditor: 0
     - _Magnification: -0.1
-    - _Origine: 0.98191136
-    - _Pente: -0.86818796
+    - _Origine: -5.59856
+    - _Pente: 10.761509
     - _PowerDecalage: 0
     - _Progress: 0
     - _Size: 0.1

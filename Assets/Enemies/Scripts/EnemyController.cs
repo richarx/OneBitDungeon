@@ -365,6 +365,12 @@ public class EnemyController : SerializedMonoBehaviour
     [Button("Execute Debug Behaviour")]
     private void ExecuteDebugBehaviour()
     {
+        if (!Application.isPlaying)
+        {
+            Debug.LogWarning($"[{name}] Cannot execute debug behaviour in edit mode.", this);
+            return;
+        }
+
         if (debugBehaviour == null)
         {
             Debug.LogWarning($"[{name}] No debug behaviour is configured.", this);

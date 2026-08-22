@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d44dd59b9c3479ba2ed4806b382e39d, type: 3}
-  m_Name: CrazyRaclette
+  m_Name: RacletteSurprise
   m_EditorClassIdentifier: 
   <DamageZonePrefab>k__BackingField: {fileID: 5892917051957619975, guid: 74048a843c06413481ff735378060465,
     type: 3}
@@ -22,7 +22,7 @@ MonoBehaviour:
   <SpawnDuration>k__BackingField: 0.35
   <FillDuration>k__BackingField: 1.1
   <SpinDuration>k__BackingField: 0.9
-  <EnableSecondWind>k__BackingField: 0
+  <EnableSecondWind>k__BackingField: 1
   <SecondWindChance>k__BackingField: 0.75
   <SecondWindPauseDuration>k__BackingField: 1.5
   <SecondSpawnDuration>k__BackingField: 0.2

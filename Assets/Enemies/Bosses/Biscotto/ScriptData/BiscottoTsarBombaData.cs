@@ -37,7 +37,7 @@ public sealed class BiscottoTsarBombaData : ScriptableObject
     [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: MaxValue(1.0f)]
-    [field: LabelText("Ratio montée/descente")]
+    [field: LabelText("Part de montée avant verrouillage")]
     public float RatioAscentToFall { get; private set; } = 0.6f;
 
     [ShowInInspector]
@@ -45,6 +45,12 @@ public sealed class BiscottoTsarBombaData : ScriptableObject
     [LabelText("Temps de montée ")]
     [SuffixLabel("secondes")]
     public float AscentDuration => RatioAscentToFall * Mathf.Max(0.0f, SpawnDuration + FillDuration - LockBeforeImpact);
+
+    [ShowInInspector]
+    [ReadOnly]
+    [LabelText("Temps de suivi")]
+    [SuffixLabel("secondes")]
+    public float TrackingDuration => (1.0f - RatioAscentToFall) * Mathf.Max(0.0f, SpawnDuration + FillDuration - LockBeforeImpact);
 
     [field: SerializeField]
     [field: MinValue(0.0f)]

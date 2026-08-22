@@ -10,25 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20a5c410cf384875ac1702c960fb2289, type: 3}
-  m_Name: OraOra 1
+  m_Name: OraOraFirst
   m_EditorClassIdentifier: 
   <RectangularDamageZonePrefab>k__BackingField: {fileID: 227854228040328757, guid: 09c0e16c4786d514eb6f8565609c163c,
     type: 3}
-  <PunchCount>k__BackingField: 16
+  <PunchCount>k__BackingField: 8
   <PunchInterval>k__BackingField: 0.7
   <DamageZoneWidth>k__BackingField: 3
-  <DamageZoneLength>k__BackingField: 12
+  <DamageZoneLength>k__BackingField: 10
   <DamageZoneSideOffset>k__BackingField: 2
   <FirstPunchSide>k__BackingField: 0
   <SpawnDuration>k__BackingField: 0.3
-  <FillDuration>k__BackingField: 1
+  <FillDuration>k__BackingField: 0.8
   <LockBeforeImpact>k__BackingField: 0.6
   <RotationDampening>k__BackingField: 0.4
-  <RepositionDistanceThreshold>k__BackingField: 12
-  <RepositionDistanceToPlayer>k__BackingField: 1.2
-  <RepositionLateralRandomness>k__BackingField: 0.6
+  <RepositionDistanceThreshold>k__BackingField: 10
+  <RepositionDistanceToPlayer>k__BackingField: 4
   <RepositionDuration>k__BackingField: 0.25
   <TriggerAfterImageOnReposition>k__BackingField: 1
-  <FinalRecoveryDuration>k__BackingField: 0.8
+  <FinalRecoveryDuration>k__BackingField: 2
   <PunchAnimation>k__BackingField: 
   <RecoveryAnimation>k__BackingField: 

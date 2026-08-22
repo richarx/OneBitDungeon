@@ -51,18 +51,21 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         }
 
         float timeToDamage = data.SpawnDuration + data.FillDuration;
-        float effectiveLockDuration = Mathf.Min(data.LockBeforeImpact, timeToDamage);
-        float trackingDuration = Mathf.Max(0.0f, timeToDamage - effectiveLockDuration);
+        float fallDuration = Mathf.Min(data.LockBeforeImpact, timeToDamage);
+        float preLockDuration = Mathf.Max(0.0f, timeToDamage - fallDuration);
+        float ascentDuration = preLockDuration * data.RatioAscentToFall;
+        float trackingDuration = preLockDuration - ascentDuration;
 
         attackSequence = Sequence.Create()
             .ChainCallback(() =>
             {
                 PlayAnimation(enemy, data.AnticipationAnimation);
-                SpawnTrackingZone(enemy);
+                StartJumpAndTracking(enemy, ascentDuration);
             })
+            .ChainDelay(ascentDuration)
             .ChainDelay(trackingDuration)
-            .ChainCallback(() => LockTargetAndJump(enemy, effectiveLockDuration))
-            .ChainDelay(effectiveLockDuration)
+            .ChainCallback(() => LockTargetAndFall(enemy, fallDuration))
+            .ChainDelay(fallDuration)
             .ChainCallback(() => FinishLanding(enemy))
             .ChainDelay(data.RecoveryDuration)
             .ChainCallback(() => execution.Complete());
@@ -94,7 +97,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
     {
     }
 
-    private void SpawnTrackingZone(EnemyController enemy)
+    private void StartJumpAndTracking(EnemyController enemy, float ascentDuration)
     {
         Vector3 zonePosition = new Vector3(PlayerStateMachine.instance.position.x, groundY, PlayerStateMachine.instance.position.z);
         currentDamageZone = UnityEngine.Object.Instantiate(
@@ -104,9 +107,26 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
 
         currentDamageZone.Setup(data.Radius, data.SpawnDuration, data.FillDuration);
         isTrackingPlayer = true;
+
+        PlayAnimation(enemy, data.JumpAnimation);
+
+        enemy.DeactivateHitbox();
+        enemyHitboxIsDisabled = true;
+
+        if (ascentDuration <= 0.0f)
+            return;
+
+        Vector3 startPosition = enemy.transform.position;
+        Vector3 apexPosition = startPosition + Vector3.up * data.JumpHeight;
+
+        jumpSequence = Sequence.Create()
+            .Chain(Tween.Custom(0.0f, 1.0f, ascentDuration, progress =>
+            {
+                enemy.transform.position = GetJumpAscentPosition(startPosition, apexPosition, progress);
+            }, Ease.Linear));
     }
 
-    private void LockTargetAndJump(EnemyController enemy, float jumpDuration)
+    private void LockTargetAndFall(EnemyController enemy, float fallDuration)
     {
         isTrackingPlayer = false;
 
@@ -115,28 +135,16 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             : PlayerStateMachine.instance.position;
 
         lockedLandingPosition = new Vector3(target.x, groundY, target.z);
-        PlayAnimation(enemy, data.JumpAnimation);
 
-        enemy.DeactivateHitbox();
-        enemyHitboxIsDisabled = true;
-
-        if (jumpDuration <= 0.0f)
+        if (fallDuration <= 0.0f)
         {
             enemy.transform.position = lockedLandingPosition;
             return;
         }
 
         Vector3 startPosition = enemy.transform.position;
-        Vector3 apexPosition = Vector3.Lerp(startPosition, lockedLandingPosition, 0.5f) + Vector3.up * data.JumpHeight;
-        float ascentDuration = jumpDuration * data.RatioAscentToFall;
-        float descentDuration = jumpDuration - ascentDuration;
-
         jumpSequence = Sequence.Create()
-            .Chain(Tween.Custom(0.0f, 1.0f, ascentDuration, progress =>
-            {
-                enemy.transform.position = GetJumpAscentPosition(startPosition, apexPosition, progress);
-            }, Ease.Linear))
-            .Chain(Tween.Position(enemy.transform, lockedLandingPosition, descentDuration, Ease.Linear));
+            .Chain(Tween.Position(enemy.transform, lockedLandingPosition, fallDuration, Ease.Linear));
     }
 
     private void FinishLanding(EnemyController enemy)

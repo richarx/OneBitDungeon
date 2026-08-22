@@ -21,23 +21,18 @@ public sealed class BiscottoReversData : ScriptableObject
     [field: SuffixLabel("degrés")]
     public float HalfAngle { get; private set; } = 45.0f;
 
-    [Title("Mouvement d'approche")]
-    [field: SerializeField]
-    [field: LabelText("Côté choisi")]
-    public BiscottoSideSelection SideSelection { get; private set; } = BiscottoSideSelection.Random;
 
     [field: SerializeField]
     [field: MinValue(0.0f)]
-    [field: LabelText("Distance latérale")]
+    [field: LabelText("Distance d'approche")]
     [field: SuffixLabel("mètres")]
-    public float SideMoveDistance { get; private set; } = 2.0f;
+    public float MoveDistance { get; private set; } = 2.0f;
 
     [field: SerializeField]
     [field: MinValue(0.0f)]
-    [field: LabelText("Durée du déplacement")]
+    [field: LabelText("Durée d'approche")]
     [field: SuffixLabel("secondes")]
-    [field: SuffixLabel("secondes")]
-    public float SideMoveDuration { get; private set; } = 1.0f;
+    public float MoveDuration { get; private set; } = 1.0f;
 
     [field: SerializeField]
     [field: LabelText("After-image pendant le déplacement")]

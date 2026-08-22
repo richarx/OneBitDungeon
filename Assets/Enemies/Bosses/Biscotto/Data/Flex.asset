@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4d70177ff743a89e3a6e36f4196c4c, type: 3}
   m_Name: Flex
   m_EditorClassIdentifier: 
-  <FlexDuration>k__BackingField: 1.2
+  <FlexDuration>k__BackingField: 2
   <RecoveryDuration>k__BackingField: 0.35
   <FlexAnimation>k__BackingField: 

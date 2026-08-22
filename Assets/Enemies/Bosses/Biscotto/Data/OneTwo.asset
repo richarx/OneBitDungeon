@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 894f4434f16f4073997493d4bf8871a8, type: 3}
-  m_Name: GrossePatate
+  m_Name: OneTwo
   m_EditorClassIdentifier: 
   <PatternName>k__BackingField: Grosse Patate
   <RectangularDamageZonePrefab>k__BackingField: {fileID: 227854228040328757, guid: 09c0e16c4786d514eb6f8565609c163c,
@@ -28,6 +28,21 @@ MonoBehaviour:
     <LockBeforeImpact>k__BackingField: 0.6
     <DelayAfterImpact>k__BackingField: 0.1
     <MoveBesidePlayer>k__BackingField: 1
+    <MoveDistance>k__BackingField: 2
+    <MoveDuration>k__BackingField: 0.25
+    <AnticipationAnimation>k__BackingField: 
+    <ImpactAnimation>k__BackingField: 
+  - <StepName>k__BackingField: Coup
+    <RectangularDamageZonePrefabOverride>k__BackingField: {fileID: 0}
+    <DamageZoneWidth>k__BackingField: 3
+    <DamageZoneLength>k__BackingField: 12
+    <DamageZoneSideOffset>k__BackingField: 2
+    <DamageZoneSide>k__BackingField: 1
+    <SpawnDuration>k__BackingField: 0.3
+    <FillDuration>k__BackingField: 0.6
+    <LockBeforeImpact>k__BackingField: 0.3
+    <DelayAfterImpact>k__BackingField: 0.6
+    <MoveBesidePlayer>k__BackingField: 0
     <MoveDistance>k__BackingField: 2
     <MoveDuration>k__BackingField: 0.25
     <AnticipationAnimation>k__BackingField: 

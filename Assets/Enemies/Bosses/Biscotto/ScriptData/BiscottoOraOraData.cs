@@ -86,11 +86,6 @@ public sealed class BiscottoOraOraData : ScriptableObject
     [field: SuffixLabel("mètres")]
     public float RepositionDistanceToPlayer { get; private set; } = 1.2f;
 
-    [field: SerializeField]
-    [field: MinValue(0.0f)]
-    [field: LabelText("Imprécision latérale")]
-    [field: SuffixLabel("mètres")]
-    public float RepositionLateralRandomness { get; private set; } = 0.6f;
 
     [field: SerializeField]
     [field: MinValue(0.0f)]

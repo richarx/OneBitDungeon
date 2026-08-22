@@ -70,24 +70,20 @@ public sealed class BiscottoPunchStep
     [field: LabelText("Se déplacer à côté du joueur")]
     public bool MoveBesidePlayer { get; private set; }
 
-    [field: SerializeField]
-    [field: ShowIf(nameof(MoveBesidePlayer))]
-    [field: LabelText("Côté choisi")]
-    public BiscottoSideSelection SideSelection { get; private set; } = BiscottoSideSelection.Random;
 
     [field: SerializeField]
     [field: ShowIf(nameof(MoveBesidePlayer))]
     [field: MinValue(0.0f)]
-    [field: LabelText("Distance latérale")]
+    [field: LabelText("Distance")]
     [field: SuffixLabel("mètres")]
-    public float SideMoveDistance { get; private set; } = 2.0f;
+    public float MoveDistance { get; private set; } = 2.0f;
 
     [field: SerializeField]
     [field: ShowIf(nameof(MoveBesidePlayer))]
     [field: MinValue(0.0f)]
     [field: LabelText("Durée du déplacement")]
     [field: SuffixLabel("secondes")]
-    public float SideMoveDuration { get; private set; } = 0.25f;
+    public float MoveDuration { get; private set; } = 0.25f;
 
 
     [field: SerializeField]

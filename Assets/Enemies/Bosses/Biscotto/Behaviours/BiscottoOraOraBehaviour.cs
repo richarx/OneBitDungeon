@@ -63,6 +63,14 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
         currentExecution = execution;
         launchedPunchCount = 0;
         nextPunchTimestamp = Time.time;
+
+        // OraOra commence toujours après un repositionnement vers le joueur.
+        if (data.RepositionDuration > 0.0f)
+        {
+            StartReposition(enemy);
+            isRepositioning = true;
+            repositionEndTimestamp = Time.time + data.RepositionDuration;
+        }
     }
 
     public void UpdateBehaviour(EnemyController enemy)
@@ -124,13 +132,24 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
             Root = zoneObject.transform,
             AimEndTimestamp = Time.time + Mathf.Max(
                 0.0f,
-                data.SpawnDuration + data.FillDuration + DamageColorTransitionDuration - data.LockBeforeImpact)
+                data.SpawnDuration + data.FillDuration - data.LockBeforeImpact)
         };
 
         activePunches.Add(punch);
+        //SetPunchRenderingOrder(damageZone, punchIndex);
         damageZone.SetDimensions(data.DamageZoneWidth, data.DamageZoneLength);
         RotatePunchTowardPlayer(punch.Root, true);
         damageZone.Setup(Vector2.right, data.SpawnDuration, data.FillDuration);
+    }
+
+    private static void SetPunchRenderingOrder(RectangleDamageZone damageZone, int punchIndex)
+    {
+        SpriteRenderer spriteRenderer = damageZone.GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+            return;
+
+        // Les premières zones restent visuellement au-dessus des suivantes.
+        spriteRenderer.sortingOrder -= punchIndex;
     }
 
     private Vector3 ComputeDamageZoneOffset(EnemyController enemy, int punchIndex)
@@ -224,7 +243,7 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
     {
         isFinishing = true;
         attackSequence = Sequence.Create()
-            .ChainDelay(data.SpawnDuration + data.FillDuration + DamageColorTransitionDuration)
+            .ChainDelay(data.SpawnDuration + data.FillDuration)
             .ChainCallback(() => PlayAnimation(enemy, data.RecoveryAnimation))
             .ChainDelay(data.FinalRecoveryDuration)
             .ChainCallback(() =>
@@ -245,71 +264,28 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
         // Les zones de la position précédente ne doivent pas poursuivre Biscotto.
         CancelActivePunches();
 
-        Vector3 startPosition = enemy.transform.position;
         Vector3 pivotPosition = PlayerStateMachine.instance.position;
-        pivotPosition.y = startPosition.y;
+        pivotPosition.y = enemy.transform.position.y;
         Vector3 destination = ComputeRepositionDestination(enemy);
 
         if (data.TriggerAfterImageOnReposition && enemy.afterImage != null)
             enemy.afterImage.Trigger(data.RepositionDuration);
 
-        moveSequence = Sequence.Create()
-            .Group(Tween.Custom(0.0f, 1.0f, data.RepositionDuration, progress =>
-            {
-                enemy.transform.position = GetSphericalMovePosition(
-                    startPosition,
-                    destination,
-                    pivotPosition,
-                    progress);
-            }, Ease.InOutSine));
+        moveSequence = BiscottoMovementUtility.CreateArcMove(
+            enemy.transform,
+            destination,
+            pivotPosition,
+            data.RepositionDuration);
     }
 
     private Vector3 ComputeRepositionDestination(EnemyController enemy)
     {
         Vector3 playerPosition = PlayerStateMachine.instance.position;
-        Vector3 directionToPlayer = playerPosition - enemy.transform.position;
-        directionToPlayer.y = 0.0f;
-
-        if (directionToPlayer.sqrMagnitude <= 0.0001f)
-            directionToPlayer = enemy.transform.forward;
-
-        directionToPlayer.Normalize();
-        Vector3 lateralDirection = new Vector3(directionToPlayer.z, 0.0f, -directionToPlayer.x);
-        float lateralOffset = UnityEngine.Random.Range(
-            -data.RepositionLateralRandomness,
-            data.RepositionLateralRandomness);
 
         Vector3 destination = playerPosition
-            - directionToPlayer * data.RepositionDistanceToPlayer
-            + lateralDirection * lateralOffset;
+            + Vector3.forward * data.RepositionDistanceToPlayer;
         destination.y = enemy.transform.position.y;
         return destination;
-    }
-
-    private static Vector3 GetSphericalMovePosition(
-        Vector3 startPosition,
-        Vector3 destination,
-        Vector3 pivotPosition,
-        float progress)
-    {
-        Vector2 startOffset = (startPosition - pivotPosition).ToVector2();
-        Vector2 endOffset = (destination - pivotPosition).ToVector2();
-        float startRadius = startOffset.magnitude;
-        float endRadius = endOffset.magnitude;
-
-        if (startRadius <= 0.0001f || endRadius <= 0.0001f)
-            return Vector3.Lerp(startPosition, destination, progress);
-
-        float startAngle = Mathf.Atan2(startOffset.y, startOffset.x) * Mathf.Rad2Deg;
-        float endAngle = Mathf.Atan2(endOffset.y, endOffset.x) * Mathf.Rad2Deg;
-        float angle = startAngle + Mathf.DeltaAngle(startAngle, endAngle) * progress;
-        float radius = Mathf.Lerp(startRadius, endRadius, progress);
-        float angleInRadians = angle * Mathf.Deg2Rad;
-
-        return new Vector3(
-            pivotPosition.x + Mathf.Cos(angleInRadians) * radius,
-            Mathf.Lerp(startPosition.y, destination.y, progress),
-            pivotPosition.z + Mathf.Sin(angleInRadians) * radius);
     }
 
     private void RotatePunchTowardPlayer(Transform punchRoot, bool immediate = false)
