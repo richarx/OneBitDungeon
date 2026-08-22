@@ -22,6 +22,7 @@ MonoBehaviour:
   <SpawnDuration>k__BackingField: 0.35
   <FillDuration>k__BackingField: 1.1
   <SpinDuration>k__BackingField: 0.9
+  <SpriteRotationSpeed>k__BackingField: 720
   <EnableSecondWind>k__BackingField: 0
   <SecondWindChance>k__BackingField: 0.75
   <SecondWindPauseDuration>k__BackingField: 1.5

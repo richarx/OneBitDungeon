@@ -16,10 +16,13 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
 
     private Sequence attackSequence;
     private List<BiscottoRacletteDamageZone> spawnedZones = new List<BiscottoRacletteDamageZone>();
+    private bool isRotatingSprite;
+    private Transform rotatingSprite;
+    private Quaternion spriteInitialLocalRotation;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
-        ResetRuntimeState();
+        ResetRuntimeState(enemy);
 
         if (data == null)
         {
@@ -48,9 +51,14 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
             .ChainCallback(() =>
             {
                 PlayAnimation(enemy, data.SpinAnimation);
+                StartSpriteRotation(enemy);
             })
             .ChainDelay(data.SpinDuration)
-            .ChainCallback(() => PlayAnimation(enemy, data.FatigueAnimation));
+            .ChainCallback(() =>
+            {
+                StopSpriteRotation();
+                PlayAnimation(enemy, data.FatigueAnimation);
+            });
 
         if (useSecondWind)
         {
@@ -70,9 +78,14 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
                 .ChainCallback(() =>
                 {
                     PlayAnimation(enemy, data.SpinAnimation);
+                    StartSpriteRotation(enemy);
                 })
                 .ChainDelay(data.SecondSpinDuration)
-                .ChainCallback(() => PlayAnimation(enemy, data.FatigueAnimation));
+                .ChainCallback(() =>
+                {
+                    StopSpriteRotation();
+                    PlayAnimation(enemy, data.FatigueAnimation);
+                });
         }
 
         attackSequence
@@ -82,6 +95,9 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
 
     public void UpdateBehaviour(EnemyController enemy)
     {
+        if (isRotatingSprite && rotatingSprite != null)
+            rotatingSprite.Rotate(Vector3.forward, 1440 * Time.deltaTime, Space.Self);
+
         if (spawnedZones == null || spawnedZones.Count == 0)
             return;
 
@@ -109,12 +125,12 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
 
     public void StopBehaviour(EnemyController enemy)
     {
-        ResetRuntimeState();
+        ResetRuntimeState(enemy);
     }
 
     public void CancelBehaviour(EnemyController enemy)
     {
-        ResetRuntimeState();
+        ResetRuntimeState(enemy);
     }
 
     public void SetSubBehaviourState(bool state)
@@ -145,10 +161,33 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
         return Mathf.Max(0.0f, data.RadiusOptions[UnityEngine.Random.Range(0, data.RadiusOptions.Count)]);
     }
 
-    private void ResetRuntimeState()
+    private void StartSpriteRotation(EnemyController enemy)
+    {
+        StopSpriteRotation();
+
+        if (enemy.Sprite == null)
+            return;
+
+        rotatingSprite = enemy.Sprite.transform;
+        spriteInitialLocalRotation = rotatingSprite.localRotation;
+        isRotatingSprite = true;
+    }
+
+    private void StopSpriteRotation()
+    {
+        if (rotatingSprite != null)
+            rotatingSprite.localRotation = spriteInitialLocalRotation;
+
+        isRotatingSprite = false;
+        rotatingSprite = null;
+    }
+
+    private void ResetRuntimeState(EnemyController enemy)
     {
         if (attackSequence.isAlive)
             attackSequence.Stop();
+
+        StopSpriteRotation();
 
         if (spawnedZones == null)
         {
@@ -163,9 +202,9 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
             }
         }
 
-            attackSequence = default;
-            spawnedZones.Clear();
-        }
+        attackSequence = default;
+        spawnedZones.Clear();
+    }
 
     private static void PlayAnimation(EnemyController enemy, string animationName)
     {
