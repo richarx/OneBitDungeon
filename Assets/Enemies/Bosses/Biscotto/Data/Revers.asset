@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6e1c566bf048c29d5c548a136c95dc, type: 3}
+  m_Name: Revers
+  m_EditorClassIdentifier: 
+  <ConeDamageZonePrefab>k__BackingField: {fileID: 4722290469985967793, guid: f6704d1df0c74d0c9076d3119d22e84c,
+    type: 3}
+  <Radius>k__BackingField: 6.95
+  <HalfAngle>k__BackingField: 112.3
+  <SideSelection>k__BackingField: 0
+  <SideMoveDistance>k__BackingField: 2
+  <SideMoveDuration>k__BackingField: 1
+  <TriggerAfterImageOnSideMove>k__BackingField: 1
+  <SpawnDuration>k__BackingField: 0.35
+  <FillDuration>k__BackingField: 1
+  <LockBeforeImpact>k__BackingField: 0.3
+  <RotationDampening>k__BackingField: 0.08
+  <ImpactAnimationLeadTime>k__BackingField: 0.1
+  <SelfDamage>k__BackingField: 50
+  <EarlyDodgeArroganceLoss>k__BackingField: 0
+  <HitRecoveryDuration>k__BackingField: 0.8
+  <EarlyDodgeRecoveryDuration>k__BackingField: 0.45
+  <ReflectedStunDuration>k__BackingField: 3
+  <InvitationAnimation>k__BackingField: 
+  <ImpactAnimation>k__BackingField: 
+  <HitPlayerAnimation>k__BackingField: 
+  <EarlyDodgeAnimation>k__BackingField: 
+  <ReflectedAnimation>k__BackingField: 

@@ -61,6 +61,8 @@ public class EnemyController : SerializedMonoBehaviour
     [LabelText("Debug Mode")]
     private bool debugMode = false;
 
+    public bool DebugMode => debugMode;
+
     [ShowIf(nameof(debugMode))]
     [TitleGroup("Debug")]
     [OdinSerialize]
@@ -81,7 +83,10 @@ public class EnemyController : SerializedMonoBehaviour
         afterImage = GetComponent<AfterImage>();
 
         if (debugMode)
-            return;
+        {
+             EnemyHolder.instance.RegisterEnemy(gameObject);
+             return;
+        }
 
         damageable.OnTakeDamage.AddListener((_) =>
         {

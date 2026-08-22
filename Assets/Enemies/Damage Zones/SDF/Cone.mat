@@ -7,14 +7,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SplitScreen
-  m_Shader: {fileID: -6465566751694194690, guid: 07a2f97af4cb4f14cb424d19d432f276,
+  m_Name: Cone
+  m_Shader: {fileID: -6465566751694194690, guid: b635716aef14b98489c7f5122bc1a703,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -42,17 +42,29 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _LoopInEditor: 0
-    - _Magnification: -0.1
-    - _Origine: 0.98191136
-    - _Pente: -0.86818796
-    - _PowerDecalage: 0
-    - _Progress: 0
-    - _Size: 0.1
-    - _SizeRatio: 1.777
-    - _Speed: 1
+    - _HalfAngle: 64.54
+    - _InlineThickness: 0
+    - _OutlineThickness: 0.01
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Radius: 0.25
+    - _alpha: 1
     m_Colors:
-    - _Direction: {r: 0, g: 0, b: 0, a: 0}
-    - _FocalPoint: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _origine: {r: 0, g: 0, b: 0, a: 0}
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _InlineColor: {r: 0.30196077, g: 0, b: 0.02352941, a: 1}
+    - _MainColor: {r: 0.043137237, g: 0.058823504, b: 0.13725486, a: 1}
+    - _OutlineColor: {r: 1, g: 0.5882353, b: 0, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &5961972341310334499
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

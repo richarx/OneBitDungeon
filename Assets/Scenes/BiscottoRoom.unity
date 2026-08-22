@@ -315,7 +315,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3916,7 +3916,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -9878,7 +9878,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -10973,6 +10973,22 @@ MonoBehaviour:
   OnDie:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6874293411573246999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171200824653874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c5724011b8f47508e37eaf4626efb92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arroganceLevelSprites:
+  - {fileID: 48955019}
+  - {fileID: 894026670}
+  - {fileID: 2033680657}
 --- !u!135 &7157533160962557551
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11126,6 +11142,7 @@ GameObject:
   - component: {fileID: 8182171200824653875}
   - component: {fileID: 8182171200824653877}
   - component: {fileID: 8182171200824653879}
+  - component: {fileID: 6874293411573246999}
   m_Layer: 9
   m_Name: Biscotto
   m_TagString: Enemy
@@ -11166,7 +11183,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 1b6a1328bdca0804385740f3eb916aec, type: 2}
+    - {fileID: 11400000, guid: 83321a841b467964787c80b0efaa4adc, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -11190,7 +11207,7 @@ MonoBehaviour:
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 1|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
+      Data: 1|BiscottoReversBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 0

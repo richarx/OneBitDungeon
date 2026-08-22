@@ -8,6 +8,8 @@ namespace Enemies.Scripts.Behaviours
         public IEnemyBehaviour Behaviour { get; }
         public int Id { get; }
 
+        public bool DebugMode => Controller?.DebugMode ?? false;
+
         private BehaviourExecution()
         {
         }

@@ -36,7 +36,7 @@ public sealed class BiscottoFlexBehaviour : IEnemyBehaviour, IConditionalEnemyBe
         PlayAnimation(enemy, data.FlexAnimation);
         flexSequence = Sequence.Create()
             .ChainDelay(data.FlexDuration)
-            .ChainCallback(() => arrogance.AddArrogance(data.ArroganceGain))
+            .ChainCallback(arrogance.AddArroganceLevel)
             .ChainDelay(data.RecoveryDuration)
             .ChainCallback(() => execution.Complete());
     }

@@ -11,11 +11,6 @@ public sealed class BiscottoFlexData : ScriptableObject
 
     [field: SerializeField]
     [field: MinValue(0.0f)]
-    [field: LabelText("Arrogance gagnée")]
-    public float ArroganceGain { get; private set; } = 34.0f;
-
-    [field: SerializeField]
-    [field: MinValue(0.0f)]
     [field: LabelText("Récupération")]
     public float RecoveryDuration { get; private set; } = 0.35f;
 

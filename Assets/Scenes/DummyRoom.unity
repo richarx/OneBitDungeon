@@ -7009,8 +7009,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 5892917051957619975, guid: 80e2045c1640a1d40917d4872dbd38d7, type: 3}
-    - {fileID: 227854228040328757, guid: 3d0b20f83e069ce4eb9173c1dfe67aad, type: 3}
+    - {fileID: 11400000, guid: e1f40b89327b4590aa751737afd036c2, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -7022,77 +7021,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 1|OdinEnemyPhase, Assembly-CSharp
-    - Name: healthThresholdToTriggerTransition
-      Entry: 3
       Data: 0
-    - Name: transitionBehaviour
-      Entry: 7
-      Data: 2|DummyImmediateTransitionBehaviour, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: phaseBehaviours
-      Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 4|DummyCircleAttackBehaviour, Assembly-CSharp
-    - Name: circleDamageZonePrefab
-      Entry: 10
-      Data: 0
-    - Name: attackInterval
-      Entry: 4
-      Data: 4
-    - Name: radius
-      Entry: 4
-      Data: 0.15
-    - Name: spawnDuration
-      Entry: 4
-      Data: 0.3
-    - Name: fillDuration
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 5|DummyRectangularAttackBehaviour, Assembly-CSharp
-    - Name: rectangularDamageZonePrefab
-      Entry: 10
-      Data: 1
-    - Name: attackInterval
-      Entry: 4
-      Data: 4
-    - Name: spawnDuration
-      Entry: 4
-      Data: 0.3
-    - Name: fillDuration
-      Entry: 4
-      Data: 1
-    - Name: dampening
-      Entry: 4
-      Data: 0.2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -7102,8 +7031,18 @@ MonoBehaviour:
     - Name: deathBehaviour
       Entry: 6
       Data: 
+    - Name: debugBehaviour
+      Entry: 7
+      Data: 1|DummyConeBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
   <Sprite>k__BackingField: {fileID: 160456277}
   <shadowSprite>k__BackingField: {fileID: 646636857}
+  debugMode: 1
 --- !u!114 &1315216164
 MonoBehaviour:
   m_ObjectHideFlags: 0

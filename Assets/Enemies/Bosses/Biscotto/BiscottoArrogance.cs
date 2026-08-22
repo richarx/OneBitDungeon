@@ -5,30 +5,32 @@ using UnityEngine;
 public sealed class BiscottoArrogance : MonoBehaviour
 {
     [SerializeField]
-    [MinValue(0.01f)]
-    [LabelText("Arrogance maximale")]
-    private float maxArrogance = 100.0f;
+    [Required]
+    [LabelText("Sprites des niveaux")]
+    private SpriteRenderer[] arroganceLevelSprites = new SpriteRenderer[3];
 
     [ShowInInspector]
     [ReadOnly]
-    [LabelText("Arrogance actuelle")]
-    private float CurrentArroganceInInspector => currentArrogance;
+    [LabelText("Niveau d'arrogance")]
+    private int CurrentArroganceLevel => currentArroganceLevel;
 
-    [ShowInInspector]
-    [ReadOnly]
-    [ProgressBar(0.0f, 1.0f)]
-    [LabelText("Remplissage")]
-    private float NormalizedArroganceInInspector => NormalizedArrogance;
 
-    private float currentArrogance;
+    private Color[] emptyLevelColors;
+    private int currentArroganceLevel;
+    public bool IsFull => MaxArroganceLevel > 0 && currentArroganceLevel >= MaxArroganceLevel;
 
-    public float CurrentArrogance => currentArrogance;
-    public float NormalizedArrogance => maxArrogance <= 0.0f ? 0.0f : currentArrogance / maxArrogance;
-    public bool IsFull => maxArrogance > 0.0f && currentArrogance >= maxArrogance;
+    private int MaxArroganceLevel => arroganceLevelSprites?.Length ?? 0;
 
-    public void AddArrogance(float amount)
+    private void Awake()
     {
-        currentArrogance = Mathf.Clamp(currentArrogance + Mathf.Max(0.0f, amount), 0.0f, maxArrogance);
+        CacheEmptyLevelColors();
+        RefreshLevelSprites();
+    }
+
+    public void AddArroganceLevel()
+    {
+        currentArroganceLevel = Mathf.Min(currentArroganceLevel + 1, MaxArroganceLevel);
+        RefreshLevelSprites();
     }
 
     public bool ConsumeFullArrogance()
@@ -36,7 +38,34 @@ public sealed class BiscottoArrogance : MonoBehaviour
         if (!IsFull)
             return false;
 
-        currentArrogance = 0.0f;
+        currentArroganceLevel = 0;
+        RefreshLevelSprites();
         return true;
+    }
+
+    private void CacheEmptyLevelColors()
+    {
+        emptyLevelColors = new Color[MaxArroganceLevel];
+
+        for (int i = 0; i < MaxArroganceLevel; i++)
+        {
+            if (arroganceLevelSprites[i] != null)
+                emptyLevelColors[i] = arroganceLevelSprites[i].color;
+        }
+    }
+
+    private void RefreshLevelSprites()
+    {
+        if (emptyLevelColors == null || emptyLevelColors.Length != MaxArroganceLevel)
+            CacheEmptyLevelColors();
+
+        for (int i = 0; i < MaxArroganceLevel; i++)
+        {
+            SpriteRenderer levelSprite = arroganceLevelSprites[i];
+            if (levelSprite == null)
+                continue;
+
+            levelSprite.color = i < currentArroganceLevel ? Color.white : emptyLevelColors[i];
+        }
     }
 }

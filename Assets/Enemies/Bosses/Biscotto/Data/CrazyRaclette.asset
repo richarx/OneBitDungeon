@@ -18,11 +18,10 @@ MonoBehaviour:
   - 0.18
   - 0.2
   - 0.22
-  <HitStaggerPower>k__BackingField: 30
+  <HitStaggerPower>k__BackingField: 60
   <SpawnDuration>k__BackingField: 0.35
   <FillDuration>k__BackingField: 1.1
   <SpinDuration>k__BackingField: 0.9
-  <ZoneHeight>k__BackingField: 0.06
   <EnableSecondWind>k__BackingField: 1
   <SecondWindChance>k__BackingField: 0.75
   <SecondWindPauseDuration>k__BackingField: 1.5

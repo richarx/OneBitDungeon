@@ -4,7 +4,6 @@ using Player.Scripts;
 using PrimeTween;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using Tools_and_Scripts;
 using UnityEngine;
 
 [Serializable]
@@ -18,16 +17,17 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
     [LabelText("Data")]
     private BiscottoReversData data;
 
-    [NonSerialized] private Sequence attackSequence;
-    [NonSerialized] private Sequence outcomeSequence;
-    [NonSerialized] private RectangleDamageZone currentDamageZone;
-    [NonSerialized] private Transform currentDamageZoneRoot;
-    [NonSerialized] private CloseDodgeSession closeDodgeSession;
-    [NonSerialized] private BiscottoArrogance biscottoArrogance;
-    [NonSerialized] private EnemyController currentEnemy;
-    [NonSerialized] private BehaviourExecution currentExecution;
-    [NonSerialized] private float aimEndTimestamp;
-    [NonSerialized] private bool outcomeWasResolved;
+    private Sequence attackSequence;
+    private Sequence moveSequence;
+    private Sequence outcomeSequence;
+    private ConeDamageZone currentDamageZone;
+    private CloseDodgeSession closeDodgeSession;
+    private BiscottoArrogance biscottoArrogance;
+    private EnemyController currentEnemy;
+    private BehaviourExecution currentExecution;
+    private float aimEndTimestamp;
+    private bool outcomeWasResolved;
+    private Vector2 currentAimDirection;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -51,15 +51,15 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             return;
         }
 
-        if (!biscottoArrogance.IsFull)
+        if (!biscottoArrogance.IsFull && !execution.DebugMode)
         {
             execution.Complete();
             return;
         }
 
-        if (data.RectangularDamageZonePrefab == null)
+        if (data.ConeDamageZonePrefab == null)
         {
-            Debug.LogError("[BiscottoReversBehaviour] Un prefab de zone rectangulaire est requis.", enemy);
+            Debug.LogError("[BiscottoReversBehaviour] Un prefab de zone conique est requis.", enemy);
             execution.Complete();
             return;
         }
@@ -74,23 +74,27 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
         closeDodgeSession = new CloseDodgeSession(1);
         closeDodgeSession.OnCompleted += HandleOutcome;
 
-        float timeToDamage = data.SpawnDuration + data.FillDuration + FilledColorTransitionDuration;
-        float impactLeadTime = Mathf.Min(data.ImpactAnimationLeadTime, timeToDamage);
+        float timeToDamage = data.SpawnDuration + data.FillDuration;
 
         attackSequence = Sequence.Create()
+            .ChainCallback(() =>
+            {
+                StartSideMove(enemy);
+            })
+            .ChainDelay(data.SideMoveDuration)
             .ChainCallback(() =>
             {
                 PlayAnimation(enemy, data.InvitationAnimation);
                 SpawnDamageZone(enemy);
             })
-            .ChainDelay(timeToDamage - impactLeadTime)
+            .ChainDelay(timeToDamage)
             .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
-            .ChainDelay(impactLeadTime + DamageFlashDuration);
+            .ChainDelay(DamageFlashDuration);
     }
 
     public void UpdateBehaviour(EnemyController enemy)
     {
-        if (currentDamageZoneRoot == null || Time.time >= aimEndTimestamp)
+        if (currentDamageZone == null || currentDamageZone.IsDestroyed || Time.time >= aimEndTimestamp)
             return;
 
         RotateZoneTowardPlayer(enemy);
@@ -122,32 +126,103 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
 
     private void SpawnDamageZone(EnemyController enemy)
     {
-        GameObject zoneObject = UnityEngine.Object.Instantiate(
-            data.RectangularDamageZonePrefab,
+        currentDamageZone = UnityEngine.Object.Instantiate(
+            data.ConeDamageZonePrefab,
             enemy.transform.position,
             Quaternion.identity);
-
-        currentDamageZoneRoot = zoneObject.transform;
-        currentDamageZone = zoneObject.GetComponentInChildren<RectangleDamageZone>();
-
-        if (currentDamageZone == null)
-        {
-            Debug.LogError("[BiscottoReversBehaviour] Le prefab ne contient pas de RectangleDamageZone.", zoneObject);
-            UnityEngine.Object.Destroy(zoneObject);
-            CompleteWithoutOutcome();
-            return;
-        }
 
         float timeToDamage = data.SpawnDuration + data.FillDuration + FilledColorTransitionDuration;
         aimEndTimestamp = Time.time + Mathf.Max(0.0f, timeToDamage - data.LockBeforeImpact);
 
         RotateZoneTowardPlayer(enemy, true);
-        currentDamageZone.Setup(Vector2.right, data.SpawnDuration, data.FillDuration, closeDodgeSession);
+        currentDamageZone.Setup(
+            currentAimDirection,
+            data.Radius,
+            data.HalfAngle * 2.0f,
+            data.SpawnDuration,
+            data.FillDuration,
+            closeDodgeSession);
+    }
+
+    private void StartSideMove(EnemyController enemy)
+    {
+        if (PlayerStateMachine.instance == null || data.SideMoveDuration <= 0.0f)
+            return;
+
+        if (moveSequence.isAlive)
+            moveSequence.Stop();
+
+        float sideSign = GetSideSign(data.SideSelection);
+        Vector3 startPosition = enemy.transform.position;
+        Vector3 pivotPosition = PlayerStateMachine.instance.position;
+        pivotPosition.y = startPosition.y;
+        Vector3 destination = ComputeSideDestination(enemy, sideSign);
+
+        if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
+            enemy.afterImage.Trigger(data.SideMoveDuration);
+
+        moveSequence = Sequence.Create()
+            .Group(Tween.Custom(0.0f, 1.0f, data.SideMoveDuration, progress =>
+            {
+                enemy.transform.position = GetSideMoveArcPosition(startPosition, destination, pivotPosition, progress);
+            }, Ease.InOutSine));
+    }
+
+    private Vector3 ComputeSideDestination(EnemyController enemy, float sideSign)
+    {
+        Vector3 playerPosition = PlayerStateMachine.instance.position;
+        Vector3 directionToPlayer = playerPosition - enemy.transform.position;
+        directionToPlayer.y = 0.0f;
+
+        if (directionToPlayer.sqrMagnitude <= 0.0001f)
+            directionToPlayer = enemy.transform.forward;
+
+        directionToPlayer.Normalize();
+        Vector3 clockwiseSide = new Vector3(directionToPlayer.z, 0.0f, -directionToPlayer.x);
+
+        Vector3 destination = playerPosition + clockwiseSide * sideSign * data.SideMoveDistance;
+        destination.y = enemy.transform.position.y;
+        return destination;
+    }
+
+    private static float GetSideSign(BiscottoSideSelection sideSelection)
+    {
+        switch (sideSelection)
+        {
+            case BiscottoSideSelection.Clockwise:
+                return 1.0f;
+            case BiscottoSideSelection.CounterClockwise:
+                return -1.0f;
+            default:
+                return UnityEngine.Random.value < 0.5f ? -1.0f : 1.0f;
+        }
+    }
+
+    private static Vector3 GetSideMoveArcPosition(Vector3 startPosition, Vector3 destination, Vector3 pivotPosition, float progress)
+    {
+        Vector2 startOffset = new Vector2(startPosition.x - pivotPosition.x, startPosition.z - pivotPosition.z);
+        Vector2 endOffset = new Vector2(destination.x - pivotPosition.x, destination.z - pivotPosition.z);
+        float startRadius = startOffset.magnitude;
+        float endRadius = endOffset.magnitude;
+
+        if (startRadius <= 0.0001f || endRadius <= 0.0001f)
+            return Vector3.Lerp(startPosition, destination, progress);
+
+        float startAngle = Mathf.Atan2(startOffset.y, startOffset.x) * Mathf.Rad2Deg;
+        float endAngle = Mathf.Atan2(endOffset.y, endOffset.x) * Mathf.Rad2Deg;
+        float angle = startAngle + Mathf.DeltaAngle(startAngle, endAngle) * progress;
+        float radius = Mathf.Lerp(startRadius, endRadius, progress);
+        float angleInRadians = angle * Mathf.Deg2Rad;
+
+        return new Vector3(
+            pivotPosition.x + Mathf.Cos(angleInRadians) * radius,
+            Mathf.Lerp(startPosition.y, destination.y, progress),
+            pivotPosition.z + Mathf.Sin(angleInRadians) * radius);
     }
 
     private void RotateZoneTowardPlayer(EnemyController enemy, bool immediate = false)
     {
-        if (currentDamageZoneRoot == null || PlayerStateMachine.instance == null)
+        if (currentDamageZone == null || currentDamageZone.IsDestroyed || PlayerStateMachine.instance == null)
             return;
 
         Vector3 direction = PlayerStateMachine.instance.position - enemy.transform.position;
@@ -156,19 +231,20 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
         if (direction.sqrMagnitude <= 0.0001f)
             return;
 
-        Quaternion targetRotation = Quaternion.LookRotation(
-            direction.normalized.ToVector2().AddAngleToDirection(90.0f).ToVector3());
-
         if (immediate)
         {
-            currentDamageZoneRoot.rotation = targetRotation;
-            return;
+            currentAimDirection = new Vector2(direction.x, direction.z).normalized;
+        }
+        else
+        {
+            Vector2 targetDirection = new Vector2(direction.x, direction.z).normalized;
+            currentAimDirection = Vector2.Lerp(
+                currentAimDirection,
+                targetDirection,
+                Time.deltaTime / Mathf.Max(0.001f, data.RotationDampening)).normalized;
         }
 
-        currentDamageZoneRoot.rotation = Quaternion.Slerp(
-            currentDamageZoneRoot.rotation,
-            targetRotation,
-            Time.deltaTime / Mathf.Max(0.001f, data.RotationDampening));
+        currentDamageZone.SetDirection(currentAimDirection);
     }
 
     private void HandleOutcome(CloseDodgeSessionOutcome outcome)
@@ -250,6 +326,9 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
         if (attackSequence.isAlive)
             attackSequence.Stop();
 
+        if (moveSequence.isAlive)
+            moveSequence.Stop();
+
         if (outcomeSequence.isAlive)
             outcomeSequence.Stop();
 
@@ -260,15 +339,16 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             currentDamageZone.Cancel();
 
         attackSequence = default;
+        moveSequence = default;
         outcomeSequence = default;
         currentDamageZone = null;
-        currentDamageZoneRoot = null;
         closeDodgeSession = null;
         biscottoArrogance = null;
         currentEnemy = null;
         currentExecution = null;
         aimEndTimestamp = 0.0f;
         outcomeWasResolved = false;
+        currentAimDirection = Vector2.zero;
     }
 
     private void UnsubscribeFromSession()
