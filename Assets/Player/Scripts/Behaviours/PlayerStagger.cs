@@ -10,13 +10,14 @@ namespace Player.Scripts
         
         private float startStaggerTimestamp;
         private Vector3 knockBackDirection;
+        private float knockBackPower;
         
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
             startStaggerTimestamp = Time.time;
             player.SetLastLookDirection((knockBackDirection * -1.0f).ToVector2());
 
-            player.moveVelocity = knockBackDirection * player.playerData.staggerPower;
+            player.moveVelocity = knockBackDirection * knockBackPower;
             player.ApplyMovement();
             
             if (player.playerHealth.IsDead)
@@ -25,10 +26,11 @@ namespace Player.Scripts
             OnStagger?.Invoke();
         }
 
-        public void TriggerStagger(PlayerStateMachine player, Vector3 direction)
+        public void TriggerStagger(PlayerStateMachine player, Vector3 direction, float power = -1.0f)
         {
             direction.y = 0.0f;
             knockBackDirection = direction.normalized;
+            knockBackPower = power >= 0.0f ? power : player.playerData.staggerPower;
             
             if (player.currentBehaviour.GetBehaviourType() == BehaviourType.Stagger)
                 StartBehaviour(player, BehaviourType.Stagger);

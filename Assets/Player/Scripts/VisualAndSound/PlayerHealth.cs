@@ -10,6 +10,8 @@ namespace Player.Scripts
     {
         [SerializeField] private int startingHealth;
 
+        [SerializeField] private bool isInvincible = false;
+
         [HideInInspector] public UnityEvent<Vector3> OnPlayerTakeDamage = new UnityEvent<Vector3>();
 
         private PlayerStateMachine player;
@@ -88,8 +90,10 @@ namespace Player.Scripts
             player.playerParry.TriggerSuccessfulParry(player);
         }
 
-        public bool TakeDamage(int damage, Vector3 direction)
+        public bool TakeDamage(int damage, Vector3 direction, float staggerPower = -1.0f)
         {
+
+
             if (IsDead)
                 return false;
 
@@ -99,9 +103,13 @@ namespace Player.Scripts
             if (player.playerData.rollHasIFrames && player.currentBehaviour.GetBehaviourType() == BehaviourType.Roll)
                 return false;
 
-            currentHealth -= damage;
+            if (!isInvincible)
+            {
+                currentHealth -= damage;
+            }
             lastHitTimestamp = Time.time;
 
+            player.playerStagger.TriggerStagger(player, direction, staggerPower);
             OnPlayerTakeDamage?.Invoke(direction);
 
             return true;

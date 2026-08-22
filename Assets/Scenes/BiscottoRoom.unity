@@ -241,6 +241,90 @@ Transform:
   - {fileID: 1898486098}
   m_Father: {fileID: 566705188}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &48955017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 48955018}
+  - component: {fileID: 48955019}
+  m_Layer: 9
+  m_Name: Sprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &48955018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48955017}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.32, y: 5.35, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 600296491}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &48955019
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48955017}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 12.5, y: 12.5}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &53501298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2344,6 +2428,40 @@ Transform:
   - {fileID: 2090199505}
   m_Father: {fileID: 1987569477}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &600296490
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 600296491}
+  m_Layer: 9
+  m_Name: Arrogance
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &600296491
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600296490}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 48955018}
+  - {fileID: 894026669}
+  - {fileID: 2033680656}
+  m_Father: {fileID: 5611415527631286510}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &614597756
 GameObject:
   m_ObjectHideFlags: 0
@@ -3724,6 +3842,90 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!1 &894026668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 894026669}
+  - component: {fileID: 894026670}
+  m_Layer: 9
+  m_Name: Sprite (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &894026669
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894026668}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.12, y: 5.35, z: 1.25}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 600296491}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &894026670
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894026668}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 12.5, y: 12.5}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &903211808
 GameObject:
   m_ObjectHideFlags: 0
@@ -6531,57 +6733,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!1 &1263907342
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1263907344}
-  - component: {fileID: 1263907343}
-  m_Layer: 0
-  m_Name: Rock Orbiter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1263907343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263907342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b9a51a8cf18d11408cd4cf3fdedbcb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rockPrefabs:
-  - {fileID: 856313064593692743, guid: 0d44b11cede4be94b8bf450f94c6af2c, type: 3}
-  - {fileID: 6502195281759719432, guid: 3cc129f904794054c8bcd51ef71862f6, type: 3}
-  - {fileID: 2522860259009781872, guid: 4bfb15f4b97b43b44a8c70af16bbd655, type: 3}
-  - {fileID: 85195468352397765, guid: ce19204bd1ae36848a5b61834aa4463f, type: 3}
-  rockDebrisPrefab: {fileID: 2374679833590217394, guid: fd0d67a61f0b99945af7fd5c37918707,
-    type: 3}
---- !u!4 &1263907344
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263907342}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1275601300
 GameObject:
   m_ObjectHideFlags: 0
@@ -9602,6 +9753,90 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2033680655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2033680656}
+  - component: {fileID: 2033680657}
+  m_Layer: 9
+  m_Name: Sprite (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2033680656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033680655}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.2, y: 4.32, z: 1.25}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 600296491}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2033680657
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033680655}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 12.5, y: 12.5}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &2038006668
 GameObject:
   m_ObjectHideFlags: 0
@@ -10486,7 +10721,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2078947100584772823}
   - component: {fileID: 5071313608623843290}
-  - component: {fileID: 5071313608623843291}
   m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
@@ -10571,7 +10805,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1246712000, guid: 4b4a5ea5b05697e4ebd92c006303d778, type: 3}
+  m_Sprite: {fileID: -1398284294, guid: db1a3b49e8462c546a780792092b75d0, type: 3}
   m_Color: {r: 0.99, g: 0.99, b: 0.99, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10582,27 +10816,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!95 &5071313608623843291
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495253166529040169}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5d96b337e23997d4fb8878e4efb72462, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &5205115971686633119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10686,6 +10899,7 @@ Transform:
   m_Children:
   - {fileID: 1060446578}
   - {fileID: 2063661911}
+  - {fileID: 600296491}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6454322194524206920
@@ -10700,7 +10914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068ca6ab120c7194b90607252bdcd524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 650
+  startingHealth: 1000
   isInvincible: 0
   OnTakeDamage:
     m_PersistentCalls:
@@ -10708,6 +10922,22 @@ MonoBehaviour:
   OnDie:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6874293411573246999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171200824653874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c5724011b8f47508e37eaf4626efb92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arroganceLevelSprites:
+  - {fileID: 48955019}
+  - {fileID: 894026670}
+  - {fileID: 2033680657}
 --- !u!135 &7157533160962557551
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10851,6 +11081,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5611415527631286510}
+  - component: {fileID: 8182171200824653877}
   - component: {fileID: 7157533160962557551}
   - component: {fileID: 774514631634286766}
   - component: {fileID: 6454322194524206920}
@@ -10859,11 +11090,10 @@ GameObject:
   - component: {fileID: 133443657123579624}
   - component: {fileID: 8182171200824653878}
   - component: {fileID: 8182171200824653875}
-  - component: {fileID: 8182171200824653877}
   - component: {fileID: 8182171200824653879}
-  - component: {fileID: 8182171200824653880}
+  - component: {fileID: 6874293411573246999}
   m_Layer: 9
-  m_Name: Mage
+  m_Name: Biscotto
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10902,16 +11132,17 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 5892917051957619975, guid: e091f3ccc2b118c42bbdd3ee9772c31e, type: 3}
-    - {fileID: 3966374943627719576, guid: 3931c0c19e6050f41a04b11fe390ac5e, type: 3}
-    - {fileID: 5390758198588875935, guid: d323355e4ca13ff4c8451e8f49cbf976, type: 3}
-    - {fileID: 4208395337139637402, guid: cb4820ae07df53541b4a4d1031cdcd5f, type: 3}
-    - {fileID: -4687576511174882052, guid: cb61cefcbae00b549afffc56c12cdad0, type: 3}
-    - {fileID: 7076405223461392294, guid: 986f59cec969d9d4fb352a06792ece97, type: 3}
-    - {fileID: 5892917051957619975, guid: 5201496f559050a45a4cfcfed0533fa7, type: 3}
-    - {fileID: 98420874541946916, guid: 3b7ff99e14c93ad4881a7bf8835f9ea2, type: 3}
-    - {fileID: 7121939905893168461, guid: bb2b62b24bf434848ad835df00e26f2c, type: 3}
-    - {fileID: 1563654819030307539, guid: c4071b6254e971c4ea63a4be60895759, type: 3}
+    - {fileID: 11400000, guid: 8a4ae70ddab28624ebba7f4114dddd83, type: 2}
+    - {fileID: 11400000, guid: d8f1b736f5216e641a132b61aff92e1e, type: 2}
+    - {fileID: 11400000, guid: f688e00df8e10af458be171b584bd257, type: 2}
+    - {fileID: 11400000, guid: d97dd72a3bb5a8244951ff15af9b8d41, type: 2}
+    - {fileID: 11400000, guid: 1b6a1328bdca0804385740f3eb916aec, type: 2}
+    - {fileID: 11400000, guid: 90e8338a16db4974380aef69066d0694, type: 2}
+    - {fileID: 11400000, guid: 43fa46a965d227745ad52b61e2f3ca97, type: 2}
+    - {fileID: 11400000, guid: f8188a6ab6b856b429595d9df8b19f87, type: 2}
+    - {fileID: 11400000, guid: 83321a841b467964787c80b0efaa4adc, type: 2}
+    - {fileID: 11400000, guid: 8808b9dd2f1399a49b07d5a34df69988, type: 2}
+    - {fileID: 11400000, guid: 0dfa851de9368c14183b6789c3059deb, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -10929,14 +11160,11 @@ MonoBehaviour:
       Data: 1|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
-      Data: 0
+      Data: 1000
     - Name: transitionBehaviour
       Entry: 7
-      Data: 2|MageSpawnBehaviour, Assembly-CSharp
-    - Name: radius
-      Entry: 4
-      Data: 0.25
-    - Name: circleDamageZonePrefab
+      Data: 2|BiscottoSpawnBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
       Data: 0
     - Name: 
@@ -10948,121 +11176,40 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 4
     - Name: 
       Entry: 7
-      Data: 4|MageEvadeBehaviour, Assembly-CSharp
-    - Name: radius
-      Entry: 4
-      Data: 0.15
-    - Name: mageEvadeSpellPrefab
+      Data: 4|BiscottoPunchComboBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
-      Data: 1
-    - Name: evadeSpawnDuration
-      Entry: 4
-      Data: 0.3
-    - Name: evadeFillDuration
-      Entry: 4
-      Data: 0.75
-    - Name: evadeRecoveryDuration
-      Entry: 4
       Data: 1
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|MageSwipeHorizontalBehaviour, Assembly-CSharp
-    - Name: mageSwipeSpellPrefab
+      Data: 5|BiscottoTsarBombaBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
       Data: 2
-    - Name: swipeMoveDuration
-      Entry: 4
-      Data: 1
-    - Name: swipeSpawnDuration
-      Entry: 4
-      Data: 1
-    - Name: swipeFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeRecoveryDuration
-      Entry: 4
-      Data: 1
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 6|MageSwipeVerticalBehaviour, Assembly-CSharp
-    - Name: mageSwipeSpellPrefab
+      Data: 6|BiscottoFlexBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
       Data: 3
-    - Name: swipeMoveDuration
-      Entry: 4
-      Data: 1
-    - Name: swipeSpawnDuration
-      Entry: 4
-      Data: 1
-    - Name: swipeFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeRecoveryDuration
-      Entry: 4
-      Data: 1
-    - Name: triggerAfterImage
-      Entry: 5
-      Data: false
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 7|MageRainBehaviour, Assembly-CSharp
-    - Name: mageRainSpellPrefab
+      Data: 7|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
       Data: 4
-    - Name: rainMoveDuration
-      Entry: 4
-      Data: 1
-    - Name: rainSpawnDuration
-      Entry: 4
-      Data: 0.5
-    - Name: rainFillDuration
-      Entry: 4
-      Data: 0.3
-    - Name: rainRecoveryDuration
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 8|MageThrowBehaviour, Assembly-CSharp
-    - Name: rotationDampening
-      Entry: 4
-      Data: 0.2
-    - Name: rockMovementDuration
-      Entry: 4
-      Data: 0.5
-    - Name: mageThrowSpellPrefab
-      Entry: 10
-      Data: 5
-    - Name: throwMoveDuration
-      Entry: 4
-      Data: 1
-    - Name: throwSpawnDuration
-      Entry: 4
-      Data: 1
-    - Name: throwFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: throwRotationDuration
-      Entry: 4
-      Data: 1.4
-    - Name: throwRecoveryDuration
-      Entry: 4
-      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -11077,218 +11224,68 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 9|OdinEnemyPhase, Assembly-CSharp
+      Data: 8|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
-      Data: 400
+      Data: 550
     - Name: transitionBehaviour
       Entry: 7
-      Data: 10|MageTransitionBehaviour, Assembly-CSharp
-    - Name: circleDamageZonePrefab
+      Data: 9|BiscottoOraOraBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: phaseBehaviours
+      Entry: 7
+      Data: 10|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: 11|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
       Data: 6
-    - Name: hollowCircleDamageZonePrefab
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 12|BiscottoPunchComboBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
       Data: 7
-    - Name: pillarPrefab
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 13|BiscottoTsarBombaBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 14|BiscottoFlexBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|BiscottoReversBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
       Data: 8
-    - Name: attackBehaviour
-      Entry: 7
-      Data: 11|MageRainBehaviour, Assembly-CSharp
-    - Name: mageRainSpellPrefab
-      Entry: 10
-      Data: 4
-    - Name: rainMoveDuration
-      Entry: 4
-      Data: 0.5
-    - Name: rainSpawnDuration
-      Entry: 4
-      Data: 0.5
-    - Name: rainFillDuration
-      Entry: 4
-      Data: 0.3
-    - Name: rainRecoveryDuration
-      Entry: 4
-      Data: 0.3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: attackCooldown
-      Entry: 4
-      Data: 2
-    - Name: rageAttackCooldown
-      Entry: 4
-      Data: 3
-    - Name: rageBehaviour1
-      Entry: 7
-      Data: 12|MageSwipeHorizontalBehaviour, Assembly-CSharp
-    - Name: mageSwipeSpellPrefab
-      Entry: 10
-      Data: 2
-    - Name: swipeMoveDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeSpawnDuration
-      Entry: 4
-      Data: 1
-    - Name: swipeFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeRecoveryDuration
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: rageBehaviour2
-      Entry: 7
-      Data: 13|MageSwipeVerticalBehaviour, Assembly-CSharp
-    - Name: mageSwipeSpellPrefab
-      Entry: 10
-      Data: 3
-    - Name: swipeMoveDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeSpawnDuration
-      Entry: 4
-      Data: 1
-    - Name: swipeFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeRecoveryDuration
-      Entry: 4
-      Data: 0.5
-    - Name: triggerAfterImage
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: phaseBehaviours
-      Entry: 7
-      Data: 14|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 7
-      Data: 15|MageEvadeBehaviour, Assembly-CSharp
-    - Name: radius
-      Entry: 4
-      Data: 0.15
-    - Name: mageEvadeSpellPrefab
-      Entry: 10
-      Data: 1
-    - Name: evadeSpawnDuration
-      Entry: 4
-      Data: 0.3
-    - Name: evadeFillDuration
-      Entry: 4
-      Data: 0.75
-    - Name: evadeRecoveryDuration
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 16|MageRainBehaviour, Assembly-CSharp
-    - Name: mageRainSpellPrefab
-      Entry: 10
-      Data: 4
-    - Name: rainMoveDuration
-      Entry: 4
-      Data: 0.5
-    - Name: rainSpawnDuration
-      Entry: 4
-      Data: 0.5
-    - Name: rainFillDuration
-      Entry: 4
-      Data: 0.3
-    - Name: rainRecoveryDuration
-      Entry: 4
-      Data: 0.3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 17|MageSwipeHorizontalBehaviour, Assembly-CSharp
-    - Name: mageSwipeSpellPrefab
-      Entry: 10
-      Data: 2
-    - Name: swipeMoveDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeSpawnDuration
-      Entry: 4
-      Data: 1
-    - Name: swipeFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeRecoveryDuration
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 18|MageSwipeVerticalBehaviour, Assembly-CSharp
-    - Name: mageSwipeSpellPrefab
-      Entry: 10
-      Data: 3
-    - Name: swipeMoveDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeSpawnDuration
-      Entry: 4
-      Data: 1
-    - Name: swipeFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeRecoveryDuration
-      Entry: 4
-      Data: 0.5
-    - Name: triggerAfterImage
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 19|MageThrowBehaviour, Assembly-CSharp
-    - Name: rotationDampening
-      Entry: 4
-      Data: 0.2
-    - Name: rockMovementDuration
-      Entry: 4
-      Data: 0.5
-    - Name: mageThrowSpellPrefab
-      Entry: 10
-      Data: 5
-    - Name: throwMoveDuration
-      Entry: 4
-      Data: 0.5
-    - Name: throwSpawnDuration
-      Entry: 4
-      Data: 1
-    - Name: throwFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: throwRotationDuration
-      Entry: 4
-      Data: 1.4
-    - Name: throwRecoveryDuration
-      Entry: 4
-      Data: 1.5
     - Name: 
       Entry: 8
       Data: 
@@ -11303,158 +11300,68 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 20|OdinEnemyPhase, Assembly-CSharp
+      Data: 16|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
-      Data: 100
+      Data: 300
     - Name: transitionBehaviour
       Entry: 7
-      Data: 21|MageSecondTransitionBehaviour, Assembly-CSharp
-    - Name: hollowCircleDamageZonePrefab
+      Data: 17|BiscottoOraOraBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
-      Data: 7
-    - Name: maxBounceCount
-      Entry: 3
-      Data: 5
+      Data: 9
     - Name: 
       Entry: 8
       Data: 
     - Name: phaseBehaviours
       Entry: 7
-      Data: 22|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+      Data: 18|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 5
     - Name: 
       Entry: 7
-      Data: 23|MageMultiEvadeBehaviour, Assembly-CSharp
-    - Name: radius
-      Entry: 4
-      Data: 0.15
-    - Name: mageEvadeSpellPrefab
+      Data: 19|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
-      Data: 1
-    - Name: hollowCircleDamageZonePrefab
-      Entry: 10
-      Data: 7
-    - Name: multiEvadeSpawnDuration
-      Entry: 4
-      Data: 0.3
-    - Name: multiEvadeFillDuration
-      Entry: 4
-      Data: 0.7
-    - Name: multiEvadeRecoveryDuration
-      Entry: 4
-      Data: 0.5
+      Data: 6
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 24|MageMultiThrowBehaviour, Assembly-CSharp
-    - Name: rotationDampening
-      Entry: 4
-      Data: 0.2
-    - Name: rockMovementDuration
-      Entry: 4
-      Data: 0.5
-    - Name: mageThrowSpellPrefab
-      Entry: 10
-      Data: 9
-    - Name: multiThrowMoveDuration
-      Entry: 4
-      Data: 0.3
-    - Name: multiThrowMoveDurationToRight
-      Entry: 4
-      Data: 0.1
-    - Name: multiThrowMoveDurationToLeft
-      Entry: 4
-      Data: 0.1
-    - Name: multiThrowSpawnDuration
-      Entry: 4
-      Data: 0.5
-    - Name: multiThrowFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: multiThrowRotationDuration
-      Entry: 4
-      Data: 1
-    - Name: multiThrowRecoveryDuration
-      Entry: 4
-      Data: 0.3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 25|MageMultiSwipeBehaviour, Assembly-CSharp
-    - Name: verticalSwipe
-      Entry: 7
-      Data: 26|MageSwipeVerticalBehaviour, Assembly-CSharp
-    - Name: mageSwipeSpellPrefab
+      Data: 20|BiscottoFlexBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
       Data: 3
-    - Name: swipeMoveDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeSpawnDuration
-      Entry: 4
-      Data: 1
-    - Name: swipeFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeRecoveryDuration
-      Entry: 4
-      Data: 0.5
-    - Name: triggerAfterImage
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: horizontalSwipe
-      Entry: 7
-      Data: 27|MageSwipeHorizontalBehaviour, Assembly-CSharp
-    - Name: mageSwipeSpellPrefab
-      Entry: 10
-      Data: 2
-    - Name: swipeMoveDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeSpawnDuration
-      Entry: 4
-      Data: 1
-    - Name: swipeFillDuration
-      Entry: 4
-      Data: 0.5
-    - Name: swipeRecoveryDuration
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 28|MageRainBehaviour, Assembly-CSharp
-    - Name: mageRainSpellPrefab
+      Data: 21|BiscottoReversBehaviour, Assembly-CSharp
+    - Name: data
       Entry: 10
-      Data: 4
-    - Name: rainMoveDuration
-      Entry: 4
-      Data: 0.5
-    - Name: rainSpawnDuration
-      Entry: 4
-      Data: 0.5
-    - Name: rainFillDuration
-      Entry: 4
-      Data: 0.3
-    - Name: rainRecoveryDuration
-      Entry: 4
-      Data: 0.3
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 22|BiscottoReversBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 23|BiscottoPunchComboBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 10
     - Name: 
       Entry: 8
       Data: 
@@ -11474,13 +11381,20 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: deathBehaviour
+      Entry: 6
+      Data: 
+    - Name: debugBehaviour
       Entry: 7
-      Data: 29|MageDeathBehaviour, Assembly-CSharp
+      Data: 24|BiscottoReversBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 8
     - Name: 
       Entry: 8
       Data: 
   <Sprite>k__BackingField: {fileID: 5071313608623843290}
   <shadowSprite>k__BackingField: {fileID: 2063661912}
+  debugMode: 0
 --- !u!114 &8182171200824653878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11517,38 +11431,6 @@ MonoBehaviour:
   OnTriggerCancel:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8182171200824653880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8182171200824653874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30c62bd9bcb083342834b9477c983713, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rockMovement:
-  - {fileID: 8300000, guid: 61aeada204451b3479b81fb5df7869c2, type: 3}
-  - {fileID: 8300000, guid: a7e44bd9e6af2924bbc39d4c37ba8f47, type: 3}
-  - {fileID: 8300000, guid: 99524f83b0e7471418781377e0b5944e, type: 3}
-  rockBreak:
-  - {fileID: 8300000, guid: 33d87818534b67844acd946ec854dbf7, type: 3}
-  - {fileID: 8300000, guid: 76a8d491147a5c34eb672b40fd538d44, type: 3}
-  - {fileID: 8300000, guid: eb216feb57d248d47ba0674e1bc99dec, type: 3}
-  rockThrow:
-  - {fileID: 8300000, guid: 00bda2261f3cb024a9edeecd1ab81948, type: 3}
-  - {fileID: 8300000, guid: 180d22477f637c54c9a544bd0c2ad604, type: 3}
-  - {fileID: 8300000, guid: 41ef9bb730e7c45478ad53535a0313b2, type: 3}
-  mageMovement:
-  - {fileID: 8300000, guid: 30174fba57ee72048a86f7fa4af5c798, type: 3}
-  - {fileID: 8300000, guid: 51a420a5106527b4482e07a16318585b, type: 3}
-  - {fileID: 8300000, guid: 1310d0d09d974534796531632e7f2d34, type: 3}
-  mageFastMovement:
-  - {fileID: 8300000, guid: 6f4f460b5035680498cdb3645b10a423, type: 3}
-  - {fileID: 8300000, guid: 647128b1c0494db489d1ee6af6f4c502, type: 3}
-  - {fileID: 8300000, guid: 0e41a64337928994ca04b8180874ef8d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -11569,7 +11451,6 @@ SceneRoots:
   - {fileID: 1671784120}
   - {fileID: 1160794518}
   - {fileID: 677050381}
-  - {fileID: 1263907344}
   - {fileID: 1976655985}
   - {fileID: 1044440104}
   - {fileID: 5611415527631286510}

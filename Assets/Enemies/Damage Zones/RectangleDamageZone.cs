@@ -11,6 +11,9 @@ public class RectangleDamageZone : MonoBehaviour
     [SerializeField] private Ease fillEase;
     [SerializeField] private float despawnDuration;
 
+    [Tooltip("Utilise le paramètre shader _FillAmount (0 à 1) pour un remplissage vertical, du bas vers le haut.")]
+    [SerializeField] private bool useVerticalFill;
+
     [Space]
     [SerializeField] private Color flashColor;
     [SerializeField] private Color flashOutlineColor;
@@ -35,6 +38,20 @@ public class RectangleDamageZone : MonoBehaviour
 
     private PlayerStateMachine _playerInstance;
 
+    /// <summary>
+    /// Configure les dimensions finales de la zone dans l'espace monde.
+    /// La zone est dessinée autour de son centre, d'où la division par deux.
+    /// </summary>
+    public void SetDimensions(float width, float length)
+    {
+        float scaleX = Mathf.Max(0.0001f, Mathf.Abs(transform.localScale.x));
+        float scaleY = Mathf.Max(0.0001f, Mathf.Abs(transform.localScale.y));
+
+        size = new Vector2(
+            Mathf.Max(0.0001f, length) / (2.0f * scaleX),
+            Mathf.Max(0.0001f, width) / (2.0f * scaleY));
+    }
+
     public void Setup(Vector2 moveDirection, float _spawnDuration, float _fillDuration, CloseDodgeSession session = null)
     {
         spawnDuration = _spawnDuration;
@@ -53,8 +70,12 @@ public class RectangleDamageZone : MonoBehaviour
         int alphaId = Shader.PropertyToID("_alpha");
         int sizeId = Shader.PropertyToID("_Size");
         int inlineId = Shader.PropertyToID("_InlineThickness");
+        int fillAmountId = Shader.PropertyToID("_FillAmount");
         int inlineColorId = Shader.PropertyToID("_InlineColor");
         int outlineColorId = Shader.PropertyToID("_OutlineColor");
+
+        if (useVerticalFill)
+            spriteRenderer.material.SetFloat(fillAmountId, 0.0f);
 
         float targetPositionX = transform.localPosition.x + size.x * transform.localScale.x * moveDirection.x;
         float targetPositionZ = transform.localPosition.z + size.y * transform.localScale.y * moveDirection.y;
@@ -71,8 +92,14 @@ public class RectangleDamageZone : MonoBehaviour
         .Chain(Tween.MaterialProperty(spriteRenderer.material, alphaId, 1.0f, spawnDuration))
         .Group(Tween.MaterialProperty(spriteRenderer.material, sizeId, size, spawnDuration, spawnEase))
         .Group(Tween.LocalPositionX(transform, targetPositionX, spawnDuration, spawnEase))
-        .Group(Tween.LocalPositionZ(transform, targetPositionZ, spawnDuration, spawnEase))
-        .Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, Mathf.Min(size.x, size.y), fillDuration, fillEase))
+        .Group(Tween.LocalPositionZ(transform, targetPositionZ, spawnDuration, spawnEase));
+
+        if (useVerticalFill)
+            currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, fillAmountId, 1.0f, fillDuration, fillEase));
+        else
+            currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, Mathf.Min(size.x, size.y), fillDuration, fillEase));
+
+        currentSequence
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.05f))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
         .ChainCallback(() =>

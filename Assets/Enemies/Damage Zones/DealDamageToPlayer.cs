@@ -9,7 +9,7 @@ public class DealDamageToPlayer : MonoBehaviour
 
     private bool hasBeenParried = false;
 
-    public bool TryDealDamage(Vector3 direction)
+    public bool TryDealDamage(Vector3 direction, float staggerPower = -1.0f)
     {
         if (hasBeenParried)
             return false;
@@ -27,7 +27,7 @@ public class DealDamageToPlayer : MonoBehaviour
             return false;
         }
 
-        bool isDamageApplied = player.playerHealth.TakeDamage(damage, direction.normalized);
+        bool isDamageApplied = player.playerHealth.TakeDamage(damage, direction.normalized, staggerPower);
 
         return isDamageApplied;
     }

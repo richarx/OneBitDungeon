@@ -8,167 +8,59 @@ using Sirenix.Serialization;
 using Tools_and_Scripts;
 using UnityEngine;
 
-public enum BiscottoSideSelection
+public enum BiscottoPunchSide
 {
-    Random,
-    Clockwise,
-    CounterClockwise
+    Left,
+    Right
 }
 
 [Serializable]
-[InlineProperty]
-public sealed class BiscottoPunchStep
-{
-    [OdinSerialize]
-    [LabelText("Nom de l'étape")]
-    private string stepName = "Coup";
-
-    [OdinSerialize]
-    [LabelText("Prefab de zone (optionnel)")]
-    [Tooltip("Remplace le prefab défini sur le comportement pour cette étape uniquement.")]
-    private GameObject rectangularDamageZonePrefabOverride;
-
-    [OdinSerialize]
-    [LabelText("Animation d'anticipation")]
-    private string anticipationAnimation;
-
-    [OdinSerialize]
-    [LabelText("Animation d'impact")]
-    private string impactAnimation;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Délai avant l'étape")]
-    private float delayBeforeStep;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Durée d'apparition")]
-    private float spawnDuration = 0.3f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Durée de remplissage")]
-    private float fillDuration = 0.8f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Verrouillage avant impact")]
-    [SuffixLabel("secondes")]
-    private float lockBeforeImpact = 0.3f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Anticipation animation d'impact")]
-    [SuffixLabel("secondes")]
-    private float impactAnimationLeadTime = 0.1f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Délai après impact")]
-    private float delayAfterImpact = 0.2f;
-
-    [OdinSerialize]
-    [LabelText("Se déplacer à côté du joueur")]
-    private bool moveBesidePlayer;
-
-    [OdinSerialize]
-    [ShowIf(nameof(moveBesidePlayer))]
-    [LabelText("Côté choisi")]
-    private BiscottoSideSelection sideSelection = BiscottoSideSelection.Random;
-
-    [OdinSerialize]
-    [ShowIf(nameof(moveBesidePlayer))]
-    [MinValue(0.0f)]
-    [LabelText("Distance latérale")]
-    private float sideMoveDistance = 2.0f;
-
-    [OdinSerialize]
-    [ShowIf(nameof(moveBesidePlayer))]
-    [MinValue(0.0f)]
-    [LabelText("Durée du déplacement")]
-    private float sideMoveDuration = 0.25f;
-
-    public string StepName => stepName;
-    public GameObject RectangularDamageZonePrefabOverride => rectangularDamageZonePrefabOverride;
-    public string AnticipationAnimation => anticipationAnimation;
-    public string ImpactAnimation => impactAnimation;
-    public float DelayBeforeStep => delayBeforeStep;
-    public float SpawnDuration => spawnDuration;
-    public float FillDuration => fillDuration;
-    public float LockBeforeImpact => lockBeforeImpact;
-    public float ImpactAnimationLeadTime => impactAnimationLeadTime;
-    public float DelayAfterImpact => delayAfterImpact;
-    public bool MoveBesidePlayer => moveBesidePlayer;
-    public BiscottoSideSelection SideSelection => sideSelection;
-    public float SideMoveDistance => sideMoveDistance;
-    public float SideMoveDuration => sideMoveDuration;
-}
-
-[Serializable]
-public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
+public class BiscottoPunchComboBehaviour : IEnemyBehaviour
 {
     private const float DamageColorTransitionDuration = 0.05f;
 
     [OdinSerialize]
-    [LabelText("Nom du pattern")]
-    private string patternName = "Grosse Patate";
-
-    [OdinSerialize]
     [Required]
-    [LabelText("Prefab de zone rectangulaire")]
-    private GameObject rectangularDamageZonePrefab;
+    [LabelText("Data")]
+    private BiscottoPunchComboData data;
 
-    [OdinSerialize]
-    [ListDrawerSettings(ShowFoldout = true, DefaultExpandedState = true)]
-    [LabelText("Coups")]
-    private List<BiscottoPunchStep> punchSteps = new List<BiscottoPunchStep>();
-
-    [OdinSerialize]
-    [MinValue(0.001f)]
-    [LabelText("Lissage de la visée")]
-    private float rotationDampening = 0.08f;
-
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Récupération finale")]
-    private float finalRecoveryDuration = 0.8f;
-
-    [OdinSerialize]
-    [LabelText("After-image pendant le déplacement")]
-    private bool triggerAfterImageOnSideMove = true;
-
-    [NonSerialized] private Sequence attackSequence;
-    [NonSerialized] private Sequence moveSequence;
-    [NonSerialized] private RectangleDamageZone currentDamageZone;
-    [NonSerialized] private Transform currentDamageZoneRoot;
-    [NonSerialized] private float currentAimEndTimestamp;
-    [NonSerialized] private CloseDodgeSession closeDodgeSession;
-    [NonSerialized] private readonly List<RectangleDamageZone> spawnedDamageZones = new List<RectangleDamageZone>();
+    private Sequence attackSequence;
+    private Sequence moveSequence;
+    private RectangleDamageZone currentDamageZone;
+    private Transform currentDamageZoneRoot;
+    private BiscottoPunchStep currentPunchStep;
+    private float currentAimEndTimestamp;
+    private List<RectangleDamageZone> spawnedDamageZones = new List<RectangleDamageZone>();
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         ResetRuntimeState();
 
-        int stepCount = CountValidSteps();
+        if (data == null)
+        {
+            Debug.LogError("[BiscottoPunchComboBehaviour] Un data de combo est requis.", enemy);
+            execution.Complete();
+            return;
+        }
+
+        int stepCount = data.PunchSteps != null ? data.PunchSteps.Count : 0;
         if (stepCount == 0)
         {
-            Debug.LogError($"[{enemy.name}] Le pattern '{patternName}' ne contient aucun coup valide.", enemy);
+            Debug.LogError($"[{enemy.name}] Le pattern '{data.PatternName}' ne contient aucun coup valide.", enemy);
             execution.Complete();
             return;
         }
 
-        if (rectangularDamageZonePrefab == null && !HasAnyStepPrefabOverride())
+        if (data.RectangularDamageZonePrefab == null && !HasAnyStepPrefabOverride())
         {
-            Debug.LogError($"[{enemy.name}] Le pattern '{patternName}' nécessite un prefab de zone rectangulaire.", enemy);
+            Debug.LogError($"[{enemy.name}] Le pattern '{data.PatternName}' nécessite un prefab de zone rectangulaire.", enemy);
             execution.Complete();
             return;
         }
 
-        closeDodgeSession = new CloseDodgeSession(stepCount);
         attackSequence = Sequence.Create();
 
-        foreach (BiscottoPunchStep step in punchSteps)
+        foreach (BiscottoPunchStep step in data.PunchSteps)
         {
             if (step == null)
                 continue;
@@ -178,7 +70,7 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
         }
 
         attackSequence
-            .ChainDelay(finalRecoveryDuration)
+            .ChainDelay(data.FinalRecoveryDuration)
             .ChainCallback(() => execution.Complete());
     }
 
@@ -212,14 +104,12 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
     {
         Sequence sequence = Sequence.Create();
 
-        if (step.DelayBeforeStep > 0.0f)
-            sequence.ChainDelay(step.DelayBeforeStep);
 
         if (step.MoveBesidePlayer)
         {
             sequence
                 .ChainCallback(() => StartSideMove(enemy, step))
-                .ChainDelay(step.SideMoveDuration);
+                .ChainDelay(step.MoveDuration);
         }
 
         sequence.ChainCallback(() =>
@@ -228,18 +118,12 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
             SpawnPunchZone(enemy, step);
         });
 
-        float timeToDamageCheck = step.SpawnDuration + step.FillDuration + DamageColorTransitionDuration;
-        float impactLeadTime = Mathf.Min(step.ImpactAnimationLeadTime, timeToDamageCheck);
-        float timeBeforeImpactAnimation = timeToDamageCheck - impactLeadTime;
+        float timeToDamageCheck = step.SpawnDuration + step.FillDuration;
 
-        if (timeBeforeImpactAnimation > 0.0f)
-            sequence.ChainDelay(timeBeforeImpactAnimation);
+        sequence.ChainDelay(timeToDamageCheck);
 
         if (!string.IsNullOrWhiteSpace(step.ImpactAnimation))
             sequence.ChainCallback(() => PlayAnimation(enemy, step.ImpactAnimation));
-
-        if (impactLeadTime > 0.0f)
-            sequence.ChainDelay(impactLeadTime);
 
         if (step.DelayAfterImpact > 0.0f)
             sequence.ChainDelay(step.DelayAfterImpact);
@@ -251,12 +135,11 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
     {
         GameObject zonePrefab = step.RectangularDamageZonePrefabOverride != null
             ? step.RectangularDamageZonePrefabOverride
-            : rectangularDamageZonePrefab;
+            : data.RectangularDamageZonePrefab;
 
         if (zonePrefab == null)
         {
             Debug.LogError($"[{enemy.name}] Aucun prefab de zone n'est configuré pour l'étape '{step.StepName}'.", enemy);
-            closeDodgeSession?.CompleteDamageCheck();
             ClearCurrentAimTarget();
             return;
         }
@@ -267,7 +150,6 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
         if (damageZone == null)
         {
             Debug.LogError($"[{enemy.name}] Le prefab '{zonePrefab.name}' ne contient pas de RectangleDamageZone.", zonePrefab);
-            closeDodgeSession?.CompleteDamageCheck();
             UnityEngine.Object.Destroy(zoneObject);
             ClearCurrentAimTarget();
             return;
@@ -275,21 +157,45 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
 
         currentDamageZone = damageZone;
         currentDamageZoneRoot = zoneObject.transform;
+        currentPunchStep = step;
         currentAimEndTimestamp = Time.time + Mathf.Max(
             0.0f,
             step.SpawnDuration + step.FillDuration + DamageColorTransitionDuration - step.LockBeforeImpact);
 
         spawnedDamageZones.Add(damageZone);
+        damageZone.SetDimensions(step.DamageZoneWidth, step.DamageZoneLength);
         RotateCurrentZoneTowardPlayer(enemy, true);
-        damageZone.Setup(Vector2.right, step.SpawnDuration, step.FillDuration, closeDodgeSession);
+        damageZone.Setup(Vector2.right, step.SpawnDuration, step.FillDuration);
+    }
+
+    private static Vector3 ComputeDamageZoneOffset(EnemyController enemy, BiscottoPunchStep step)
+    {
+        if (step.DamageZoneSideOffset <= 0.0f)
+            return Vector3.zero;
+
+        Vector3 directionToPlayer = PlayerStateMachine.instance != null
+            ? PlayerStateMachine.instance.position - enemy.transform.position
+            : enemy.transform.forward;
+        directionToPlayer.y = 0.0f;
+
+        if (directionToPlayer.sqrMagnitude <= 0.0001f)
+            directionToPlayer = enemy.transform.forward;
+
+        directionToPlayer.Normalize();
+        Vector3 rightSide = new Vector3(directionToPlayer.z, 0.0f, -directionToPlayer.x);
+        float sideSign = step.DamageZoneSide == BiscottoPunchSide.Right ? 1.0f : -1.0f;
+
+        return rightSide * sideSign * step.DamageZoneSideOffset;
     }
 
     private void RotateCurrentZoneTowardPlayer(EnemyController enemy, bool immediate = false)
     {
-        if (currentDamageZoneRoot == null || PlayerStateMachine.instance == null)
+        if (currentDamageZoneRoot == null || currentPunchStep == null || PlayerStateMachine.instance == null)
             return;
 
-        Vector3 direction = PlayerStateMachine.instance.position - enemy.transform.position;
+        currentDamageZoneRoot.position = enemy.transform.position + ComputeDamageZoneOffset(enemy, currentPunchStep);
+
+        Vector3 direction = PlayerStateMachine.instance.position - currentDamageZoneRoot.position;
         direction.y = 0.0f;
 
         if (direction.sqrMagnitude <= 0.0001f)
@@ -304,7 +210,7 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
             return;
         }
 
-        float dampening = Mathf.Max(0.001f, rotationDampening);
+        float dampening = Mathf.Max(0.001f, data.RotationDampening);
         currentDamageZoneRoot.rotation = Quaternion.Slerp(
             currentDamageZoneRoot.rotation,
             targetRotation,
@@ -313,50 +219,28 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
 
     private void StartSideMove(EnemyController enemy, BiscottoPunchStep step)
     {
-        if (PlayerStateMachine.instance == null || step.SideMoveDuration <= 0.0f)
+        if (PlayerStateMachine.instance == null || step.MoveDuration <= 0.0f)
             return;
 
         if (moveSequence.isAlive)
             moveSequence.Stop();
 
-        Vector3 destination = ComputeSideDestination(enemy, step);
+        Vector3 pivotPosition = PlayerStateMachine.instance.position;
+        pivotPosition.y = enemy.transform.position.y;
+        Vector3 destination = BiscottoMovementUtility.ComputeDestination(
+            enemy.transform,
+            PlayerStateMachine.instance.position,
+            step.MoveDistance
+            );
 
-        if (triggerAfterImageOnSideMove && enemy.afterImage != null)
-            enemy.afterImage.Trigger(step.SideMoveDuration);
+        if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
+            enemy.afterImage.Trigger(step.MoveDuration);
 
-        moveSequence = Sequence.Create()
-            .Group(Tween.Position(enemy.transform, destination, step.SideMoveDuration, Ease.InOutCubic));
-    }
-
-    private static Vector3 ComputeSideDestination(EnemyController enemy, BiscottoPunchStep step)
-    {
-        Vector3 playerPosition = PlayerStateMachine.instance.position;
-        Vector3 directionToPlayer = playerPosition - enemy.transform.position;
-        directionToPlayer.y = 0.0f;
-
-        if (directionToPlayer.sqrMagnitude <= 0.0001f)
-            directionToPlayer = enemy.transform.forward;
-
-        directionToPlayer.Normalize();
-        Vector3 clockwiseSide = new Vector3(directionToPlayer.z, 0.0f, -directionToPlayer.x);
-
-        float sideSign;
-        switch (step.SideSelection)
-        {
-            case BiscottoSideSelection.Clockwise:
-                sideSign = 1.0f;
-                break;
-            case BiscottoSideSelection.CounterClockwise:
-                sideSign = -1.0f;
-                break;
-            default:
-                sideSign = UnityEngine.Random.value < 0.5f ? -1.0f : 1.0f;
-                break;
-        }
-
-        Vector3 destination = playerPosition + clockwiseSide * sideSign * step.SideMoveDistance;
-        destination.y = enemy.transform.position.y;
-        return destination;
+        moveSequence = BiscottoMovementUtility.CreateArcMove(
+            enemy.transform,
+            destination,
+            pivotPosition,
+            step.MoveDuration);
     }
 
     private static void PlayAnimation(EnemyController enemy, string animationName)
@@ -367,27 +251,13 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
         enemy.animator.Play(animationName);
     }
 
-    private int CountValidSteps()
-    {
-        if (punchSteps == null)
-            return 0;
-
-        int count = 0;
-        foreach (BiscottoPunchStep step in punchSteps)
-        {
-            if (step != null)
-                count++;
-        }
-
-        return count;
-    }
 
     private bool HasAnyStepPrefabOverride()
     {
-        if (punchSteps == null)
+        if (data == null || data.PunchSteps == null)
             return false;
 
-        foreach (BiscottoPunchStep step in punchSteps)
+        foreach (BiscottoPunchStep step in data.PunchSteps)
         {
             if (step != null && step.RectangularDamageZonePrefabOverride != null)
                 return true;
@@ -400,6 +270,7 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
     {
         currentDamageZone = null;
         currentDamageZoneRoot = null;
+        currentPunchStep = null;
         currentAimEndTimestamp = 0.0f;
     }
 
@@ -411,18 +282,23 @@ public sealed class BiscottoPunchComboBehaviour : IEnemyBehaviour
         if (moveSequence.isAlive)
             moveSequence.Stop();
 
-        foreach (RectangleDamageZone zone in spawnedDamageZones)
+        if (spawnedDamageZones == null)
         {
-            if (zone != null)
-                zone.Cancel();
+            spawnedDamageZones = new List<RectangleDamageZone>();
         }
+        else
+        {
+            foreach (RectangleDamageZone zone in spawnedDamageZones)
+            {
+                if (zone != null)
+                    zone.Cancel();
+            }
 
-        closeDodgeSession?.Cancel();
+            spawnedDamageZones.Clear();
+        }
 
         attackSequence = default;
         moveSequence = default;
-        spawnedDamageZones.Clear();
-        closeDodgeSession = null;
         ClearCurrentAimTarget();
     }
 }
