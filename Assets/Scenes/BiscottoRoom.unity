@@ -11388,7 +11388,7 @@ MonoBehaviour:
       Data: 
   <Sprite>k__BackingField: {fileID: 5071313608623843290}
   <shadowSprite>k__BackingField: {fileID: 2063661912}
-  debugMode: 1
+  debugMode: 0
 --- !u!114 &8182171200824653878
 MonoBehaviour:
   m_ObjectHideFlags: 0

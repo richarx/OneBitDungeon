@@ -11,6 +11,7 @@ public enum BiscottoSideSelection
 public static class BiscottoMovementUtility
 {
     private const float MinimumRadius = 0.0001f;
+    private const float ArenaLimit = 9.0f;
 
     public static Sequence CreateArcMove(
         Transform movingTransform,
@@ -24,7 +25,7 @@ public static class BiscottoMovementUtility
         return Sequence.Create()
             .Group(Tween.Custom(0.0f, 1.0f, duration, progress =>
             {
-                movingTransform.position = GetArcPosition(startPosition, destination, pivotPosition, progress);
+                movingTransform.position = ClampToArena(GetArcPosition(startPosition, destination, pivotPosition, progress));
             }, ease));
     }
 
@@ -43,7 +44,7 @@ public static class BiscottoMovementUtility
 
         Vector3 destination = playerPosition + Vector3.forward * distance;
         destination.y = biscottoTransform.position.y;
-        return destination;
+        return ClampToArena(destination);
     }
 
     public static float GetSideSign(BiscottoSideSelection sideSelection)
@@ -83,5 +84,12 @@ public static class BiscottoMovementUtility
             pivotPosition.x + Mathf.Cos(angleInRadians) * radius,
             Mathf.Lerp(startPosition.y, destination.y, progress),
             pivotPosition.z + Mathf.Sin(angleInRadians) * radius);
+    }
+
+    private static Vector3 ClampToArena(Vector3 position)
+    {
+        position.x = Mathf.Clamp(position.x, -ArenaLimit, ArenaLimit);
+        position.z = Mathf.Clamp(position.z, -ArenaLimit, ArenaLimit);
+        return position;
     }
 }
