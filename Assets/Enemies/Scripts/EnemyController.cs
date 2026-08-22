@@ -4,6 +4,7 @@ using Enemies.Scripts;
 using Enemies.Scripts.Behaviours;
 using Enemies.Spawner;
 using Game_Manager;
+using PrimeTween;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -84,8 +85,8 @@ public class EnemyController : SerializedMonoBehaviour
 
         if (debugMode)
         {
-             EnemyHolder.instance.RegisterEnemy(gameObject);
-             return;
+            EnemyHolder.instance.RegisterEnemy(gameObject);
+            return;
         }
 
         damageable.OnTakeDamage.AddListener((_) =>
@@ -164,11 +165,15 @@ public class EnemyController : SerializedMonoBehaviour
         currentBehaviour = null;
         DeactivateHitbox();
 
-        if (Sprite != null)
-            Sprite.enabled = false;
 
-        if (shadowSprite != null)
-            shadowSprite.enabled = false;
+        if (Sprite != null && shadowSprite != null)
+        {
+
+            Sequence deathSequence = Sequence.Create()
+                .Chain(Tween.Color(Sprite, Color.clear, 0.5f))
+                .Group(Tween.Color(shadowSprite, Color.clear, 0.5f))
+                .ChainCallback(() => { Sprite.enabled = false; shadowSprite.enabled = false; });
+        }
 
         Debug.LogWarning($"[{name}] Applied the safe death fallback and unlocked the level.", this);
         GameManager.OnUnlockLevel?.Invoke();

@@ -19,13 +19,13 @@ MonoBehaviour:
   - <StepName>k__BackingField: Patate
     <RectangularDamageZonePrefabOverride>k__BackingField: {fileID: 227854228040328757,
       guid: 09c0e16c4786d514eb6f8565609c163c, type: 3}
-    <DamageZoneWidth>k__BackingField: 4
+    <DamageZoneWidth>k__BackingField: 3
     <DamageZoneLength>k__BackingField: 8
-    <DamageZoneSideOffset>k__BackingField: 2
+    <DamageZoneSideOffset>k__BackingField: 1
     <DamageZoneSide>k__BackingField: 0
     <SpawnDuration>k__BackingField: 0.3
     <FillDuration>k__BackingField: 1.5
-    <LockBeforeImpact>k__BackingField: 0.6
+    <LockBeforeImpact>k__BackingField: 0.9
     <DelayAfterImpact>k__BackingField: 0.1
     <MoveBesidePlayer>k__BackingField: 1
     <MoveDistance>k__BackingField: 2
@@ -34,13 +34,13 @@ MonoBehaviour:
     <ImpactAnimation>k__BackingField: 
   - <StepName>k__BackingField: Coup
     <RectangularDamageZonePrefabOverride>k__BackingField: {fileID: 0}
-    <DamageZoneWidth>k__BackingField: 3
+    <DamageZoneWidth>k__BackingField: 2
     <DamageZoneLength>k__BackingField: 12
-    <DamageZoneSideOffset>k__BackingField: 2
+    <DamageZoneSideOffset>k__BackingField: 1
     <DamageZoneSide>k__BackingField: 1
     <SpawnDuration>k__BackingField: 0.3
     <FillDuration>k__BackingField: 0.6
-    <LockBeforeImpact>k__BackingField: 0.3
+    <LockBeforeImpact>k__BackingField: 0.4
     <DelayAfterImpact>k__BackingField: 0.6
     <MoveBesidePlayer>k__BackingField: 0
     <MoveDistance>k__BackingField: 2
