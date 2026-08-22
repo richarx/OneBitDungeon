@@ -30,6 +30,9 @@ public sealed class PeacockKnightMaterialization : MonoBehaviour
     [TitleGroup("Particles selection")]
     [SerializeField, Range(1, 100)] private int particlesToBorrow = 30;
 
+    [TitleGroup("Particles selection")]
+    [SerializeField, Range(0, 255)] private int swarmAlpha = 10;
+
     [TitleGroup("Convergence")]
     [SerializeField, Min(0.05f)] private float convergenceDuration = 0.8f;
     [SerializeField, Range(0f, 1f)] private float maximumStartDelay = 0.18f;
@@ -94,7 +97,7 @@ public sealed class PeacockKnightMaterialization : MonoBehaviour
         }
 
         CancelVisuals();
-            knight.SetActive(false);
+        knight.SetActive(false);
 
         Vector3 target = TargetPosition;
         ParticleData[] snapshots = sourceSwarm.TakeNearest(target, particlesToBorrow);
@@ -182,7 +185,7 @@ public sealed class PeacockKnightMaterialization : MonoBehaviour
             ParticleSystem.Particle particle = new ParticleSystem.Particle
             {
                 position = position,
-                startColor = state.color,
+                startColor = ColorWithAlpha(state.color, Mathf.Lerp(SwarmAlpha, 1f, EaseOutQuad(progress))),
                 startSize = state.size,
                 remainingLifetime = 1f,
                 startLifetime = 1f
@@ -256,5 +259,20 @@ public sealed class PeacockKnightMaterialization : MonoBehaviour
     private Vector3 LuminousSilhouettePosition => luminousSilhouette != null
         ? luminousSilhouette.transform.position
         : TargetPosition;
+
+    private float SwarmAlpha => swarmAlpha / 255f;
+
+    private static Color ColorWithAlpha(Color color, float alpha)
+    {
+        color.a = alpha;
+        return color;
+    }
+
+    // QuadOut: fast brightening at the start, then a soft arrival at full light.
+    private static float EaseOutQuad(float progress)
+    {
+        progress = Mathf.Clamp01(progress);
+        return 1f - (1f - progress) * (1f - progress);
+    }
 
 }

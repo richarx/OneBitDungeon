@@ -491,6 +491,7 @@ MonoBehaviour:
   brakingDuration: 0.55
   useUnscaledTime: 0
   pixelSize: 0.25
+  swarmAlpha: 100
   returnedPixelLifetime: 20
 --- !u!4 &65216132
 Transform:
@@ -2128,6 +2129,7 @@ MonoBehaviour:
   luminousSilhouette: {fileID: 1395858807}
   knight: {fileID: 8182171200824653874}
   particlesToBorrow: 30
+  swarmAlpha: 10
   convergenceDuration: 1.8
   maximumStartDelay: 0.18
   swirlDistance: 1.23
@@ -3323,7 +3325,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.101960786}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.39215687}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4408,8 +4410,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.039215688}
-        key1: {r: 1, g: 1, b: 1, a: 0.039215688}
+        key0: {r: 1, g: 1, b: 1, a: 0.39215687}
+        key1: {r: 1, g: 1, b: 1, a: 0.39215687}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}

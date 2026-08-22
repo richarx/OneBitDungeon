@@ -48,6 +48,9 @@ public sealed class PeacockKnightDematerialization : MonoBehaviour
     [TitleGroup("Pixels")]
     [SerializeField, Min(0.01f)] private float pixelSize = 0.25f;
 
+    [TitleGroup("Pixels")]
+    [SerializeField, Range(0, 255)] private int swarmAlpha = 10;
+
     [TitleGroup("Ambient Return")]
     [SerializeField, Min(0.01f)] private float returnedPixelLifetime = 20f;
 
@@ -143,6 +146,7 @@ public sealed class PeacockKnightDematerialization : MonoBehaviour
         if (particleSystemForDispersion == null || _burstPixels.Length == 0)
             return;
 
+        float alpha = Mathf.Lerp(1f, SwarmAlpha, EaseOutQuad(_elapsed / brakingDuration));
         for (int i = 0; i < _burstPixels.Length; i++)
         {
             BurstPixel burstPixel = _burstPixels[i];
@@ -159,7 +163,7 @@ public sealed class PeacockKnightDematerialization : MonoBehaviour
             _renderParticles[i] = new ParticleSystem.Particle
             {
                 position = burstPixel.position,
-                startColor = Color.white,
+                startColor = ColorWithAlpha(Color.white, alpha),
                 startSize = pixelSize,
                 remainingLifetime = 1f,
                 startLifetime = 1f
@@ -181,7 +185,7 @@ public sealed class PeacockKnightDematerialization : MonoBehaviour
             returnedPixels[i] = new ParticleData
             {
                 worldPosition = burstPixel.position,
-                color = Color.white,
+                color = ColorWithAlpha(Color.white, SwarmAlpha),
                 size = pixelSize
             };
         }
@@ -195,6 +199,21 @@ public sealed class PeacockKnightDematerialization : MonoBehaviour
         _elapsed = 0f;
         if (particleSystemForDispersion != null)
             particleSystemForDispersion.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+    }
+
+    private float SwarmAlpha => swarmAlpha / 255f;
+
+    private static Color ColorWithAlpha(Color color, float alpha)
+    {
+        color.a = alpha;
+        return color;
+    }
+
+    // QuadOut: the pixels lose most of their light early, then settle softly into the ambient level.
+    private static float EaseOutQuad(float progress)
+    {
+        progress = Mathf.Clamp01(progress);
+        return 1f - (1f - progress) * (1f - progress);
     }
 
 }

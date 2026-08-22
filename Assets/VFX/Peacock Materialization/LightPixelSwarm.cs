@@ -93,13 +93,18 @@ public sealed class LightPixelSwarm : MonoBehaviour
             _particles = new ParticleSystem.Particle[_particleSystem.main.maxParticles];
 
         int currentCount = _particleSystem.GetParticles(_particles);
-        int amountToAdd = Mathf.Min(particlesToAdd.Length, _particleSystem.main.maxParticles - currentCount);
+        int maxParticles = _particleSystem.main.maxParticles;
+        int amountToAdd = Mathf.Min(particlesToAdd.Length, maxParticles);
         float safeLifetime = Mathf.Max(0.01f, lifetime);
+
+        // A constantly emitting swarm is usually already full. Replace its last particles when
+        // necessary so returned pixels are never silently discarded at the end of an explosion.
+        int insertionIndex = Mathf.Min(currentCount, maxParticles - amountToAdd);
 
         for (int i = 0; i < amountToAdd; i++)
         {
             ParticleData source = particlesToAdd[i];
-            _particles[currentCount + i] = new ParticleSystem.Particle
+            _particles[insertionIndex + i] = new ParticleSystem.Particle
             {
                 position = source.worldPosition,
                 startColor = source.color,
@@ -109,6 +114,6 @@ public sealed class LightPixelSwarm : MonoBehaviour
             };
         }
 
-        _particleSystem.SetParticles(_particles, currentCount + amountToAdd);
+        _particleSystem.SetParticles(_particles, Mathf.Max(currentCount, insertionIndex + amountToAdd));
     }
 }
