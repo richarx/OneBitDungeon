@@ -13,6 +13,21 @@ public sealed class LightPixelSwarm : MonoBehaviour
         public float size;
     }
 
+    [Serializable]
+    public struct TakeRequest
+    {
+        public Vector3 worldPosition;
+        [Min(0)] public int amount;
+        [Min(0f)] public float radius;
+
+        public TakeRequest(Vector3 worldPosition, int amount, float radius)
+        {
+            this.worldPosition = worldPosition;
+            this.amount = amount;
+            this.radius = radius;
+        }
+    }
+
     [SerializeField, Min(1)] private int bufferSize = 128;
 
     private ParticleSystem _particleSystem;
