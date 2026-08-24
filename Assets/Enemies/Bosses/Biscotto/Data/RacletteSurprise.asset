@@ -30,7 +30,7 @@ MonoBehaviour:
   <SecondSpinDuration>k__BackingField: 0.65
   <SecondRadius>k__BackingField: 0.15
   <FinalRecoveryDuration>k__BackingField: 2.5
-  <AnticipationAnimation>k__BackingField: 
-  <SpinAnimation>k__BackingField: 
-  <FatigueAnimation>k__BackingField: 
-  <SecondWindAnimation>k__BackingField: 
+  <AnticipationAnimation>k__BackingField: Spin_Anticipation
+  <SpinAnimation>k__BackingField: Spin
+  <FatigueAnimation>k__BackingField: Exhausted
+  <SecondWindAnimation>k__BackingField: Shaking

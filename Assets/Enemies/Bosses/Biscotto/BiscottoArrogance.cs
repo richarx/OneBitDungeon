@@ -12,7 +12,7 @@ public sealed class BiscottoArrogance : MonoBehaviour
     [ShowInInspector]
     [ReadOnly]
     [LabelText("Niveau d'arrogance")]
-    private int CurrentArroganceLevel => currentArroganceLevel;
+    public int CurrentArroganceLevel => currentArroganceLevel;
 
 
     private Color[] emptyLevelColors;

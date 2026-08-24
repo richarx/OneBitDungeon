@@ -33,12 +33,21 @@ public sealed class BiscottoFlexBehaviour : IEnemyBehaviour, IConditionalEnemyBe
             return;
         }
 
-        PlayAnimation(enemy, data.FlexAnimation);
+        PlayAnimation(enemy, SelectAnimationFromArrogance(arrogance.CurrentArroganceLevel, data));
         flexSequence = Sequence.Create()
             .ChainDelay(data.FlexDuration)
             .ChainCallback(arrogance.AddArroganceLevel)
             .ChainDelay(data.RecoveryDuration)
             .ChainCallback(() => execution.Complete());
+    }
+
+    private string SelectAnimationFromArrogance(int currentArroganceLevel, BiscottoFlexData data)
+    {
+        if (currentArroganceLevel == 0)
+            return data.FlexAnimation_Arrogance_1;
+        if (currentArroganceLevel == 1)
+            return data.FlexAnimation_Arrogance_2;
+        return data.FlexAnimation_Arrogance_3;
     }
 
     public void UpdateBehaviour(EnemyController enemy)

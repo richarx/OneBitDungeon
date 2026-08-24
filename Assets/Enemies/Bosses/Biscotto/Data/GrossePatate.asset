@@ -30,8 +30,8 @@ MonoBehaviour:
     <MoveBesidePlayer>k__BackingField: 1
     <MoveDistance>k__BackingField: 2
     <MoveDuration>k__BackingField: 0.25
-    <AnticipationAnimation>k__BackingField: 
-    <ImpactAnimation>k__BackingField: 
+    <AnticipationAnimation>k__BackingField: Punch_Right_Anticipation
+    <ImpactAnimation>k__BackingField: Punch_Right
   <RotationDampening>k__BackingField: 0.08
   <FinalRecoveryDuration>k__BackingField: 1
   <TriggerAfterImageOnSideMove>k__BackingField: 0

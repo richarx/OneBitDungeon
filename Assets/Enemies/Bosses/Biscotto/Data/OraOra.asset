@@ -29,5 +29,5 @@ MonoBehaviour:
   <RepositionDuration>k__BackingField: 0.25
   <TriggerAfterImageOnReposition>k__BackingField: 1
   <FinalRecoveryDuration>k__BackingField: 2
-  <PunchAnimation>k__BackingField: 
-  <RecoveryAnimation>k__BackingField: 
+  <PunchAnimation>k__BackingField: Punch_Right_Anticipation
+  <RecoveryAnimation>k__BackingField: Punch_Right

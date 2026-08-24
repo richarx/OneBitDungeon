@@ -30,8 +30,8 @@ MonoBehaviour:
     <MoveBesidePlayer>k__BackingField: 1
     <MoveDistance>k__BackingField: 2
     <MoveDuration>k__BackingField: 0.25
-    <AnticipationAnimation>k__BackingField: 
-    <ImpactAnimation>k__BackingField: 
+    <AnticipationAnimation>k__BackingField: Punch_Right_Anticipation
+    <ImpactAnimation>k__BackingField: Punch_Right
   - <StepName>k__BackingField: Coup
     <RectangularDamageZonePrefabOverride>k__BackingField: {fileID: 0}
     <DamageZoneWidth>k__BackingField: 2
@@ -45,8 +45,8 @@ MonoBehaviour:
     <MoveBesidePlayer>k__BackingField: 0
     <MoveDistance>k__BackingField: 2
     <MoveDuration>k__BackingField: 0.25
-    <AnticipationAnimation>k__BackingField: 
-    <ImpactAnimation>k__BackingField: 
+    <AnticipationAnimation>k__BackingField: Punch_Left_Anticipation
+    <ImpactAnimation>k__BackingField: Punch_Left
   - <StepName>k__BackingField: Coup
     <RectangularDamageZonePrefabOverride>k__BackingField: {fileID: 0}
     <DamageZoneWidth>k__BackingField: 3
@@ -60,8 +60,8 @@ MonoBehaviour:
     <MoveBesidePlayer>k__BackingField: 1
     <MoveDistance>k__BackingField: 4
     <MoveDuration>k__BackingField: 0.1
-    <AnticipationAnimation>k__BackingField: 
-    <ImpactAnimation>k__BackingField: 
+    <AnticipationAnimation>k__BackingField: Punch_Right_Anticipation
+    <ImpactAnimation>k__BackingField: Punch_Right
   <RotationDampening>k__BackingField: 0.08
   <FinalRecoveryDuration>k__BackingField: 1
   <TriggerAfterImageOnSideMove>k__BackingField: 1

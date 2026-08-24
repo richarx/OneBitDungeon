@@ -15,6 +15,12 @@ public sealed class BiscottoFlexData : ScriptableObject
     public float RecoveryDuration { get; private set; } = 0.35f;
 
     [field: SerializeField]
-    [field: LabelText("Animation")]
-    public string FlexAnimation { get; private set; }
+    [field: LabelText("Animation Arrogance 1")]
+    public string FlexAnimation_Arrogance_1 { get; private set; }
+    [field: SerializeField]
+    [field: LabelText("Animation Arrogance 2")]
+    public string FlexAnimation_Arrogance_2 { get; private set; }
+    [field: SerializeField]
+    [field: LabelText("Animation Arrogance 3")]
+    public string FlexAnimation_Arrogance_3 { get; private set; }
 }

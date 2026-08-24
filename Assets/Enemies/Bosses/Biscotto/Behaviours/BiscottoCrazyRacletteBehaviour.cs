@@ -51,12 +51,10 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
             .ChainCallback(() =>
             {
                 PlayAnimation(enemy, data.SpinAnimation);
-                StartSpriteRotation(enemy);
             })
             .ChainDelay(data.SpinDuration)
             .ChainCallback(() =>
             {
-                StopSpriteRotation();
                 PlayAnimation(enemy, data.FatigueAnimation);
             });
 
@@ -78,12 +76,10 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
                 .ChainCallback(() =>
                 {
                     PlayAnimation(enemy, data.SpinAnimation);
-                    StartSpriteRotation(enemy);
                 })
                 .ChainDelay(data.SecondSpinDuration)
                 .ChainCallback(() =>
                 {
-                    StopSpriteRotation();
                     PlayAnimation(enemy, data.FatigueAnimation);
                 });
         }
@@ -161,33 +157,10 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
         return Mathf.Max(0.0f, data.RadiusOptions[UnityEngine.Random.Range(0, data.RadiusOptions.Count)]);
     }
 
-    private void StartSpriteRotation(EnemyController enemy)
-    {
-        StopSpriteRotation();
-
-        if (enemy.Sprite == null)
-            return;
-
-        rotatingSprite = enemy.Sprite.transform;
-        spriteInitialLocalRotation = rotatingSprite.localRotation;
-        isRotatingSprite = true;
-    }
-
-    private void StopSpriteRotation()
-    {
-        if (rotatingSprite != null)
-            rotatingSprite.localRotation = spriteInitialLocalRotation;
-
-        isRotatingSprite = false;
-        rotatingSprite = null;
-    }
-
     private void ResetRuntimeState(EnemyController enemy)
     {
         if (attackSequence.isAlive)
             attackSequence.Stop();
-
-        StopSpriteRotation();
 
         if (spawnedZones == null)
         {

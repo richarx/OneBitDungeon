@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <FlexDuration>k__BackingField: 2
   <RecoveryDuration>k__BackingField: 0.35
-  <FlexAnimation>k__BackingField: 
+  <FlexAnimation_Arrogance_1>k__BackingField: Flex_Left
+  <FlexAnimation_Arrogance_2>k__BackingField: Flex_Right
+  <FlexAnimation_Arrogance_3>k__BackingField: Flex_Both

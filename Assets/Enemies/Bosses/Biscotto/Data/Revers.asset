@@ -28,8 +28,8 @@ MonoBehaviour:
   <HitRecoveryDuration>k__BackingField: 0.8
   <EarlyDodgeRecoveryDuration>k__BackingField: 0.45
   <ReflectedStunDuration>k__BackingField: 3
-  <InvitationAnimation>k__BackingField: 
-  <ImpactAnimation>k__BackingField: 
-  <HitPlayerAnimation>k__BackingField: 
-  <EarlyDodgeAnimation>k__BackingField: 
-  <ReflectedAnimation>k__BackingField: 
+  <InvitationAnimation>k__BackingField: Taunt
+  <ImpactAnimation>k__BackingField: Slap_Anticipation
+  <HitPlayerAnimation>k__BackingField: Slap
+  <EarlyDodgeAnimation>k__BackingField: Laugh
+  <ReflectedAnimation>k__BackingField: FallBack
