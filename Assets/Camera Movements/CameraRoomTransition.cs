@@ -53,7 +53,7 @@ public class CameraRoomTransition : MonoBehaviour
 
     private Transform ComputeTarget(DoorController.DoorSide doorSide)
     {
-        switch (doorSide.Opposite())
+        switch (doorSide)
         {
             default:
             case DoorController.DoorSide.North:

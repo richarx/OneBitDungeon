@@ -19,6 +19,8 @@ namespace Decor.Door
         }
 
         [SerializeField] private DoorSide doorSide;
+        [SerializeField] private bool isSpecialDoor;
+        [SerializeField] private string specialTarget;
         [SerializeField] private SceneField targetScene;
         [SerializeField] private Animator animator;
         [SerializeField] private DoorTrigger trigger;
@@ -29,12 +31,14 @@ namespace Decor.Door
         private bool isLocked;
 
         public DoorSide doorDirection => doorSide;
+        public bool IsSpecialDoor => isSpecialDoor;
+        public string SpecialTarget => specialTarget;
 
         private void Start()
         {
             Assert.IsNotNull(targetScene, $"In Door : {doorSide} => target scene has not been set");
 
-            trigger.OnTrigger.AddListener(() => GameManager.instance.ChangeSceneFromDoor(targetScene.SceneName, doorSide.Opposite()));
+            trigger.OnTrigger.AddListener(() => GameManager.instance.ChangeSceneFromDoor(targetScene.SceneName, this));
         }
 
         public void UnlockDoor()

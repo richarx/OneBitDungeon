@@ -1033,6 +1033,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
+      propertyPath: isSpecialDoor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: specialTarget
+      value: Biscoto
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
       propertyPath: targetScene.m_SceneName
       value: FireRoom
       objectReference: {fileID: 0}

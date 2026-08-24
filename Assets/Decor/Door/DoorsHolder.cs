@@ -64,14 +64,26 @@ namespace Decor.Door
             }
         }
 
-        public DoorController GetDoor(DoorSide direction)
+        public DoorController GetDoor(DoorController triggerDoor)
         {
-            DoorController door = doors.First(d => d.doorDirection == direction);
+            if (triggerDoor.IsSpecialDoor)
+            {
+                DoorController door = doors.First(d => d.SpecialTarget == triggerDoor.SpecialTarget);
 
-            if (door == null)
-                Debug.LogError($"Error in DoorHolder : no door of direction {direction} found.");
+                if (door == null)
+                    Debug.LogError($"Error in DoorHolder : no door of direction {triggerDoor.SpecialTarget} found.");
 
-            return door;
+                return door;
+            }
+            else
+            {
+                DoorController door = doors.First(d => d.doorDirection == triggerDoor.doorDirection);
+
+                if (door == null)
+                    Debug.LogError($"Error in DoorHolder : no door of direction {triggerDoor.doorDirection} found.");
+
+                return door;
+            }
         }
 
         public DoorController GetRandomDoor()

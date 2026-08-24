@@ -109,19 +109,19 @@ namespace Game_Manager
             OnLockLevel?.Invoke();
         }
 
-        public void ChangeSceneFromDoor(string targetSceneName, DoorSide targetDoor)
+        public void ChangeSceneFromDoor(string targetSceneName, DoorController triggerDoor)
         {
             StopAllCoroutines();
-            StartCoroutine(ChangeSceneFromDoorCoroutine(targetSceneName, targetDoor));
+            StartCoroutine(ChangeSceneFromDoorCoroutine(targetSceneName, triggerDoor));
         }
 
-        private IEnumerator ChangeSceneFromDoorCoroutine(string targetSceneName, DoorSide targetDoor)
+        private IEnumerator ChangeSceneFromDoorCoroutine(string targetSceneName, DoorController triggerDoor)
         {
             PlayerStateMachine player = PlayerStateMachine.instance;
 
             player.playerLocked.SetLockState(player);
             OnPrepareToChangeScene?.Invoke();
-            OnPrepareToLeaveRoom?.Invoke(targetDoor);
+            OnPrepareToLeaveRoom?.Invoke(triggerDoor.doorDirection);
             yield return blackScreenTransition.FadeIn(0.5f);
             Tween.StopAll();
 
@@ -130,7 +130,7 @@ namespace Game_Manager
             yield return new WaitUntil(() => operation.isDone);
             yield return null;
 
-            DoorController door = DoorsHolder.instance.GetDoor(targetDoor);
+            DoorController door = DoorsHolder.instance.GetDoor(triggerDoor);
             Vector3 spawnPosition = door.ComputeSpawnPosition();
             player.rb.position = spawnPosition;
 
