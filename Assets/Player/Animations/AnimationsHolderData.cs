@@ -12,7 +12,7 @@ public class AnimationsHolderData : ScriptableObject
     public AnimationData Jump;
     public AnimationData Roll;
     public AnimationData Attack;
-    public AnimationData JumpTag;
+    public AnimationData JumpAttack;
     public AnimationData ParryStart;
     public AnimationData ParrySuccess;
     public AnimationData ParryRecovery;

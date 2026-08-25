@@ -22,8 +22,11 @@ namespace Player.Scripts
         {
             player = GetComponent<PlayerStateMachine>();
 
-            player.playerAttack.OnPlayerAttack.AddListener((d) => SpawnStepVfx());
-            player.playerCriticalAttack.OnPlayerAttack.AddListener((d) => SpawnStepVfx());
+            player.playerAttack.OnPlayerAttack.AddListener((payload) =>
+            {
+                if (payload.Type == AttackType.Light)
+                    SpawnStepVfx();
+            });
             player.playerArrogantSpin.OnStartSpin.AddListener(() => SpawnStepVfx());
         }
 

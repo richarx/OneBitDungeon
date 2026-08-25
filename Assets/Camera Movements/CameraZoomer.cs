@@ -17,7 +17,7 @@ public class CameraZoomer : MonoBehaviour
         PlayerStateMachine player = PlayerStateMachine.instance;
 
         player.playerParry.OnSuccessfulParry.AddListener(() => StartZoom(0.1f, 0.3f, 8.0f));
-        player.playerCriticalAttack.OnPlayerAttack.AddListener(HandleCritStrike);
+        player.playerAttack.OnPlayerAttack.AddListener(HandleAttack);
         player.playerHealth.OnPlayerTakeDamage.AddListener((_) => StartZoom(0.1f, 0.5f, 12.0f));
 
         ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
@@ -29,9 +29,10 @@ public class CameraZoomer : MonoBehaviour
         decorCamera = CamerasHolder.instance.decorCamera;
     }
 
-    private void HandleCritStrike(AttackPayload payload)
+    private void HandleAttack(AttackPayload payload)
     {
-        StartZoom(0.7f, 0.3f, 10.0f);
+        if (payload.Type == AttackType.Critical)
+            StartZoom(0.7f, 0.3f, 10.0f);
     }
 
     private void HandleArrogantDodge(ArroganceGainResult result)

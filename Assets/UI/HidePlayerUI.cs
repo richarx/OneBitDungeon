@@ -1,4 +1,3 @@
-using System;
 using Player.Scripts;
 using PrimeTween;
 using UnityEngine;
@@ -32,8 +31,7 @@ public class HidePlayerUI : MonoBehaviour
     {
         PlayerStateMachine player = PlayerStateMachine.instance;
 
-        playerAttackEventHandler = (_) => HideUI();
-        player.playerCriticalAttack.OnPlayerAttack.AddListener(playerAttackEventHandler);
+        player.playerAttack.OnPlayerAttack.AddListener(HideUI);
         player.playerCriticalAttack.OnReachedTarget.AddListener(DisplayUI);
 
         isSetup = true;
@@ -43,14 +41,17 @@ public class HidePlayerUI : MonoBehaviour
     {
         PlayerStateMachine player = PlayerStateMachine.instance;
 
-        player.playerCriticalAttack.OnPlayerAttack.RemoveListener(playerAttackEventHandler);
+        player.playerAttack.OnPlayerAttack.RemoveListener(HideUI);
         player.playerCriticalAttack.OnReachedTarget.RemoveListener(DisplayUI);
 
         isSetup = false;
     }
 
-    private void HideUI()
+    private void HideUI(AttackPayload payload)
     {
+        if (payload.Type != AttackType.Critical)
+            return;
+
         if (currentSequence.isAlive)
             currentSequence.Stop();
 

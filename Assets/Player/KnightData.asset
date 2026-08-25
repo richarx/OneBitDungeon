@@ -60,6 +60,11 @@ MonoBehaviour:
   attackDashDelay: 0.1
   attackDashMaxDistance: 3.5
   attackDashDeceleration: 500
+  jumpAttackDamage: 25
+  jumpAttackDuration: 1
+  jumpAttackCancelTimer: 0.85
+  jumpAttackSpawnHitBoxTimer: 0.25
+  jumpAttackRemoveHitBoxTimer: 0.45
   staggerDuration: 0.4
   staggerPower: 20
   staggerDeceleration: 60

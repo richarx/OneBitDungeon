@@ -54,7 +54,6 @@ namespace Player.Scripts
             player.playerJump.OnLandJump.AddListener(() => SFXManager.instance.PlayRandomSFX(jumpStop, 0.015f));
             player.playerSword.OnEquipSword.AddListener(() => SFXManager.instance.PlaySFX(unsheatheSword, 0.1f));
             player.playerSword.OnSheatheSword.AddListener(() => SFXManager.instance.PlaySFX(sheatheSword, 0.1f));
-            player.playerAttack.OnPlayerAttack.AddListener((_) => SFXManager.instance.PlayRandomSFX(swordSlash));
             WeaponDamageTrigger.OnHitEnemy.AddListener((payload, _) =>
             {
                 if (payload.Type == AttackType.Light)
@@ -106,7 +105,13 @@ namespace Player.Scripts
             player.playerArrogantRun.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
             player.playerArrogantSpin.OnStopBeingArrogant.AddListener(PlayStopBeingArrogantSfx);
             ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
-            player.playerCriticalAttack.OnPlayerAttack.AddListener((_) => SFXManager.instance.PlaySFX(insolentPrepareAttack, 0.1f));
+            player.playerAttack.OnPlayerAttack.AddListener((payload) =>
+            {
+                if (payload.Type == AttackType.Light)
+                    SFXManager.instance.PlayRandomSFX(swordSlash);
+                if (payload.Type == AttackType.Critical)
+                    SFXManager.instance.PlaySFX(insolentPrepareAttack, 0.1f);
+            });
             player.playerCriticalAttack.OnStartDash.AddListener(() => SFXManager.instance.PlaySFX(insolentAttackDash, 0.5f));
         }
 

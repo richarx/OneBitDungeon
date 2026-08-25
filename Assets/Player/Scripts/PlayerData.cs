@@ -109,6 +109,13 @@ namespace Player.Scripts
         public float attackDashMaxDistance;
         public float attackDashDeceleration;
 
+        [Space]
+        [Header("Jump Attack")]
+        public float jumpAttackDamage;
+        public float jumpAttackDuration;
+        public float jumpAttackCancelTimer;
+        public float jumpAttackSpawnHitBoxTimer;
+        public float jumpAttackRemoveHitBoxTimer;
 
         [Space]
         [Header("Stagger")]

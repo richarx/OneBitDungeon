@@ -21,7 +21,6 @@ namespace Player.Scripts
             codeAnimator = GetComponent<CodeAnimator>();
 
             player.playerAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
-            player.playerCriticalAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
             player.playerJumpTag.OnStartJumpTag.AddListener(PlayJumpTagAnimation);
             player.playerStagger.OnStagger.AddListener(PlayStaggerAnimation);
 
@@ -68,6 +67,7 @@ namespace Player.Scripts
                     break;
                 case BehaviourType.Parry:
                 case BehaviourType.Attack:
+                case BehaviourType.JumpAttack:
                 case BehaviourType.CriticalAttack:
                 case BehaviourType.JumpTag:
                 case BehaviourType.Stagger:
@@ -158,7 +158,10 @@ namespace Player.Scripts
 
         private void PlayAttackAnimation(AttackPayload attackPayload)
         {
-            codeAnimator.PlayAnimation(AnimationType.Attack, ComputeAnimationDirection(), true);
+            if (attackPayload.Type == AttackType.Jump)
+                codeAnimator.PlayAnimation(AnimationType.JumpAttack, ComputeAnimationDirection(), true);
+            else
+                codeAnimator.PlayAnimation(AnimationType.Attack, ComputeAnimationDirection(), true);
         }
 
         private void PlayJumpTagAnimation()

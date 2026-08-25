@@ -8,9 +8,6 @@ namespace Player.Scripts
 {
     public class PlayerCriticalAttack : IPlayerBehaviour
     {
-        public UnityEvent<AttackPayload> OnPlayerAttack = new UnityEvent<AttackPayload>();
-        public UnityEvent OnSpawnDamageBox = new UnityEvent();
-        public UnityEvent OnRemoveDamageBox = new UnityEvent();
         public UnityEvent OnStartDash = new UnityEvent();
         public UnityEvent OnReachedTarget = new UnityEvent();
 
@@ -51,14 +48,14 @@ namespace Player.Scripts
 
             player.playerStamina.ConsumeStamina(player.playerData.attackStaminaCost);
             currentAttackPayload = new AttackPayload("Critical_Attack", AttackType.Critical, player.playerData.insolenceAttackDamage, 1);
-            OnPlayerAttack?.Invoke(currentAttackPayload);
+            player.playerAttack.OnPlayerAttack?.Invoke(currentAttackPayload);
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)
         {
             if (!hasStartedDash && Time.time - attackStartTimestamp >= player.playerData.attackDashDelay)
             {
-                OnSpawnDamageBox?.Invoke();
+                player.playerAttack.OnSpawnDamageBox?.Invoke();
                 OnStartDash?.Invoke();
                 hasStartedDash = true;
             }
@@ -71,7 +68,7 @@ namespace Player.Scripts
 
             if (hasReachedTarget && Time.time - reachedTargetTimestamp >= 0.3f)
             {
-                OnRemoveDamageBox?.Invoke();
+                player.playerAttack.OnRemoveDamageBox?.Invoke();
                 StopCriticalAttack(player);
             }
         }

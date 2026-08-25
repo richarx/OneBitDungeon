@@ -40,6 +40,12 @@ public class PlayerJump : IPlayerBehaviour
         }
         */
 
+        if (!hasLanded && player.inputPackage.GetAttack.wasPressedThisFrame)
+        {
+            player.ChangeBehaviour(player.playerJumpAttack);
+            return;
+        }
+
         if (!hasLanded && Time.time - jumpStartTimestamp >= player.playerData.jumpInAirDuration)
         {
             Land(player);

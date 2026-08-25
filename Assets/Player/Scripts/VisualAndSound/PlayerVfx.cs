@@ -129,7 +129,6 @@ namespace Player.Scripts
             WeaponDamageTrigger.OnHitEnemy.AddListener(HandleHitEnemy);
             player.playerHealth.OnPlayerTakeDamage.AddListener(HandlePlayerTakeDamage);
             player.playerAttack.OnPlayerAttack.AddListener(HandlePlayerAttack);
-            player.playerCriticalAttack.OnPlayerAttack.AddListener(HandleCritStrike);
             player.playerCriticalAttack.OnStartDash.AddListener(HandleCritStrikeDash);
             player.playerCriticalAttack.OnReachedTarget.AddListener(HandleCritStrikeReachedTarget);
             player.playerParry.OnSuccessfulParry.AddListener(HandleSuccessfulParry);
@@ -151,7 +150,6 @@ namespace Player.Scripts
             {
                 player.playerHealth.OnPlayerTakeDamage.RemoveListener(HandlePlayerTakeDamage);
                 player.playerAttack.OnPlayerAttack.RemoveListener(HandlePlayerAttack);
-                player.playerCriticalAttack.OnPlayerAttack.RemoveListener(HandleCritStrike);
                 player.playerCriticalAttack.OnStartDash.RemoveListener(HandleCritStrikeDash);
                 player.playerCriticalAttack.OnReachedTarget.RemoveListener(HandleCritStrikeReachedTarget);
                 player.playerParry.OnSuccessfulParry.RemoveListener(HandleSuccessfulParry);
@@ -164,8 +162,15 @@ namespace Player.Scripts
             hasSubscribed = false;
         }
 
+        private void HandlePlayerAttack(AttackPayload attackPayload)
+        {
+            if (attackPayload.Type == AttackType.Light)
+                StartCoroutine(WaitAndSpawnSwordSlash(attackPayload, swordSlashDelay));
+            else if (attackPayload.Type == AttackType.Critical)
+                HandleCritStrike();
+        }
         GameObject critTrail;
-        private void HandleCritStrike(AttackPayload attackPayload)
+        private void HandleCritStrike()
         {
             StartCoroutine(SlowTimeCoroutine(0.5f, 0.1f));
             critTrail = Instantiate(swordCritTrailPrefab, player.position, Quaternion.identity);
@@ -239,11 +244,6 @@ namespace Player.Scripts
             if (!player.playerHealth.IsDead)
                 StartCoroutine(SlowTimeCoroutine(0.2f, 0.2f));
             SpawnHurtVfx(direction);
-        }
-
-        private void HandlePlayerAttack(AttackPayload attackPayload)
-        {
-            StartCoroutine(WaitAndSpawnSwordSlash(attackPayload, swordSlashDelay));
         }
 
         private void HandleSuccessfulParry()

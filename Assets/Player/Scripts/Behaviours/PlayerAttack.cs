@@ -11,7 +11,8 @@ namespace Player.Scripts
         Light,
         Special,
         Punish,
-        Critical
+        Critical,
+        Jump
     }
 
     public class AttackPayload

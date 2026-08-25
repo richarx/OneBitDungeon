@@ -24,7 +24,7 @@ public class CodeAnimator : MonoBehaviour
         GetUp,
         SitDown,
         Sit,
-        JumpTag
+        JumpAttack
     }
 
     public enum AnimationDirection
@@ -146,8 +146,8 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.ArrogantWalk;
             case AnimationType.Jump:
                 return animationsHolder.Jump;
-            case AnimationType.JumpTag:
-                return animationsHolder.JumpTag;
+            case AnimationType.JumpAttack:
+                return animationsHolder.JumpAttack;
             case AnimationType.Roll:
                 return animationsHolder.Roll;
             case AnimationType.ArrogantSpinLeft:
