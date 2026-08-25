@@ -40,7 +40,8 @@ namespace Player.Scripts
         [SerializeField] private AudioClip insolentAttackDash;
         [SerializeField] private AudioClip insolentAttackHit_1;
         [SerializeField] private AudioClip insolentAttackHit_2;
-
+        [SerializeField] private AudioClip counterAttack_1;
+        [SerializeField] private AudioClip counterAttack_2;
 
         private PlayerStateMachine player;
 
@@ -109,8 +110,19 @@ namespace Player.Scripts
             {
                 if (payload.Type == AttackType.Light)
                     SFXManager.instance.PlayRandomSFX(swordSlash);
-                if (payload.Type == AttackType.Critical)
+                else if (payload.Type == AttackType.Critical)
                     SFXManager.instance.PlaySFX(insolentPrepareAttack, 0.1f);
+                else if (payload.Type == AttackType.Jump)
+                {
+                    SFXManager.instance.PlaySFX(tagJumpSlam_1, 0.1f);
+                    SFXManager.instance.PlaySFX(tagJumpSlam_2, 0.1f, 0.1f);
+                }
+                else if (payload.Type == AttackType.Punish)
+                {
+                    SFXManager.instance.PlaySFX(counterAttack_1, 0.1f);
+                    SFXManager.instance.PlaySFX(counterAttack_2, 0.1f);
+
+                }
             });
             player.playerCriticalAttack.OnStartDash.AddListener(() => SFXManager.instance.PlaySFX(insolentAttackDash, 0.5f));
         }
@@ -149,13 +161,7 @@ namespace Player.Scripts
                 case TagContext.Roll:
                     break;
                 case TagContext.Jump:
-                    if (player.playerTagSystem.ActiveSlotIndex == 0)
-                    {
-                        SFXManager.instance.PlaySFX(tagJumpSlam_1, 0.1f);
-                        SFXManager.instance.PlaySFX(tagJumpSlam_2, 0.1f, 0.1f);
-                    }
-                    else
-                        SFXManager.instance.PlaySFX(tagJumpFlip, 0.05f);
+                    SFXManager.instance.PlaySFX(tagJumpFlip, 0.05f);
                     break;
                 case TagContext.SucceededParry:
                     break;

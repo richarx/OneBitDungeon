@@ -3176,6 +3176,21 @@ PrefabInstance:
       propertyPath: isInvincible
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3422660161153846879, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: counterAttack
+      value: 
+      objectReference: {fileID: 8300000, guid: d20528b23fd7d04459f890ac545c5e4e, type: 3}
+    - target: {fileID: 3422660161153846879, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: counterAttack_1
+      value: 
+      objectReference: {fileID: 8300000, guid: d20528b23fd7d04459f890ac545c5e4e, type: 3}
+    - target: {fileID: 3422660161153846879, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: counterAttack_2
+      value: 
+      objectReference: {fileID: 8300000, guid: 04b70eb866614324c818e087431c25b7, type: 3}
     - target: {fileID: 3599857382993739372, guid: 72fec9c9a9cc45a45b23daca94578ebf,
         type: 3}
       propertyPath: cinematicBlackBars
