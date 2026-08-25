@@ -54,7 +54,7 @@ MonoBehaviour:
     <DamageZoneSideOffset>k__BackingField: 1
     <DamageZoneSide>k__BackingField: 0
     <SpawnDuration>k__BackingField: 0.2
-    <FillDuration>k__BackingField: 0.4
+    <FillDuration>k__BackingField: 0.6
     <LockBeforeImpact>k__BackingField: 0.3
     <DelayAfterImpact>k__BackingField: 0.2
     <MoveBesidePlayer>k__BackingField: 1
