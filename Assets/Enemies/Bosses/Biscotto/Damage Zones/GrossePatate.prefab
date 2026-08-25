@@ -141,7 +141,7 @@ MonoBehaviour:
   filledColor: {r: 1, g: 0, b: 0, a: 1}
   filledOutlineColor: {r: 0, g: 0, b: 0, a: 1}
   alsoDestroyParent: 1
-  damageZoneType: 3
+  damageZoneType: 4
 --- !u!114 &7501630626204477299
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,7 +9,8 @@ public enum RectangleDamageZoneType
     Default,
     ArroganceFilling,
     ArroganceLerp,
-    DefaultWithoutCloseWindow
+    DefaultWithoutCloseWindow,
+    FadeColorDuringWindow
 }
 
 public class RectangleDamageZone : MonoBehaviour
@@ -145,18 +146,25 @@ public class RectangleDamageZone : MonoBehaviour
         {
             float closeDodgeWindowDuration = _playerInstance.playerData.closeDodgeWindowDuration;
             float dangerFillDuration = Mathf.Max(0.0f, fillDuration - closeDodgeWindowDuration);
+            float dangerFillNormalized = Tools.NormalizeValue(closeDodgeWindowDuration, 0.0f, fillDuration);
 
             spriteRenderer.material.SetFloat(debugFillingDanger, damageZoneType == RectangleDamageZoneType.ArroganceFilling ? 1.0f : 0.0f);
             spriteRenderer.material.SetFloat(arroganceFillAmountId, 0.0f);
 
             if (useVerticalFill)
-                currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, fillAmountId, 1.0f, dangerFillDuration, fillEase));
+                currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, fillAmountId, damageZoneType == RectangleDamageZoneType.FadeColorDuringWindow ? 1.0f - dangerFillNormalized : 1.0f, dangerFillDuration, fillEase));
             else
                 currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, Mathf.Min(size.x, size.y), dangerFillDuration, fillEase));
 
             if (damageZoneType == RectangleDamageZoneType.DefaultWithoutCloseWindow)
             {
                 currentSequence.ChainDelay(closeDodgeWindowDuration);
+            }
+            else if (damageZoneType == RectangleDamageZoneType.FadeColorDuringWindow)
+            {
+                currentSequence.Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, Color.blue, closeDodgeWindowDuration));
+                currentSequence.Group(Tween.MaterialProperty(spriteRenderer.material, fillAmountId, 1.0f, closeDodgeWindowDuration, fillEase));
+
             }
             else
             {
