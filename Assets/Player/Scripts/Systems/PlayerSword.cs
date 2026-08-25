@@ -11,14 +11,7 @@ namespace Player.Scripts
 
         [Space]
         [SerializeField] private GameObject hitboxPrefab;
-        [SerializeField] private GameObject specialHitboxPrefab;
-        [SerializeField] private Vector3 whirlwindHitboxLocalPosition = new Vector3(0.0f, 0.75f, 0.0f);
-        [SerializeField] private Vector3 whirlwindHitboxLocalScale = new Vector3(5.0f, 1.5f, 5.0f);
-
-        [Space]
-        [SerializeField] private GameObject jumpTagHitboxPrefab;
-        [SerializeField] private Vector3 jumpTagHitboxLocalPosition = new Vector3(0.0f, 0.75f, 0.0f);
-        [SerializeField] private Vector3 jumpTagHitboxLocalScale = new Vector3(4.0f, 1.5f, 4.0f);
+        [SerializeField] private GameObject counterHitboxPrefab;
 
         [HideInInspector] public UnityEvent OnEquipSword = new UnityEvent();
         [HideInInspector] public UnityEvent OnSheatheSword = new UnityEvent();
@@ -44,10 +37,6 @@ namespace Player.Scripts
             player.playerAttack.OnSpawnDamageBox.AddListener(SpawnHitbox);
             player.playerAttack.OnRemoveDamageBox.AddListener(RemoveHitbox);
 
-            player.playerJumpTag.OnStartJumpTag.AddListener(HandleJumpTagStart);
-            player.playerJumpTag.OnSpawnDamageBox.AddListener(SpawnJumpTagHitbox);
-            player.playerJumpTag.OnRemoveDamageBox.AddListener(RemoveHitbox);
-
             WeaponDamageTrigger.OnHitEnemy.AddListener((payload, direction) =>
             {
                 if (payload.Type == AttackType.Light)
@@ -72,9 +61,8 @@ namespace Player.Scripts
             if (currentHitbox != null)
                 RemoveHitbox();
 
-            // Plus tard ajouter le knockback dans l'attack payload
-            if (currentAttackPayload != null && (currentAttackPayload.Type == AttackType.Special || currentAttackPayload.Type == AttackType.Punish))
-                SpawnWhirlwindHitbox();
+            if (currentAttackPayload != null && currentAttackPayload.Type == AttackType.Punish)
+                SpawnCounterHitbox();
             else
                 SpawnDirectionalHitbox();
         }
@@ -87,33 +75,12 @@ namespace Player.Scripts
             currentHitbox.transform.GetChild(0).GetComponent<WeaponDamageTrigger>().SetPayload(currentAttackPayload);
         }
 
-        private void SpawnWhirlwindHitbox()
+        private void SpawnCounterHitbox()
         {
-            GameObject prefab = specialHitboxPrefab != null ? specialHitboxPrefab : hitboxPrefab;
+            GameObject prefab = counterHitboxPrefab != null ? counterHitboxPrefab : hitboxPrefab;
             currentHitbox = Instantiate(prefab, player.position, Quaternion.identity, transform);
 
-            if (specialHitboxPrefab != null || currentHitbox.transform.childCount == 0)
-                return;
-
-            Transform hitbox = currentHitbox.transform.GetChild(0);
-            hitbox.localPosition = whirlwindHitboxLocalPosition;
-            hitbox.localScale = whirlwindHitboxLocalScale;
-        }
-
-        private void SpawnJumpTagHitbox()
-        {
-            if (currentHitbox != null)
-                RemoveHitbox();
-
-            GameObject prefab = jumpTagHitboxPrefab != null ? jumpTagHitboxPrefab : hitboxPrefab;
-            currentHitbox = Instantiate(prefab, player.position, Quaternion.identity, transform);
-
-            if (jumpTagHitboxPrefab != null || currentHitbox.transform.childCount == 0)
-                return;
-
-            Transform hitbox = currentHitbox.transform.GetChild(0);
-            hitbox.localPosition = jumpTagHitboxLocalPosition;
-            hitbox.localScale = jumpTagHitboxLocalScale;
+            currentHitbox.transform.GetChild(0).GetComponent<WeaponDamageTrigger>().SetPayload(currentAttackPayload);
         }
 
         private float ComputeHitboxDirection()

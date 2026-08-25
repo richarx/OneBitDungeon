@@ -74,6 +74,12 @@ namespace Player.Scripts
                 }
             }
 
+            if (wasSuccessful && player.inputPackage.GetAttack.wasPressedThisFrame)
+            {
+                player.ChangeBehaviour(player.playerCounterAttack);
+                return;
+            }
+
             if (!isInRecovery)
             {
                 bool regularParryIsOver = !wasSuccessful && Time.time - parryStartTimestamp >= player.playerData.parryDuration;

@@ -111,11 +111,19 @@ namespace Player.Scripts
 
         [Space]
         [Header("Jump Attack")]
-        public float jumpAttackDamage;
+        public int jumpAttackDamage;
         public float jumpAttackDuration;
         public float jumpAttackCancelTimer;
         public float jumpAttackSpawnHitBoxTimer;
         public float jumpAttackRemoveHitBoxTimer;
+
+        [Space]
+        [Header("Counter Attack")]
+        public int counterAttackDamage;
+        public float counterAttackDuration;
+        public float counterAttackCancelTimer;
+        public float counterAttackSpawnHitBoxTimer;
+        public float counterAttackRemoveHitBoxTimer;
 
         [Space]
         [Header("Stagger")]

@@ -18,7 +18,8 @@ namespace Player.Scripts
         Dead,
         Locked,
         Tag,
-        JumpAttack
+        JumpAttack,
+        CounterAttack
     }
 
     public interface IPlayerBehaviour

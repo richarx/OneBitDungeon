@@ -68,6 +68,7 @@ namespace Player.Scripts
                 case BehaviourType.Parry:
                 case BehaviourType.Attack:
                 case BehaviourType.JumpAttack:
+                case BehaviourType.CounterAttack:
                 case BehaviourType.CriticalAttack:
                 case BehaviourType.JumpTag:
                 case BehaviourType.Stagger:
@@ -160,6 +161,8 @@ namespace Player.Scripts
         {
             if (attackPayload.Type == AttackType.Jump)
                 codeAnimator.PlayAnimation(AnimationType.JumpAttack, ComputeAnimationDirection(), true);
+            else if (attackPayload.Type == AttackType.Punish)
+                codeAnimator.PlayAnimation(AnimationType.CounterAttack, AnimationDirection.L, true);
             else
                 codeAnimator.PlayAnimation(AnimationType.Attack, ComputeAnimationDirection(), true);
         }

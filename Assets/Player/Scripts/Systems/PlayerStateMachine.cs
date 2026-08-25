@@ -28,6 +28,7 @@ namespace Player.Scripts
         public PlayerArrogantSpin playerArrogantSpin = new PlayerArrogantSpin();
         public PlayerJump playerJump = new PlayerJump();
         public PlayerJumpAttack playerJumpAttack = new PlayerJumpAttack();
+        public PlayerCounterAttack playerCounterAttack = new PlayerCounterAttack();
         public PlayerJumpTag playerJumpTag;
         public PlayerStagger playerStagger = new PlayerStagger();
         public PlayerParry playerParry = new PlayerParry();

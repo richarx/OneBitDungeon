@@ -24,7 +24,8 @@ public class CodeAnimator : MonoBehaviour
         GetUp,
         SitDown,
         Sit,
-        JumpAttack
+        JumpAttack,
+        CounterAttack,
     }
 
     public enum AnimationDirection
@@ -41,7 +42,8 @@ public class CodeAnimator : MonoBehaviour
     {
         Six,
         Four,
-        Two
+        Two,
+        One
     }
 
     [SerializeField] private SpriteRenderer graphics;
@@ -114,6 +116,9 @@ public class CodeAnimator : MonoBehaviour
         if (directionCount == AnimationDirectionCount.Two && animationDirection == AnimationDirection.R)
             return frameCount;
 
+        if (directionCount == AnimationDirectionCount.One)
+            return 0;
+
         return (int)animationDirection * frameCount;
     }
 
@@ -128,6 +133,8 @@ public class CodeAnimator : MonoBehaviour
                 return 4;
             case AnimationDirectionCount.Two:
                 return 2;
+            case AnimationDirectionCount.One:
+                return 1;
         }
     }
 
@@ -148,6 +155,8 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.Jump;
             case AnimationType.JumpAttack:
                 return animationsHolder.JumpAttack;
+            case AnimationType.CounterAttack:
+                return animationsHolder.CounterAttack;
             case AnimationType.Roll:
                 return animationsHolder.Roll;
             case AnimationType.ArrogantSpinLeft:
