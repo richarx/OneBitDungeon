@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Game_Manager;
 using SFX;
+using Tools_and_Scripts;
 using UnityEngine;
 using static Decor.Door.DoorController;
 using Random = UnityEngine.Random;
@@ -77,10 +78,10 @@ namespace Decor.Door
             }
             else
             {
-                DoorController door = doors.First(d => d.doorDirection == triggerDoor.doorDirection);
+                DoorController door = doors.First(d => d.doorDirection == triggerDoor.doorDirection.Opposite());
 
                 if (door == null)
-                    Debug.LogError($"Error in DoorHolder : no door of direction {triggerDoor.doorDirection} found.");
+                    Debug.LogError($"Error in DoorHolder : no door of direction {triggerDoor.doorDirection.Opposite()} found.");
 
                 return door;
             }
