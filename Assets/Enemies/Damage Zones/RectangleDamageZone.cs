@@ -4,6 +4,14 @@ using PrimeTween;
 using Tools_and_Scripts;
 using UnityEngine;
 
+public enum RectangleDamageZoneType
+{
+    Default,
+    ArroganceFilling,
+    ArroganceLerp,
+    DefaultWithoutCloseWindow
+}
+
 public class RectangleDamageZone : MonoBehaviour
 {
     [SerializeField] private Vector2 size;
@@ -22,6 +30,8 @@ public class RectangleDamageZone : MonoBehaviour
 
     [Space]
     [SerializeField] private bool alsoDestroyParent;
+
+    [SerializeField] private RectangleDamageZoneType damageZoneType;
 
     private float spawnDuration;
     private float fillDuration;
@@ -74,6 +84,9 @@ public class RectangleDamageZone : MonoBehaviour
         int inlineColorId = Shader.PropertyToID("_InlineColor");
         int outlineColorId = Shader.PropertyToID("_OutlineColor");
 
+        int arroganceFillAmountId = Shader.PropertyToID("_FillingArroganceZone");
+        int debugFillingDanger = Shader.PropertyToID("_DEBUGFillingDanger");
+
         if (useVerticalFill)
             spriteRenderer.material.SetFloat(fillAmountId, 0.0f);
 
@@ -81,7 +94,7 @@ public class RectangleDamageZone : MonoBehaviour
         float targetPositionZ = transform.localPosition.z + size.y * transform.localScale.y * moveDirection.y;
 
         _playerInstance = PlayerStateMachine.instance;
-        float damageTimestamp = Time.time + spawnDuration + fillDuration + 0.05f;
+        float damageTimestamp = Time.time + spawnDuration + fillDuration;
         _closeDodgeDetector = new CloseDodgeDetector();
         _closeDodgeDetector.Setup(damageTimestamp,
                                     _playerInstance.playerData.closeDodgeWindowDuration,
@@ -94,37 +107,90 @@ public class RectangleDamageZone : MonoBehaviour
         .Group(Tween.LocalPositionX(transform, targetPositionX, spawnDuration, spawnEase))
         .Group(Tween.LocalPositionZ(transform, targetPositionZ, spawnDuration, spawnEase));
 
-        if (useVerticalFill)
-            currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, fillAmountId, 1.0f, fillDuration, fillEase));
-        else
-            currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, Mathf.Min(size.x, size.y), fillDuration, fillEase));
-
-        currentSequence
-        .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.05f))
-        .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
-        .ChainCallback(() =>
+        if (damageZoneType == RectangleDamageZoneType.Default)
         {
-            isCheckingForDamage = true;
-            _closeDodgeDetector.Resolve(IsPlayerInside(), _playerInstance.isInArroganceMode);
-        })
-        .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
-        .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
-        .ChainCallback(() =>
-        {
-            isCheckingForDamage = false;
-            closeDodgeSession?.CompleteDamageCheck();
-        })
-        .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
-        .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
-        .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration * 0.9f))
-        .Group(Tween.Scale(transform, 0.0f, despawnDuration, Ease.InBack))
-        .ChainCallback(() =>
-        {
-            if (alsoDestroyParent)
-                Destroy(transform.parent.gameObject);
+            if (useVerticalFill)
+                currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, fillAmountId, 1.0f, fillDuration, fillEase));
             else
-                Destroy(gameObject);
-        });
+                currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, Mathf.Min(size.x, size.y), fillDuration, fillEase));
+
+            currentSequence
+            .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.05f))
+            .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
+            .ChainCallback(() =>
+            {
+                isCheckingForDamage = true;
+                _closeDodgeDetector.Resolve(IsPlayerInside(), _playerInstance.isInArroganceMode);
+            })
+            .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
+            .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
+            .ChainCallback(() =>
+            {
+                isCheckingForDamage = false;
+                closeDodgeSession?.CompleteDamageCheck();
+            })
+            .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
+            .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
+            .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration * 0.9f))
+            .Group(Tween.Scale(transform, 0.0f, despawnDuration, Ease.InBack))
+            .ChainCallback(() =>
+            {
+                if (alsoDestroyParent)
+                    Destroy(transform.parent.gameObject);
+                else
+                    Destroy(gameObject);
+            });
+        }
+        else
+        {
+            float closeDodgeWindowDuration = _playerInstance.playerData.closeDodgeWindowDuration;
+            float dangerFillDuration = Mathf.Max(0.0f, fillDuration - closeDodgeWindowDuration);
+
+            spriteRenderer.material.SetFloat(debugFillingDanger, damageZoneType == RectangleDamageZoneType.ArroganceFilling ? 1.0f : 0.0f);
+            spriteRenderer.material.SetFloat(arroganceFillAmountId, 0.0f);
+
+            if (useVerticalFill)
+                currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, fillAmountId, 1.0f, dangerFillDuration, fillEase));
+            else
+                currentSequence.Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, Mathf.Min(size.x, size.y), dangerFillDuration, fillEase));
+
+            if (damageZoneType == RectangleDamageZoneType.DefaultWithoutCloseWindow)
+            {
+                currentSequence.ChainDelay(closeDodgeWindowDuration);
+            }
+            else
+            {
+                currentSequence
+                .Chain(Tween.MaterialProperty(spriteRenderer.material, arroganceFillAmountId, 1.0f, closeDodgeWindowDuration, fillEase));
+            }
+            currentSequence
+            .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.05f))
+            .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.05f))
+            .ChainCallback(() =>
+            {
+                isCheckingForDamage = true;
+                _closeDodgeDetector.Resolve(IsPlayerInside(), _playerInstance.isInArroganceMode);
+            })
+            .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, flashColor, 0.05f))
+            .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, flashOutlineColor, 0.05f))
+            .ChainCallback(() =>
+            {
+                isCheckingForDamage = false;
+                closeDodgeSession?.CompleteDamageCheck();
+            })
+            .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, 0.1f))
+            .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, 0.1f))
+            .Group(Tween.MaterialProperty(spriteRenderer.material, alphaId, 0.01f, despawnDuration * 0.9f))
+            .Group(Tween.Scale(transform, 0.0f, despawnDuration, Ease.InBack))
+            .ChainCallback(() =>
+            {
+                if (alsoDestroyParent)
+                    Destroy(transform.parent.gameObject);
+                else
+                    Destroy(gameObject);
+            });
+        }
+
     }
 
     private void Update()
