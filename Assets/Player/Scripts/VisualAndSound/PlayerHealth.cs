@@ -92,8 +92,6 @@ namespace Player.Scripts
 
         public bool TakeDamage(int damage, Vector3 direction, float staggerPower = -1.0f)
         {
-
-
             if (IsDead)
                 return false;
 
@@ -101,6 +99,9 @@ namespace Player.Scripts
                 return false;
 
             if (player.playerData.rollHasIFrames && player.currentBehaviour.GetBehaviourType() == BehaviourType.Roll)
+                return false;
+
+            if (player.currentBehaviour.GetBehaviourType() == BehaviourType.CriticalAttack)
                 return false;
 
             if (!isInvincible)
