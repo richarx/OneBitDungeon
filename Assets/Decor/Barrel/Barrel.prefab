@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 141411139495285025}
   - component: {fileID: 6864561015525826888}
   - component: {fileID: 1659772586025125574}
+  - component: {fileID: 2050335223036885669}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Enemy
@@ -178,3 +179,16 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0.29}
+--- !u!114 &2050335223036885669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8916242568200596533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa932e478a3c4a2499df96582ca68ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 8700106910450751300}

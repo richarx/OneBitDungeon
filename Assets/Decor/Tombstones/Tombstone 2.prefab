@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9035640847363724756}
   - component: {fileID: 7949732601329594412}
+  - component: {fileID: 1352334496726231653}
   m_Layer: 0
   m_Name: Tombstone 2
   m_TagString: Untagged
@@ -138,3 +139,16 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.8
   m_Center: {x: 0, y: 0, z: 0.25}
+--- !u!114 &1352334496726231653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000553162894401953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa932e478a3c4a2499df96582ca68ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 9023607525297132135}

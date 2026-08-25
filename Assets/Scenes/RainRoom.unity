@@ -9684,21 +9684,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bone Diagonal
       objectReference: {fileID: 0}
-    - target: {fileID: 4388604169506850699, guid: 1d1d295e6d2db474abd32edc1b69c3fa,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.6313726
-      objectReference: {fileID: 0}
-    - target: {fileID: 4388604169506850699, guid: 1d1d295e6d2db474abd32edc1b69c3fa,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.6313726
-      objectReference: {fileID: 0}
-    - target: {fileID: 4388604169506850699, guid: 1d1d295e6d2db474abd32edc1b69c3fa,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.6313726
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9833,21 +9818,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8111871464252295107, guid: 36d86cefabc355f47bb15f53f1d3f92e,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.6313726
-      objectReference: {fileID: 0}
-    - target: {fileID: 8111871464252295107, guid: 36d86cefabc355f47bb15f53f1d3f92e,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.6313726
-      objectReference: {fileID: 0}
-    - target: {fileID: 8111871464252295107, guid: 36d86cefabc355f47bb15f53f1d3f92e,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.6313726
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9985,21 +9955,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9154557886277520511, guid: d9f2e5cc0d871dd489f569f1d274d24a,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.6313726
-      objectReference: {fileID: 0}
-    - target: {fileID: 9154557886277520511, guid: d9f2e5cc0d871dd489f569f1d274d24a,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.6313726
-      objectReference: {fileID: 0}
-    - target: {fileID: 9154557886277520511, guid: d9f2e5cc0d871dd489f569f1d274d24a,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.6313726
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10017,21 +9972,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bone
-      objectReference: {fileID: 0}
-    - target: {fileID: 3499100755868291545, guid: 74a12ae005026df40934137e9dd9c00a,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.6313726
-      objectReference: {fileID: 0}
-    - target: {fileID: 3499100755868291545, guid: 74a12ae005026df40934137e9dd9c00a,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.6313726
-      objectReference: {fileID: 0}
-    - target: {fileID: 3499100755868291545, guid: 74a12ae005026df40934137e9dd9c00a,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.6313726
       objectReference: {fileID: 0}
     - target: {fileID: 8174576956275388088, guid: 74a12ae005026df40934137e9dd9c00a,
         type: 3}

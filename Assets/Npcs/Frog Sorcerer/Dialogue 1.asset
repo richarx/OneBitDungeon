@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dialogue 1
   m_EditorClassIdentifier: 
   dialogueLines:
-  - Welcome into my swamp... Froggit
+  - Welcome to my swamp... Froggit
   - Has anyone ever told you that you had an arrogant look ?
   - Anyway... If you go further east, you shall meet foes whose arrogance dwarfs
     yours
