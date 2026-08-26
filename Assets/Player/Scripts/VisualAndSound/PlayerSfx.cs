@@ -57,12 +57,14 @@ namespace Player.Scripts
             player.playerSword.OnSheatheSword.AddListener(() => SFXManager.instance.PlaySFX(sheatheSword, 0.1f));
             WeaponDamageTrigger.OnHitEnemy.AddListener((payload, _) =>
             {
-                if (payload.Type == AttackType.Light)
-                    SFXManager.instance.PlayRandomSFX(hitEnemy);
-                else if (payload.Type == AttackType.Critical)
+                if (payload.Type == AttackType.Critical)
                 {
                     SFXManager.instance.PlaySFX(insolentAttackHit_1, 0.3f);
                     SFXManager.instance.PlaySFX(insolentAttackHit_2);
+                }
+                else
+                {
+                    SFXManager.instance.PlayRandomSFX(hitEnemy);
                 }
             });
             player.playerHealth.OnPlayerTakeDamage.AddListener((_) =>
@@ -115,7 +117,7 @@ namespace Player.Scripts
                 else if (payload.Type == AttackType.Jump)
                 {
                     SFXManager.instance.PlaySFX(tagJumpSlam_1, 0.1f);
-                    SFXManager.instance.PlaySFX(tagJumpSlam_2, 0.1f, 0.1f);
+                    SFXManager.instance.PlaySFX(tagJumpSlam_2, 0.1f, 0.25f);
                 }
                 else if (payload.Type == AttackType.Punish)
                 {

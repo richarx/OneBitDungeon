@@ -160,12 +160,8 @@ MonoBehaviour:
   hasSword: 1
   hitboxPrefab: {fileID: 1002835809620756908, guid: 8e54896a02369374f83e597d34629542,
     type: 3}
-  specialHitboxPrefab: {fileID: 0}
-  whirlwindHitboxLocalPosition: {x: 0, y: 0.75, z: 0}
-  whirlwindHitboxLocalScale: {x: 5, y: 1.5, z: 5}
-  jumpTagHitboxPrefab: {fileID: 0}
-  jumpTagHitboxLocalPosition: {x: 0, y: 0.75, z: 0}
-  jumpTagHitboxLocalScale: {x: 4, y: 1.5, z: 4}
+  counterHitboxPrefab: {fileID: 1002835809620756908, guid: 2650a65d32399694abe6225d6e7755dd,
+    type: 3}
   OnEquipSword:
     m_PersistentCalls:
       m_Calls: []
@@ -257,7 +253,7 @@ MonoBehaviour:
   getUp_2: {fileID: 8300000, guid: 7fc8d7d09d2aaba4f88d1ed764544b1a, type: 3}
   tagIdle: {fileID: 8300000, guid: 6d3348a603291be4b92029ed47b00d0f, type: 3}
   tagJumpSlam_1: {fileID: 8300000, guid: 66bbaeaf5ac99854285bb777d089b82b, type: 3}
-  tagJumpSlam_2: {fileID: 8300000, guid: 581f259f3d51afa4db71cb79ef1be392, type: 3}
+  tagJumpSlam_2: {fileID: 8300000, guid: dd9808560ce011c4894003cd144e43e7, type: 3}
   tagJumpFlip: {fileID: 8300000, guid: 69c7be5b5c0e69544ad9d4ba4cdb6c77, type: 3}
   arrogantStart: {fileID: 8300000, guid: 6af34274e208fec4381253c0be53e4f5, type: 3}
   arrogantStop: {fileID: 8300000, guid: 97743fcee599d9049ad39741e0467a19, type: 3}
@@ -268,6 +264,8 @@ MonoBehaviour:
   insolentAttackDash: {fileID: 8300000, guid: 45ff7c3619d563848b007f49c720e513, type: 3}
   insolentAttackHit_1: {fileID: 8300000, guid: b10c5d50e28de3e4382a06eb5612b4bf, type: 3}
   insolentAttackHit_2: {fileID: 8300000, guid: 65ee4d87910bd02478de20666a79741b, type: 3}
+  counterAttack_1: {fileID: 8300000, guid: d20528b23fd7d04459f890ac545c5e4e, type: 3}
+  counterAttack_2: {fileID: 8300000, guid: 04b70eb866614324c818e087431c25b7, type: 3}
 --- !u!114 &2174515811491700390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,6 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 5
+  isInvincible: 0
   OnPlayerTakeDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -503,9 +502,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerGraphic: {fileID: 1856159283365252140}
-  alpha: 0.1
-  transparentDuration: 0.1
-  visibleDuration: 0.2
 --- !u!114 &6642227003520850648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -862,7 +858,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: -1590248672, guid: ca2fc4b3ee687344da1d388ae5f6b364, type: 3}
-  m_Color: {r: 0.2, g: 0.2, b: 0.2, a: 0.2}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.74509805}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
