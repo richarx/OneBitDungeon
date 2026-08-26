@@ -11411,10 +11411,10 @@ MonoBehaviour:
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 24|BiscottoPunchComboBehaviour, Assembly-CSharp
+      Data: 24|BiscottoTsarBombaBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 8
       Data: 

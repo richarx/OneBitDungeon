@@ -9,6 +9,7 @@ public class CircleDamageZone : MonoBehaviour
     [SerializeField] private Ease spawnEase;
     [SerializeField] private Ease fillEase;
     [SerializeField] private float despawnDuration;
+    [SerializeField] private bool withoutCloseWindow;
 
     [Space]
     [SerializeField] private Color flashColor;
@@ -51,6 +52,10 @@ public class CircleDamageZone : MonoBehaviour
         int outlineColorId = Shader.PropertyToID("_OutlineColor");
 
         _playerInstance = PlayerStateMachine.instance;
+        float closeDodgeWindowDuration = _playerInstance.playerData.closeDodgeWindowDuration;
+        float dangerFillDuration = withoutCloseWindow
+            ? Mathf.Max(0.0f, fillDuration - closeDodgeWindowDuration)
+            : fillDuration;
         float damageTimestamp = Time.time + spawnDuration + fillDuration; //+ ColorTransitionDuration;
         _closeDodgeDetector = new CloseDodgeDetector();
         _closeDodgeDetector.Setup(damageTimestamp,
@@ -60,7 +65,12 @@ public class CircleDamageZone : MonoBehaviour
         currentSequence = Sequence.Create()
         .Chain(Tween.MaterialProperty(spriteRenderer.material, alphaId, 1.0f, spawnDuration))
         .Group(Tween.MaterialProperty(spriteRenderer.material, rasiusId, radius, spawnDuration, spawnEase))
-        .Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, radius, fillDuration, fillEase))
+        .Chain(Tween.MaterialProperty(spriteRenderer.material, inlineId, radius, dangerFillDuration, fillEase));
+
+        if (withoutCloseWindow)
+            currentSequence.ChainDelay(closeDodgeWindowDuration);
+
+        currentSequence
         .Chain(Tween.MaterialColor(spriteRenderer.material, inlineColorId, filledColor, ColorTransitionDuration))
         .Group(Tween.MaterialColor(spriteRenderer.material, outlineColorId, filledOutlineColor, ColorTransitionDuration))
         .ChainCallback(() =>

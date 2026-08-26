@@ -19,6 +19,7 @@ MonoBehaviour:
   - 0.24
   - 0.26
   <HitStaggerPower>k__BackingField: 60
+  <MovementSpeed>k__BackingField: 3
   <SpawnDuration>k__BackingField: 0.35
   <FillDuration>k__BackingField: 1.1
   <SpinDuration>k__BackingField: 0.9

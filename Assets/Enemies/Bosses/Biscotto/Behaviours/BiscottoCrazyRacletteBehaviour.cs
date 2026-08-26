@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Enemies.Scripts.Behaviours;
+using Player.Scripts;
 using PrimeTween;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -16,6 +17,7 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
 
     private Sequence attackSequence;
     private List<BiscottoRacletteDamageZone> spawnedZones = new List<BiscottoRacletteDamageZone>();
+    private bool isMovingDuringSpin;
     private bool isRotatingSprite;
     private Transform rotatingSprite;
     private Quaternion spriteInitialLocalRotation;
@@ -51,10 +53,12 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
             .ChainCallback(() =>
             {
                 PlayAnimation(enemy, data.SpinAnimation);
+                isMovingDuringSpin = true;
             })
             .ChainDelay(data.SpinDuration)
             .ChainCallback(() =>
             {
+                isMovingDuringSpin = false;
                 PlayAnimation(enemy, data.FatigueAnimation);
             });
 
@@ -76,10 +80,12 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
                 .ChainCallback(() =>
                 {
                     PlayAnimation(enemy, data.SpinAnimation);
+                    isMovingDuringSpin = true;
                 })
                 .ChainDelay(data.SecondSpinDuration)
                 .ChainCallback(() =>
                 {
+                    isMovingDuringSpin = false;
                     PlayAnimation(enemy, data.FatigueAnimation);
                 });
         }
@@ -91,6 +97,9 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
 
     public void UpdateBehaviour(EnemyController enemy)
     {
+        if (isMovingDuringSpin)
+            MoveTowardPlayer(enemy);
+
         if (isRotatingSprite && rotatingSprite != null)
             rotatingSprite.Rotate(Vector3.forward, 1440 * Time.deltaTime, Space.Self);
 
@@ -149,6 +158,19 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
         spawnedZones.Add(zone);
     }
 
+    private void MoveTowardPlayer(EnemyController enemy)
+    {
+        if (data.MovementSpeed <= 0.0f || PlayerStateMachine.instance == null)
+            return;
+
+        Vector3 targetPosition = PlayerStateMachine.instance.position;
+        targetPosition.y = enemy.transform.position.y;
+        enemy.transform.position = Vector3.MoveTowards(
+            enemy.transform.position,
+            targetPosition,
+            data.MovementSpeed * Time.deltaTime);
+    }
+
     private float SelectRadius()
     {
         if (data.RadiusOptions == null || data.RadiusOptions.Count == 0)
@@ -177,6 +199,7 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
 
         attackSequence = default;
         spawnedZones.Clear();
+        isMovingDuringSpin = false;
     }
 
     private static void PlayAnimation(EnemyController enemy, string animationName)

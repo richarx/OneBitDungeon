@@ -16,6 +16,7 @@ public sealed class ConeDamageZone : MonoBehaviour
     [SerializeField] private Ease spawnEase = Ease.OutQuad;
     [SerializeField] private Ease fillEase = Ease.Linear;
     [SerializeField] private float despawnDuration = 0.3f;
+    [SerializeField] private bool withoutCloseWindow;
 
     [Space]
     [SerializeField] private Color flashColor = Color.white;
@@ -85,6 +86,10 @@ public sealed class ConeDamageZone : MonoBehaviour
 
         float safeSpawnDuration = Mathf.Max(0.0f, spawnDuration);
         float safeFillDuration = Mathf.Max(0.0f, fillDuration);
+        float closeDodgeWindowDuration = playerInstance.playerData.closeDodgeWindowDuration;
+        float dangerFillDuration = withoutCloseWindow
+            ? Mathf.Max(0.0f, safeFillDuration - closeDodgeWindowDuration)
+            : safeFillDuration;
         float damageTimestamp = Time.time + safeSpawnDuration + safeFillDuration;
         closeDodgeDetector = new CloseDodgeDetector();
         closeDodgeDetector.Setup(
@@ -97,8 +102,14 @@ public sealed class ConeDamageZone : MonoBehaviour
         isSetup = true;
         currentSequence = Sequence.Create()
             .Chain(Tween.MaterialProperty(material, alphaId, 1.0f, safeSpawnDuration))
-            .Group(Tween.MaterialProperty(material, radiusId, localRadius, safeSpawnDuration, spawnEase))
-            .Chain(Tween.MaterialProperty(material, inlineId, 1.0f, safeFillDuration, fillEase))
+            .Group(Tween.MaterialProperty(material, radiusId, localRadius, safeSpawnDuration, spawnEase));
+
+        currentSequence.Chain(Tween.MaterialProperty(material, inlineId, 1.0f, dangerFillDuration, fillEase));
+
+        if (withoutCloseWindow)
+            currentSequence.ChainDelay(closeDodgeWindowDuration);
+
+        currentSequence
             .Chain(Tween.MaterialColor(material, inlineColorId, filledColor, ColorTransitionDuration))
             .Group(Tween.MaterialColor(material, outlineColorId, filledOutlineColor, ColorTransitionDuration))
             .ChainCallback(() =>

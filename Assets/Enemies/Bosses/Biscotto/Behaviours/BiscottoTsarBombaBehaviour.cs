@@ -50,19 +50,17 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             return;
         }
 
-        float timeToDamage = data.SpawnDuration + data.FillDuration;
-        float fallDuration = Mathf.Min(data.LockBeforeImpact, timeToDamage);
-        float preLockDuration = Mathf.Max(0.0f, timeToDamage - fallDuration);
-        float ascentDuration = preLockDuration * data.RatioAscentToFall;
-        float trackingDuration = preLockDuration - ascentDuration;
+        float ascentDuration = data.AscentDuration;
+        float trackingDuration = data.TrackingDuration;
+        float fallDuration = data.LockBeforeImpact;
 
         attackSequence = Sequence.Create()
             .ChainCallback(() =>
             {
-                PlayAnimation(enemy, data.AnticipationAnimation);
-                StartJumpAndTracking(enemy, ascentDuration);
+                StartAscent(enemy, ascentDuration);
             })
             .ChainDelay(ascentDuration)
+            .ChainCallback(() => StartDamageZoneTracking(enemy))
             .ChainDelay(trackingDuration)
             .ChainCallback(() => LockTargetAndFall(enemy, fallDuration))
             .ChainDelay(fallDuration)
@@ -97,18 +95,9 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
     {
     }
 
-    private void StartJumpAndTracking(EnemyController enemy, float ascentDuration)
+    private void StartAscent(EnemyController enemy, float ascentDuration)
     {
-        Vector3 zonePosition = new Vector3(PlayerStateMachine.instance.position.x, groundY, PlayerStateMachine.instance.position.z);
-        currentDamageZone = UnityEngine.Object.Instantiate(
-            data.CircleDamageZonePrefab,
-            zonePosition,
-            Quaternion.Euler(90.0f, 0.0f, 0.0f));
-
-        currentDamageZone.Setup(data.Radius, data.SpawnDuration, data.FillDuration);
-        isTrackingPlayer = true;
-
-        PlayAnimation(enemy, data.JumpAnimation);
+        PlayAnimation(enemy, data.AnticipationAnimation);
 
         enemy.DeactivateHitbox();
         enemyHitboxIsDisabled = true;
@@ -123,18 +112,33 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             .Chain(Tween.Custom(0.0f, 1.0f, ascentDuration, progress =>
             {
                 enemy.transform.position = GetJumpAscentPosition(startPosition, apexPosition, progress);
-            }, Ease.Linear));
+            }, Ease.OutQuad));
+    }
+
+    private void StartDamageZoneTracking(EnemyController enemy)
+    {
+        if (PlayerStateMachine.instance == null)
+            return;
+
+        Vector3 zonePosition = new Vector3(PlayerStateMachine.instance.position.x, groundY, PlayerStateMachine.instance.position.z);
+        currentDamageZone = UnityEngine.Object.Instantiate(
+            data.CircleDamageZonePrefab,
+            zonePosition,
+            Quaternion.Euler(90.0f, 0.0f, 0.0f));
+
+        currentDamageZone.Setup(data.Radius, data.SpawnDuration, data.FillDuration);
+        isTrackingPlayer = true;
     }
 
     private void LockTargetAndFall(EnemyController enemy, float fallDuration)
     {
         isTrackingPlayer = false;
 
-        Vector3 target = currentDamageZone != null
-            ? currentDamageZone.transform.position
-            : PlayerStateMachine.instance.position;
+        Vector3 target = currentDamageZone.transform.position;
 
         lockedLandingPosition = new Vector3(target.x, groundY, target.z);
+
+        PlayAnimation(enemy, data.JumpAnimation);
 
         if (fallDuration <= 0.0f)
         {
@@ -142,9 +146,8 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             return;
         }
 
-        Vector3 startPosition = enemy.transform.position;
         jumpSequence = Sequence.Create()
-            .Chain(Tween.Position(enemy.transform, lockedLandingPosition, fallDuration, Ease.Linear));
+            .Chain(Tween.Position(enemy.transform, lockedLandingPosition, fallDuration, Ease.InQuad));
     }
 
     private void FinishLanding(EnemyController enemy)

@@ -35,28 +35,34 @@ public sealed class BiscottoTsarBombaData : ScriptableObject
     public float LockBeforeImpact { get; private set; } = 0.32f;
 
     [field: SerializeField]
-    [field: MinValue(0.0f)]
-    [field: MaxValue(1.0f)]
-    [field: LabelText("Part de montée avant verrouillage")]
-    public float RatioAscentToFall { get; private set; } = 0.6f;
+    [field: MinValue(0.01f)]
+    [field: LabelText("Vitesse de montée")]
+    [field: SuffixLabel("mètres/s")]
+    public float AscentSpeed { get; private set; } = 5.0f;
+
+    [field: SerializeField]
+    [field: MinValue(0.01f)]
+    [field: LabelText("Vitesse de chute")]
+    [field: SuffixLabel("mètres/s")]
+    public float FallSpeed { get; private set; } = 4.0f;
 
     [ShowInInspector]
     [ReadOnly]
-    [LabelText("Temps de montée ")]
+    [LabelText("Hauteur du saut")]
+    [SuffixLabel("mètres")]
+    public float JumpHeight => FallSpeed * LockBeforeImpact;
+
+    [ShowInInspector]
+    [ReadOnly]
+    [LabelText("Temps de montée")]
     [SuffixLabel("secondes")]
-    public float AscentDuration => RatioAscentToFall * Mathf.Max(0.0f, SpawnDuration + FillDuration - LockBeforeImpact);
+    public float AscentDuration => JumpHeight / AscentSpeed;
 
     [ShowInInspector]
     [ReadOnly]
     [LabelText("Temps de suivi")]
     [SuffixLabel("secondes")]
-    public float TrackingDuration => (1.0f - RatioAscentToFall) * Mathf.Max(0.0f, SpawnDuration + FillDuration - LockBeforeImpact);
-
-    [field: SerializeField]
-    [field: MinValue(0.0f)]
-    [field: LabelText("Hauteur du saut")]
-    [field: SuffixLabel("mètres")]
-    public float JumpHeight { get; private set; } = 2.0f;
+    public float TrackingDuration => Mathf.Max(0.0f, SpawnDuration + FillDuration - LockBeforeImpact);
 
     [field: SerializeField]
     [field: MinValue(0.0f)]

@@ -10,6 +10,7 @@ public sealed class BiscottoRacletteDamageZone : MonoBehaviour
     [SerializeField] private Ease spawnEase;
     [SerializeField] private Ease fillEase;
     [SerializeField] private float despawnDuration = 0.3f;
+    [SerializeField] private bool withoutCloseWindow;
 
     [Space]
     [SerializeField] private Color flashColor = Color.white;
@@ -59,6 +60,10 @@ public sealed class BiscottoRacletteDamageZone : MonoBehaviour
 
         float safeSpawnDuration = Mathf.Max(0.0f, spawnDuration);
         float safeFillDuration = Mathf.Max(0.0f, fillDuration);
+        float closeDodgeWindowDuration = player.playerData.closeDodgeWindowDuration;
+        float dangerFillDuration = withoutCloseWindow
+            ? Mathf.Max(0.0f, safeFillDuration - closeDodgeWindowDuration)
+            : safeFillDuration;
         float safeActiveDuration = Mathf.Max(ColorTransitionDuration, activeDuration);
         float damageTimestamp = Time.time + safeSpawnDuration + safeFillDuration;
 
@@ -73,8 +78,14 @@ public sealed class BiscottoRacletteDamageZone : MonoBehaviour
 
         currentSequence = Sequence.Create()
             .Chain(Tween.MaterialProperty(material, alphaId, 1.0f, safeSpawnDuration))
-            .Group(Tween.MaterialProperty(material, radiusId, radius, safeSpawnDuration, spawnEase))
-            .Chain(Tween.MaterialProperty(material, inlineId, radius, safeFillDuration, fillEase))
+            .Group(Tween.MaterialProperty(material, radiusId, radius, safeSpawnDuration, spawnEase));
+
+        currentSequence.Chain(Tween.MaterialProperty(material, inlineId, radius, dangerFillDuration, fillEase));
+
+        if (withoutCloseWindow)
+            currentSequence.ChainDelay(closeDodgeWindowDuration);
+
+        currentSequence
             .ChainCallback(ActivateDamage)
             .Chain(Tween.MaterialColor(material, inlineColorId, flashColor, ColorTransitionDuration))
             .Group(Tween.MaterialColor(material, outlineColorId, flashOutlineColor, ColorTransitionDuration))

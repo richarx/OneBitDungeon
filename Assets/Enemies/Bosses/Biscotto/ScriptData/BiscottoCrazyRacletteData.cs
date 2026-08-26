@@ -22,6 +22,14 @@ public sealed class BiscottoCrazyRacletteData : ScriptableObject
     [field: LabelText("Puissance de projection")]
     public float HitStaggerPower { get; private set; } = 30.0f;
 
+    [Title("Déplacement")]
+    [field: SerializeField]
+    [field: MinValue(0.0f)]
+    [field: LabelText("Vitesse de poursuite")]
+    [field: SuffixLabel("mètres / seconde")]
+    [field: Tooltip("Vitesse à laquelle Biscotto et sa zone Raclette se déplacent vers le joueur pendant l'attaque.")]
+    public float MovementSpeed { get; private set; } = 3.0f;
+
     [Title("Premier tour")]
     [field: SerializeField]
     [field: MinValue(0.0f)]

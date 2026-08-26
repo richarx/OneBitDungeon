@@ -102,6 +102,7 @@ MonoBehaviour:
   spawnEase: 16
   fillEase: 1
   despawnDuration: 0.3
+  withoutCloseWindow: 1
   flashColor: {r: 0.4627451, g: 0.45490196, b: 0.45490196, a: 1}
   flashOutlineColor: {r: 1, g: 1, b: 1, a: 1}
   filledColor: {r: 0, g: 0, b: 0, a: 1}
