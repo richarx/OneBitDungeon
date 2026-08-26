@@ -3176,6 +3176,26 @@ PrefabInstance:
       propertyPath: isInvincible
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2420712093258148077, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.74509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 2420712093258148077, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2420712093258148077, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2420712093258148077, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3422660161153846879, guid: 72fec9c9a9cc45a45b23daca94578ebf,
         type: 3}
       propertyPath: counterAttack
