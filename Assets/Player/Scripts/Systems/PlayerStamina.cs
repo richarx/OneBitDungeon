@@ -1,3 +1,4 @@
+using Game_Manager;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,7 @@ namespace Player.Scripts
     {
         public UnityEvent OnPlayerExhaustStamina = new UnityEvent();
 
+        private PlayerStateMachine player;
         private PlayerData playerData;
 
         private float currentStamina;
@@ -18,16 +20,24 @@ namespace Player.Scripts
 
         private void Start()
         {
-            playerData = PlayerStateMachine.instance.playerData;
+            player = PlayerStateMachine.instance;
+
+            playerData = player.playerData;
             currentStamina = playerData.maxStamina;
+            player.playerHealth.OnPlayerTakeDamage.AddListener((_) =>
+            {
+                if (player.playerHealth.IsDead)
+                    SetStamina(0.0f);
+            });
+            GameManager.OnRestartLevel.AddListener(() => SetStamina(playerData.maxStamina));
         }
 
         private void Update()
         {
-            if (!IsEmpty && !IsFull && Time.time - lastStaminaUseTimestamp >= playerData.staminaCooldown)
+            if (!player.playerHealth.IsDead && !IsEmpty && !IsFull && Time.time - lastStaminaUseTimestamp >= playerData.staminaCooldown)
                 RefillStamina();
 
-            if (IsEmpty && Time.time - lastStaminaUseTimestamp >= playerData.staminaEmptyCooldown)
+            if (!player.playerHealth.IsDead && IsEmpty && Time.time - lastStaminaUseTimestamp >= playerData.staminaEmptyCooldown)
                 RefillStamina();
         }
 

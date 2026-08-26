@@ -19,13 +19,16 @@ namespace Player.Scripts
         private void OnEnable()
         {
             ArroganceGainEvents.OnGainProcessed += HandleProcessedGain;
-            GameManager.OnRestartLevel.AddListener(ClearArrogance);
+            PlayerStateMachine.instance.playerHealth.OnPlayerTakeDamage.AddListener((_) =>
+            {
+                if (PlayerStateMachine.instance.playerHealth.IsDead)
+                    ClearArrogance();
+            });
         }
 
         private void OnDisable()
         {
             ArroganceGainEvents.OnGainProcessed -= HandleProcessedGain;
-            GameManager.OnRestartLevel.RemoveListener(ClearArrogance);
         }
 
         private void Start()

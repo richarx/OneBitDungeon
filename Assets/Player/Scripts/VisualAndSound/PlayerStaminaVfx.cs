@@ -22,7 +22,7 @@ public class PlayerStaminaVfx : MonoBehaviour
 
     private void LateUpdate()
     {
-        bool isEmpty = playerStamina.IsEmpty;
+        bool isEmpty = playerStamina.IsEmpty && !player.playerHealth.IsDead;
         outOfBreathVfx.SetBool("IsBreathing", isEmpty);
 
         if (isEmpty)

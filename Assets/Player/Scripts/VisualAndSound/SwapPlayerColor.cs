@@ -1,3 +1,4 @@
+using Game_Manager;
 using PrimeTween;
 using UnityEngine;
 
@@ -98,6 +99,9 @@ namespace Player.Scripts
 
         private SpriteState ComputeCurrentState()
         {
+            if (GameManager.instance.IsRestarting)
+                return SpriteState.Initial;
+
             if (Time.time - playerHealth.lastHitTimestamp <= playerData.staggerDuration)
                 return SpriteState.Staggered;
 

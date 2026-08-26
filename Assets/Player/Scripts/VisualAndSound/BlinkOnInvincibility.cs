@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Game_Manager;
 using Player.Scripts;
 using Tools_and_Scripts;
 using UnityEngine;
@@ -24,6 +25,12 @@ public class BlinkOnInvincibility : MonoBehaviour
                 StartCoroutine(BlinkCoroutine());
             }
         });
+        GameManager.OnBeforeRestartLevel.AddListener(() =>
+        {
+            StopAllCoroutines();
+            Tools.SetSpriteAlpha(playerGraphic, 1.0f);
+        });
+
     }
 
     private IEnumerator BlinkCoroutine()

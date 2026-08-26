@@ -17,6 +17,7 @@ namespace Game_Manager
         public static UnityEvent OnUnlockLevel = new UnityEvent();
         public static UnityEvent OnResetLevel = new UnityEvent();
         public static UnityEvent OnRestartLevel = new UnityEvent();
+        public static UnityEvent OnBeforeRestartLevel = new UnityEvent();
         public static UnityEvent OnChangeScene = new UnityEvent();
         public static UnityEvent OnPrepareToChangeScene = new UnityEvent();
         public static UnityEvent<DoorSide> OnPrepareToLeaveRoom = new UnityEvent<DoorSide>();
@@ -26,6 +27,9 @@ namespace Game_Manager
         private bool isInMainMenu;
 
         private string currentRespawnScene;
+
+        private bool isRestarting;
+        public bool IsRestarting => isRestarting;
 
         private void Awake()
         {
@@ -80,6 +84,7 @@ namespace Game_Manager
 
         private IEnumerator RestartLevelOnPlayerDeathCoroutine()
         {
+            isRestarting = true;
             Time.timeScale = 0.2f;
             yield return new WaitForSecondsRealtime(2.0f);
             Time.timeScale = 0.1f;
@@ -100,6 +105,8 @@ namespace Game_Manager
             yield return new WaitUntil(() => PlayerSpawnPosition.instance != null);
             player.TeleportPlayer(PlayerSpawnPosition.instance.GetPosition);
 
+            OnBeforeRestartLevel?.Invoke();
+
             yield return blackScreenTransition.OpenCircle(player.position, 1.0f);
 
             player.playerSit.Unlock();
@@ -107,6 +114,8 @@ namespace Game_Manager
             OnRestartLevel?.Invoke();
             OnChangeScene?.Invoke();
             OnLockLevel?.Invoke();
+
+            isRestarting = false;
         }
 
         public void ChangeSceneFromDoor(string targetSceneName, DoorController triggerDoor)

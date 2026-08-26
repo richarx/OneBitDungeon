@@ -25,7 +25,6 @@ namespace Player.Scripts
         public bool IsFullLife => currentHealth == startingHealth;
         public bool IsInvincibleFromLastHit => Time.time - lastHitTimestamp <= player.playerData.invincibilityDuration;
 
-
         private void Awake()
         {
             ResetHealth();
@@ -35,7 +34,6 @@ namespace Player.Scripts
         {
             player = PlayerStateMachine.instance;
 
-            // a mettre dans le tagSystem pour reset les 2 vies en même temps
             GameManager.OnRestartLevel.AddListener(ResetHealth);
         }
 
