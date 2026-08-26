@@ -27,7 +27,7 @@ MonoBehaviour:
   closeDodgeWindowDuration: 0.3
   maxArrogance: 100
   arroganceGainOnCloseDodge: 15
-  arroganceGainOnParry: 10
+  arroganceGainOnParry: 3
   arroganceGainOnAttack: 1
   arroganceGainWhileSitting: 1
   useProgressiveArroganceGain: 0
@@ -60,12 +60,12 @@ MonoBehaviour:
   attackDashDelay: 0.1
   attackDashMaxDistance: 3.5
   attackDashDeceleration: 500
-  jumpAttackDamage: 25
+  jumpAttackDamage: 15
   jumpAttackDuration: 1
   jumpAttackCancelTimer: 0.85
   jumpAttackSpawnHitBoxTimer: 0.25
   jumpAttackRemoveHitBoxTimer: 0.45
-  counterAttackDamage: 20
+  counterAttackDamage: 15
   counterAttackDuration: 0.5
   counterAttackCancelTimer: 0.4
   counterAttackSpawnHitBoxTimer: 0.1
