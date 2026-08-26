@@ -1,3 +1,4 @@
+using System;
 using Player.Scripts;
 using UnityEngine;
 
@@ -80,8 +81,27 @@ public class PlayerCounterAttack : IPlayerBehaviour
 
     public void FixedUpdateBehaviour(PlayerStateMachine player)
     {
-        player.moveVelocity = Vector3.zero;
+        HandleDirection(player);
+
         player.ApplyMovement();
+    }
+
+    private void HandleDirection(PlayerStateMachine player)
+    {
+        Vector3 move = player.moveInput;
+        float speed = player.playerData.counterAttackMoveSpeed;
+        move *= speed;
+
+        if (player.moveInput.magnitude <= 0.05f)
+        {
+            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
+            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
+        }
+        else
+        {
+            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, move.x, player.playerData.groundAcceleration * Time.fixedDeltaTime);
+            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, move.y, player.playerData.groundAcceleration * Time.fixedDeltaTime);
+        }
     }
 
     public void StopBehaviour(PlayerStateMachine player, BehaviourType next)

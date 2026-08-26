@@ -67,9 +67,10 @@ MonoBehaviour:
   jumpAttackRemoveHitBoxTimer: 0.45
   counterAttackDamage: 20
   counterAttackDuration: 0.5
-  counterAttackCancelTimer: 0.35
+  counterAttackCancelTimer: 0.4
   counterAttackSpawnHitBoxTimer: 0.1
-  counterAttackRemoveHitBoxTimer: 0.3
+  counterAttackRemoveHitBoxTimer: 0.39
+  counterAttackMoveSpeed: 6
   staggerDuration: 0.4
   staggerPower: 20
   staggerDeceleration: 60

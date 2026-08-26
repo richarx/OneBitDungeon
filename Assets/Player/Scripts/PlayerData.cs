@@ -126,6 +126,9 @@ namespace Player.Scripts
         public float counterAttackRemoveHitBoxTimer;
 
         [Space]
+        public float counterAttackMoveSpeed;
+
+        [Space]
         [Header("Stagger")]
         public float staggerDuration;
         public float staggerPower;
