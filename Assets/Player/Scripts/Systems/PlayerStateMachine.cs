@@ -34,6 +34,7 @@ namespace Player.Scripts
         public PlayerParry playerParry = new PlayerParry();
         public PlayerSit playerSit = new PlayerSit();
         public PlayerDead playerDead = new PlayerDead();
+        public PlayerTaunt playerTaunt = new PlayerTaunt();
         public PlayerAttack playerAttack;
         public PlayerCriticalAttack playerCriticalAttack = new PlayerCriticalAttack();
         public PlayerTag playerTag = new PlayerTag();

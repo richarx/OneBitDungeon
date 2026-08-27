@@ -39,7 +39,7 @@ namespace Player.Scripts
 
         private void Update()
         {
-            if (Application.isEditor)
+            if (false && Application.isEditor)
             {
                 if (Gamepad.current != null && Gamepad.current.dpad.left.wasPressedThisFrame)
                 {

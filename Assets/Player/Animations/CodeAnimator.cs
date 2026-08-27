@@ -26,6 +26,7 @@ public class CodeAnimator : MonoBehaviour
         Sit,
         JumpAttack,
         CounterAttack,
+        Taunt
     }
 
     public enum AnimationDirection
@@ -181,6 +182,8 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.SitDown;
             case AnimationType.Sit:
                 return animationsHolder.Sit;
+            case AnimationType.Taunt:
+                return animationsHolder.Taunt;
         }
     }
 }

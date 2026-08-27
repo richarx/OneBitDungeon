@@ -69,6 +69,12 @@ namespace Player.Scripts
                 return;
             }
 
+            if (player.inputPackage.GetTaunt.wasPressedThisFrame)
+            {
+                player.ChangeBehaviour(player.playerTaunt);
+                return;
+            }
+
             player.CheckForInteraction();
             player.ComputeLastLookDirection();
         }

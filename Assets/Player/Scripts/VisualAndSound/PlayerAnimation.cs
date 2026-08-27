@@ -65,6 +65,9 @@ namespace Player.Scripts
                 case BehaviourType.Dead:
                     PlayDeathAnimation();
                     break;
+                case BehaviourType.Taunt:
+                    PlayTauntAnimation();
+                    break;
                 case BehaviourType.Parry:
                 case BehaviourType.Attack:
                 case BehaviourType.JumpAttack:
@@ -175,6 +178,11 @@ namespace Player.Scripts
         private void PlayStaggerAnimation()
         {
             codeAnimator.PlayAnimation(AnimationType.Hurt, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
+        }
+
+        private void PlayTauntAnimation()
+        {
+            codeAnimator.PlayAnimation(AnimationType.Taunt, ComputeLeftRightAnimationDirection(), false);
         }
 
         private AnimationDirection ComputeAnimationDirection()

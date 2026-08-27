@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Player.Sword_Hitboxes;
 using SFX;
@@ -42,6 +43,7 @@ namespace Player.Scripts
         [SerializeField] private AudioClip insolentAttackHit_2;
         [SerializeField] private AudioClip counterAttack_1;
         [SerializeField] private AudioClip counterAttack_2;
+        [SerializeField] private AudioClip tauntPushups;
 
         private PlayerStateMachine player;
 
@@ -127,6 +129,31 @@ namespace Player.Scripts
                 }
             });
             player.playerCriticalAttack.OnStartDash.AddListener(() => SFXManager.instance.PlaySFX(insolentAttackDash, 0.5f));
+            player.playerTaunt.OnStartTaunt.AddListener(HandlePushupsSfx);
+            player.playerTaunt.OnStopTaunt.AddListener(() =>
+            {
+                if (pushupRoutine != null)
+                    StopCoroutine(pushupRoutine);
+            });
+        }
+
+        private void HandlePushupsSfx()
+        {
+            if (pushupRoutine != null)
+                StopCoroutine(pushupRoutine);
+
+            pushupRoutine = StartCoroutine(PushupCoroutine());
+        }
+
+        private Coroutine pushupRoutine;
+        private IEnumerator PushupCoroutine()
+        {
+            yield return new WaitForSeconds(0.2f);
+            while (player.currentBehaviour.GetBehaviourType() == BehaviourType.Taunt)
+            {
+                SFXManager.instance.PlaySFX(tauntPushups, 0.05f);
+                yield return new WaitForSeconds(0.5f);
+            }
         }
 
         private void HandleArrogantDodge(ArroganceGainResult result)

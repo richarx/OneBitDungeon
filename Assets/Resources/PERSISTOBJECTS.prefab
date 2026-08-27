@@ -3171,6 +3171,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3422660161153846879, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: tauntPushups
+      value: 
+      objectReference: {fileID: 8300000, guid: 8ddfcf7ad699f8d4694c9a782e501c9b, type: 3}
+    - target: {fileID: 3422660161153846879, guid: 72fec9c9a9cc45a45b23daca94578ebf,
+        type: 3}
+      propertyPath: delayBetweenPumps
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 3599857382993739372, guid: 72fec9c9a9cc45a45b23daca94578ebf,
         type: 3}
       propertyPath: cinematicBlackBars

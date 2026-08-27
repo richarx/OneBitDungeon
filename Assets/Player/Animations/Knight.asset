@@ -31,3 +31,4 @@ MonoBehaviour:
   GetUp: {fileID: 11400000, guid: 29629b3d3be286344b733d5d18397337, type: 2}
   SitDown: {fileID: 11400000, guid: ff53ca2c69e939a44930d399eb7affd0, type: 2}
   Sit: {fileID: 11400000, guid: 6d327c02385132142a30d60f6bfb0787, type: 2}
+  Taunt: {fileID: 11400000, guid: b1651badbcd569141b2d0e90ac3cdade, type: 2}

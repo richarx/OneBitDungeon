@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb52d6d02f4de5458707795204991a5, type: 3}
+  m_Name: TauntPushups
+  m_EditorClassIdentifier: 
+  weaponInTheBackSprites:
+  - {fileID: 184325733, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: 840662564, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -1943196320, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: 5449547, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -1844247915, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -1729767225, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -1473322290, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -919947677, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: 630434260, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -1438089019, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  weaponInHandSprites:
+  - {fileID: 184325733, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: 840662564, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -1943196320, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: 5449547, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -1844247915, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -1729767225, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -1473322290, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -919947677, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: 630434260, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  - {fileID: -1438089019, guid: b809ea9c7eff4c34290785693b36d487, type: 3}
+  directionCount: 2
+  timeBetweenFrames: 0.1
+  isLooping: 1
+  canSelfCancel: 0
+  nextAnimation: {fileID: 0}
