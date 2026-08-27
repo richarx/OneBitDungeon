@@ -15,9 +15,9 @@ MonoBehaviour:
   <CircleDamageZonePrefab>k__BackingField: {fileID: 5892917051957619975, guid: 2b14022f64314b2f982205768004697d,
     type: 3}
   <Radius>k__BackingField: 0.28
-  <SpawnDuration>k__BackingField: 1.07
-  <FillDuration>k__BackingField: 1.95
-  <LockBeforeImpact>k__BackingField: 1
+  <SpawnDuration>k__BackingField: 0.4
+  <FillDuration>k__BackingField: 1
+  <LockBeforeImpact>k__BackingField: 0.8
   <AscentSpeed>k__BackingField: 80
   <FallSpeed>k__BackingField: 120
   <RecoveryDuration>k__BackingField: 1

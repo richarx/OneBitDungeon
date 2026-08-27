@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a5c410cf384875ac1702c960fb2289, type: 3}
   m_Name: OraOraFirst
   m_EditorClassIdentifier: 
-  <RectangularDamageZonePrefab>k__BackingField: {fileID: 227854228040328757, guid: 09c0e16c4786d514eb6f8565609c163c,
+  <RectangularDamageZonePrefab>k__BackingField: {fileID: 227854228040328757, guid: 22e304992d793f34a82b7b5cb0048528,
     type: 3}
   <PunchCount>k__BackingField: 8
   <PunchInterval>k__BackingField: 0.7

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PunchMaterial
+  m_Name: PunchMaterial 1
   m_Shader: {fileID: -6465566751694194690, guid: 3a12224c2e3ab0646bda3a140ec5cbb6,
     type: 3}
   m_Parent: {fileID: 0}
@@ -70,6 +70,6 @@ Material:
     - _Emission: {r: 0.1, g: 0, b: 0, a: 1}
     - _InlineColor: {r: 0.30196077, g: 0, b: 0.02352941, a: 1}
     - _MainColor: {r: 0.043137237, g: 0.058823504, b: 0.13725486, a: 1}
-    - _OutlineColor: {r: 1, g: 0.5882353, b: 0, a: 1}
+    - _OutlineColor: {r: 0.7647059, g: 0, b: 0.05882353, a: 1}
     - _Size: {r: 0.15, g: 0.2, b: 0, a: 0}
   m_BuildTextureStacks: []

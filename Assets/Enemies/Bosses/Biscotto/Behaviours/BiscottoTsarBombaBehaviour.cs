@@ -4,6 +4,7 @@ using Player.Scripts;
 using PrimeTween;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Tools_and_Scripts;
 using UnityEngine;
 
 [Serializable]
@@ -21,13 +22,11 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
     private CircleDamageZone currentDamageZone;
     private bool isTrackingPlayer;
     private bool enemyHitboxIsDisabled;
-    private float groundY;
     private Vector3 lockedLandingPosition;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         ResetRuntimeState(enemy, false);
-        groundY = enemy.transform.position.y;
 
         if (data == null)
         {
@@ -64,7 +63,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             .ChainDelay(trackingDuration)
             .ChainCallback(() => LockTargetAndFall(enemy, fallDuration))
             .ChainDelay(fallDuration)
-            .ChainCallback(() => FinishLanding(enemy))
+            .ChainCallback(() => RestoreEnemyHitbox(enemy))
             .ChainDelay(data.RecoveryDuration)
             .ChainCallback(() => execution.Complete());
     }
@@ -74,7 +73,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         if (!isTrackingPlayer || currentDamageZone == null || PlayerStateMachine.instance == null)
             return;
 
-        currentDamageZone.transform.position = new Vector3(PlayerStateMachine.instance.position.x, groundY, PlayerStateMachine.instance.position.z);
+        currentDamageZone.transform.position = new Vector3(PlayerStateMachine.instance.position.x, 0.0f, PlayerStateMachine.instance.position.z);
     }
 
     public void FixedUpdateBehaviour(EnemyController enemy)
@@ -120,7 +119,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         if (PlayerStateMachine.instance == null)
             return;
 
-        Vector3 zonePosition = new Vector3(PlayerStateMachine.instance.position.x, groundY, PlayerStateMachine.instance.position.z);
+        Vector3 zonePosition = new Vector3(PlayerStateMachine.instance.position.x, 0.0f, PlayerStateMachine.instance.position.z);
         currentDamageZone = UnityEngine.Object.Instantiate(
             data.CircleDamageZonePrefab,
             zonePosition,
@@ -136,7 +135,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
 
         Vector3 target = currentDamageZone.transform.position;
 
-        lockedLandingPosition = new Vector3(target.x, groundY, target.z);
+        lockedLandingPosition = new Vector3(target.x, 0.0f, target.z);
 
         PlayAnimation(enemy, data.JumpAnimation);
 
@@ -147,19 +146,11 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         }
 
         jumpSequence = Sequence.Create()
-            .Chain(Tween.Position(enemy.transform, lockedLandingPosition, fallDuration, Ease.InQuad));
+            .Chain(Tween.Position(enemy.transform, lockedLandingPosition, fallDuration, Ease.InQuad))
+            .ChainCallback(() => enemy.transform.position = lockedLandingPosition)
+            .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
+            .ChainCallback(() => enemy.GetComponent<SqueezeAndStretch>().Trigger());
     }
-
-    private void FinishLanding(EnemyController enemy)
-    {
-        if (jumpSequence.isAlive)
-            jumpSequence.Stop();
-
-        enemy.transform.position = lockedLandingPosition;
-        RestoreEnemyHitbox(enemy);
-        PlayAnimation(enemy, data.ImpactAnimation);
-    }
-
     private void ResetRuntimeState(EnemyController enemy, bool restoreGroundPosition)
     {
         if (attackSequence.isAlive)
@@ -174,7 +165,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         if (restoreGroundPosition && enemy != null)
         {
             Vector3 position = enemy.transform.position;
-            position.y = groundY;
+            position.y = 0.0f;
             enemy.transform.position = position;
         }
 

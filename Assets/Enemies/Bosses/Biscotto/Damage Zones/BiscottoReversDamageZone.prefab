@@ -86,7 +86,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1de1872f8b9cb304ea5d8ce5b996f6cc, type: 2}
+  - {fileID: 2100000, guid: 022e5c72e05b5284bbd61628a0deb263, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,7 +107,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -134,11 +135,13 @@ MonoBehaviour:
   spawnEase: 16
   fillEase: 6
   despawnDuration: 0.5
+  useVerticalFill: 0
   flashColor: {r: 0.4627451, g: 0.45490196, b: 0.45490196, a: 1}
   flashOutlineColor: {r: 1, g: 1, b: 1, a: 1}
   filledColor: {r: 1, g: 0, b: 0, a: 1}
   filledOutlineColor: {r: 0, g: 0, b: 0, a: 1}
   alsoDestroyParent: 1
+  damageZoneType: 0
 --- !u!114 &7501630626204477299
 MonoBehaviour:
   m_ObjectHideFlags: 0

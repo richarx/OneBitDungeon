@@ -19,8 +19,9 @@ MonoBehaviour:
   - 0.24
   - 0.26
   <HitStaggerPower>k__BackingField: 60
+  <MovementSpeed>k__BackingField: 10
   <SpawnDuration>k__BackingField: 0.35
-  <FillDuration>k__BackingField: 1.1
+  <FillDuration>k__BackingField: 1.2
   <SpinDuration>k__BackingField: 0.9
   <EnableSecondWind>k__BackingField: 0
   <SecondWindChance>k__BackingField: 0.75
@@ -29,7 +30,7 @@ MonoBehaviour:
   <SecondFillDuration>k__BackingField: 0.55
   <SecondSpinDuration>k__BackingField: 0.65
   <SecondRadius>k__BackingField: 0.15
-  <FinalRecoveryDuration>k__BackingField: 2.5
+  <FinalRecoveryDuration>k__BackingField: 1
   <AnticipationAnimation>k__BackingField: Spin_Anticipation
   <SpinAnimation>k__BackingField: Spin
   <FatigueAnimation>k__BackingField: Exhausted
