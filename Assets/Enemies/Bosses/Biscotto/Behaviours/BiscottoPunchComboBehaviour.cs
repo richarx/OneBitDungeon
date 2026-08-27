@@ -71,6 +71,7 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
 
         attackSequence
             .ChainDelay(data.FinalRecoveryDuration)
+            .ChainCallback(() => PlayAnimation(enemy, "Idle"))
             .ChainCallback(() => execution.Complete());
     }
 

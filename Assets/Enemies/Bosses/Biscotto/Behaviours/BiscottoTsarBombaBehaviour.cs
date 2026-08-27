@@ -65,6 +65,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             .ChainDelay(fallDuration)
             .ChainCallback(() => RestoreEnemyHitbox(enemy))
             .ChainDelay(data.RecoveryDuration)
+            .ChainCallback(() => PlayAnimation(enemy, "Idle"))
             .ChainCallback(() => execution.Complete());
     }
 

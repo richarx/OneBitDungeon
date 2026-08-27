@@ -38,6 +38,7 @@ public sealed class BiscottoFlexBehaviour : IEnemyBehaviour, IConditionalEnemyBe
             .ChainDelay(data.FlexDuration)
             .ChainCallback(arrogance.AddArroganceLevel)
             .ChainDelay(data.RecoveryDuration)
+            .ChainCallback(() => PlayAnimation(enemy, "Idle"))
             .ChainCallback(() => execution.Complete());
     }
 

@@ -254,6 +254,7 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
 
         outcomeSequence = Sequence.Create()
             .ChainDelay(delay)
+            .ChainCallback(() => PlayAnimation(currentEnemy, "Idle"))
             .ChainCallback(() =>
             {
                 if (currentEnemy != null && currentEnemy.IsExecutionActive(currentExecution))

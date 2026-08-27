@@ -246,6 +246,7 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
             .ChainDelay(data.SpawnDuration + data.FillDuration)
             .ChainCallback(() => PlayAnimation(enemy, data.RecoveryAnimation))
             .ChainDelay(data.FinalRecoveryDuration)
+            .ChainCallback(() => PlayAnimation(enemy, "Idle"))
             .ChainCallback(() =>
             {
                 if (enemy.IsExecutionActive(currentExecution))
