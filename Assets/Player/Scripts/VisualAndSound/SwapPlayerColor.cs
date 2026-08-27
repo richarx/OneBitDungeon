@@ -38,7 +38,8 @@ namespace Player.Scripts
 
 
         private SpriteState currentState;
-        private Sequence currentSequence;
+        private Sequence colorSequence;
+        private Sequence emissionSequence;
 
         private void Start()
         {
@@ -69,18 +70,28 @@ namespace Player.Scripts
 
             Color targetColor = ComputeColorFromState(newState);
 
-            if (currentSequence.isAlive)
-                currentSequence.Stop();
+            if (colorSequence.isAlive)
+                colorSequence.Stop();
 
-            currentSequence = Sequence.Create(useUnscaledTime: true)
+            colorSequence = Sequence.Create(useUnscaledTime: true)
                 .Group(Tween.Color(spriteRenderer, targetColor, transitionDuration, transitionEase));
 
             if (newState == SpriteState.Staggered)
-                currentSequence.Group(Tween.MaterialColor(material, materialColorId, materialStaggerTargetColor, transitionDuration, transitionEase));
+            {
+                if (emissionSequence.isAlive)
+                    emissionSequence.Stop();
 
-            if (previousState == SpriteState.Staggered)
-                currentSequence.Group(Tween.MaterialColor(material, materialColorId, startingMaterialColor, transitionDuration, transitionEase));
+                emissionSequence = Sequence.Create(useUnscaledTime: true)
+                    .Group(Tween.MaterialColor(material, materialColorId, materialStaggerTargetColor, transitionDuration, transitionEase));
+            }
+            else if (previousState == SpriteState.Staggered)
+            {
+                if (emissionSequence.isAlive)
+                    emissionSequence.Stop();
 
+                emissionSequence = Sequence.Create(useUnscaledTime: true)
+                    .Group(Tween.MaterialColor(material, materialColorId, startingMaterialColor, transitionDuration, transitionEase));
+            }
         }
 
         private Color ComputeColorFromState(SpriteState newState)
