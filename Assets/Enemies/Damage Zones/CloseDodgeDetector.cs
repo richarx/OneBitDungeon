@@ -17,10 +17,15 @@ public class CloseDodgeDetector
     private bool isActive;
     private bool isResolved;
 
+    private PlayerStateMachine player;
+    private bool isPlayerSpinning => player.currentBehaviour.GetBehaviourType() == BehaviourType.ArrogantSpin;
+
     public void Setup(float damageTimestamp, float windowDuration, float baseAmount, Object source = null, CloseDodgeSession session = null)
     {
         if (windowDuration <= 0.0f)
             return;
+
+        player = PlayerStateMachine.instance;
 
         this.damageTimestamp = damageTimestamp;
         windowStartTimestamp = damageTimestamp - windowDuration;
@@ -49,13 +54,12 @@ public class CloseDodgeDetector
         if (!isActive || isResolved)
             return;
 
-
         if (Time.time >= windowStartTimestamp)
             TrackPlayerPresence(isPlayerInsideZone, isArroganceModeActive);
 
         isResolved = true;
 
-        if (!wasInsideZone || isPlayerInsideZone)
+        if (!wasInsideZone || isPlayerInsideZone || !isPlayerSpinning)
             return;
 
         ArroganceGainRequest gain = new ArroganceGainRequest(
@@ -147,14 +151,10 @@ public class CloseDodgeSession
         if (!playerWasHit)
         {
             // Version get all the gains from the pending list and request them at once.
-            
             // foreach (ArroganceGainRequest gain in pendingGains)
             //     ArroganceGainEvents.RequestGain(gain);
 
-            
-            
             // Version get Max gain from the pending list and request it.
-            
             if (pendingGains.Count > 0)
             {
                 ArroganceGainRequest maxGain = pendingGains[0];

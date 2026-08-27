@@ -196,7 +196,7 @@ namespace Player.Scripts
 
         private void HandleArrogantDodge(ArroganceGainResult result)
         {
-            if (result.request.reason != ArroganceGainReason.CloseDodge || player.playerArrogantSpin.TimeSinceLastSpin >= 0.5f)
+            if (result.request.reason != ArroganceGainReason.CloseDodge)
                 return;
 
             StartCoroutine(SpawnShockWave());
