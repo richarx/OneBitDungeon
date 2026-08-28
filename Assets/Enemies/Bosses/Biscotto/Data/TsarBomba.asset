@@ -18,8 +18,8 @@ MonoBehaviour:
   <SpawnDuration>k__BackingField: 0.4
   <FillDuration>k__BackingField: 1
   <LockBeforeImpact>k__BackingField: 0.8
-  <AscentSpeed>k__BackingField: 80
-  <FallSpeed>k__BackingField: 120
+  <AscentDuration>k__BackingField: 0.2
+  <FallDuration>k__BackingField: 0.1
   <RecoveryDuration>k__BackingField: 1
   <AnticipationAnimation>k__BackingField: Jump
   <JumpAnimation>k__BackingField: Fall

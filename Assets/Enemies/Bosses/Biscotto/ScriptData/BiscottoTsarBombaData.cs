@@ -36,27 +36,15 @@ public sealed class BiscottoTsarBombaData : ScriptableObject
 
     [field: SerializeField]
     [field: MinValue(0.01f)]
-    [field: LabelText("Vitesse de montée")]
-    [field: SuffixLabel("mètres/s")]
-    public float AscentSpeed { get; private set; } = 5.0f;
+    [field: LabelText("Temps de montée")]
+    [field: SuffixLabel("secondes")]
+    public float AscentDuration { get; private set; } = 5.0f;
 
     [field: SerializeField]
     [field: MinValue(0.01f)]
-    [field: LabelText("Vitesse de chute")]
-    [field: SuffixLabel("mètres/s")]
-    public float FallSpeed { get; private set; } = 4.0f;
-
-    [ShowInInspector]
-    [ReadOnly]
-    [LabelText("Hauteur du saut")]
-    [SuffixLabel("mètres")]
-    public float JumpHeight => FallSpeed * LockBeforeImpact;
-
-    [ShowInInspector]
-    [ReadOnly]
-    [LabelText("Temps de montée")]
-    [SuffixLabel("secondes")]
-    public float AscentDuration => JumpHeight / AscentSpeed;
+    [field: LabelText("Temps de chute")]
+    [field: SuffixLabel("secondes")]
+    public float FallDuration { get; private set; } = 4.0f;
 
     [ShowInInspector]
     [ReadOnly]

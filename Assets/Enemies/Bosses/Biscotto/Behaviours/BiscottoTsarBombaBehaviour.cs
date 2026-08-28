@@ -21,8 +21,12 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
     private Sequence jumpSequence;
     private CircleDamageZone currentDamageZone;
     private bool isTrackingPlayer;
-    private bool enemyHitboxIsDisabled;
     private Vector3 lockedLandingPosition;
+    private Vector3 lockedFlyingPosition;
+    private float startAttackTimestamp;
+
+    private const float jumpHeight = 15.0f;
+
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -49,21 +53,16 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             return;
         }
 
-        float ascentDuration = data.AscentDuration;
-        float trackingDuration = data.TrackingDuration;
-        float fallDuration = data.LockBeforeImpact;
+        startAttackTimestamp = Time.time;
 
         attackSequence = Sequence.Create()
-            .ChainCallback(() =>
-            {
-                StartAscent(enemy, ascentDuration);
-            })
-            .ChainDelay(ascentDuration)
+            .ChainCallback(() => StartAscent(enemy, data.AscentDuration))
             .ChainCallback(() => StartDamageZoneTracking(enemy))
-            .ChainDelay(trackingDuration)
-            .ChainCallback(() => LockTargetAndFall(enemy, fallDuration))
-            .ChainDelay(fallDuration)
-            .ChainCallback(() => RestoreEnemyHitbox(enemy))
+            .ChainDelay(data.SpawnDuration + data.FillDuration - data.FallDuration)
+            .ChainCallback(() => PlayAnimation(enemy, data.JumpAnimation))
+            .ChainCallback(() => StartDescent(enemy, data.FallDuration))
+            .ChainDelay(data.FallDuration)
+            .ChainCallback(() => CompleteLanding(enemy))
             .ChainDelay(data.RecoveryDuration)
             .ChainCallback(() => PlayAnimation(enemy, "Idle"))
             .ChainCallback(() => execution.Complete());
@@ -74,7 +73,16 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         if (!isTrackingPlayer || currentDamageZone == null || PlayerStateMachine.instance == null)
             return;
 
-        currentDamageZone.transform.position = new Vector3(PlayerStateMachine.instance.position.x, 0.0f, PlayerStateMachine.instance.position.z);
+        Vector3 targetPosition = PlayerStateMachine.instance.position;
+        currentDamageZone.transform.position = new Vector3(targetPosition.x, 0.0f, targetPosition.z);
+
+        if (isTrackingPlayer && Time.time - startAttackTimestamp >= data.TrackingDuration)
+        {
+            isTrackingPlayer = false;
+            Vector3 target = currentDamageZone.transform.position;
+            lockedLandingPosition = new Vector3(target.x, 0.0f, target.z);
+            lockedFlyingPosition = new Vector3(target.x, jumpHeight, target.z);
+        }
     }
 
     public void FixedUpdateBehaviour(EnemyController enemy)
@@ -98,21 +106,31 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
     private void StartAscent(EnemyController enemy, float ascentDuration)
     {
         PlayAnimation(enemy, data.AnticipationAnimation);
-
         enemy.DeactivateHitbox();
-        enemyHitboxIsDisabled = true;
-
-        if (ascentDuration <= 0.0f)
-            return;
-
-        Vector3 startPosition = enemy.transform.position;
-        Vector3 apexPosition = startPosition + Vector3.up * data.JumpHeight;
 
         jumpSequence = Sequence.Create()
-            .Chain(Tween.Custom(0.0f, 1.0f, ascentDuration, progress =>
-            {
-                enemy.transform.position = GetJumpAscentPosition(startPosition, apexPosition, progress);
-            }, Ease.OutQuad));
+            .ChainDelay(0.1f)
+            .Chain(Tween.PositionY(enemy.transform, jumpHeight, ascentDuration, Ease.OutQuad));
+    }
+
+    private void StartDescent(EnemyController enemy, float descentDuration)
+    {
+        if (jumpSequence.isAlive)
+            jumpSequence.Stop();
+
+        jumpSequence = Sequence.Create()
+            .Chain(Tween.Position(enemy.transform, lockedFlyingPosition, lockedLandingPosition, descentDuration, Ease.OutQuad));
+    }
+
+    private void CompleteLanding(EnemyController enemy)
+    {
+        if (jumpSequence.isAlive)
+            jumpSequence.Stop();
+
+        enemy.transform.position = lockedLandingPosition;
+        PlayAnimation(enemy, data.ImpactAnimation);
+        enemy.GetComponent<SqueezeAndStretch>().Trigger();
+        RestoreEnemyHitbox(enemy);
     }
 
     private void StartDamageZoneTracking(EnemyController enemy)
@@ -130,28 +148,6 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         isTrackingPlayer = true;
     }
 
-    private void LockTargetAndFall(EnemyController enemy, float fallDuration)
-    {
-        isTrackingPlayer = false;
-
-        Vector3 target = currentDamageZone.transform.position;
-
-        lockedLandingPosition = new Vector3(target.x, 0.0f, target.z);
-
-        PlayAnimation(enemy, data.JumpAnimation);
-
-        if (fallDuration <= 0.0f)
-        {
-            enemy.transform.position = lockedLandingPosition;
-            return;
-        }
-
-        jumpSequence = Sequence.Create()
-            .Chain(Tween.Position(enemy.transform, lockedLandingPosition, fallDuration, Ease.InQuad))
-            .ChainCallback(() => enemy.transform.position = lockedLandingPosition)
-            .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
-            .ChainCallback(() => enemy.GetComponent<SqueezeAndStretch>().Trigger());
-    }
     private void ResetRuntimeState(EnemyController enemy, bool restoreGroundPosition)
     {
         if (attackSequence.isAlive)
@@ -180,21 +176,8 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
 
     private void RestoreEnemyHitbox(EnemyController enemy)
     {
-        if (!enemyHitboxIsDisabled || enemy == null)
-            return;
-
-        enemyHitboxIsDisabled = false;
-
         if (enemy.damageable == null || !enemy.damageable.IsDead)
             enemy.ActivateHitbox();
-    }
-
-    private static Vector3 GetJumpAscentPosition(Vector3 startPosition, Vector3 apexPosition, float progress)
-    {
-        float clampedProgress = Mathf.Clamp01(progress);
-        Vector3 position = Vector3.Lerp(startPosition, apexPosition, clampedProgress);
-        position.y = Mathf.Lerp(startPosition.y, apexPosition.y, Mathf.Sin(clampedProgress * Mathf.PI * 0.5f));
-        return position;
     }
 
     private static void PlayAnimation(EnemyController enemy, string animationName)
