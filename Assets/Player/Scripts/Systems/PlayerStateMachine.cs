@@ -57,7 +57,6 @@ namespace Player.Scripts
         [HideInInspector] public PlayerSword playerSword;
         [HideInInspector] public PlayerTargeting playerTargeting;
         [HideInInspector] public PlayerHealth playerHealth;
-        [HideInInspector] public PlayerStamina playerStamina;
         [HideInInspector] public PlayerArrogance playerArrogance;
         [HideInInspector] public PlayerInteraction playerInteraction;
         [HideInInspector] public PlayerTagSystem playerTagSystem;
@@ -77,7 +76,6 @@ namespace Player.Scripts
             playerSword = GetComponent<PlayerSword>();
             playerTargeting = GetComponent<PlayerTargeting>();
             playerHealth = GetComponent<PlayerHealth>();
-            playerStamina = GetComponent<PlayerStamina>();
             playerArrogance = GetComponent<PlayerArrogance>();
             playerInteraction = GetComponent<PlayerInteraction>();
             playerAnimation = GetComponent<PlayerAnimation>();

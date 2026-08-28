@@ -84,13 +84,6 @@ namespace Player.Scripts
                 SFXManager.instance.PlaySFX(parrySuccess_1);
                 SFXManager.instance.PlaySFX(parrySuccess_2);
             });
-            player.playerStamina.OnPlayerExhaustStamina.AddListener(() =>
-            {
-                float volume = 0.015f;
-                SFXManager.instance.PlayRandomSFX(outOfBreath, volume);
-                SFXManager.instance.PlayRandomSFX(outOfBreath, volume, 0.5f);
-                SFXManager.instance.PlayRandomSFX(outOfBreath, volume, 1.0f);
-            });
 
             player.playerSit.OnStartSittingDown.AddListener(() =>
             {

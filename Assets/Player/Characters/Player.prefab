@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 2174515811491700390}
   - component: {fileID: 3599857382993739372}
   - component: {fileID: 1957020731844466397}
-  - component: {fileID: 6751413212577354627}
   - component: {fileID: 7752480334871691921}
   - component: {fileID: 7752480334871691922}
   - component: {fileID: 6973867706479936140}
@@ -266,6 +265,7 @@ MonoBehaviour:
   insolentAttackHit_2: {fileID: 8300000, guid: 65ee4d87910bd02478de20666a79741b, type: 3}
   counterAttack_1: {fileID: 8300000, guid: d20528b23fd7d04459f890ac545c5e4e, type: 3}
   counterAttack_2: {fileID: 8300000, guid: 04b70eb866614324c818e087431c25b7, type: 3}
+  tauntPushups: {fileID: 8300000, guid: 8ddfcf7ad699f8d4694c9a782e501c9b, type: 3}
 --- !u!114 &2174515811491700390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,21 +343,6 @@ MonoBehaviour:
   startingHealth: 5
   isInvincible: 0
   OnPlayerTakeDamage:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &6751413212577354627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 642427038457234017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc8fb717040955f4b871c977178d17d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnPlayerExhaustStamina:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &7752480334871691921

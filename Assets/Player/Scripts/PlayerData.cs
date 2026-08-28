@@ -145,24 +145,9 @@ namespace Player.Scripts
         public float parryGracePeriodDuration;
 
         [Space]
-        [Header("Stamina")]
-        public float maxStamina;
-        public float staminaCooldown;
-        public float staminaEmptyCooldown;
-        public float refillRate;
-
-        [Space]
         [Header("Sit")]
         public float sitDownRotationDampening;
         public float timeInIdleBeforeSitting;
-
-        [Space]
-        public float rollStaminaCost;
-        public float jumpStaminaCost;
-        public float attackStaminaCost;
-        public float parryStaminaCost;
-        public float parryStaminaGainOnSuccess;
-
 
         [Space]
         public bool canAttackWithNoStamina;

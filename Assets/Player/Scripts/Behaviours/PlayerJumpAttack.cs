@@ -20,8 +20,6 @@ public class PlayerJumpAttack : IPlayerBehaviour
 
         currentAttackPayload = new AttackPayload("JumpAttack", AttackType.Jump, player.playerData.normalAttackDamage, 1);
 
-        player.playerStamina.ConsumeStamina(0);
-
         player.playerAttack.OnPlayerAttack?.Invoke(currentAttackPayload);
     }
 

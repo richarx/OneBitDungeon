@@ -91,8 +91,6 @@ namespace Player.Scripts
             if (dashDirection.sqrMagnitude > 0.001f)
                 player.SetLastLookDirection(dashDirection);
 
-            player.playerStamina.ConsumeStamina(player.playerData.attackStaminaCost);
-
             OnPlayerAttack?.Invoke(currentAttackPayload);
         }
 

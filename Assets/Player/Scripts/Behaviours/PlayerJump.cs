@@ -17,14 +17,11 @@ public class PlayerJump : IPlayerBehaviour
 
     public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
     {
-
         hasLanded = false;
 
         Vector2 inputDirection = player.moveInput.magnitude >= 0.15f ? player.moveInput.normalized : player.LastLookDirection;
         player.SetLastLookDirection(inputDirection);
         jumpStartTimestamp = Time.time;
-
-        player.playerStamina.ConsumeStamina(player.playerData.jumpStaminaCost);
 
         OnStartJump?.Invoke();
     }
@@ -99,7 +96,7 @@ public class PlayerJump : IPlayerBehaviour
 
     public bool CanJump(PlayerStateMachine player)
     {
-        return (jumpCooldownTimestamp < 0.0f || Time.time >= jumpCooldownTimestamp) && !player.playerStamina.IsEmpty;
+        return jumpCooldownTimestamp < 0.0f || Time.time >= jumpCooldownTimestamp;
     }
 
     public void StopBehaviour(PlayerStateMachine player, BehaviourType next)

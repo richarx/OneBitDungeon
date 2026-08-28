@@ -39,7 +39,7 @@ namespace Player.Scripts
 
         public bool CanAttack(PlayerStateMachine player)
         {
-            return player.playerSword.CurrentlyHasSword && (!player.playerStamina.IsEmpty || player.playerData.canAttackWithNoStamina);
+            return player.playerSword.CurrentlyHasSword;
         }
 
         public void OnTagAttack() { }

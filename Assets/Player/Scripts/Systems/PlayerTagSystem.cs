@@ -44,7 +44,6 @@ namespace Player.Scripts
             for (int i = 0; i < slots.Length; i++)
             {
                 slots[i].savedHealth = slots[i].definition != null ? slots[i].definition.maxHealth : 0;
-                slots[i].savedStamina = slots[i].definition?.playerData != null ? slots[i].definition.playerData.maxStamina : 0f;
             }
 
             if (slots[0].graphicsObject != null) slots[0].graphicsObject.SetActive(true);
@@ -61,11 +60,6 @@ namespace Player.Scripts
             int inactiveIndex = 1 - activeSlotIndex;
             CharacterSlot inactiveSlot = slots[inactiveIndex];
             PlayerData inactiveData = inactiveSlot.definition.playerData;
-
-            // Stamina regen
-            inactiveSlot.savedStamina = Mathf.Min(
-                inactiveSlot.savedStamina + inactiveData.inactiveStaminaRegenRate * Time.deltaTime,
-                inactiveData.maxStamina);
 
             // Health regen (int-based accumulator)
             inactiveHealthAccumulator += inactiveData.inactiveHealthRegenRate * Time.deltaTime;
@@ -141,12 +135,10 @@ namespace Player.Scripts
             // Reset inactive slot
             int inactiveIndex = 1 - activeSlotIndex;
             slots[inactiveIndex].savedHealth = slots[inactiveIndex].definition.maxHealth;
-            slots[inactiveIndex].savedStamina = slots[inactiveIndex].definition.playerData.maxStamina;
 
             // Reset active character via components
             player.playerHealth.SetMaxHealth(slots[activeSlotIndex].definition.maxHealth);
             player.playerHealth.SetHealth(slots[activeSlotIndex].definition.maxHealth);
-            player.playerStamina.SetStamina(player.playerData.maxStamina);
         }
     }
 }

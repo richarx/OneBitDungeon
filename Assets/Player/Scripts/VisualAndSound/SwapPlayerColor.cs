@@ -10,7 +10,6 @@ namespace Player.Scripts
         {
             Initial,
             Staggered,
-            Exhausted
         }
 
         [SerializeField] private SpriteRenderer spriteRenderer;
@@ -28,7 +27,6 @@ namespace Player.Scripts
 
         private PlayerData playerData;
         private PlayerHealth playerHealth;
-        private PlayerStamina playerStamina;
 
         private Material material;
         private int materialColorId;
@@ -50,7 +48,6 @@ namespace Player.Scripts
 
             playerData = PlayerStateMachine.instance.playerData;
             playerHealth = GetComponent<PlayerHealth>();
-            playerStamina = GetComponent<PlayerStamina>();
 
             currentState = SpriteState.Initial;
         }
@@ -100,8 +97,6 @@ namespace Player.Scripts
             {
                 case SpriteState.Staggered:
                     return staggerTargetColor;
-                case SpriteState.Exhausted:
-                    return staminaTargetColor;
                 default:
                 case SpriteState.Initial:
                     return startingColor;
@@ -115,9 +110,6 @@ namespace Player.Scripts
 
             if (Time.time - playerHealth.lastHitTimestamp <= playerData.staggerDuration)
                 return SpriteState.Staggered;
-
-            if (playerStamina.IsEmpty)
-                return SpriteState.Exhausted;
 
             return SpriteState.Initial;
         }

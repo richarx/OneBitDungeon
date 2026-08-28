@@ -85,7 +85,7 @@ public class PlayerArrogantSpin : IPlayerBehaviour
 
     public bool CanSpin(PlayerStateMachine player)
     {
-        return (spinCooldownTimestamp < 0.0f || Time.time >= spinCooldownTimestamp) && !player.playerStamina.IsEmpty;
+        return spinCooldownTimestamp < 0.0f || Time.time >= spinCooldownTimestamp;
     }
 
     public void StopBehaviour(PlayerStateMachine player, BehaviourType next)

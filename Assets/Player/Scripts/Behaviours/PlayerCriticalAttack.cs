@@ -46,7 +46,6 @@ namespace Player.Scripts
             dashSpeed = ComputeDashSpeed(player);
             IgnoreTargetCollisions(player);
 
-            player.playerStamina.ConsumeStamina(player.playerData.attackStaminaCost);
             currentAttackPayload = new AttackPayload("Critical_Attack", AttackType.Critical, player.playerData.insolenceAttackDamage, 1);
             player.playerAttack.OnPlayerAttack?.Invoke(currentAttackPayload);
         }

@@ -28,8 +28,6 @@ namespace Player.Scripts
             parryStartTimestamp = Time.time;
             isFromParry = previous == BehaviourType.Parry;
 
-            player.playerStamina.ConsumeStamina(player.playerData.parryStaminaCost);
-
             OnStartParry?.Invoke();
         }
 
@@ -37,7 +35,6 @@ namespace Player.Scripts
         {
             wasSuccessful = true;
             successfulParryTimestamp = Time.time;
-            player.playerStamina.GainStamina(player.playerData.parryStaminaGainOnSuccess);
             ArroganceGainEvents.RequestGain(new ArroganceGainRequest(player.playerData.arroganceGainOnParry, ArroganceGainReason.Parry));
             OnSuccessfulParry?.Invoke();
         }
@@ -117,9 +114,8 @@ namespace Player.Scripts
         public bool CanParry(PlayerStateMachine player)
         {
             bool isCooldownRefreshed = Time.time >= parryCooldownTimestamp;
-            bool hasEnoughStamina = player.playerData.parryStaminaCost == 0.0f || !player.playerStamina.IsEmpty;
 
-            return isCooldownRefreshed && hasEnoughStamina;
+            return isCooldownRefreshed;
         }
 
         public bool IsParrying(PlayerStateMachine player)

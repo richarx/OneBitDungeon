@@ -25,8 +25,6 @@ namespace Player.Scripts
             rollStartPosition = player.position;
             rollStartTimestamp = Time.time;
 
-            player.playerStamina.ConsumeStamina(player.playerData.rollStaminaCost);
-
             OnStartRoll?.Invoke();
         }
 
@@ -88,7 +86,7 @@ namespace Player.Scripts
 
         public bool CanRoll(PlayerStateMachine player)
         {
-            return (rollCooldownTimestamp < 0.0f || Time.time >= rollCooldownTimestamp) && !player.playerStamina.IsEmpty;
+            return rollCooldownTimestamp < 0.0f || Time.time >= rollCooldownTimestamp;
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
