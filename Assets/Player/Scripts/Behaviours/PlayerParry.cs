@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,56 +9,53 @@ namespace Player.Scripts
         public UnityEvent OnStartParry = new UnityEvent();
         public UnityEvent OnStopParry = new UnityEvent();
         public UnityEvent OnSuccessfulParry = new UnityEvent();
+        public UnityEvent OnSuccessfulBlock = new UnityEvent();
 
-        private float parryStartTimestamp;
+        private float startParryTimestamp;
         private float successfulParryTimestamp;
         private float recoveryParryTimestamp;
-        private float parryCooldownTimestamp = -1.0f;
 
-        private bool wasSuccessful;
-        public bool WasSuccessful => wasSuccessful;
         private bool isInRecovery;
 
         public bool isFromParry { get; private set; }
+        public bool isWalking { get; private set; }
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-
             isInRecovery = false;
-            wasSuccessful = false;
-            parryStartTimestamp = Time.time;
+            startParryTimestamp = Time.time;
+            successfulParryTimestamp = -1.0f;
             isFromParry = previous == BehaviourType.Parry;
+
+            player.ComputeLastLookDirection();
 
             OnStartParry?.Invoke();
         }
 
         public void TriggerSuccessfulParry(PlayerStateMachine player)
         {
-            wasSuccessful = true;
-            successfulParryTimestamp = Time.time;
-            ArroganceGainEvents.RequestGain(new ArroganceGainRequest(player.playerData.arroganceGainOnParry, ArroganceGainReason.Parry));
-            OnSuccessfulParry?.Invoke();
+            if (Time.time - startParryTimestamp <= player.playerData.parryWindow)
+            {
+                successfulParryTimestamp = Time.time;
+                ArroganceGainEvents.RequestGain(new ArroganceGainRequest(player.playerData.arroganceGainOnParry, ArroganceGainReason.Parry));
+                OnSuccessfulParry?.Invoke();
+            }
+            else
+            {
+                OnSuccessfulBlock?.Invoke();
+            }
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)
         {
-            /*
-            // TAG TEMPORAIREMENT DÉSACTIVÉ
-            if (wasSuccessful && player.playerTagSystem != null && player.playerTagSystem.CanTag && player.inputPackage.GetTag.WasPressedWithBuffer())
-            {
-                player.ChangeBehaviour(player.playerTag);
-                return;
-            }
-            */
-
-            if (player.inputPackage.GetParry.WasPressedWithBuffer())
-            {
-                StartBehaviour(player, BehaviourType.Parry);
-                return;
-            }
-
             if (isInRecovery)
             {
+                if (player.inputPackage.GetParry.WasPressedWithBuffer(0.2f))
+                {
+                    StartBehaviour(player, BehaviourType.Parry);
+                    return;
+                }
+
                 if (player.playerRoll.CanRoll(player) && player.inputPackage.GetRoll.WasPressedWithBuffer())
                 {
                     player.ChangeBehaviour(player.playerRoll);
@@ -71,7 +69,7 @@ namespace Player.Scripts
                 }
             }
 
-            if (wasSuccessful && player.inputPackage.GetAttack.wasPressedThisFrame)
+            if (Time.time - successfulParryTimestamp <= player.playerData.parryCounterWindow && player.inputPackage.GetAttack.wasPressedThisFrame)
             {
                 player.ChangeBehaviour(player.playerCounterAttack);
                 return;
@@ -79,10 +77,7 @@ namespace Player.Scripts
 
             if (!isInRecovery)
             {
-                bool regularParryIsOver = !wasSuccessful && Time.time - parryStartTimestamp >= player.playerData.parryDuration;
-                bool successfulParryIsOver = wasSuccessful && Time.time - successfulParryTimestamp >= player.playerData.successfulParryDuration;
-
-                if (regularParryIsOver || successfulParryIsOver)
+                if (Time.time - startParryTimestamp >= 0.2f && !player.inputPackage.GetParry.isPressed)
                 {
                     isInRecovery = true;
                     recoveryParryTimestamp = Time.time;
@@ -91,12 +86,16 @@ namespace Player.Scripts
             }
             else
             {
-                bool isRegularRecoveryOver = !wasSuccessful && Time.time - recoveryParryTimestamp >= player.playerData.parryRecoveryDuration;
-                bool isSuccessfulRecoveryOver = wasSuccessful && Time.time - recoveryParryTimestamp >= player.playerData.successfulParryRecoveryDuration;
+                bool isRecoveryOver = Time.time - recoveryParryTimestamp >= player.playerData.parryRecoveryDuration;
 
-                if (isRegularRecoveryOver || isSuccessfulRecoveryOver)
+                if (isRecoveryOver)
+                {
                     player.ChangeBehaviour(player.playerIdle);
+                    return;
+                }
             }
+
+            player.ComputeLastLookDirection();
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)
@@ -107,25 +106,36 @@ namespace Player.Scripts
 
         private void HandleDirection(PlayerStateMachine player)
         {
-            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
-            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
+            Vector3 move = player.moveInput;
+            float speed = player.playerData.parryWalkSpeed;
+            move *= speed;
+
+            isWalking = player.moveInput.magnitude > 0.05f;
+
+            if (isWalking)
+            {
+                player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, move.x, player.playerData.groundAcceleration * Time.fixedDeltaTime);
+                player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, move.y, player.playerData.groundAcceleration * Time.fixedDeltaTime);
+            }
+            else
+            {
+                player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
+                player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.groundDeceleration * Time.fixedDeltaTime);
+            }
         }
 
         public bool CanParry(PlayerStateMachine player)
         {
-            bool isCooldownRefreshed = Time.time >= parryCooldownTimestamp;
-
-            return isCooldownRefreshed;
+            return true;
         }
 
         public bool IsParrying(PlayerStateMachine player)
         {
-            return player.currentBehaviour.GetBehaviourType() == BehaviourType.Parry && !isInRecovery && (!wasSuccessful || Time.time - successfulParryTimestamp <= player.playerData.parryGracePeriodDuration);
+            return player.currentBehaviour.GetBehaviourType() == BehaviourType.Parry && !isInRecovery;
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
-            parryCooldownTimestamp = wasSuccessful ? -1.0f : (Time.time + player.playerData.parryCooldown);
         }
 
         public BehaviourType GetBehaviourType()

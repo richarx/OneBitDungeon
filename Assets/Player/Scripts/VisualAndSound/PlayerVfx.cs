@@ -132,6 +132,7 @@ namespace Player.Scripts
             player.playerCriticalAttack.OnStartDash.AddListener(HandleCritStrikeDash);
             player.playerCriticalAttack.OnReachedTarget.AddListener(HandleCritStrikeReachedTarget);
             player.playerParry.OnSuccessfulParry.AddListener(HandleSuccessfulParry);
+            player.playerParry.OnSuccessfulBlock.AddListener(HandleSuccessfulBlock);
             player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
             player.playerJump.OnStartJump.AddListener(SpawnStartJumpVfx);
             player.playerJump.OnLandJump.AddListener(SpawnLandJumpVfx);
@@ -248,8 +249,19 @@ namespace Player.Scripts
 
         private void HandleSuccessfulParry()
         {
-            SpawnParryVfx();
+            InstantiateVfx(parryVfx, player.position, Quaternion.identity);
             FreezeTime(parryFreezeDuration);
+        }
+
+        private void HandleSuccessfulBlock()
+        {
+            FreezeTime(parryFreezeDuration);
+            Vector3 direction = player.LastLookDirection.ToVector3();
+            Vector3 position = player.position + (Vector3.up * 0.5f) + (direction * 0.5f);
+            GameObject spark = InstantiateVfx(hitSparkPrefab, position, Quaternion.identity);
+
+            if (direction.x > 0.0f)
+                spark.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
         }
 
         private void SpawnHurtVfx(Vector3 direction)
@@ -277,11 +289,6 @@ namespace Player.Scripts
         private void SpawnLandJumpVfx()
         {
             InstantiateVfx(jumpLandVfx, player.position, Quaternion.identity);
-        }
-
-        private void SpawnParryVfx()
-        {
-            InstantiateVfx(parryVfx, player.position, Quaternion.identity);
         }
 
         private IEnumerator WaitAndSpawnSwordSlash(AttackPayload attackPayload, float delay)

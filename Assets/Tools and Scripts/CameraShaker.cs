@@ -30,6 +30,7 @@ namespace Tools_and_Scripts
             WeaponDamageTrigger.OnHitEnemy.AddListener((_, _) => StartShake());
             player.playerHealth.OnPlayerTakeDamage.AddListener((_) => StartShake(1.3f, 1.3f, 2.0f));
             player.playerParry.OnSuccessfulParry.AddListener(() => StartShake());
+            player.playerParry.OnSuccessfulBlock.AddListener(() => StartShake());
             player.playerJump.OnLandJump.AddListener(() => StartShake(0.3f, 0.3f, 0.3f));
         }
 

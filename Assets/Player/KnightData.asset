@@ -75,23 +75,12 @@ MonoBehaviour:
   staggerPower: 20
   staggerDeceleration: 60
   invincibilityDuration: 1.5
-  parryDuration: 0.4
-  successfulParryDuration: 0.4
+  parryWalkSpeed: 3
   parryRecoveryDuration: 0.2
-  successfulParryRecoveryDuration: 0.1
-  parryCooldown: 0.2
-  parryGracePeriodDuration: 0.1
-  maxStamina: 100
-  staminaCooldown: 0.5
-  staminaEmptyCooldown: 1.5
-  refillRate: 50
+  parryWindow: 0.2
+  parryCounterWindow: 0.35
   sitDownRotationDampening: 0.2
   timeInIdleBeforeSitting: 30
-  rollStaminaCost: 40
-  jumpStaminaCost: 0
-  attackStaminaCost: 0
-  parryStaminaCost: 0
-  parryStaminaGainOnSuccess: 0
   canAttackWithNoStamina: 1
   tagCooldown: 0.5
   tagDuration: 0

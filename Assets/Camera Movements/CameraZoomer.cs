@@ -17,6 +17,7 @@ public class CameraZoomer : MonoBehaviour
         PlayerStateMachine player = PlayerStateMachine.instance;
 
         player.playerParry.OnSuccessfulParry.AddListener(() => StartZoom(0.1f, 0.3f, 8.0f));
+        player.playerParry.OnSuccessfulBlock.AddListener(() => StartZoom(0.1f, 0.3f, 1.0f));
         player.playerAttack.OnPlayerAttack.AddListener(HandleAttack);
         player.playerHealth.OnPlayerTakeDamage.AddListener((_) => StartZoom(0.1f, 0.5f, 12.0f));
 

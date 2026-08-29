@@ -30,4 +30,4 @@ MonoBehaviour:
   timeBetweenFrames: 0.083333336
   isLooping: 0
   canSelfCancel: 0
-  nextAnimation: {fileID: 0}
+  nextAnimation: 13

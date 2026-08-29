@@ -33,7 +33,7 @@ MonoBehaviour:
   - {fileID: 663806264, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
   - {fileID: 1725489978, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
   directionCount: 0
-  timeBetweenFrames: 0.08333334
+  timeBetweenFrames: 0.11111111
   isLooping: 1
   canSelfCancel: 0
   nextAnimation: 0

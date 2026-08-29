@@ -24,6 +24,7 @@ namespace Player.Scripts
         [SerializeField] private AudioClip parry_2;
         [SerializeField] private AudioClip parrySuccess_1;
         [SerializeField] private AudioClip parrySuccess_2;
+        [SerializeField] private AudioClip blockSuccess_1;
         [SerializeField] private List<AudioClip> outOfBreath;
         [SerializeField] private AudioClip sit_1;
         [SerializeField] private AudioClip sit_2;
@@ -43,6 +44,7 @@ namespace Player.Scripts
         [SerializeField] private AudioClip insolentAttackHit_2;
         [SerializeField] private AudioClip counterAttack_1;
         [SerializeField] private AudioClip counterAttack_2;
+        [SerializeField] private AudioClip counterAttack_3;
         [SerializeField] private AudioClip tauntPushups;
 
         private PlayerStateMachine player;
@@ -84,6 +86,10 @@ namespace Player.Scripts
                 SFXManager.instance.PlaySFX(parrySuccess_1);
                 SFXManager.instance.PlaySFX(parrySuccess_2);
             });
+            player.playerParry.OnSuccessfulBlock.AddListener(() =>
+            {
+                SFXManager.instance.PlaySFX(blockSuccess_1);
+            });
 
             player.playerSit.OnStartSittingDown.AddListener(() =>
             {
@@ -118,6 +124,7 @@ namespace Player.Scripts
                 {
                     SFXManager.instance.PlaySFX(counterAttack_1, 0.1f);
                     SFXManager.instance.PlaySFX(counterAttack_2, 0.1f);
+                    SFXManager.instance.PlaySFX(counterAttack_3, 0.15f);
 
                 }
             });

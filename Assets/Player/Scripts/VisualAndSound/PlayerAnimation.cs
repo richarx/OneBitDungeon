@@ -26,6 +26,7 @@ namespace Player.Scripts
             player.playerParry.OnStartParry.AddListener(PlayStartParryAnimation);
             player.playerParry.OnStopParry.AddListener(PlayRecoveryParryAnimation);
             player.playerParry.OnSuccessfulParry.AddListener(PlaySuccessParryAnimation);
+            player.playerParry.OnSuccessfulBlock.AddListener(PlaySuccessParryAnimation);
         }
 
         private void LateUpdate()
@@ -64,6 +65,8 @@ namespace Player.Scripts
                     PlayTauntAnimation();
                     break;
                 case BehaviourType.Parry:
+                    PlayParryAnimation();
+                    break;
                 case BehaviourType.Attack:
                 case BehaviourType.JumpAttack:
                 case BehaviourType.CounterAttack:
@@ -118,6 +121,16 @@ namespace Player.Scripts
         private void PlaySuccessParryAnimation()
         {
             codeAnimator.PlayAnimation(AnimationType.ParrySuccess, ComputeAnimationDirection(), true);
+        }
+
+        private void PlayParryAnimation()
+        {
+            AnimationType current = codeAnimator.CurrentAnimationType;
+
+            if (current == AnimationType.ParryStart || current == AnimationType.ParrySuccess || current == AnimationType.ParryRecovery)
+                return;
+
+            codeAnimator.PlayAnimation(player.playerParry.isWalking ? AnimationType.ParryWalk : AnimationType.ParryIdle, ComputeAnimationDirection(), true);
         }
 
         private void PlayIdleAnimation()
