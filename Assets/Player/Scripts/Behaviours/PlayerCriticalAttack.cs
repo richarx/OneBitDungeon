@@ -65,18 +65,22 @@ namespace Player.Scripts
                 reachedTargetTimestamp = Time.time;
             }
 
-            if (hasReachedTarget && Time.time - reachedTargetTimestamp >= 0.3f)
+            bool hasReachedTargetAndWaited = hasReachedTarget && Time.time - reachedTargetTimestamp >= 0.3f;
+            bool waitedTooLong = Time.time - attackStartTimestamp >= 0.8f;
+
+            if (hasReachedTargetAndWaited || waitedTooLong)
             {
                 player.playerAttack.OnRemoveDamageBox?.Invoke();
                 StopCriticalAttack(player);
             }
         }
+
         private bool CheckIfReachedTarget(PlayerStateMachine player)
         {
             if (hasHitObstacle)
                 return true;
 
-            return Vector3.Distance(dashStartPosition, player.position) >= Vector3.Distance(dashStartPosition, dashTarget);
+            return Vector3.Distance(dashStartPosition, player.position) >= Vector3.Distance(dashStartPosition, dashTarget) - 0.05f;
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)
