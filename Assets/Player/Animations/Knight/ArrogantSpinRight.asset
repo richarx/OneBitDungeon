@@ -90,4 +90,4 @@ MonoBehaviour:
   timeBetweenFrames: 0.042857144
   isLooping: 1
   canSelfCancel: 0
-  nextAnimation: {fileID: 11400000, guid: 8fa166e97824a4f449be3e1437258f46, type: 2}
+  nextAnimation: 2

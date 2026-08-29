@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb52d6d02f4de5458707795204991a5, type: 3}
+  m_Name: ParryWalk
+  m_EditorClassIdentifier: 
+  weaponInTheBackSprites: []
+  weaponInHandSprites:
+  - {fileID: 1562794032, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: 3550203, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: 1928538032, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: 764923225, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: 892629955, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: 861074910, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: 716283054, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: -1172758744, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: -252460897, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: -1822542652, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: -238358546, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: -1715627118, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: -1095810062, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: -1513229385, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: 1400826636, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: 138713632, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: 663806264, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  - {fileID: 1725489978, guid: 55ccacea629ef1643bc20a7815036190, type: 3}
+  directionCount: 0
+  timeBetweenFrames: 0.08333334
+  isLooping: 1
+  canSelfCancel: 0
+  nextAnimation: 0

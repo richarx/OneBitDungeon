@@ -27,4 +27,5 @@ MonoBehaviour:
   directionCount: 2
   timeBetweenFrames: 0.1
   isLooping: 0
-  nextAnimation: {fileID: 11400000, guid: 2a89184a34056f342a23fb92dcca878c, type: 2}
+  canSelfCancel: 0
+  nextAnimation: 1

@@ -10,11 +10,6 @@ namespace Player.Scripts
         private PlayerStateMachine player;
         private CodeAnimator codeAnimator;
 
-        public void SetAnimator(Animator newAnimator)
-        {
-            //TODO => link the AnimationHolderData from tag
-        }
-
         private void Start()
         {
             player = PlayerStateMachine.instance;

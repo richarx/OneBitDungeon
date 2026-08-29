@@ -7,6 +7,7 @@ public class CodeAnimator : MonoBehaviour
 {
     public enum AnimationType
     {
+        None,
         Idle,
         ArrogantIdle,
         Walk,
@@ -19,6 +20,8 @@ public class CodeAnimator : MonoBehaviour
         ParryStart,
         ParrySuccess,
         ParryRecovery,
+        ParryIdle,
+        ParryWalk,
         Hurt,
         Die,
         GetUp,
@@ -52,7 +55,12 @@ public class CodeAnimator : MonoBehaviour
 
     private AnimationData currentAnimation;
     private AnimationDirection currentDirection;
+    private AnimationType currentAnimationType;
     private bool currentWeaponState;
+
+    public AnimationData CurrentAnimation => currentAnimation;
+    public AnimationDirection CurrentDirection => currentDirection;
+    public AnimationType CurrentAnimationType => currentAnimationType;
 
     public void SetGraphicsTarget(SpriteRenderer newSpriteRenderer)
     {
@@ -66,17 +74,18 @@ public class CodeAnimator : MonoBehaviour
 
     public void PlayAnimation(AnimationType animationType, AnimationDirection animationDirection, bool hasWeaponInHand = false)
     {
-        PlayAnimation(RetreiveAnimationData(animationType), animationDirection, hasWeaponInHand);
-    }
+        AnimationData animationData = RetreiveAnimationData(animationType);
 
-    private void PlayAnimation(AnimationData animationData, AnimationDirection animationDirection, bool hasWeaponInHand = false)
-    {
+        if (animationData == null)
+            return;
+
         if (!animationData.canSelfCancel && animationData == currentAnimation && animationDirection == currentDirection && hasWeaponInHand == currentWeaponState)
             return;
 
         currentAnimation = animationData;
         currentDirection = animationDirection;
         currentWeaponState = hasWeaponInHand;
+        currentAnimationType = animationType;
 
         StopAllCoroutines();
         StartCoroutine(PlayAnimationCoroutine(animationData, animationDirection, hasWeaponInHand));
@@ -96,7 +105,7 @@ public class CodeAnimator : MonoBehaviour
         else
             yield return AnimateSpriteRenderer(sprites, frameCount, startingFrame, animationData.timeBetweenFrames);
 
-        if (animationData.nextAnimation != null)
+        if (animationData.nextAnimation != AnimationType.None)
             PlayAnimation(animationData.nextAnimation, animationDirection, hasWeaponInHand);
     }
 
@@ -144,6 +153,8 @@ public class CodeAnimator : MonoBehaviour
         switch (animationType)
         {
             default:
+            case AnimationType.None:
+                return null;
             case AnimationType.Idle:
                 return animationsHolder.Idle;
             case AnimationType.ArrogantIdle:
@@ -172,6 +183,10 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.ParrySuccess;
             case AnimationType.ParryRecovery:
                 return animationsHolder.ParryRecovery;
+            case AnimationType.ParryIdle:
+                return animationsHolder.ParryIdle;
+            case AnimationType.ParryWalk:
+                return animationsHolder.ParryWalk;
             case AnimationType.Hurt:
                 return animationsHolder.Hurt;
             case AnimationType.Die:

@@ -26,6 +26,8 @@ MonoBehaviour:
   ParryStart: {fileID: 11400000, guid: cc4d3e4fcf1e3274e856d64708bdcdb8, type: 2}
   ParrySuccess: {fileID: 11400000, guid: b18f3433445b90646950fe29aa48118f, type: 2}
   ParryRecovery: {fileID: 11400000, guid: 0ca65ef07b31856498c9b39644306b1d, type: 2}
+  ParryIdle: {fileID: 11400000, guid: 9f24395f027d34f4eb0a42b8c92dc387, type: 2}
+  ParryWalk: {fileID: 11400000, guid: 259afa061deaadd45becbed303c8a3b5, type: 2}
   Hurt: {fileID: 11400000, guid: 42ee503f2c7137b479e983cc00779100, type: 2}
   Die: {fileID: 11400000, guid: b33f7ecf418b5f14d8f0482b7828260e, type: 2}
   GetUp: {fileID: 11400000, guid: 29629b3d3be286344b733d5d18397337, type: 2}

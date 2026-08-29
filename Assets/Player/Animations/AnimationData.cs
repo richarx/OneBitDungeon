@@ -19,7 +19,7 @@ public class AnimationData : ScriptableObject
 
     [Space]
     [CanBeNull]
-    public AnimationData nextAnimation;
+    public AnimationType nextAnimation;
 
     public List<Sprite> GetSprites(bool hasWeaponInHand)
     {
