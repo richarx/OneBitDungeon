@@ -1,4 +1,4 @@
-using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,31 +11,46 @@ namespace Player.Scripts
         public UnityEvent OnSuccessfulParry = new UnityEvent();
         public UnityEvent OnSuccessfulBlock = new UnityEvent();
 
-        private float startParryTimestamp;
-        private float successfulParryTimestamp;
+        private float startParryTimestamp = -1.0f;
+        private float successfulParryTimestamp = -2.0f;
         private float recoveryParryTimestamp;
+
+        private float currentParryWindow;
 
         private bool isInRecovery;
 
-        public bool isFromParry { get; private set; }
         public bool isWalking { get; private set; }
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
             isInRecovery = false;
+            currentParryWindow = ComputeAntiSpamWindow(player);
             startParryTimestamp = Time.time;
             successfulParryTimestamp = -1.0f;
-            isFromParry = previous == BehaviourType.Parry;
 
             player.ComputeLastLookDirection();
 
             OnStartParry?.Invoke();
         }
 
+        private float ComputeAntiSpamWindow(PlayerStateMachine player)
+        {
+            bool recentParry = Time.time - startParryTimestamp <= player.playerData.parrySpamPreventionWindow;
+            bool recentSuccess = successfulParryTimestamp > startParryTimestamp;
+
+            if (recentParry && !recentSuccess)
+            {
+                return Mathf.Max(currentParryWindow - player.playerData.parrySpamPreventionReduction, player.playerData.parryMinimumWindow);
+            }
+
+            return player.playerData.parryWindow;
+        }
+
         public void TriggerSuccessfulParry(PlayerStateMachine player)
         {
-            if (Time.time - startParryTimestamp <= player.playerData.parryWindow)
+            if (Time.time - startParryTimestamp <= currentParryWindow)
             {
+                currentParryWindow = player.playerData.parryWindow;
                 successfulParryTimestamp = Time.time;
                 ArroganceGainEvents.RequestGain(new ArroganceGainRequest(player.playerData.arroganceGainOnParry, ArroganceGainReason.Parry));
                 OnSuccessfulParry?.Invoke();

@@ -77,8 +77,11 @@ MonoBehaviour:
   invincibilityDuration: 1.5
   parryWalkSpeed: 3
   parryRecoveryDuration: 0.2
-  parryWindow: 0.2
+  parryWindow: 0.3
   parryCounterWindow: 0.35
+  parrySpamPreventionWindow: 0.4
+  parrySpamPreventionReduction: 0.05
+  parryMinimumWindow: 0.1
   sitDownRotationDampening: 0.2
   timeInIdleBeforeSitting: 30
   canAttackWithNoStamina: 1

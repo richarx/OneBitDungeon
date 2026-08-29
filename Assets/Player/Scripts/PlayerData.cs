@@ -143,6 +143,12 @@ namespace Player.Scripts
         public float parryCounterWindow;
 
         [Space]
+        public float parrySpamPreventionWindow;
+        public float parrySpamPreventionReduction;
+        public float parryMinimumWindow;
+
+
+        [Space]
         [Header("Sit")]
         public float sitDownRotationDampening;
         public float timeInIdleBeforeSitting;
