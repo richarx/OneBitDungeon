@@ -27,7 +27,7 @@ MonoBehaviour:
   closeDodgeWindowDuration: 0.3
   maxArrogance: 100
   arroganceGainOnCloseDodge: 15
-  arroganceGainOnParry: 3
+  arroganceGainOnParry: 10
   arroganceGainOnAttack: 1
   arroganceGainWhileSitting: 1
   useProgressiveArroganceGain: 0
