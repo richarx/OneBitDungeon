@@ -1157,12 +1157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d34754163d9044db046f3090c60881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomPowerOnParry: 5
-  zoomDurationOnParry: 0.1
-  zoomPowerOnDodge: 5
-  zoomDurationOnDodge: 0.5
-  easeIn: 0
-  easeOut: 0
 --- !u!1 &328170770
 GameObject:
   m_ObjectHideFlags: 0
@@ -10778,9 +10772,8 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 11400000, guid: c4695eaa5c789d043b257218ac762af0, type: 2}
     - {fileID: 11400000, guid: 034e6da9e8a13fe49a4d6a890aacb3a6, type: 2}
-    - {fileID: 227854228040328757, guid: dd3dcb2841c964345bbca1dcf39a0011, type: 3}
-    - {fileID: 6920893645996063687, guid: b3a9d7f010918dc44ab5a81ab252a230, type: 3}
     - {fileID: 227854228040328757, guid: 8f6e394d97d7811448e62cbac13316a0, type: 3}
     - {fileID: 7095477881059379443, guid: 7114558925a661049b43929303dcbd7e, type: 3}
     - {fileID: 2345212183736776820, guid: c25a446e78ae40142801added8efad5a, type: 3}
@@ -10819,15 +10812,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 4|GladiatorThrowAxeBehaviour, Assembly-CSharp
-    - Name: gladiatorData
+    - Name: data
       Entry: 10
       Data: 0
-    - Name: rectangleDamageZonePrefab
-      Entry: 10
-      Data: 1
-    - Name: axePrefab
-      Entry: 10
-      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -10836,13 +10823,13 @@ MonoBehaviour:
       Data: 5|GladiatorHookBehaviour, Assembly-CSharp
     - Name: gladiatorData
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: rectangleDamageZonePrefab
       Entry: 10
-      Data: 3
+      Data: 2
     - Name: hookControllerPrefab
       Entry: 10
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -10851,13 +10838,13 @@ MonoBehaviour:
       Data: 6|GladiatorTrapsBehaviour, Assembly-CSharp
     - Name: gladiatorData
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: circleDamageZonePrefab
       Entry: 10
-      Data: 5
+      Data: 4
     - Name: trapControllerPrefab
       Entry: 10
-      Data: 6
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -10882,8 +10869,18 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: debugBehaviour
+      Entry: 7
+      Data: 8|GladiatorThrowAxeBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
   <Sprite>k__BackingField: {fileID: 5071313608623843290}
   <shadowSprite>k__BackingField: {fileID: 2063661912}
+  debugMode: 1
 --- !u!114 &8182171200824653878
 MonoBehaviour:
   m_ObjectHideFlags: 0

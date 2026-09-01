@@ -1,76 +1,74 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PeacockDashAttackData", menuName = "ScriptableObjects/Peacock/Dash Attack Data")]
-public class PeacockDashAttackData : ScriptableObject
+[CreateAssetMenu(fileName = "GladiatorAxeThrowData", menuName = "ScriptableObjects/Gladiator/Throw Axe Data")]
+public class GladiatorAxeThrowData : ScriptableObject
 {
-    [field: SerializeField]
-    [field: LabelText("Nom du pattern")]
-    public string PatternName { get; private set; } = "Dash Attack";
-
     [field: SerializeField]
     [field: Required]
     [field: LabelText("Prefab de zone rectangulaire")]
-    public GameObject RectangularDamageZonePrefab { get; private set; }
+    public GameObject RectangleDamageZonePrefab { get; private set; }
 
     [field: SerializeField]
-    [field: MinValue(0.001f)]
-    [field: LabelText("Lissage de la visée")]
-    public float RotationDampening { get; private set; } = 0.08f;
-
-    [field: SerializeField]
-    [field: MinValue(0.001f)]
-    [field: LabelText("Largeur de la zone")]
-    [field: Tooltip("Largeur totale de la zone de dégâts, perpendiculaire au coup.")]
-    [field: SuffixLabel("mètres")]
-    public float DamageZoneWidth { get; private set; } = 4.0f;
-
-    [field: SerializeField]
-    [field: MinValue(0.001f)]
-    [field: LabelText("Longueur de la zone")]
-    [field: Tooltip("Longueur totale de la zone de dégâts, dans l'axe du coup.")]
-    [field: SuffixLabel("mètres")]
-    public float DamageZoneLength { get; private set; } = 6.0f;
+    [field: Required]
+    [field: LabelText("Prefab de hache")]
+    public AxeController AxePrefab;
 
     [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: LabelText("Durée d'apparition")]
     [field: SuffixLabel("secondes")]
-    public float SpawnDuration { get; private set; } = 0.3f;
+    public float SpawnDuration;
 
     [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: LabelText("Durée de remplissage")]
     [field: SuffixLabel("secondes")]
-    public float FillDuration { get; private set; } = 0.8f;
+    public float FillDuration;
 
     [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: LabelText("Verrouillage avant impact")]
-    [field: SuffixLabel("secondes")]
     [field: ValidateInput(nameof(LockBeforeImpactIsValid), "Le verrouillage avant impact doit être inférieur ou égal à la durée totale d'apparition et de fill.")]
-    public float LockBeforeImpact { get; private set; } = 0.3f;
+    [field: SuffixLabel("secondes")]
+    public float LockBeforeImpact { get; private set; } = 0.32f;
 
     [field: SerializeField]
-    [field: MinValue(0.0f)]
-    [field: LabelText("Durée du dash")]
-    [field: SuffixLabel("secondes")]
-    public float DashDuration { get; private set; } = 0.2f;
+    [field: MinValue(0.001f)]
+    [field: LabelText("Lissage de la visée")]
+    public float RotationDampening;
 
     [field: SerializeField]
-    [field: MinValue(0.0f)]
-    [field: LabelText("Délai après impact")]
+    [field: MinValue(0.001f)]
+    [field: LabelText("Durée de l'animation de lancé de hache")]
     [field: SuffixLabel("secondes")]
-    public float DelayAfterImpact { get; private set; } = 0.2f;
+    public float ThrowAnimationDuration;
+
+    [field: SerializeField]
+    [field: MinValue(0.001f)]
+    [field: LabelText("Distance parcourue par la hache")]
+    [field: SuffixLabel("mètres")]
+    public float AxeFlyDistance;
+
+    [field: SerializeField]
+    [field: MinValue(0.001f)]
+    [field: LabelText("Durée de déplacement de la hache")]
+    [field: SuffixLabel("secondes")]
+    public float AxeFlyDuration;
 
     [field: SerializeField]
     [field: LabelText("S'éloigne du joueur")]
     public bool MoveAwayFromPlayer { get; private set; }
 
     [field: SerializeField]
+    [field: HideIf(nameof(MoveAwayFromPlayer))]
+    [field: LabelText("Se déplace vers le fond de l'arene")]
+    public bool MoveToRandomPosition { get; private set; }
+
+    [field: SerializeField]
     [field: ShowIf(nameof(MoveAwayFromPlayer))]
     [field: MinValue(0.0f)]
-    [field: LabelText("Distance du déplacement")]
+    [field: LabelText("Distance de déplacement")]
     [field: SuffixLabel("mètres")]
     public float MoveDistance { get; private set; } = 2.0f;
 
@@ -80,12 +78,6 @@ public class PeacockDashAttackData : ScriptableObject
     [field: LabelText("Durée du déplacement")]
     [field: SuffixLabel("secondes")]
     public float MoveDuration { get; private set; } = 0.25f;
-
-    [field: SerializeField]
-    [field: MinValue(0.0f)]
-    [field: LabelText("Récupération finale")]
-    [field: SuffixLabel("secondes")]
-    public float FinalRecoveryDuration { get; private set; } = 0.8f;
 
     [field: SerializeField]
     [field: LabelText("Animation d'anticipation")]

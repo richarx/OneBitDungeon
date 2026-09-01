@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6ece1bb3d2e114e9fe2ad737e59b8f, type: 3}
+  m_Name: GladiatorTrapData
+  m_EditorClassIdentifier: 
+  trapsMoveDuration: 0
+  trapsZoneRadius: 0
+  trapsSpawnDuration: 0
+  trapsFillDuration: 0
+  trapsAnimationDuration: 0
+  trapsDistanceFromPlayer: 0
+  trapsStartingHeight: 0
+  trapsFlyDuration: 0

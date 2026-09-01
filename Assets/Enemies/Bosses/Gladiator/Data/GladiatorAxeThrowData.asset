@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e99dbcba6da794da9810508a5f7066, type: 3}
+  m_Name: GladiatorAxeThrowData
+  m_EditorClassIdentifier: 
+  <RectangleDamageZonePrefab>k__BackingField: {fileID: 227854228040328757, guid: dd3dcb2841c964345bbca1dcf39a0011,
+    type: 3}
+  AxePrefab: {fileID: 6920893645996063687, guid: b3a9d7f010918dc44ab5a81ab252a230,
+    type: 3}
+  SpawnDuration: 0.5
+  FillDuration: 0.5
+  <LockBeforeImpact>k__BackingField: 0.1
+  RotationDampening: 0.1
+  ThrowAnimationDuration: 0.001
+  AxeFlyDistance: 20
+  AxeFlyDuration: 0.8
+  <MoveAwayFromPlayer>k__BackingField: 0
+  <MoveToRandomPosition>k__BackingField: 1
+  <MoveDistance>k__BackingField: 8
+  <MoveDuration>k__BackingField: 0.3
+  <AnticipationAnimation>k__BackingField: ThrowAxe_Anticipation
+  <ImpactAnimation>k__BackingField: ThrowAxe
+  <TriggerAfterImageOnSideMove>k__BackingField: 0
