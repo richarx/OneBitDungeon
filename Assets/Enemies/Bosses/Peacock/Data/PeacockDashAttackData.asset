@@ -17,10 +17,11 @@ MonoBehaviour:
     type: 3}
   <RotationDampening>k__BackingField: 0.08
   <DamageZoneWidth>k__BackingField: 2
-  <DamageZoneLength>k__BackingField: 8
+  <DamageZoneLength>k__BackingField: 20
   <SpawnDuration>k__BackingField: 0.3
   <FillDuration>k__BackingField: 0.8
   <LockBeforeImpact>k__BackingField: 0.3
+  <DashDuration>k__BackingField: 0.2
   <DelayAfterImpact>k__BackingField: 0.2
   <MoveAwayFromPlayer>k__BackingField: 1
   <MoveDistance>k__BackingField: 5
@@ -28,3 +29,4 @@ MonoBehaviour:
   <FinalRecoveryDuration>k__BackingField: 0.8
   <AnticipationAnimation>k__BackingField: 
   <ImpactAnimation>k__BackingField: 
+  <TriggerAfterImageOnSideMove>k__BackingField: 1

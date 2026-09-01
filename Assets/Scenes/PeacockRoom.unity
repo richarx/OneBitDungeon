@@ -25545,7 +25545,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 0dfa851de9368c14183b6789c3059deb, type: 2}
+    - {fileID: 11400000, guid: 252ad1dc9a39f1c4483ee90c9e94a3ea, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -25569,7 +25569,7 @@ MonoBehaviour:
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 1|BiscottoPunchComboBehaviour, Assembly-CSharp
+      Data: 1|PeacockDashAttackBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 0

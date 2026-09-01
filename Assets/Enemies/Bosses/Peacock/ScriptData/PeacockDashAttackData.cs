@@ -53,6 +53,12 @@ public class PeacockDashAttackData : ScriptableObject
 
     [field: SerializeField]
     [field: MinValue(0.0f)]
+    [field: LabelText("Durée du dash")]
+    [field: SuffixLabel("secondes")]
+    public float DashDuration { get; private set; } = 0.2f;
+
+    [field: SerializeField]
+    [field: MinValue(0.0f)]
     [field: LabelText("Délai après impact")]
     [field: SuffixLabel("secondes")]
     public float DelayAfterImpact { get; private set; } = 0.2f;
@@ -88,6 +94,10 @@ public class PeacockDashAttackData : ScriptableObject
     [field: SerializeField]
     [field: LabelText("Animation d'impact")]
     public string ImpactAnimation { get; private set; }
+
+    [field: SerializeField]
+    [field: LabelText("After-image pendant le déplacement")]
+    public bool TriggerAfterImageOnSideMove { get; private set; } = true;
 
     private bool LockBeforeImpactIsValid => LockBeforeImpact >= 0.0f && LockBeforeImpact <= SpawnDuration + FillDuration;
 }
