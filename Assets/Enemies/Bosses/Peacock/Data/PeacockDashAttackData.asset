@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d56bf6e67afa4445a19fea2bd3775bf, type: 3}
+  m_Name: PeacockDashAttackData
+  m_EditorClassIdentifier: 
+  <PatternName>k__BackingField: Dash Attack
+  <RectangularDamageZonePrefab>k__BackingField: {fileID: 227854228040328757, guid: 5387317cb5d305948b1b50a3aee7596c,
+    type: 3}
+  <RotationDampening>k__BackingField: 0.08
+  <DamageZoneWidth>k__BackingField: 2
+  <DamageZoneLength>k__BackingField: 8
+  <SpawnDuration>k__BackingField: 0.3
+  <FillDuration>k__BackingField: 0.8
+  <LockBeforeImpact>k__BackingField: 0.3
+  <DelayAfterImpact>k__BackingField: 0.2
+  <MoveAwayFromPlayer>k__BackingField: 1
+  <MoveDistance>k__BackingField: 5
+  <MoveDuration>k__BackingField: 0.25
+  <FinalRecoveryDuration>k__BackingField: 0.8
+  <AnticipationAnimation>k__BackingField: 
+  <ImpactAnimation>k__BackingField: 
