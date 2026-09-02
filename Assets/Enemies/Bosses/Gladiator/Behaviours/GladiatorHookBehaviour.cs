@@ -5,59 +5,104 @@ using PrimeTween;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Tools_and_Scripts;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 [Serializable]
 public sealed class GladiatorHookBehaviour : IEnemyBehaviour
 {
-    [OdinSerialize, Required, LabelText("Données Gladiateur")]
-    private GladiatorData gladiatorData;
-
-    [OdinSerialize, Required, LabelText("Prefab zone rectangulaire")]
-    private GameObject rectangleDamageZonePrefab;
-
-    [OdinSerialize, Required, LabelText("Prefab grappin")]
-    private HookController hookControllerPrefab;
+    [OdinSerialize]
+    [Required]
+    [LabelText("Data")]
+    private GladiatorHookData data;
 
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private RectangleDamageZone rectangleDamageZone;
-    [NonSerialized] private float startAimingTimestamp;
+    [NonSerialized] private Transform currentDamageZoneRoot;
     [NonSerialized] private Vector3 rotationDirection;
-
-    public GladiatorHookBehaviour()
-    {
-    }
-
-    public GladiatorHookBehaviour(GladiatorData gladiatorData, GameObject rectangleDamageZonePrefab, HookController hookControllerPrefab)
-    {
-        this.gladiatorData = gladiatorData;
-        this.rectangleDamageZonePrefab = rectangleDamageZonePrefab;
-        this.hookControllerPrefab = hookControllerPrefab;
-    }
+    [NonSerialized] private float currentAimEndTimestamp;
+    private const float DamageColorTransitionDuration = 0.05f;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         ResetRuntimeState();
 
-        Vector3 randomPosition = new Vector3((Tools.RandomBool() ? 6.0f : -6.0f), 0.0f, 6.0f);
-        string direction = (randomPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
+        attackSequence = Sequence.Create();
 
-        attackSequence = Sequence.Create()
-            .ChainCallback(() => enemy.animator.Play($"Dash_{direction}_Axe"))
-            .Chain(MoveToPosition(enemy, randomPosition, gladiatorData.hookMoveDuration))
-            .ChainCallback(() => enemy.animator.Play("HookAnticipation"))
+        attackSequence = ComputeMovement(enemy, attackSequence);
+
+        attackSequence
+            .ChainCallback(() => PlayAnimation(enemy, data.AnticipationAnimation))
             .ChainCallback(() => SpawnRectangleZone(enemy))
-            .ChainDelay(gladiatorData.hookSpawnDuration + gladiatorData.hookFillDuration - gladiatorData.hookAnimationDuration)
-            .ChainCallback(() => enemy.animator.Play("HookThrow"))
-            .ChainDelay(gladiatorData.hookAnimationDuration)
+            .ChainDelay(data.SpawnDuration + data.FillDuration - data.HookThrowAnimationDuration)
+            .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
+            .ChainDelay(data.HookThrowAnimationDuration)
             .ChainCallback(() => SendHook(enemy))
-            .ChainDelay(gladiatorData.hookFlyDuration * 2.0f)
+            .ChainDelay(data.FlyDuration * 2.0f)
+            .ChainCallback(() => PlayAnimation(enemy, "Idle"))
             .ChainCallback(() => execution.Complete());
+    }
+
+    private Sequence ComputeMovement(EnemyController enemy, Sequence sequence)
+    {
+        if (data.MoveAwayFromPlayer)
+        {
+            Vector3 targetPosition = ComputeTargetMovementPosition(enemy, data.MoveDistance);
+            string direction = (targetPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
+
+            sequence
+                .ChainCallback(() => PlayAnimation(enemy, $"Dash_{direction}_Axe"))
+                .ChainCallback(() =>
+                {
+                    if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
+                        enemy.afterImage.Trigger(data.MoveDuration);
+                })
+                .Chain(Tween.Position(enemy.transform, targetPosition, data.MoveDuration, Ease.OutCirc));
+        }
+        else if (data.MoveToCornerPosition)
+        {
+            Vector3 targetPosition = Vector3.zero;
+            if (data.GoToOppositeCorner)
+                targetPosition = new Vector3(enemy.transform.position.x <= 0.0f ? 6.0f : -6.0f, 0.0f, 6.0f);
+            else
+                targetPosition = new Vector3(Tools.RandomBool() ? 6.0f : -6.0f, 0.0f, 6.0f);
+            string direction = (targetPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
+
+            sequence
+                .ChainCallback(() => PlayAnimation(enemy, $"Dash_{direction}_Axe"))
+                .ChainCallback(() =>
+                {
+                    if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
+                        enemy.afterImage.Trigger(data.MoveDuration);
+                })
+                .Chain(MoveToPosition(enemy, targetPosition, data.MoveDuration));
+        }
+
+        return sequence;
+    }
+
+    private Vector3 ComputeTargetMovementPosition(EnemyController enemy, float moveDistance)
+    {
+        Vector3 currentPosition = enemy.transform.position;
+        Vector3 playerPosition = PlayerStateMachine.instance.position;
+
+        Vector3 movementDirection = (currentPosition - playerPosition).normalized;
+        Vector3 targetPosition = currentPosition + movementDirection * moveDistance;
+
+        return ClampPositionInArena(targetPosition);
+    }
+
+    private Vector3 ClampPositionInArena(Vector3 position)
+    {
+        position.x = Mathf.Clamp(position.x, -9.0f, 9.0f);
+        position.z = Mathf.Clamp(position.z, -9.0f, 9.0f);
+
+        return position;
     }
 
     public void UpdateBehaviour(EnemyController enemy)
     {
-        if (rectangleDamageZone != null && Time.time - startAimingTimestamp <= gladiatorData.hookRotationDuration)
+        if (currentDamageZoneRoot != null && Time.time <= currentAimEndTimestamp)
             rotationDirection = RotateThrowTowardPlayer();
     }
 
@@ -67,6 +112,7 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
 
     public void StopBehaviour(EnemyController enemy)
     {
+        ResetRuntimeState();
     }
 
     public void CancelBehaviour(EnemyController enemy)
@@ -80,8 +126,9 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
 
     private void SpawnRectangleZone(EnemyController enemy)
     {
-        startAimingTimestamp = Time.time;
-        GameObject rectangle = UnityEngine.Object.Instantiate(rectangleDamageZonePrefab, enemy.transform.position, Quaternion.identity);
+        GameObject rectangle = UnityEngine.Object.Instantiate(data.RectangleDamageZonePrefab, enemy.transform.position, Quaternion.identity);
+        currentDamageZoneRoot = rectangle.transform;
+
         rectangleDamageZone = rectangle.GetComponentInChildren<RectangleDamageZone>();
         if (rectangleDamageZone == null)
         {
@@ -90,13 +137,17 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
             return;
         }
 
-        rectangleDamageZone.Setup(Vector2.right, gladiatorData.hookSpawnDuration, gladiatorData.hookFillDuration);
+        currentAimEndTimestamp = Time.time + Mathf.Max(
+            0.0f,
+            data.SpawnDuration + data.FillDuration + DamageColorTransitionDuration - data.LockBeforeImpact);
+
+        rectangleDamageZone.Setup(Vector2.right, data.SpawnDuration, data.FillDuration);
     }
 
     private void SendHook(EnemyController enemy)
     {
-        HookController hook = UnityEngine.Object.Instantiate(hookControllerPrefab, enemy.transform.position, Quaternion.identity);
-        hook.Setup(rotationDirection, gladiatorData.hookFlyDistance, gladiatorData.hookFlyDuration, gladiatorData.hookPullDistance, gladiatorData.hookPullDuration);
+        HookController hook = UnityEngine.Object.Instantiate(data.HookControllerPrefab, enemy.transform.position, Quaternion.identity);
+        hook.Setup(rotationDirection, data.FlyDistance, data.FlyDuration, data.PullDistance, data.PullDuration);
     }
 
     private Sequence MoveToPosition(EnemyController enemy, Vector3 enemyPosition, float moveDuration)
@@ -114,13 +165,13 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
 
     private Vector3 RotateThrowTowardPlayer()
     {
-        Vector3 position = rectangleDamageZone.transform.parent.position;
+        Vector3 position = currentDamageZoneRoot.position;
         Vector3 direction = (PlayerStateMachine.instance.position - position).normalized;
 
-        rectangleDamageZone.transform.parent.rotation = Quaternion.Slerp(
-            rectangleDamageZone.transform.parent.rotation,
+        currentDamageZoneRoot.rotation = Quaternion.Slerp(
+            currentDamageZoneRoot.rotation,
             Quaternion.LookRotation(direction.ToVector2().AddAngleToDirection(90.0f).ToVector3()),
-            Time.deltaTime / gladiatorData.throwRotationDampening
+            Time.deltaTime / data.RotationDampening
         );
 
         return direction;
@@ -136,7 +187,14 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
 
         attackSequence = default;
         rectangleDamageZone = null;
-        startAimingTimestamp = 0.0f;
+        currentDamageZoneRoot = null;
+        currentAimEndTimestamp = 0.0f;
         rotationDirection = Vector3.zero;
+    }
+
+    private static void PlayAnimation(EnemyController enemy, string animationName)
+    {
+        if (enemy.animator != null && !string.IsNullOrWhiteSpace(animationName))
+            enemy.animator.Play(animationName);
     }
 }

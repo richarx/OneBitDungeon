@@ -10774,10 +10774,9 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: c4695eaa5c789d043b257218ac762af0, type: 2}
     - {fileID: 11400000, guid: 034e6da9e8a13fe49a4d6a890aacb3a6, type: 2}
-    - {fileID: 227854228040328757, guid: 8f6e394d97d7811448e62cbac13316a0, type: 3}
-    - {fileID: 7095477881059379443, guid: 7114558925a661049b43929303dcbd7e, type: 3}
     - {fileID: 2345212183736776820, guid: c25a446e78ae40142801added8efad5a, type: 3}
     - {fileID: 2493789051471718068, guid: 15e9ceda3bd2d1e41af872a99af6f8c9, type: 3}
+    - {fileID: 11400000, guid: f1e013f483d9c5b4d90e3292b4be81d2, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -10821,15 +10820,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 5|GladiatorHookBehaviour, Assembly-CSharp
-    - Name: gladiatorData
-      Entry: 10
-      Data: 1
-    - Name: rectangleDamageZonePrefab
-      Entry: 10
-      Data: 2
-    - Name: hookControllerPrefab
-      Entry: 10
-      Data: 3
+    - Name: data
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -10841,10 +10834,10 @@ MonoBehaviour:
       Data: 1
     - Name: circleDamageZonePrefab
       Entry: 10
-      Data: 4
+      Data: 2
     - Name: trapControllerPrefab
       Entry: 10
-      Data: 5
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -10871,10 +10864,10 @@ MonoBehaviour:
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 8|GladiatorThrowAxeBehaviour, Assembly-CSharp
+      Data: 8|GladiatorHookBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 0
+      Data: 4
     - Name: 
       Entry: 8
       Data: 

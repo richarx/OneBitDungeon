@@ -150,11 +150,13 @@ MonoBehaviour:
   spawnEase: 16
   fillEase: 6
   despawnDuration: 0.5
+  useVerticalFill: 1
   flashColor: {r: 0.4627451, g: 0.45490196, b: 0.45490196, a: 1}
   flashOutlineColor: {r: 1, g: 1, b: 1, a: 1}
   filledColor: {r: 1, g: 0, b: 0, a: 1}
   filledOutlineColor: {r: 0, g: 0, b: 0, a: 1}
   alsoDestroyParent: 1
+  damageZoneType: 0
 --- !u!114 &2718815778140935031
 MonoBehaviour:
   m_ObjectHideFlags: 0

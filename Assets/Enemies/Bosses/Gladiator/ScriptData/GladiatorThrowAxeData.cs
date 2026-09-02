@@ -1,8 +1,8 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GladiatorAxeThrowData", menuName = "ScriptableObjects/Gladiator/Throw Axe Data")]
-public class GladiatorAxeThrowData : ScriptableObject
+[CreateAssetMenu(fileName = "GladiatorThrowAxeData", menuName = "ScriptableObjects/Gladiator/Throw Axe Data")]
+public class GladiatorThrowAxeData : ScriptableObject
 {
     [field: SerializeField]
     [field: Required]
@@ -39,7 +39,7 @@ public class GladiatorAxeThrowData : ScriptableObject
     public float RotationDampening;
 
     [field: SerializeField]
-    [field: MinValue(0.001f)]
+    [field: MinValue(-0.1f)]
     [field: LabelText("Durée de l'animation de lancé de hache")]
     [field: SuffixLabel("secondes")]
     public float ThrowAnimationDuration;

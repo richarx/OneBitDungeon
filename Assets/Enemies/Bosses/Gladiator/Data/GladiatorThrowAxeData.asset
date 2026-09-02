@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39e99dbcba6da794da9810508a5f7066, type: 3}
-  m_Name: GladiatorAxeThrowData
+  m_Name: GladiatorThrowAxeData
   m_EditorClassIdentifier: 
   <RectangleDamageZonePrefab>k__BackingField: {fileID: 227854228040328757, guid: dd3dcb2841c964345bbca1dcf39a0011,
     type: 3}

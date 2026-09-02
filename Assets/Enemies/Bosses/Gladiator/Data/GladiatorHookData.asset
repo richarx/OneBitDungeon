@@ -12,13 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de8b4362280feb942a12cdf3fb7f2c95, type: 3}
   m_Name: GladiatorHookData
   m_EditorClassIdentifier: 
-  hookMoveDuration: 0
-  hookSpawnDuration: 0
-  hookFillDuration: 0
-  hookRotationDuration: 0
-  hookRotationDampening: 0
-  hookAnimationDuration: 0
-  hookFlyDistance: 0
-  hookFlyDuration: 0
-  hookPullDistance: 0
-  hookPullDuration: 0
+  <RectangleDamageZonePrefab>k__BackingField: {fileID: 227854228040328757, guid: 8f6e394d97d7811448e62cbac13316a0,
+    type: 3}
+  HookControllerPrefab: {fileID: 7095477881059379443, guid: 7114558925a661049b43929303dcbd7e,
+    type: 3}
+  SpawnDuration: 1
+  FillDuration: 1
+  <LockBeforeImpact>k__BackingField: 0
+  RotationDampening: 0.05
+  HookThrowAnimationDuration: 0.2
+  FlyDistance: 20
+  FlyDuration: 0.2
+  PullDistance: 8
+  PullDuration: 0.2
+  <MoveAwayFromPlayer>k__BackingField: 0
+  <MoveToCornerPosition>k__BackingField: 1
+  <GoToOppositeCorner>k__BackingField: 1
+  <MoveDistance>k__BackingField: 2
+  <MoveDuration>k__BackingField: 0.25
+  <AnticipationAnimation>k__BackingField: HookAnticipation
+  <ImpactAnimation>k__BackingField: HookThrow
+  <TriggerAfterImageOnSideMove>k__BackingField: 0

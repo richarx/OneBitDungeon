@@ -13,7 +13,7 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
     [OdinSerialize]
     [Required]
     [LabelText("Data")]
-    private GladiatorAxeThrowData data;
+    private GladiatorThrowAxeData data;
 
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private RectangleDamageZone rectangleDamageZone;
@@ -28,13 +28,28 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
 
         attackSequence = Sequence.Create();
 
+        attackSequence = ComputeMovement(enemy, attackSequence);
+
+        attackSequence
+            .ChainCallback(() => PlayAnimation(enemy, data.AnticipationAnimation))
+            .ChainCallback(() => SpawnRectangleZone(enemy))
+            .ChainDelay(data.SpawnDuration + data.FillDuration - data.ThrowAnimationDuration)
+            .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
+            .ChainDelay(data.ThrowAnimationDuration)
+            .ChainCallback(() => SpawnAxe(enemy, execution))
+            .ChainCallback(() => PlayAnimation(enemy, "Idle_NoAxe"))
+            .ChainCallback(() => execution.Complete());
+    }
+
+    private Sequence ComputeMovement(EnemyController enemy, Sequence sequence)
+    {
         if (data.MoveAwayFromPlayer)
         {
             Vector3 targetPosition = ComputeTargetMovementPosition(enemy, data.MoveDistance);
             string direction = (targetPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
 
-            attackSequence
-                .ChainCallback(() => enemy.animator.Play($"Dash_{direction}_Axe"))
+            sequence
+                .ChainCallback(() => PlayAnimation(enemy, $"Dash_{direction}_Axe"))
                 .ChainCallback(() =>
                 {
                     if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
@@ -47,20 +62,17 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
             Vector3 randomPosition = new Vector3(UnityEngine.Random.Range(-7.0f, 7.0f), 0.0f, UnityEngine.Random.Range(6.0f, 8.0f));
             string direction = (randomPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
 
-            attackSequence
-                .ChainCallback(() => enemy.animator.Play($"Dash_{direction}_Axe"))
+            sequence
+                .ChainCallback(() => PlayAnimation(enemy, $"Dash_{direction}_Axe"))
+                .ChainCallback(() =>
+                {
+                    if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
+                        enemy.afterImage.Trigger(data.MoveDuration);
+                })
                 .Chain(MoveToPosition(enemy, randomPosition, data.MoveDuration));
         }
 
-        attackSequence
-            .ChainCallback(() => PlayAnimation(enemy, data.AnticipationAnimation))
-            .ChainCallback(() => SpawnRectangleZone(enemy))
-            .ChainDelay(data.SpawnDuration + data.FillDuration - data.ThrowAnimationDuration)
-            .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
-            .ChainDelay(data.ThrowAnimationDuration)
-            .ChainCallback(() => SpawnAxe(enemy, execution))
-            .ChainCallback(() => PlayAnimation(enemy, "Idle_NoAxe"))
-            .ChainCallback(() => execution.Complete());
+        return sequence;
     }
 
     private Vector3 ComputeTargetMovementPosition(EnemyController enemy, float moveDistance)
