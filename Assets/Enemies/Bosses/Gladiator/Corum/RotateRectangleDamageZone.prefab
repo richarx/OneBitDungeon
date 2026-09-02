@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8072526408249070361}
   m_Layer: 0
-  m_Name: RotateRectangleDamageZone 1
+  m_Name: RotateRectangleDamageZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9111eaf7700f6304b8330fa9b19a162a, type: 2}
+  - {fileID: 2100000, guid: 99fb37baff6f03042b65fdec1c94e5aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

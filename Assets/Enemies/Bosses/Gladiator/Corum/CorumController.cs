@@ -173,6 +173,9 @@ public class CorumController : MonoBehaviour
 
     private void Die()
     {
+        if (isDead)
+            return;
+
         if (isAttacking)
             attackSequence.Stop();
 
@@ -188,5 +191,11 @@ public class CorumController : MonoBehaviour
         isDead = true;
         animator.Play("Die");
         GetComponent<SphereCollider>().enabled = false;
+
+        Sequence.Create()
+            .ChainDelay(5.0f)
+            .Group(Tween.Alpha(spriteRenderer, 0.0f, 2.0f))
+            .Group(Tween.Alpha(shadowSpriteRenderer, 0.0f, 2.0f))
+            .ChainCallback(() => Destroy(gameObject));
     }
 }

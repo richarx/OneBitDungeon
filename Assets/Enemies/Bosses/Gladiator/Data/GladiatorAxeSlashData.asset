@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65ace3b6b4146a84f9b2a9d0491f9209, type: 3}
+  m_Name: GladiatorAxeSlashData
+  m_EditorClassIdentifier: 
+  <ConeDamageZonePrefab>k__BackingField: {fileID: 4722290469985967793, guid: 58b877cc02c203342929b095621e0d9e,
+    type: 3}
+  <Radius>k__BackingField: 6
+  <HalfAngle>k__BackingField: 75
+  <SpawnDuration>k__BackingField: 0.35
+  <FillDuration>k__BackingField: 0.5
+  <MoveDistance>k__BackingField: 3
+  <MoveDuration>k__BackingField: 0.5
+  <AnticipationAnimation>k__BackingField: 
+  <ImpactAnimation>k__BackingField: 
+  <TriggerAfterImageOnSideMove>k__BackingField: 0
