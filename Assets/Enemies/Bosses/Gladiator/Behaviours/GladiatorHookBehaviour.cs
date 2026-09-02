@@ -5,7 +5,6 @@ using PrimeTween;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Tools_and_Scripts;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 [Serializable]
@@ -75,7 +74,7 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
                     if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
                         enemy.afterImage.Trigger(data.MoveDuration);
                 })
-                .Chain(MoveToPosition(enemy, targetPosition, data.MoveDuration));
+                .Chain(Tween.Position(enemy.transform, targetPosition, data.MoveDuration, Ease.OutCirc));
         }
 
         return sequence;
@@ -148,19 +147,6 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
     {
         HookController hook = UnityEngine.Object.Instantiate(data.HookControllerPrefab, enemy.transform.position, Quaternion.identity);
         hook.Setup(rotationDirection, data.FlyDistance, data.FlyDuration, data.PullDistance, data.PullDuration);
-    }
-
-    private Sequence MoveToPosition(EnemyController enemy, Vector3 enemyPosition, float moveDuration)
-    {
-        bool isSecondPhase = enemy.currentPhase > 0;
-
-        return Sequence.Create()
-            .ChainCallback(() =>
-            {
-                if (isSecondPhase)
-                    enemy.afterImage.Trigger(moveDuration);
-            })
-            .Group(Tween.Position(enemy.transform, enemyPosition, moveDuration, Ease.InOutCubic));
     }
 
     private Vector3 RotateThrowTowardPlayer()

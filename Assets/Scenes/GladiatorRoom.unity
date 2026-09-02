@@ -10773,6 +10773,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: c4695eaa5c789d043b257218ac762af0, type: 2}
+    - {fileID: 11400000, guid: 6a73ffc38b8dd2d49b1ccf15dcfacd98, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -10854,10 +10855,10 @@ MonoBehaviour:
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 8|GladiatorThrowAxeBehaviour, Assembly-CSharp
+      Data: 8|GladiatorCallForBackupBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
