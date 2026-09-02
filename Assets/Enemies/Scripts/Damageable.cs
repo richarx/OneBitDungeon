@@ -9,7 +9,6 @@ namespace Enemies.Scripts
         [SerializeField] private int startingHealth;
         [SerializeField] private bool isInvincible;
 
-
         [HideInInspector] public UnityEvent<Vector2> OnTakeDamage = new UnityEvent<Vector2>();
         [HideInInspector] public UnityEvent OnDie = new UnityEvent();
 

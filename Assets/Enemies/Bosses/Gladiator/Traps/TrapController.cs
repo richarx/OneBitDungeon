@@ -1,6 +1,7 @@
 using Enemies.Scripts;
 using Player.Scripts;
 using PrimeTween;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public class TrapController : MonoBehaviour
@@ -13,6 +14,9 @@ public class TrapController : MonoBehaviour
 
     private bool isSetup;
     private bool isLanded;
+    private bool isTriggered;
+
+    private Sequence spawnSequence;
 
     public void Setup(Vector3 targetPosition, float trapMoveDuration, float startingHeight)
     {
@@ -23,7 +27,7 @@ public class TrapController : MonoBehaviour
 
         spriteTransform.localPosition = Vector3.up * startingHeight;
 
-        Sequence.Create()
+        spawnSequence = Sequence.Create()
             .Chain(Tween.Position(transform, targetPosition, trapMoveDuration, Ease.OutCirc))
             .Group(Tween.LocalPositionY(spriteTransform, 0.0f, trapMoveDuration, Ease.InCirc))
             .ChainCallback(() => animator.Play("TrapOpen"))
@@ -53,7 +57,14 @@ public class TrapController : MonoBehaviour
 
     private void TriggerTrap()
     {
+        if (isTriggered)
+            return;
+
+        if (spawnSequence.isAlive)
+            spawnSequence.Stop();
+
         isSetup = false;
+        isTriggered = true;
         animator.Play("TrapTrigger");
 
         Sequence.Create()

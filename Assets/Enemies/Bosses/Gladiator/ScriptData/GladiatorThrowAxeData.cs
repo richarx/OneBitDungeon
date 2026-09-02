@@ -39,12 +39,6 @@ public class GladiatorThrowAxeData : ScriptableObject
     public float RotationDampening;
 
     [field: SerializeField]
-    [field: MinValue(-0.1f)]
-    [field: LabelText("Durée de l'animation de lancé de hache")]
-    [field: SuffixLabel("secondes")]
-    public float ThrowAnimationDuration;
-
-    [field: SerializeField]
     [field: MinValue(0.001f)]
     [field: LabelText("Distance parcourue par la hache")]
     [field: SuffixLabel("mètres")]
@@ -82,6 +76,12 @@ public class GladiatorThrowAxeData : ScriptableObject
     [field: SerializeField]
     [field: LabelText("Animation d'anticipation")]
     public string AnticipationAnimation { get; private set; }
+
+    [field: SerializeField]
+    [field: MinValue(-0.1f)]
+    [field: LabelText("Durée de l'animation de lancé de hache")]
+    [field: SuffixLabel("secondes")]
+    public float ThrowAnimationDuration;
 
     [field: SerializeField]
     [field: LabelText("Animation d'impact")]

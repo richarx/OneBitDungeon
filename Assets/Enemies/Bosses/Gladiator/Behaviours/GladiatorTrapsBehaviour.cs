@@ -11,28 +11,13 @@ using UnityEngine;
 [Serializable]
 public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
 {
-    [OdinSerialize, Required, LabelText("Données Gladiateur")]
-    private GladiatorData gladiatorData;
-
-    [OdinSerialize, Required, LabelText("Prefab zone circulaire")]
-    private CircleDamageZone circleDamageZonePrefab;
-
-    [OdinSerialize, Required, LabelText("Prefab piège")]
-    private TrapController trapControllerPrefab;
+    [OdinSerialize]
+    [Required]
+    [LabelText("Data")]
+    private GladiatorTrapData data;
 
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private List<CircleDamageZone> circles;
-
-    public GladiatorTrapsBehaviour()
-    {
-    }
-
-    public GladiatorTrapsBehaviour(GladiatorData gladiatorData, CircleDamageZone circleDamageZonePrefab, TrapController trapControllerPrefab)
-    {
-        this.gladiatorData = gladiatorData;
-        this.circleDamageZonePrefab = circleDamageZonePrefab;
-        this.trapControllerPrefab = trapControllerPrefab;
-    }
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -41,15 +26,56 @@ public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
         Vector3 randomPosition = new Vector3(UnityEngine.Random.Range(-7.0f, 7.0f), 0.0f, UnityEngine.Random.Range(-7.0f, 5.0f));
         string direction = (randomPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
 
-        attackSequence = Sequence.Create()
-            .ChainCallback(() => enemy.animator.Play($"Dash_{direction}_Axe"))
-            .Chain(MoveToPosition(enemy, randomPosition, gladiatorData.trapsMoveDuration))
-            .ChainCallback(() => enemy.animator.Play("ThrowTraps"))
-            .ChainCallback(SpawnCircleZones)
-            .ChainDelay(gladiatorData.trapsAnimationDuration)
+        attackSequence = Sequence.Create();
+
+        attackSequence = ComputeMovement(enemy, attackSequence);
+
+        attackSequence
+            .ChainCallback(() => PlayAnimation(enemy, "ThrowTraps"))
+            .ChainCallback(() => SpawnCircleZones(enemy))
+            .ChainDelay(data.ThrowAnimationDuration)
             .ChainCallback(() => SpawnTraps(enemy))
             .ChainDelay(0.5f)
             .ChainCallback(() => execution.Complete());
+    }
+
+    private Sequence ComputeMovement(EnemyController enemy, Sequence sequence)
+    {
+        if (data.MoveAwayFromPlayer)
+        {
+            Vector3 targetPosition = ComputeTargetMovementPosition(enemy, data.MoveDistance);
+            string direction = (targetPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
+
+            sequence
+                .ChainCallback(() => PlayAnimation(enemy, $"Dash_{direction}_Axe"))
+                .ChainCallback(() =>
+                {
+                    if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
+                        enemy.afterImage.Trigger(data.MoveDuration);
+                })
+                .Chain(Tween.Position(enemy.transform, targetPosition, data.MoveDuration, Ease.OutCirc));
+        }
+
+        return sequence;
+    }
+
+    private Vector3 ComputeTargetMovementPosition(EnemyController enemy, float moveDistance)
+    {
+        Vector3 currentPosition = enemy.transform.position;
+        Vector3 playerPosition = PlayerStateMachine.instance.position;
+
+        Vector3 movementDirection = (currentPosition - playerPosition).normalized;
+        Vector3 targetPosition = currentPosition + movementDirection * moveDistance;
+
+        return ClampPositionInArena(targetPosition);
+    }
+
+    private Vector3 ClampPositionInArena(Vector3 position)
+    {
+        position.x = Mathf.Clamp(position.x, -9.0f, 9.0f);
+        position.z = Mathf.Clamp(position.z, -9.0f, 9.0f);
+
+        return position;
     }
 
     public void UpdateBehaviour(EnemyController enemy)
@@ -62,6 +88,7 @@ public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
 
     public void StopBehaviour(EnemyController enemy)
     {
+        ResetRuntimeState();
     }
 
     public void CancelBehaviour(EnemyController enemy)
@@ -73,34 +100,50 @@ public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
     {
     }
 
-    private Sequence MoveToPosition(EnemyController enemy, Vector3 enemyPosition, float moveDuration)
-    {
-        bool isSecondPhase = enemy.currentPhase > 0;
-
-        return Sequence.Create()
-            .ChainCallback(() =>
-            {
-                if (isSecondPhase)
-                    enemy.afterImage.Trigger(moveDuration);
-            })
-            .Group(Tween.Position(enemy.transform, enemyPosition, moveDuration, Ease.InOutCubic));
-    }
-
-    private void SpawnCircleZones()
+    private void SpawnCircleZones(EnemyController enemy)
     {
         circles = new List<CircleDamageZone>();
 
-        Vector3 playerPosition = PlayerStateMachine.instance.position;
+        if (data.ShootTrapsInCircle)
+            SpawnTrapsInCircle();
+        else if (data.ShootTrapsInLine)
+            SpawnTrapsInLine(enemy);
+    }
+
+    private void SpawnTrapsInCircle()
+    {
+        Vector3 spawnPosition = data.ShootTrapsAroundPlayer ?
+            PlayerStateMachine.instance.position :
+            new Vector3(UnityEngine.Random.Range(-5.0f, 5.0f), 0.0f, UnityEngine.Random.Range(-5.0f, 5.0f)); ;
+
         Vector2 direction = UnityEngine.Random.insideUnitCircle.normalized;
 
-        for (int i = 0; i < 3; i++)
+        float angle = 360.0f / data.TrapCount;
+
+        for (int i = 0; i < data.TrapCount; i++)
         {
-            Vector3 position = playerPosition + direction.ToVector3() * gladiatorData.trapsDistanceFromPlayer;
-            CircleDamageZone circle = UnityEngine.Object.Instantiate(circleDamageZonePrefab, position, Quaternion.Euler(90.0f, 0.0f, 0.0f));
-            circle.Setup(gladiatorData.trapsZoneRadius, gladiatorData.trapsSpawnDuration, gladiatorData.trapsFillDuration);
+            Vector3 position = spawnPosition + direction.ToVector3() * data.TrapsDistanceCenterOfTrapCircle;
+            position = ClampPositionInArena(position);
+            CircleDamageZone circle = UnityEngine.Object.Instantiate(data.CircleDamageZonePrefab, position, Quaternion.Euler(90.0f, 0.0f, 0.0f));
+            circle.Setup(data.ZoneRadius, data.SpawnDuration, data.FillDuration);
             circles.Add(circle);
 
-            direction = direction.AddAngleToDirection(120.0f);
+            direction = direction.AddAngleToDirection(angle);
+        }
+    }
+
+    private void SpawnTrapsInLine(EnemyController enemy)
+    {
+        Vector3 startingPosition = enemy.transform.position;
+        Vector3 direction = (PlayerStateMachine.instance.position - startingPosition).normalized;
+
+        for (int i = 0; i < data.TrapCount; i++)
+        {
+            Vector3 position = startingPosition + direction * data.DistanceBetweenTraps * i;
+            position = ClampPositionInArena(position);
+            CircleDamageZone circle = UnityEngine.Object.Instantiate(data.CircleDamageZonePrefab, position, Quaternion.Euler(90.0f, 0.0f, 0.0f));
+            circle.Setup(data.ZoneRadius, data.SpawnDuration, data.FillDuration);
+            circles.Add(circle);
         }
     }
 
@@ -111,8 +154,8 @@ public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
             if (circle == null)
                 continue;
 
-            TrapController trap = UnityEngine.Object.Instantiate(trapControllerPrefab, enemy.transform.position, Quaternion.identity);
-            trap.Setup(circle.transform.position, gladiatorData.trapsFlyDuration, gladiatorData.trapsStartingHeight);
+            TrapController trap = UnityEngine.Object.Instantiate(data.TrapPrefab, enemy.transform.position, Quaternion.identity);
+            trap.Setup(circle.transform.position, data.FlyDuration, data.FlyStartingHeight);
         }
     }
 
@@ -134,5 +177,11 @@ public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
 
         attackSequence = default;
         circles = null;
+    }
+
+    private static void PlayAnimation(EnemyController enemy, string animationName)
+    {
+        if (enemy.animator != null && !string.IsNullOrWhiteSpace(animationName))
+            enemy.animator.Play(animationName);
     }
 }

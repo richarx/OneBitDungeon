@@ -39,12 +39,6 @@ public class GladiatorHookData : ScriptableObject
     public float RotationDampening;
 
     [field: SerializeField]
-    [field: MinValue(-0.1f)]
-    [field: LabelText("Durée de l'animation de lancé de hook")]
-    [field: SuffixLabel("secondes")]
-    public float HookThrowAnimationDuration;
-
-    [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: LabelText("Distance parcourue par le hook")]
     [field: SuffixLabel("mètres")]
@@ -82,7 +76,6 @@ public class GladiatorHookData : ScriptableObject
     [field: LabelText("Se déplace vers le coin le plus éloigné")]
     public bool GoToOppositeCorner { get; private set; }
 
-
     [field: SerializeField]
     [field: ShowIf(nameof(MoveAwayFromPlayer))]
     [field: MinValue(0.0f)]
@@ -100,6 +93,12 @@ public class GladiatorHookData : ScriptableObject
     [field: SerializeField]
     [field: LabelText("Animation d'anticipation")]
     public string AnticipationAnimation { get; private set; }
+
+    [field: SerializeField]
+    [field: MinValue(-0.1f)]
+    [field: LabelText("Durée de l'animation de lancé de hook")]
+    [field: SuffixLabel("secondes")]
+    public float HookThrowAnimationDuration;
 
     [field: SerializeField]
     [field: LabelText("Animation d'impact")]

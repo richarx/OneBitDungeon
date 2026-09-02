@@ -12,11 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6ece1bb3d2e114e9fe2ad737e59b8f, type: 3}
   m_Name: GladiatorTrapData
   m_EditorClassIdentifier: 
-  trapsMoveDuration: 0
-  trapsZoneRadius: 0
-  trapsSpawnDuration: 0
-  trapsFillDuration: 0
-  trapsAnimationDuration: 0
-  trapsDistanceFromPlayer: 0
-  trapsStartingHeight: 0
-  trapsFlyDuration: 0
+  <CircleDamageZonePrefab>k__BackingField: {fileID: 2345212183736776820, guid: c25a446e78ae40142801added8efad5a,
+    type: 3}
+  TrapPrefab: {fileID: 2493789051471718068, guid: 15e9ceda3bd2d1e41af872a99af6f8c9,
+    type: 3}
+  ZoneRadius: 0.05
+  SpawnDuration: 1
+  FillDuration: 0.5
+  <ShootTrapsInLine>k__BackingField: 0
+  DistanceBetweenTraps: 2.5
+  <ShootTrapsInCircle>k__BackingField: 1
+  <ShootTrapsAroundPlayer>k__BackingField: 1
+  TrapsDistanceCenterOfTrapCircle: 2.5
+  TrapCount: 5
+  FlyStartingHeight: 4
+  FlyDuration: 0.5
+  <MoveAwayFromPlayer>k__BackingField: 0
+  <MoveDistance>k__BackingField: 8
+  <MoveDuration>k__BackingField: 0.25
+  <AnticipationAnimation>k__BackingField: ThrowTraps
+  ThrowAnimationDuration: 1
+  <ImpactAnimation>k__BackingField: 
+  <TriggerAfterImageOnSideMove>k__BackingField: 0
