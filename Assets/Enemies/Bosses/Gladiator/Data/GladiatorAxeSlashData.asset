@@ -20,6 +20,6 @@ MonoBehaviour:
   <FillDuration>k__BackingField: 0.5
   <MoveDistance>k__BackingField: 3
   <MoveDuration>k__BackingField: 0.5
-  <AnticipationAnimation>k__BackingField: 
-  <ImpactAnimation>k__BackingField: 
+  <AnticipationAnimation>k__BackingField: AxeSlashAnticipation_1
+  <ImpactAnimation>k__BackingField: AxeSlash_1
   <TriggerAfterImageOnSideMove>k__BackingField: 0

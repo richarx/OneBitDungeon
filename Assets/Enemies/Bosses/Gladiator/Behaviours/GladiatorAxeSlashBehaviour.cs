@@ -15,6 +15,7 @@ public class GladiatorAxeSlashBehaviour : IEnemyBehaviour
 
     private Sequence attackSequence;
     private ConeDamageZone currentDamageZone;
+    private const float DamageColorTransitionDuration = 0.05f;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -51,7 +52,7 @@ public class GladiatorAxeSlashBehaviour : IEnemyBehaviour
             .Chain(Tween.Position(enemy.transform, targetPosition, data.MoveDuration, Ease.OutCirc))
             .ChainCallback(() => PlayAnimation(enemy, data.AnticipationAnimation))
             .ChainCallback(() => SpawnDamageZone(enemy))
-            .ChainDelay(data.SpawnDuration + data.FillDuration)
+            .ChainDelay(data.SpawnDuration + data.FillDuration + DamageColorTransitionDuration)
             .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
             .ChainDelay(0.5f)
             .ChainCallback(() => PlayAnimation(enemy, "Idle_NoAxe"))
