@@ -4,6 +4,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GladiatorTrapData", menuName = "ScriptableObjects/Gladiator/Trap Data")]
 public class GladiatorTrapData : ScriptableObject
 {
+    public enum GladiatorTrapTarget
+    {
+        AroundPlayer,
+        AroundBoss,
+        Random
+    }
+
     [field: SerializeField]
     [field: Required]
     [field: LabelText("Prefab de zone circulaire")]
@@ -49,8 +56,8 @@ public class GladiatorTrapData : ScriptableObject
 
     [field: SerializeField]
     [field: ShowIf(nameof(ShootTrapsInCircle))]
-    [field: LabelText("Lance les traps autour du joueur")]
-    public bool ShootTrapsAroundPlayer { get; private set; }
+    [field: LabelText("centre du cercle")]
+    public GladiatorTrapTarget CircleTrapTarget { get; private set; }
 
     [field: SerializeField]
     [field: ShowIf(nameof(ShootTrapsInCircle))]

@@ -22,7 +22,7 @@ MonoBehaviour:
   <ShootTrapsInLine>k__BackingField: 0
   DistanceBetweenTraps: 2.5
   <ShootTrapsInCircle>k__BackingField: 1
-  <ShootTrapsAroundPlayer>k__BackingField: 1
+  <CircleTrapTarget>k__BackingField: 0
   TrapsDistanceCenterOfTrapCircle: 2.5
   TrapCount: 5
   FlyStartingHeight: 4

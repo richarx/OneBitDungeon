@@ -105,16 +105,28 @@ public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
         circles = new List<CircleDamageZone>();
 
         if (data.ShootTrapsInCircle)
-            SpawnTrapsInCircle();
+            SpawnTrapsInCircle(enemy);
         else if (data.ShootTrapsInLine)
             SpawnTrapsInLine(enemy);
     }
 
-    private void SpawnTrapsInCircle()
+    private void SpawnTrapsInCircle(EnemyController enemy)
     {
-        Vector3 spawnPosition = data.ShootTrapsAroundPlayer ?
-            PlayerStateMachine.instance.position :
-            new Vector3(UnityEngine.Random.Range(-5.0f, 5.0f), 0.0f, UnityEngine.Random.Range(-5.0f, 5.0f)); ;
+        Vector3 spawnPosition = Vector3.zero;
+
+        switch (data.CircleTrapTarget)
+        {
+            case GladiatorTrapData.GladiatorTrapTarget.AroundPlayer:
+                spawnPosition = PlayerStateMachine.instance.position;
+                break;
+            case GladiatorTrapData.GladiatorTrapTarget.AroundBoss:
+                spawnPosition = enemy.transform.position;
+                break;
+            default:
+            case GladiatorTrapData.GladiatorTrapTarget.Random:
+                spawnPosition = new Vector3(UnityEngine.Random.Range(-5.0f, 5.0f), 0.0f, UnityEngine.Random.Range(-5.0f, 5.0f));
+                break;
+        }
 
         Vector2 direction = UnityEngine.Random.insideUnitCircle.normalized;
 
