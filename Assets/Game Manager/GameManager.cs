@@ -63,7 +63,12 @@ namespace Game_Manager
 
             yield return new WaitForSeconds(0.5f);
 
-            yield return blackScreenTransition.OpenCircle(player.position, 3.0f);
+            float openCircleDuration = 3.0f;
+
+            if (!scene.name.Contains("Tree") && !scene.name.Contains("Fire"))
+                openCircleDuration = 0.5f;
+
+            yield return blackScreenTransition.OpenCircle(player.position, openCircleDuration);
 
             player.playerSit.Unlock();
 

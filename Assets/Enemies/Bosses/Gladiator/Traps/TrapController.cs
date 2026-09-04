@@ -30,6 +30,7 @@ public class TrapController : MonoBehaviour
         spawnSequence = Sequence.Create()
             .Chain(Tween.Position(transform, targetPosition, trapMoveDuration, Ease.OutCirc))
             .Group(Tween.LocalPositionY(spriteTransform, 0.0f, trapMoveDuration, Ease.InCirc))
+            .ChainCallback(() => GetComponent<SphereCollider>().enabled = true)
             .ChainCallback(() => animator.Play("TrapOpen"))
             .ChainCallback(() => isLanded = true);
     }

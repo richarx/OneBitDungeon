@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6ece1bb3d2e114e9fe2ad737e59b8f, type: 3}
+  m_Name: GladiatorTrapCircleData
+  m_EditorClassIdentifier: 
+  <CircleDamageZonePrefab>k__BackingField: {fileID: 2345212183736776820, guid: c25a446e78ae40142801added8efad5a,
+    type: 3}
+  TrapPrefab: {fileID: 2493789051471718068, guid: 15e9ceda3bd2d1e41af872a99af6f8c9,
+    type: 3}
+  ZoneRadius: 0.05
+  SpawnDuration: 1
+  FillDuration: 0.5
+  <ShootTrapsInLine>k__BackingField: 0
+  DistanceBetweenTraps: 2.5
+  <ShootTrapsInCircle>k__BackingField: 1
+  <CircleTrapTarget>k__BackingField: 0
+  TrapsDistanceCenterOfTrapCircle: 2.5
+  TrapCount: 5
+  FlyStartingHeight: 4
+  FlyDuration: 0.5
+  <MoveAwayFromPlayer>k__BackingField: 0
+  <MoveDistance>k__BackingField: 8
+  <MoveDuration>k__BackingField: 0.25
+  <AnticipationAnimation>k__BackingField: ThrowTraps
+  ThrowAnimationDuration: 1
+  <ImpactAnimation>k__BackingField: 
+  <TriggerAfterImageOnSideMove>k__BackingField: 0

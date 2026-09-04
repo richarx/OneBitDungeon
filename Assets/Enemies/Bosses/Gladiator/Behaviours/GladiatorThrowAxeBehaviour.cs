@@ -18,7 +18,6 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private RectangleDamageZone rectangleDamageZone;
     [NonSerialized] private Transform currentDamageZoneRoot;
-    [NonSerialized] private Vector3 rotationDirection;
     [NonSerialized] private float currentAimEndTimestamp;
     private const float DamageColorTransitionDuration = 0.05f;
 
@@ -35,8 +34,8 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
             .ChainCallback(() => SpawnRectangleZone(enemy))
             .ChainDelay(data.SpawnDuration + data.FillDuration - data.ThrowAnimationDuration)
             .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
-            .ChainDelay(data.ThrowAnimationDuration)
             .ChainCallback(() => SpawnAxe(enemy, execution))
+            .ChainDelay(data.ThrowAnimationDuration)
             .ChainCallback(() => PlayAnimation(enemy, "Idle_NoAxe"))
             .ChainCallback(() => execution.Complete());
     }
@@ -97,7 +96,7 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
     public void UpdateBehaviour(EnemyController enemy)
     {
         if (currentDamageZoneRoot != null && Time.time <= currentAimEndTimestamp)
-            rotationDirection = RotateThrowTowardPlayer();
+            RotateThrowTowardPlayer();
     }
 
     public void FixedUpdateBehaviour(EnemyController enemy)
@@ -136,12 +135,15 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
             data.SpawnDuration + data.FillDuration + DamageColorTransitionDuration - data.LockBeforeImpact);
 
         rectangleDamageZone.Setup(Vector2.right, data.SpawnDuration, data.FillDuration);
+
+        Vector3 direction = (PlayerStateMachine.instance.position - enemy.transform.position).normalized;
+        currentDamageZoneRoot.rotation = Quaternion.LookRotation(direction.ToVector2().AddAngleToDirection(90.0f).ToVector3());
     }
 
     private void SpawnAxe(EnemyController enemy, BehaviourExecution execution)
     {
         AxeController axe = UnityEngine.Object.Instantiate(data.AxePrefab, enemy.transform.position, Quaternion.identity);
-        axe.Setup(rotationDirection, data.AxeFlyDistance, data.AxeFlyDuration, () => CatchAxe(enemy, execution));
+        axe.Setup(currentDamageZoneRoot.right, data.AxeFlyDistance, data.AxeFlyDuration, () => CatchAxe(enemy, execution));
     }
 
     private void CatchAxe(EnemyController enemy, BehaviourExecution execution)
@@ -168,7 +170,7 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
             .Group(Tween.Position(enemy.transform, enemyPosition, moveDuration, Ease.InOutCubic));
     }
 
-    private Vector3 RotateThrowTowardPlayer()
+    private void RotateThrowTowardPlayer()
     {
         Vector3 position = currentDamageZoneRoot.position;
         Vector3 direction = (PlayerStateMachine.instance.position - position).normalized;
@@ -178,8 +180,6 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
             Quaternion.LookRotation(direction.ToVector2().AddAngleToDirection(90.0f).ToVector3()),
             Time.deltaTime / data.RotationDampening
         );
-
-        return direction;
     }
 
     private void ResetRuntimeState()
@@ -195,7 +195,6 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
         currentDamageZoneRoot = null;
 
         currentAimEndTimestamp = 0.0f;
-        rotationDirection = Vector3.zero;
     }
 
     private static void PlayAnimation(EnemyController enemy, string animationName)

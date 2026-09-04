@@ -14,8 +14,11 @@ public class AxeController : MonoBehaviour
         dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         isSetup = true;
 
+        direction = direction.normalized;
+
         Vector3 startingPosition = transform.position;
         Vector3 targetPosition = startingPosition + direction * distance;
+        Vector3 endPosition = startingPosition + direction * 2.0f;
 
         Sequence.Create()
             .Chain(Tween.Position(transform, targetPosition, axeMoveDuration, Ease.OutQuad))

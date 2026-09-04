@@ -78,7 +78,7 @@ public class GladiatorThrowAxeData : ScriptableObject
     public string AnticipationAnimation { get; private set; }
 
     [field: SerializeField]
-    [field: MinValue(-0.1f)]
+    [field: MinValue(0.0f)]
     [field: LabelText("Durée de l'animation de lancé de hache")]
     [field: SuffixLabel("secondes")]
     public float ThrowAnimationDuration;

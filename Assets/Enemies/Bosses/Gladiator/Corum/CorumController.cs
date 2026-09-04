@@ -50,7 +50,7 @@ public class CorumController : MonoBehaviour
         animator = spriteRenderer.GetComponent<Animator>();
         GetComponent<Damageable>().OnDie.AddListener(Die);
 
-        lastAttackTimestamp = Time.time;
+        lastAttackTimestamp = Time.time - attackCooldown;
     }
 
     private void Update()

@@ -41,7 +41,7 @@ public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
 
     private Sequence ComputeMovement(EnemyController enemy, Sequence sequence)
     {
-        if (data.MoveAwayFromPlayer)
+        if (data.MoveAwayFromPlayer || data.MoveToCenterOfArena)
         {
             Vector3 targetPosition = ComputeTargetMovementPosition(enemy, data.MoveDistance);
             string direction = (targetPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
@@ -61,6 +61,9 @@ public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
 
     private Vector3 ComputeTargetMovementPosition(EnemyController enemy, float moveDistance)
     {
+        if (data.MoveToCenterOfArena)
+            return Vector3.zero;
+
         Vector3 currentPosition = enemy.transform.position;
         Vector3 playerPosition = PlayerStateMachine.instance.position;
 
@@ -148,6 +151,7 @@ public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
     {
         Vector3 startingPosition = enemy.transform.position;
         Vector3 direction = (PlayerStateMachine.instance.position - startingPosition).normalized;
+        startingPosition += direction * data.DistanceBetweenTraps;
 
         for (int i = 0; i < data.TrapCount; i++)
         {

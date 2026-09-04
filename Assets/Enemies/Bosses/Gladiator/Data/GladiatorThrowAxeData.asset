@@ -18,9 +18,8 @@ MonoBehaviour:
     type: 3}
   SpawnDuration: 0.5
   FillDuration: 0.5
-  <LockBeforeImpact>k__BackingField: 0.1
-  RotationDampening: 0.1
-  ThrowAnimationDuration: 0.001
+  <LockBeforeImpact>k__BackingField: 0.2
+  RotationDampening: 0.25
   AxeFlyDistance: 20
   AxeFlyDuration: 0.8
   <MoveAwayFromPlayer>k__BackingField: 0
@@ -28,5 +27,6 @@ MonoBehaviour:
   <MoveDistance>k__BackingField: 8
   <MoveDuration>k__BackingField: 0.3
   <AnticipationAnimation>k__BackingField: ThrowAxe_Anticipation
+  ThrowAnimationDuration: 0.5
   <ImpactAnimation>k__BackingField: ThrowAxe
   <TriggerAfterImageOnSideMove>k__BackingField: 0

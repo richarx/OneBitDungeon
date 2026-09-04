@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CorumPrefab: {fileID: 8109679094841338700, guid: b27686382a654d246a57d712174596c5,
     type: 3}
-  CorumCount: 2
+  CorumCount: 8
   TimeBeetweenSpawns: 1
   DelayBeforeSpawn: 1
   DelayAfterSpawn: 0.5

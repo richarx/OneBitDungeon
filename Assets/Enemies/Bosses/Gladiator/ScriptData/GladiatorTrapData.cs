@@ -87,6 +87,10 @@ public class GladiatorTrapData : ScriptableObject
     public bool MoveAwayFromPlayer { get; private set; }
 
     [field: SerializeField]
+    [field: LabelText("Se déplace vers le centre de l'arène")]
+    public bool MoveToCenterOfArena { get; private set; }
+
+    [field: SerializeField]
     [field: ShowIf(nameof(MoveAwayFromPlayer))]
     [field: MinValue(0.0f)]
     [field: LabelText("Distance de déplacement")]
