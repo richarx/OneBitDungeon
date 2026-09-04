@@ -43,10 +43,13 @@ public class TrapController : MonoBehaviour
 
     private void CheckForPlayerDamage()
     {
+        if (isTriggered)
+            return;
+
         Vector3 directionToPlayer = PlayerStateMachine.instance.position - transform.position;
 
-        bool hitX = Mathf.Abs(directionToPlayer.x) <= 1.5f;
-        bool hitZ = Mathf.Abs(directionToPlayer.z) <= 0.3f;
+        bool hitX = Mathf.Abs(directionToPlayer.x) <= 1.0f;
+        bool hitZ = Mathf.Abs(directionToPlayer.z) <= 0.25f;
         bool damageApplied = false;
 
         if (hitX && hitZ)
