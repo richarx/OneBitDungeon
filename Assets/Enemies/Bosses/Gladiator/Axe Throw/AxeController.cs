@@ -8,22 +8,45 @@ public class AxeController : MonoBehaviour
     private DealDamageToPlayer dealDamageToPlayer;
 
     private bool isSetup;
+    private bool isComingBack;
 
-    public void Setup(Vector3 direction, float distance, float axeMoveDuration, Action callback)
+    private Sequence moveSequence;
+
+    private Transform bossTransform;
+    private Action bossCallback;
+
+    public void Setup(EnemyController enemy, Vector3 direction, float distance, float axeMoveDuration, Action callback)
     {
         dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
+        bossTransform = enemy.transform;
+        bossCallback = callback;
         isSetup = true;
 
         direction = direction.normalized;
 
-        Vector3 startingPosition = transform.position;
-        Vector3 targetPosition = startingPosition + direction * distance;
-        Vector3 endPosition = startingPosition + direction * 2.0f;
+        Vector3 targetPosition = transform.position + direction * distance;
 
-        Sequence.Create()
+        moveSequence = Sequence.Create()
             .Chain(Tween.Position(transform, targetPosition, axeMoveDuration, Ease.OutQuad))
-            .Chain(Tween.Position(transform, startingPosition, axeMoveDuration, Ease.InQuad))
-            .ChainCallback(() => MakeEnemyCatchAxe(callback));
+            .ChainCallback(() => GoBackToBoss(distance, axeMoveDuration));
+    }
+
+    private void GoBackToBoss(float initialDistance, float axeMoveDuration)
+    {
+        if (moveSequence.isAlive)
+            moveSequence.Stop();
+
+        isComingBack = true;
+
+        Vector3 targetPosition = bossTransform.transform.position;
+        float targetDistance = (targetPosition - transform.position).magnitude;
+        float initialSpeed = initialDistance / axeMoveDuration;
+
+        float targetMoveDuration = targetDistance / initialSpeed;
+
+        moveSequence = Sequence.Create()
+           .Chain(Tween.Position(transform, targetPosition, targetMoveDuration, Ease.InQuad))
+           .ChainCallback(() => MakeEnemyCatchAxe());
     }
 
     private void Update()
@@ -31,16 +54,12 @@ public class AxeController : MonoBehaviour
         if (!isSetup)
             return;
 
-        CheckForPlayerDamage();
-    }
+        float distanceFromBoss = (bossTransform.position - transform.position).magnitude;
 
-    private void MakeEnemyCatchAxe(Action callback)
-    {
-        if (callback != null)
-            callback();
-
-        Destroy(gameObject);
-        isSetup = false;
+        if (isComingBack && distanceFromBoss <= 2.0f)
+            MakeEnemyCatchAxe();
+        else
+            CheckForPlayerDamage();
     }
 
     private void CheckForPlayerDamage()
@@ -49,5 +68,22 @@ public class AxeController : MonoBehaviour
 
         if (directionToPlayer.magnitude <= 2.0f)
             dealDamageToPlayer.TryDealDamage(directionToPlayer.normalized);
+    }
+
+    private void MakeEnemyCatchAxe()
+    {
+        if (bossCallback != null)
+            bossCallback();
+
+        DestroyAxe();
+    }
+
+    private void DestroyAxe()
+    {
+        if (moveSequence.isAlive)
+            moveSequence.Stop();
+
+        Destroy(gameObject);
+        isSetup = false;
     }
 }

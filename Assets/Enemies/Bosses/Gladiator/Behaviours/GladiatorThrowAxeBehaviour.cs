@@ -143,7 +143,7 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
     private void SpawnAxe(EnemyController enemy, BehaviourExecution execution)
     {
         AxeController axe = UnityEngine.Object.Instantiate(data.AxePrefab, enemy.transform.position, Quaternion.identity);
-        axe.Setup(currentDamageZoneRoot.right, data.AxeFlyDistance, data.AxeFlyDuration, () => CatchAxe(enemy, execution));
+        axe.Setup(enemy, currentDamageZoneRoot.right, data.AxeFlyDistance, data.AxeFlyDuration, () => CatchAxe(enemy, execution));
     }
 
     private void CatchAxe(EnemyController enemy, BehaviourExecution execution)

@@ -10571,7 +10571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068ca6ab120c7194b90607252bdcd524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 650
+  startingHealth: 800
   isInvincible: 0
   OnTakeDamage:
     m_PersistentCalls:
@@ -10791,7 +10791,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 6
     - Name: 
       Entry: 7
       Data: 1|OdinEnemyPhase, Assembly-CSharp
@@ -10852,7 +10852,7 @@ MonoBehaviour:
       Data: 7|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
-      Data: 500
+      Data: 650
     - Name: transitionBehaviour
       Entry: 7
       Data: 8|GladiatorTrapsBehaviour, Assembly-CSharp
@@ -10919,7 +10919,7 @@ MonoBehaviour:
       Data: 14|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
-      Data: 350
+      Data: 450
     - Name: transitionBehaviour
       Entry: 7
       Data: 15|GladiatorCallForBackupBehaviour, Assembly-CSharp
@@ -10986,13 +10986,13 @@ MonoBehaviour:
       Data: 21|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
-      Data: 50
+      Data: 250
     - Name: transitionBehaviour
       Entry: 7
-      Data: 22|GladiatorThrowAxeBehaviour, Assembly-CSharp
+      Data: 22|GladiatorAxeComboBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 0
+      Data: 7
     - Name: 
       Entry: 8
       Data: 
@@ -11002,10 +11002,77 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 24|GladiatorAxeComboBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 25|GladiatorThrowAxeBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 26|GladiatorTrapsBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 27|GladiatorHookBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 28|OdinEnemyPhase, Assembly-CSharp
+    - Name: healthThresholdToTriggerTransition
+      Entry: 3
+      Data: 50
+    - Name: transitionBehaviour
+      Entry: 7
+      Data: 29|GladiatorThrowAxeBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: phaseBehaviours
+      Entry: 7
+      Data: 30|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 24|GladiatorThrowAxeBehaviour, Assembly-CSharp
+      Data: 31|GladiatorThrowAxeBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 0
@@ -11023,13 +11090,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 25|OdinEnemyPhase, Assembly-CSharp
+      Data: 32|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
       Data: 40
     - Name: transitionBehaviour
       Entry: 7
-      Data: 26|GladiatorCallForBackupBehaviour, Assembly-CSharp
+      Data: 33|GladiatorCallForBackupBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 6
@@ -11038,14 +11105,14 @@ MonoBehaviour:
       Data: 
     - Name: phaseBehaviours
       Entry: 7
-      Data: 27|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+      Data: 34|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 28|GladiatorAxeComboBehaviour, Assembly-CSharp
+      Data: 35|GladiatorAxeComboBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 7
@@ -11069,13 +11136,13 @@ MonoBehaviour:
       Data: 
     - Name: deathBehaviour
       Entry: 7
-      Data: 29|GladiatorDeathBehaviour, Assembly-CSharp
+      Data: 36|GladiatorDeathBehaviour, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 30|GladiatorThrowAxeBehaviour, Assembly-CSharp
+      Data: 37|GladiatorThrowAxeBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 0
