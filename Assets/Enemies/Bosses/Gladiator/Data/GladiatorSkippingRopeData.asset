@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f42539eea95bf4183a53e3b28bd0bc, type: 3}
+  m_Name: GladiatorSkippingRopeData
+  m_EditorClassIdentifier: 
+  ropeControllerPrefab: {fileID: -772636080753591642, guid: 143c2c43cc79ef840bf1ead6c1b1339c,
+    type: 3}
+  ThrowOffset: {x: -1, y: 0, z: 0}
+  FlyDistance: 10
+  ExtensionDuration: 5
+  RetractionDuration: 1
+  <RotationSpeed>k__BackingField: -35
+  RotationDampening: 0.3
+  <SkippingDuration>k__BackingField: 12
+  <MoveDuration>k__BackingField: 0.5
+  <AnticipationAnimation>k__BackingField: RopeAnticipation
+  AnticipationAnimationDuration: 2
+  <RopeThrowAnimation>k__BackingField: RopeThrow
+  RopeThrowAnimationDuration: 0.3
+  <RecoveryAnimation>k__BackingField: RopeRecovery
+  RecoveryAnimationDuration: 0.25
+  <TriggerAfterImageOnSideMove>k__BackingField: 1

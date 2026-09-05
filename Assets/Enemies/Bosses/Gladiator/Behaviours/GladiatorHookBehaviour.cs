@@ -18,7 +18,6 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private RectangleDamageZone rectangleDamageZone;
     [NonSerialized] private Transform currentDamageZoneRoot;
-    [NonSerialized] private Vector3 rotationDirection;
     [NonSerialized] private float currentAimEndTimestamp;
     private const float DamageColorTransitionDuration = 0.05f;
 
@@ -102,7 +101,7 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
     public void UpdateBehaviour(EnemyController enemy)
     {
         if (currentDamageZoneRoot != null && Time.time <= currentAimEndTimestamp)
-            rotationDirection = RotateThrowTowardPlayer();
+            RotateThrowTowardPlayer();
     }
 
     public void FixedUpdateBehaviour(EnemyController enemy)
@@ -146,10 +145,10 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
     private void SendHook(EnemyController enemy)
     {
         HookController hook = UnityEngine.Object.Instantiate(data.HookControllerPrefab, enemy.transform.position, Quaternion.identity);
-        hook.Setup(rotationDirection, data.FlyDistance, data.FlyDuration, data.PullDistance, data.PullDuration);
+        hook.Setup(currentDamageZoneRoot.right, data.FlyDistance, data.FlyDuration, data.PullDistance, data.PullDuration);
     }
 
-    private Vector3 RotateThrowTowardPlayer()
+    private void RotateThrowTowardPlayer()
     {
         Vector3 position = currentDamageZoneRoot.position;
         Vector3 direction = (PlayerStateMachine.instance.position - position).normalized;
@@ -159,8 +158,6 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
             Quaternion.LookRotation(direction.ToVector2().AddAngleToDirection(90.0f).ToVector3()),
             Time.deltaTime / data.RotationDampening
         );
-
-        return direction;
     }
 
     private void ResetRuntimeState()
@@ -175,7 +172,6 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
         rectangleDamageZone = null;
         currentDamageZoneRoot = null;
         currentAimEndTimestamp = 0.0f;
-        rotationDirection = Vector3.zero;
     }
 
     private static void PlayAnimation(EnemyController enemy, string animationName)

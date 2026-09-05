@@ -37,6 +37,7 @@ public class RectangleDamageZone : MonoBehaviour
     private float spawnDuration;
     private float fillDuration;
     private bool hasBeenParried;
+    private bool hasContinuousDamage;
 
     private CloseDodgeDetector _closeDodgeDetector;
     private CloseDodgeSession closeDodgeSession;
@@ -61,6 +62,13 @@ public class RectangleDamageZone : MonoBehaviour
         size = new Vector2(
             Mathf.Max(0.0001f, length) / (2.0f * scaleX),
             Mathf.Max(0.0001f, width) / (2.0f * scaleY));
+    }
+
+    public void SimpleSetup()
+    {
+        dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
+        isCheckingForDamage = true;
+        hasContinuousDamage = true;
     }
 
     public void Setup(Vector2 moveDirection, float _spawnDuration, float _fillDuration, CloseDodgeSession session = null)
@@ -203,7 +211,8 @@ public class RectangleDamageZone : MonoBehaviour
 
     private void Update()
     {
-        _closeDodgeDetector.Update(IsPlayerInside(), _playerInstance.isInArroganceMode);
+        if (_closeDodgeDetector != null)
+            _closeDodgeDetector.Update(IsPlayerInside(), _playerInstance.isInArroganceMode);
 
         if (isCheckingForDamage && !hasBeenParried)
             CheckForPlayerHit();
@@ -231,7 +240,7 @@ public class RectangleDamageZone : MonoBehaviour
         if (PointInTriangle(P, A, B, C) || PointInTriangle(P, A, C, D))
             damageApplied = dealDamageToPlayer.TryDealDamage(direction);
 
-        if (damageApplied)
+        if (damageApplied && !hasContinuousDamage)
         {
             closeDodgeSession?.RegisterHit();
             isCheckingForDamage = false;
