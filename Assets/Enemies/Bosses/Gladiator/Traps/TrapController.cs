@@ -52,7 +52,12 @@ public class TrapController : MonoBehaviour
         bool damageApplied = false;
 
         if (hitX && hitZ)
-            damageApplied = dealDamageToPlayer.TryDealDamage(directionToPlayer.normalized);
+        {
+            if (PlayerStateMachine.instance.isAttacking)
+                TriggerTrap();
+            else
+                damageApplied = dealDamageToPlayer.TryDealDamage(directionToPlayer.normalized);
+        }
 
         if (damageApplied)
             TriggerTrap();

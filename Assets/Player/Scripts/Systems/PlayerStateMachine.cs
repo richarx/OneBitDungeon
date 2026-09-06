@@ -50,6 +50,11 @@ namespace Player.Scripts
             || currentBehaviour.GetBehaviourType() == BehaviourType.ArrogantRun
             || currentBehaviour.GetBehaviourType() == BehaviourType.ArrogantSpin;
 
+        public bool isAttacking => currentBehaviour.GetBehaviourType() == BehaviourType.Attack
+            || currentBehaviour.GetBehaviourType() == BehaviourType.JumpAttack
+            || currentBehaviour.GetBehaviourType() == BehaviourType.CounterAttack
+            || currentBehaviour.GetBehaviourType() == BehaviourType.CriticalAttack;
+
         [HideInInspector] public Vector2 moveInput;
         [HideInInspector] public Vector3 moveVelocity;
 
