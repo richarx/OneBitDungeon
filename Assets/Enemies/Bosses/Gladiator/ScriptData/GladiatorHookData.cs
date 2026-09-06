@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
+using Enemies.Scripts.Behaviours;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GladiatorHookData", menuName = "ScriptableObjects/Gladiator/Hook Data")]
-public class GladiatorHookData : ScriptableObject
+public class GladiatorHookData : SerializedScriptableObject
 {
     [field: SerializeField]
     [field: Required]
@@ -52,7 +56,7 @@ public class GladiatorHookData : ScriptableObject
 
     [field: SerializeField]
     [field: MinValue(0.0f)]
-    [field: LabelText("Distance de pull du joueur on hit")]
+    [field: LabelText("Distance de pull du joueur on hit par rapport au boss")]
     [field: SuffixLabel("mètres")]
     public float PullDistance;
 
@@ -107,6 +111,22 @@ public class GladiatorHookData : ScriptableObject
     [field: SerializeField]
     [field: LabelText("After-image pendant le déplacement")]
     public bool TriggerAfterImageOnSideMove { get; private set; } = true;
+
+    [field: SerializeField]
+    [field: LabelText("enchaine une attaque après un hook réussi")]
+    public bool IsChainingAttack { get; private set; }
+
+    [ShowIf(nameof(IsChainingAttack))]
+    [OdinSerialize]
+    [LabelText("Chained Behaviour")]
+    [HideReferenceObjectPicker]
+    [TypeFilter(nameof(GetInlineBehaviourTypes))]
+    public IEnemyBehaviour chainedBehaviour;
+
+    private IEnumerable<Type> GetInlineBehaviourTypes()
+    {
+        return EnemyBehaviourTypeUtility.GetBehaviourTypes("Gladiator");
+    }
 
     private bool LockBeforeImpactIsValid => LockBeforeImpact >= 0.0f && LockBeforeImpact <= SpawnDuration + FillDuration;
 }

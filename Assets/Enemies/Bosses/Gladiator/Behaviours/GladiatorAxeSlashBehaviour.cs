@@ -39,17 +39,24 @@ public class GladiatorAxeSlashBehaviour : IEnemyBehaviour
             return;
         }
 
-        Vector3 targetPosition = ComputeTargetMovementPosition(enemy, data.MoveDistance);
-        string direction = (targetPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
+        attackSequence = Sequence.Create();
 
-        attackSequence = Sequence.Create()
-            .ChainCallback(() => PlayAnimation(enemy, $"Dash_{direction}_Axe"))
-            .ChainCallback(() =>
-            {
-                if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
-                    enemy.afterImage.Trigger(data.MoveDuration);
-            })
-            .Chain(Tween.Position(enemy.transform, targetPosition, data.MoveDuration, Ease.OutCirc))
+        if (data.MoveNearPlayer)
+        {
+            Vector3 targetPosition = ComputeTargetMovementPosition(enemy, data.MoveDistance);
+            string direction = (targetPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
+
+            attackSequence
+                .ChainCallback(() => PlayAnimation(enemy, $"Dash_{direction}_Axe"))
+                .ChainCallback(() =>
+                {
+                    if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
+                        enemy.afterImage.Trigger(data.MoveDuration);
+                })
+                .Chain(Tween.Position(enemy.transform, targetPosition, data.MoveDuration, Ease.OutCirc));
+        }
+
+        attackSequence
             .ChainCallback(() => PlayAnimation(enemy, data.AnticipationAnimation))
             .ChainCallback(() => SpawnDamageZone(enemy))
             .ChainDelay(data.SpawnDuration + data.FillDuration + DamageColorTransitionDuration)

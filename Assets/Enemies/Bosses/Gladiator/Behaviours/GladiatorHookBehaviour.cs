@@ -20,6 +20,7 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
     [NonSerialized] private Transform currentDamageZoneRoot;
     [NonSerialized] private float currentAimEndTimestamp;
     private const float DamageColorTransitionDuration = 0.05f;
+    private bool isHookSent;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -100,7 +101,7 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
 
     public void UpdateBehaviour(EnemyController enemy)
     {
-        if (currentDamageZoneRoot != null && Time.time <= currentAimEndTimestamp)
+        if (!isHookSent && currentDamageZoneRoot != null && Time.time <= currentAimEndTimestamp)
             RotateThrowTowardPlayer();
     }
 
@@ -145,7 +146,15 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
     private void SendHook(EnemyController enemy)
     {
         HookController hook = UnityEngine.Object.Instantiate(data.HookControllerPrefab, enemy.transform.position, Quaternion.identity);
-        hook.Setup(currentDamageZoneRoot.right, data.FlyDistance, data.FlyDuration, data.PullDistance, data.PullDuration);
+        hook.Setup(currentDamageZoneRoot.right, data.FlyDistance, data.FlyDuration, data.PullDistance, data.PullDuration, () => ChainAttackOnHook(enemy));
+
+        isHookSent = true;
+    }
+
+    private void ChainAttackOnHook(EnemyController enemy)
+    {
+        if (data.IsChainingAttack)
+            enemy.EnqueueBehaviour(data.chainedBehaviour);
     }
 
     private void RotateThrowTowardPlayer()
@@ -172,6 +181,7 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
         rectangleDamageZone = null;
         currentDamageZoneRoot = null;
         currentAimEndTimestamp = 0.0f;
+        isHookSent = false;
     }
 
     private static void PlayAnimation(EnemyController enemy, string animationName)

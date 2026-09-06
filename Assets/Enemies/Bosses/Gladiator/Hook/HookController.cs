@@ -17,10 +17,13 @@ public class HookController : MonoBehaviour
 
     private Sequence hookSequence;
 
-    public void Setup(Vector3 direction, float distance, float hookFlyDuration, float pullDistance, float pullDuration)
+    private Action onHitCallback;
+
+    public void Setup(Vector3 direction, float distance, float hookFlyDuration, float pullDistance, float pullDuration, Action callback)
     {
         pullPlayerDistance = pullDistance;
         pullPlayerDuration = pullDuration;
+        onHitCallback = callback;
         isSetup = true;
 
         hookHead.rotation = direction.ToVector2().AddAngleToDirection(90.0f).ToRotation();
@@ -75,9 +78,9 @@ public class HookController : MonoBehaviour
         hookHead.position = player.position;
         float distanceFromBoss = hookHead.localPosition.magnitude;
 
-        Vector3 targetPosition = transform.position;
+        Vector3 targetPosition = hookHead.position;
         if (distanceFromBoss > pullPlayerDistance)
-            targetPosition = hookHead.position - hookHead.localPosition.normalized * pullPlayerDistance;
+            targetPosition = transform.position + hookHead.localPosition.normalized * pullPlayerDistance;
 
         Sequence.Create()
             .Chain(Tween.Position(hookHead, targetPosition, pullPlayerDuration, Ease.InQuad))
@@ -85,6 +88,8 @@ public class HookController : MonoBehaviour
             .ChainCallback(() => player.playerLocked.UnlockPlayer(player))
             .Chain(Tween.LocalPosition(hookHead, Vector3.zero, 0.1f))
             .ChainCallback(() => DestroyHook());
+
+        onHitCallback?.Invoke();
     }
 
     private void DestroyHook()

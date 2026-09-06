@@ -34,12 +34,18 @@ public class GladiatorAxeSlashData : ScriptableObject
     public float FillDuration { get; private set; } = 1.0f;
 
     [field: SerializeField]
+    [field: LabelText("Approche le joueur avant d'attaquer")]
+    public bool MoveNearPlayer { get; private set; } = true;
+
+    [field: SerializeField]
+    [field: ShowIf(nameof(MoveNearPlayer))]
     [field: MinValue(0.0f)]
     [field: LabelText("Distance d'approche")]
     [field: SuffixLabel("mètres")]
     public float MoveDistance { get; private set; } = 2.0f;
 
     [field: SerializeField]
+    [field: ShowIf(nameof(MoveNearPlayer))]
     [field: MinValue(0.0f)]
     [field: LabelText("Durée d'approche")]
     [field: SuffixLabel("secondes")]

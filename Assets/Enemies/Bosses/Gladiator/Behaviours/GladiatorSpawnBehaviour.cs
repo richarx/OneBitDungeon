@@ -14,7 +14,7 @@ public sealed class GladiatorSpawnBehaviour : IEnemyBehaviour
         EnemyHolder.instance.RegisterEnemy(enemy.gameObject);
 
         spawnSequence = Sequence.Create()
-            .ChainDelay(3.0f)
+            .ChainDelay(1.0f)
             .ChainCallback(() => execution.Complete());
     }
 
