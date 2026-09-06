@@ -15,6 +15,7 @@ public class GladiatorSkippingRopeBehaviour : IEnemyBehaviour
 
     [NonSerialized] private Sequence attackSequence;
     [NonSerialized] private SkippingRopeController ropeController;
+    [NonSerialized] private float startRotationTimestamp;
 
     private bool isSpinning;
 
@@ -36,6 +37,7 @@ public class GladiatorSkippingRopeBehaviour : IEnemyBehaviour
             .ChainCallback(() => PlayAnimation(enemy, data.RopeThrowAnimation))
             .ChainDelay(data.RopeThrowAnimationDuration)
             .ChainCallback(() => SendHookAxe(enemy))
+            .ChainCallback(() => startRotationTimestamp = Time.time)
             .ChainCallback(() => isSpinning = true)
             .ChainDelay(data.SkippingDuration - data.RetractionDuration)
             .ChainCallback(() => ropeController.Retract(data.RetractionDuration))
@@ -60,9 +62,12 @@ public class GladiatorSkippingRopeBehaviour : IEnemyBehaviour
 
     private void RotateRope()
     {
+        float normalizedTime = Tools.NormalizeValue(Time.time - startRotationTimestamp, 0.0f, data.SkippingDuration);
+        float rotationSpeed = data.RotationAccelerationCurve.Evaluate(normalizedTime) * data.RotationSpeed;
+
         ropeController.transform.rotation = Quaternion.Slerp(
             ropeController.transform.rotation,
-            Quaternion.LookRotation(ropeController.transform.right.ToVector2().AddAngleToDirection(data.RotationSpeed).ToVector3()),
+            Quaternion.LookRotation(ropeController.transform.right.ToVector2().AddAngleToDirection(rotationSpeed).ToVector3()),
             Time.deltaTime / data.RotationDampening
         );
     }
@@ -93,6 +98,7 @@ public class GladiatorSkippingRopeBehaviour : IEnemyBehaviour
         if (ropeController != null)
             ropeController.Retract(0.5f);
 
+        startRotationTimestamp = 0.0f;
         isSpinning = false;
         attackSequence = default;
         ropeController = null;

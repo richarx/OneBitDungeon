@@ -40,6 +40,10 @@ public class GladiatorSkippingRopeData : ScriptableObject
     public float RotationSpeed { get; private set; } = 0.25f;
 
     [field: SerializeField]
+    [field: LabelText("Animation curve d'acceleration de la rotation")]
+    public AnimationCurve RotationAccelerationCurve;
+
+    [field: SerializeField]
     [field: MinValue(0.001f)]
     [field: LabelText("Lissage de la rotation")]
     public float RotationDampening;
