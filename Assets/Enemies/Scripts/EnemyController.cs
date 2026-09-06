@@ -48,6 +48,7 @@ public class EnemyController : SerializedMonoBehaviour
     [NonSerialized] public UnityEvent OnChangeBehaviour = new UnityEvent();
 
     private List<IEnemyBehaviour> enemyBehaviours;
+    public Queue<IEnemyBehaviour> enemyBehaviourQueue = new Queue<IEnemyBehaviour>();
     public IEnemyBehaviour currentBehaviour { get; private set; }
     public IEnemyBehaviour startingBehaviour { get; private set; }
     public IEnemyBehaviour phaseTransitionBehaviour { get; private set; }
@@ -72,7 +73,6 @@ public class EnemyController : SerializedMonoBehaviour
     [TypeFilter(nameof(GetInlineBehaviourTypes))]
     private IEnemyBehaviour debugBehaviour;
 
-
     protected virtual void Start()
     {
         BindPhaseOwners();
@@ -96,6 +96,7 @@ public class EnemyController : SerializedMonoBehaviour
                 Debug.Log("Trigger Next Phase !");
                 currentPhase += 1;
                 enemyBehaviours = GetPhaseBehaviours(currentPhase);
+                enemyBehaviourQueue.Clear();
                 InterruptCurrentBehaviour();
                 startingBehaviour = GetPhaseTransitionBehaviour(currentPhase);
                 ExecuteBehaviour(startingBehaviour);
@@ -240,10 +241,21 @@ public class EnemyController : SerializedMonoBehaviour
         currentBehaviour = null;
     }
 
+    public void EnqueueBehaviour(IEnemyBehaviour behaviour)
+    {
+        enemyBehaviourQueue.Enqueue(behaviour);
+    }
+
     private void SelectNextBehaviour(IEnemyBehaviour completedBehaviour, bool wasTransition)
     {
         if (isDead)
             return;
+
+        if (enemyBehaviourQueue.Count > 0)
+        {
+            ExecuteBehaviour(enemyBehaviourQueue.Dequeue());
+            return;
+        }
 
         List<IEnemyBehaviour> validBehaviours = GetValidBehaviours();
         if (validBehaviours.Count == 0)
@@ -383,7 +395,11 @@ public class EnemyController : SerializedMonoBehaviour
         }
 
         InterruptCurrentBehaviour();
-        ExecuteBehaviour(debugBehaviour);
+
+        if (enemyBehaviourQueue.Count > 0)
+            ExecuteBehaviour(enemyBehaviourQueue.Dequeue());
+        else
+            ExecuteBehaviour(debugBehaviour);
     }
 
     [ShowIf(nameof(debugMode))]
