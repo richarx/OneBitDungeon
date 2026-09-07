@@ -58,7 +58,7 @@ public class HookController : MonoBehaviour
         Vector3 directionToPlayer = PlayerStateMachine.instance.position - hookHead.position;
         directionToPlayer.y = 0.0f;
 
-        bool isInRange = directionToPlayer.magnitude <= 1.5f;
+        bool isInRange = directionToPlayer.magnitude <= 2.0f;
         bool isJumping = PlayerStateMachine.instance.currentBehaviour.GetBehaviourType() == BehaviourType.Jump && !PlayerStateMachine.instance.playerJump.hasLanded;
 
         if (isInRange && !isJumping)
