@@ -9,12 +9,20 @@ namespace Player.Scripts
     {
         private GameObject target;
         public GameObject Target => target;
+
         public float targetDistance => (targetPosition - transform.position).magnitude;
         public Vector3 targetPosition => target.transform.position;
         public Vector3 directionToTarget => (targetPosition - transform.position).normalized;
 
+        public GameObject MainTarget => EnemyHolder.instance?.MainEnemy;
+
+        public float mainTargetDistance => (mainTargetPosition - transform.position).magnitude;
+        public Vector3 mainTargetPosition => MainTarget.transform.position;
+        public Vector3 mainDirectionToTarget => (mainTargetPosition - transform.position).normalized;
+
         public bool hasTarget => target != null;
-        
+        public bool hasMainTarget => MainTarget != null;
+
         public void ComputeTarget(PlayerStateMachine player)
         {
             if (EnemyHolder.instance == null)
@@ -22,7 +30,7 @@ namespace Player.Scripts
                 target = null;
                 return;
             }
-        
+
             List<GameObject> enemies = EnemyHolder.instance.Enemies;
 
             Vector3 position = player.position;

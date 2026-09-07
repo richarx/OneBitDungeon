@@ -40,7 +40,7 @@ namespace Player.Scripts
             hasStartedDash = false;
             hasHitObstacle = false;
 
-            Vector3 direction = player.playerTargeting.directionToTarget.ToVector2().normalized.ToVector3();
+            Vector3 direction = player.playerTargeting.mainDirectionToTarget.ToVector2().normalized.ToVector3();
             player.SetLastLookDirection(direction.ToVector2());
             dashTarget = ComputeDashTarget(player, direction);
             dashSpeed = ComputeDashSpeed(player);
@@ -95,21 +95,21 @@ namespace Player.Scripts
 
         public bool CanCriticalAttack(PlayerStateMachine player)
         {
-            if (!player.playerAttack.CanAttack(player) || !player.playerArrogance.IsFull || !player.playerTargeting.hasTarget)
+            if (!player.playerAttack.CanAttack(player) || !player.playerArrogance.IsFull || !player.playerTargeting.hasMainTarget)
                 return false;
 
-            GameObject target = player.playerTargeting.Target;
+            GameObject target = player.playerTargeting.MainTarget;
             Damageable damageable = target != null ? target.GetComponent<Damageable>() : null;
 
             return damageable != null
                 && !damageable.IsDead
-                && player.playerTargeting.targetDistance > 0.01f
-                && player.playerTargeting.targetDistance <= player.playerData.insolenceRange;
+                && player.playerTargeting.mainTargetDistance > 0.01f
+                && player.playerTargeting.mainTargetDistance <= player.playerData.insolenceRange;
         }
 
         private Vector3 ComputeDashTarget(PlayerStateMachine player, Vector3 direction)
         {
-            float targetDistance = player.playerTargeting.targetDistance;
+            float targetDistance = player.playerTargeting.mainTargetDistance;
 
             return player.position + direction * (targetDistance + player.playerData.insolencePastTargetDistance);
         }
@@ -167,7 +167,7 @@ namespace Player.Scripts
             RestoreTargetCollisions();
 
             playerColliders.AddRange(player.GetComponentsInChildren<Collider>());
-            targetColliders.AddRange(player.playerTargeting.Target.GetComponentsInChildren<Collider>());
+            targetColliders.AddRange(player.playerTargeting.MainTarget.GetComponentsInChildren<Collider>());
 
             foreach (Collider playerCollider in playerColliders)
             {

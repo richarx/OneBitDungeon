@@ -85,7 +85,7 @@ public class EnemyController : SerializedMonoBehaviour
 
         if (debugMode)
         {
-            EnemyHolder.instance.RegisterEnemy(gameObject);
+            EnemyHolder.instance.RegisterEnemy(gameObject, true);
             return;
         }
 
@@ -374,7 +374,7 @@ public class EnemyController : SerializedMonoBehaviour
 
     public void ActivateHitbox()
     {
-        EnemyHolder.instance.RegisterEnemy(gameObject);
+        EnemyHolder.instance.RegisterEnemy(gameObject, true);
         sphereCollider.enabled = true;
     }
 

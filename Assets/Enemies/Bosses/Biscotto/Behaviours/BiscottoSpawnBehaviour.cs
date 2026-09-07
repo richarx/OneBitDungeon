@@ -26,7 +26,7 @@ public sealed class BiscottoSpawnBehaviour : IEnemyBehaviour
             return;
         }
 
-        EnemyHolder.instance.RegisterEnemy(enemy.gameObject);
+        EnemyHolder.instance.RegisterEnemy(enemy.gameObject, true);
 
         spawnSequence = Sequence.Create()
             .ChainDelay(data.SpawnDelay)
