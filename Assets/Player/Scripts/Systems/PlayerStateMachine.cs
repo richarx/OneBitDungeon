@@ -118,6 +118,8 @@ namespace Player.Scripts
             newPosition.y = 0.0f;
             transform.position = newPosition;
             rb.position = newPosition;
+            moveVelocity = Vector3.zero;
+            ApplyMovement();
         }
 
         private void KeepOnGround()
@@ -138,11 +140,10 @@ namespace Player.Scripts
         {
             lastLookDirection = direction.normalized;
         }
-
         private void FixedUpdate()
         {
-            KeepOnGround();
             currentBehaviour.FixedUpdateBehaviour(this);
+            //KeepOnGround();
         }
 
         public void ChangeBehaviour(IPlayerBehaviour newBehaviour)
@@ -159,8 +160,8 @@ namespace Player.Scripts
 
         public void ApplyMovement()
         {
+            moveVelocity.y = transform.position.y * -1.0f;
             rb.velocity = moveVelocity;
-            moveVelocity.y = 0.0f;
         }
 
         public bool TryStartAttack()
