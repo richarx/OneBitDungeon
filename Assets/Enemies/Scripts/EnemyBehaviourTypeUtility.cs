@@ -25,7 +25,7 @@ public static class EnemyBehaviourTypeUtility
         if (string.IsNullOrEmpty(normalizedOwnerName))
             return inlineTypes;
 
-        return inlineTypes.Where(type => type.Name.IndexOf(normalizedOwnerName, StringComparison.OrdinalIgnoreCase) >= 0);
+        return inlineTypes.Where(type => type.Name.IndexOf(normalizedOwnerName, StringComparison.OrdinalIgnoreCase) >= 0 || type.Name.IndexOf("Common", StringComparison.OrdinalIgnoreCase) >= 0);
     }
 
     public static string NormalizeOwnerName(string ownerName)

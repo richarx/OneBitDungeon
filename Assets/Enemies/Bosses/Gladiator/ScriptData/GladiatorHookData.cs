@@ -99,7 +99,7 @@ public class GladiatorHookData : SerializedScriptableObject
     public string AnticipationAnimation { get; private set; }
 
     [field: SerializeField]
-    [field: MinValue(-0.1f)]
+    [field: MinValue(0.0f)]
     [field: LabelText("Durée de l'animation de lancé de hook")]
     [field: SuffixLabel("secondes")]
     public float HookThrowAnimationDuration;
