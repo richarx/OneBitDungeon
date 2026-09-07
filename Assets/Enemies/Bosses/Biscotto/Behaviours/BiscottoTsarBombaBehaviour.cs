@@ -25,6 +25,8 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
     private Vector3 lockedFlyingPosition;
     private float startAttackTimestamp;
 
+    private Rigidbody rb;
+
     private const float jumpHeight = 15.0f;
 
 
@@ -53,6 +55,9 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             return;
         }
 
+        if (rb == null)
+            rb = enemy.GetComponent<Rigidbody>();
+
         startAttackTimestamp = Time.time;
 
         attackSequence = Sequence.Create()
@@ -60,7 +65,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             .ChainCallback(() => StartDamageZoneTracking(enemy))
             .ChainDelay(data.SpawnDuration + data.FillDuration - data.FallDuration)
             .ChainCallback(() => PlayAnimation(enemy, data.JumpAnimation))
-            .ChainCallback(() => StartDescent(enemy, data.FallDuration))
+            .ChainCallback(() => StartDescent(data.FallDuration))
             .ChainDelay(data.FallDuration)
             .ChainCallback(() => CompleteLanding(enemy))
             .ChainDelay(data.RecoveryDuration)
@@ -108,18 +113,20 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         PlayAnimation(enemy, data.AnticipationAnimation);
         enemy.DeactivateHitbox();
 
+        Vector3 targetPosition = enemy.transform.position + Vector3.up * jumpHeight;
+
         jumpSequence = Sequence.Create()
             .ChainDelay(0.1f)
-            .Chain(Tween.PositionY(enemy.transform, jumpHeight, ascentDuration, Ease.OutQuad));
+            .Chain(Tween.RigidbodyMovePosition(rb, targetPosition, ascentDuration, Ease.OutQuad));
     }
 
-    private void StartDescent(EnemyController enemy, float descentDuration)
+    private void StartDescent(float descentDuration)
     {
         if (jumpSequence.isAlive)
             jumpSequence.Stop();
 
         jumpSequence = Sequence.Create()
-            .Chain(Tween.Position(enemy.transform, lockedFlyingPosition, lockedLandingPosition, descentDuration, Ease.OutQuad));
+            .Chain(Tween.RigidbodyMovePosition(rb, lockedFlyingPosition, lockedLandingPosition, descentDuration, Ease.OutQuad));
     }
 
     private void CompleteLanding(EnemyController enemy)
@@ -127,7 +134,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
         if (jumpSequence.isAlive)
             jumpSequence.Stop();
 
-        enemy.transform.position = lockedLandingPosition;
+        rb.MovePosition(lockedLandingPosition);
         PlayAnimation(enemy, data.ImpactAnimation);
         enemy.GetComponent<SqueezeAndStretch>().Trigger();
         RestoreEnemyHitbox(enemy);

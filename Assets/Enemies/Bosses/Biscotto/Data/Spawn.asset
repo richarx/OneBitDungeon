@@ -12,4 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3394cf3c662b44d48eaa55a6a826f557, type: 3}
   m_Name: Spawn
   m_EditorClassIdentifier: 
-  <SpawnDelay>k__BackingField: 3
+  <CircleDamageZonePrefab>k__BackingField: {fileID: 5892917051957619975, guid: 2b14022f64314b2f982205768004697d,
+    type: 3}
+  <Radius>k__BackingField: 0.28
+  WaitDuration: 3
+  SpawnDuration: 0.4
+  FillDuration: 1
+  <FallDuration>k__BackingField: 0.1
+  RecoveryDuration: 0.2
+  LaughDuration: 2
+  <LaughAnimation>k__BackingField: Laugh
+  <JumpAnimation>k__BackingField: Fall
+  <ImpactAnimation>k__BackingField: Slam
