@@ -24,7 +24,9 @@ namespace Player.Scripts
         private bool isLeftDirection;
         private Vector2 targetDirection => isLeftDirection ? Vector2.left : Vector2.right;
 
-        bool isRespawning = false;
+        private bool hasDirectionInputBeenReset;
+
+        private bool isRespawning = false;
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
@@ -32,6 +34,7 @@ namespace Player.Scripts
             getUpTimestamp = -1.0f;
             lastArroganceGainTimestamp = Time.time;
             isRotating = !isRespawning;
+            hasDirectionInputBeenReset = false;
 
             player.moveVelocity = Vector3.zero;
             player.ApplyMovement();
@@ -114,7 +117,12 @@ namespace Player.Scripts
         private bool CheckForInput(PlayerStateMachine player)
         {
             if (player.inputPackage.GetMove.magnitude > 0.15f)
-                return true;
+            {
+                if (hasDirectionInputBeenReset)
+                    return true;
+            }
+            else
+                hasDirectionInputBeenReset = true;
 
             if (player.inputPackage.GetAttack.wasPressedThisFrame)
                 return true;
