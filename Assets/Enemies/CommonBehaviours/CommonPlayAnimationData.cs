@@ -20,6 +20,12 @@ public class CommonPlayAnimationData : SerializedScriptableObject
     public float AnimationDuration;
 
     [field: SerializeField]
+    [field: MinValue(0)]
+    [field: LabelText("Dégats maximum toléré avant de stopper l'animation")]
+    [field: SuffixLabel("hp")]
+    public int DamageThreshold;
+
+    [field: SerializeField]
     [field: LabelText("Se déplace vers centre de l'arène")]
     public bool MoveToArenaCenter { get; private set; }
 

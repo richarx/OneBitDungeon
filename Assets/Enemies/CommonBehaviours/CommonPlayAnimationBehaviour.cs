@@ -15,10 +15,15 @@ public class CommonPlayAnimationBehaviour : IEnemyBehaviour
     private CommonPlayAnimationData data;
 
     [NonSerialized] private Sequence animationSequence;
+    [NonSerialized] private int healthPointsAtStart;
+    [NonSerialized] private BehaviourExecution currentExecution;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         ResetRuntimeState();
+
+        healthPointsAtStart = enemy.damageable.currentHealth;
+        currentExecution = execution;
 
         if (data.IsChainingAnimation)
             enemy.EnqueueBehaviour(data.chainedBehaviour);
@@ -54,6 +59,11 @@ public class CommonPlayAnimationBehaviour : IEnemyBehaviour
 
     public void UpdateBehaviour(EnemyController enemy)
     {
+        if (data.DamageThreshold > 0 && healthPointsAtStart - enemy.damageable.currentHealth >= data.DamageThreshold)
+        {
+            currentExecution.Complete();
+            ResetRuntimeState();
+        }
     }
 
     public void FixedUpdateBehaviour(EnemyController enemy)
@@ -80,6 +90,7 @@ public class CommonPlayAnimationBehaviour : IEnemyBehaviour
             animationSequence.Stop();
 
         animationSequence = default;
+        currentExecution = null;
     }
 
     private static void PlayAnimation(EnemyController enemy, string animationName)
