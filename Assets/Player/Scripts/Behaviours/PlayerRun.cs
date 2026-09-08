@@ -63,7 +63,8 @@ namespace Player.Scripts
 
             if (player.inputPackage.GetArroganceMode.isPressed)
             {
-                player.ChangeBehaviour(player.playerArrogantRun);
+                player.ChangeBehaviour(player.playerArrogantIdle);
+                return;
             }
 
             if (player.moveInput.magnitude < 0.15f)

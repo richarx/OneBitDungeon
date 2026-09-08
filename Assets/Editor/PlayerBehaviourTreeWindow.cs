@@ -36,8 +36,7 @@ public sealed class PlayerBehaviourTreeWindow : EditorWindow
         { BehaviourType.Locked, "PlayerLocked" },
         { BehaviourType.Tag, "PlayerTag" },
         { BehaviourType.JumpAttack, "PlayerJumpAttack" },
-        { BehaviourType.CounterAttack, "PlayerCounterAttack" },
-        { BehaviourType.Taunt, "PlayerTaunt" }
+        { BehaviourType.CounterAttack, "PlayerCounterAttack" }
     };
 
     private static readonly Dictionary<string, BehaviourType> BehaviourFields = new Dictionary<string, BehaviourType>
@@ -59,8 +58,7 @@ public sealed class PlayerBehaviourTreeWindow : EditorWindow
         { "playerLocked", BehaviourType.Locked },
         { "playerTag", BehaviourType.Tag },
         { "playerJumpAttack", BehaviourType.JumpAttack },
-        { "playerCounterAttack", BehaviourType.CounterAttack },
-        { "playerTaunt", BehaviourType.Taunt }
+        { "playerCounterAttack", BehaviourType.CounterAttack }
     };
 
     private readonly Dictionary<BehaviourType, Rect> nodeRects = new Dictionary<BehaviourType, Rect>();
@@ -129,7 +127,6 @@ public sealed class PlayerBehaviourTreeWindow : EditorWindow
         AddNode(BehaviourType.JumpAttack, 970f, 75f);
         AddNode(BehaviourType.CounterAttack, 970f, 200f);
         AddNode(BehaviourType.Sit, 50f, 430f);
-        AddNode(BehaviourType.Taunt, 280f, 430f);
         AddNode(BehaviourType.Locked, 510f, 430f);
         AddNode(BehaviourType.Stagger, 740f, 430f);
         AddNode(BehaviourType.Dead, 970f, 400f);
@@ -341,7 +338,6 @@ public sealed class PlayerBehaviourTreeWindow : EditorWindow
             .Replace("player.inputPackage.GetParry.WasPressedWithBuffer()", "Clic droit")
             .Replace("player.inputPackage.GetParry.wasPressedThisFrame", "Clic droit")
             .Replace("player.inputPackage.GetSitDown.wasPressedThisFrame", "C (s'asseoir)")
-            .Replace("player.inputPackage.GetTaunt.wasPressedThisFrame", "Q / A")
             .Replace("player.inputPackage.GetArroganceMode.isPressed", "molette maintenue")
             .Replace("player.moveInput.magnitude >= 0.15f", "ZQSD / WASD")
             .Replace("player.moveInput.magnitude < 0.15f", "aucune direction")
@@ -469,8 +465,6 @@ public sealed class PlayerBehaviourTreeWindow : EditorWindow
             // pas les flèches qui arrivent vers lui.
             bool isHighlighted = highlightedTransitions.Contains(transition);
             bool isIncoming = incomingTransitions.Contains(transition);
-            if (transition.source == selectedBehaviour || transition.destination == selectedBehaviour)
-                Debug.Log("Transition from " + transition.source + " to " + transition.destination + " is highlighted: " + isHighlighted);
             Color color = GetTransitionColor(transition.trigger, isHighlighted, isIncoming);
             Color glowColor = GetGlowColor(transition.trigger);
             float lineWidth = isHighlighted ? 3.5f : 2f;
@@ -665,6 +659,8 @@ public sealed class PlayerBehaviourTreeWindow : EditorWindow
         GUI.Box(area, GUIContent.none, EditorStyles.helpBox);
         GUILayout.BeginArea(new Rect(area.x + 8f, area.y + 8f, area.width - 16f, area.height - 16f));
         GUILayout.Label(selectedBehaviour.ToString(), EditorStyles.boldLabel);
+        if (GUILayout.Button("Open source Script", EditorStyles.miniButton))
+            OpenSourceScript(selectedBehaviour);
         GUILayout.Label("Touches et conditions des passages sortants.", EditorStyles.miniLabel);
         GUILayout.Space(6f);
 
@@ -684,8 +680,8 @@ public sealed class PlayerBehaviourTreeWindow : EditorWindow
                 GUILayout.Label(transition.condition, EditorStyles.wordWrappedLabel);
                 if (transition.source != transition.destination)
                     DrawEndpointControls(transition);
-                if (GUILayout.Button("Ouvrir le script", EditorStyles.miniButton))
-                    OpenScript(transition.assetPath);
+                if (GUILayout.Button("Open Behaviour Script", EditorStyles.miniButton))
+                    OpenDestinationScript(transition.destination);
                 EditorGUILayout.EndVertical();
             }
         }
@@ -844,6 +840,20 @@ public sealed class PlayerBehaviourTreeWindow : EditorWindow
         MonoScript script = AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath);
         if (script != null)
             AssetDatabase.OpenAsset(script);
+    }
+
+    private static void OpenDestinationScript(BehaviourType destination)
+    {
+        string scriptName;
+        if (ScriptNames.TryGetValue(destination, out scriptName))
+            OpenScript(FindScriptPath(scriptName));
+    }
+
+    private static void OpenSourceScript(BehaviourType source)
+    {
+        string scriptName;
+        if (ScriptNames.TryGetValue(source, out scriptName))
+            OpenScript(FindScriptPath(scriptName));
     }
 
     private struct Transition

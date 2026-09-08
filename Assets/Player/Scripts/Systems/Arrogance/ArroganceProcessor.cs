@@ -37,10 +37,43 @@ namespace Player.Scripts
         {
             float amount = request.baseAmount;
 
-            amount = ApplyProgressiveCloseDodgeGain(amount, request);
-            amount = ApplyArroganceModeModifier(amount, request);
+            if (request.reason == ArroganceGainReason.Taunt)
+            {
+                amount = ApplyTauntDangerZoneModifier(amount);
+            }
+            else
+            {
+                amount = ApplyProgressiveCloseDodgeGain(amount, request);
+                amount = ApplyArroganceModeModifier(amount, request);
+            }
 
             return Mathf.Max(0.0f, amount);
+        }
+
+        private float ApplyTauntDangerZoneModifier(float amount)
+        {
+            CloseDodgeDangerSnapshot dangerSnapshot = CloseDodgeDetector.GetPlayerDangerSnapshot();
+
+            if (!dangerSnapshot.isPlayerInsideDangerZone)
+                return amount;
+
+            return EvaluateTauntDangerZoneGainPerSecond(dangerSnapshot.minimumSecondsUntilDamage) * Time.deltaTime;
+        }
+
+        private float EvaluateTauntDangerZoneGainPerSecond(float secondsUntilDamage)
+        {
+            if (!playerData.useProgressiveTauntDangerZoneGain)
+                return playerData.tauntDangerZoneGainPerSecond;
+
+            float progressionDuration = playerData.tauntDangerZoneProgressionDuration;
+            if (progressionDuration <= 0.0f)
+                return playerData.tauntDangerZoneMaximumGainPerSecond;
+
+            float normalizedProgress = 1.0f - Mathf.Clamp01(secondsUntilDamage / progressionDuration);
+            return Mathf.Lerp(
+                playerData.tauntDangerZoneMinimumGainPerSecond,
+                playerData.tauntDangerZoneMaximumGainPerSecond,
+                normalizedProgress);
         }
 
         private float ApplyProgressiveCloseDodgeGain(float amount, ArroganceGainRequest request)

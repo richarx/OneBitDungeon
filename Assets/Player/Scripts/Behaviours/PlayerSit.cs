@@ -87,7 +87,7 @@ namespace Player.Scripts
         {
             if (Time.time - lastArroganceGainTimestamp >= 0.5f)
             {
-                ArroganceGainEvents.RequestGain(new ArroganceGainRequest(player.playerData.arroganceGainWhileSitting, ArroganceGainReason.Taunt));
+                ArroganceGainEvents.RequestGain(new ArroganceGainRequest(player.playerData.arroganceGainWhileSitting, ArroganceGainReason.Sitting));
                 lastArroganceGainTimestamp = Time.time;
             }
         }

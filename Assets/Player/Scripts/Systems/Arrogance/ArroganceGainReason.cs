@@ -6,6 +6,7 @@ namespace Player.Scripts
         CloseDodge,
         Parry,
         Attack,
-        Taunt
+        Taunt,
+        Sitting
     }
 }
