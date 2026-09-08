@@ -46,11 +46,11 @@ public class PlayerArrogantIdle : IPlayerBehaviour
         //     return;
         // }
 
-        if (player.moveInput.magnitude >= 0.15f)
-        {
-            player.ChangeBehaviour(player.playerArrogantRun);
-            return;
-        }
+        // if (player.moveInput.magnitude >= 0.15f)
+        // {
+        //     player.ChangeBehaviour(player.playerArrogantRun);
+        //     return;
+        // }
 
         if (!player.inputPackage.GetArroganceMode.isPressed)
         {
