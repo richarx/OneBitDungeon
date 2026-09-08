@@ -16,7 +16,7 @@ MonoBehaviour:
   dialogWalkMaxSpeed: 2
   groundAcceleration: 80
   groundDeceleration: 120
-  arrogantWalkMaxSpeed: 3
+  arrogantWalkMaxSpeed: 0
   spinMaxSpeed: 10
   spinMaxDistance: 3
   spinMaxDuration: 0.3
@@ -26,10 +26,17 @@ MonoBehaviour:
   spinCooldown: 0
   closeDodgeWindowDuration: 0.3
   maxArrogance: 100
+  loseAllArroganceOnHit: 1
   arroganceGainOnCloseDodge: 15
-  arroganceGainOnParry: 10
+  arroganceGainOnParry: 0
   arroganceGainOnAttack: 1
-  arroganceGainWhileSitting: 1
+  arroganceGainWhileSitting: 0
+  arroganceGainWhileTaunting: 10
+  tauntDangerZoneGainPerSecond: 20
+  useProgressiveTauntDangerZoneGain: 0
+  tauntDangerZoneMinimumGainPerSecond: 10
+  tauntDangerZoneMaximumGainPerSecond: 20
+  tauntDangerZoneProgressionDuration: 1
   useProgressiveArroganceGain: 0
   progressiveArroganceGainEasing: 2
   arroganceStateGainMultiplier: 1

@@ -61,9 +61,6 @@ namespace Player.Scripts
                 case BehaviourType.Dead:
                     PlayDeathAnimation();
                     break;
-                case BehaviourType.Taunt:
-                    PlayTauntAnimation();
-                    break;
                 case BehaviourType.Parry:
                     PlayParryAnimation();
                     break;
@@ -140,7 +137,7 @@ namespace Player.Scripts
 
         private void PlayArrogantIdleAnimation()
         {
-            codeAnimator.PlayAnimation(AnimationType.ArrogantIdle, ComputeAnimationDirection(), false);
+            codeAnimator.PlayAnimation(AnimationType.Taunt, ComputeLeftRightAnimationDirection(), false);
         }
 
         private void PlayRunAnimation()
@@ -150,7 +147,7 @@ namespace Player.Scripts
 
         private void PlayArrogantRunAnimation()
         {
-            codeAnimator.PlayAnimation(AnimationType.ArrogantWalk, ComputeAnimationDirection(), false);
+            codeAnimator.PlayAnimation(AnimationType.Taunt, ComputeLeftRightAnimationDirection(), false);
         }
 
         private void PlayRollAnimation()
@@ -186,11 +183,6 @@ namespace Player.Scripts
         private void PlayStaggerAnimation()
         {
             codeAnimator.PlayAnimation(AnimationType.Hurt, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
-        }
-
-        private void PlayTauntAnimation()
-        {
-            codeAnimator.PlayAnimation(AnimationType.Taunt, ComputeLeftRightAnimationDirection(), false);
         }
 
         private AnimationDirection ComputeAnimationDirection()

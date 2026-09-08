@@ -53,10 +53,12 @@ public class PlayerArrogantSpin : IPlayerBehaviour
 
     private void StopSpin(PlayerStateMachine player)
     {
-        if (player.moveInput.magnitude >= 0.15f)
-            player.ChangeBehaviour(player.inputPackage.GetArroganceMode.isPressed ? player.playerArrogantRun : player.playerRun);
+        if (player.inputPackage.GetArroganceMode.isPressed)
+            player.ChangeBehaviour(player.playerArrogantIdle);
+        else if (player.moveInput.magnitude >= 0.15f)
+            player.ChangeBehaviour(player.playerRun);
         else
-            player.ChangeBehaviour(player.inputPackage.GetArroganceMode.isPressed ? player.playerArrogantIdle : player.playerIdle);
+            player.ChangeBehaviour(player.playerIdle);
     }
 
     public void FixedUpdateBehaviour(PlayerStateMachine player)

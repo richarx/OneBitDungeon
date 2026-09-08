@@ -44,6 +44,9 @@ namespace Player.Scripts
         [TitleGroup("Arrogance Gain"), LabelText("Maximum Arrogance"), MinValue(0.0f)]
         public float maxArrogance = 100.0f;
 
+        [TitleGroup("Arrogance Gain"), LabelText("Lose All Arrogance on Hit")]
+        public bool loseAllArroganceOnHit;
+
         [TitleGroup("Arrogance Gain"), LabelText("Arrogance Gained on Close Dodge"), MinValue(0.0f)]
         public float arroganceGainOnCloseDodge = 10.0f;
 
@@ -55,6 +58,28 @@ namespace Player.Scripts
 
         [TitleGroup("Arrogance Gain"), LabelText("Arrogance Gained while sitting"), SuffixLabel("Arrogance/HalfSeconds"), MinValue(0.0f)]
         public float arroganceGainWhileSitting = 10.0f;
+        [TitleGroup("Arrogance Gain"), LabelText("Arrogance Gained while taunting"), SuffixLabel("Arrogance/Second"), MinValue(0.0f)]
+        public float arroganceGainWhileTaunting = 10.0f;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Taunt Danger Zone Gain per Second"), SuffixLabel("Arrogance/Second"), MinValue(0.0f),
+         HideIf(nameof(useProgressiveTauntDangerZoneGain))]
+        public float tauntDangerZoneGainPerSecond = 20.0f;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Use Progressive Taunt Danger Zone Gain")]
+        public bool useProgressiveTauntDangerZoneGain;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Taunt Danger Zone Minimum Gain per Second"), SuffixLabel("Arrogance/Second"), MinValue(0.0f),
+         ShowIf(nameof(useProgressiveTauntDangerZoneGain))]
+        public float tauntDangerZoneMinimumGainPerSecond = 10.0f;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Taunt Danger Zone Maximum Gain per Second"), SuffixLabel("Arrogance/Second"), MinValue(0.0f),
+         ShowIf(nameof(useProgressiveTauntDangerZoneGain))]
+        public float tauntDangerZoneMaximumGainPerSecond = 20.0f;
+
+        [TitleGroup("Arrogance Gain"), LabelText("Taunt Danger Zone Progression Duration"), SuffixLabel("Seconds"), MinValue(0.0f),
+         InfoBox("The gain starts at its minimum this many seconds before damage, then reaches its maximum when damage triggers."),
+         ShowIf(nameof(useProgressiveTauntDangerZoneGain))]
+        public float tauntDangerZoneProgressionDuration = 1.0f;
 
         [Space]
         [TitleGroup("Arrogance Gain"), LabelText("Use Progressive Arrogance Gain")]

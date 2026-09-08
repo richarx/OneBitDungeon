@@ -19,16 +19,13 @@ namespace Player.Scripts
         private void OnEnable()
         {
             ArroganceGainEvents.OnGainProcessed += HandleProcessedGain;
-            PlayerStateMachine.instance.playerHealth.OnPlayerTakeDamage.AddListener((_) =>
-            {
-                if (PlayerStateMachine.instance.playerHealth.IsDead)
-                    ClearArrogance();
-            });
+            PlayerStateMachine.instance.playerHealth.OnPlayerTakeDamage.AddListener(HandlePlayerTakeDamage);
         }
 
         private void OnDisable()
         {
             ArroganceGainEvents.OnGainProcessed -= HandleProcessedGain;
+            PlayerStateMachine.instance.playerHealth.OnPlayerTakeDamage.RemoveListener(HandlePlayerTakeDamage);
         }
 
         private void Start()
@@ -47,6 +44,13 @@ namespace Player.Scripts
                 return;
 
             currentArrogance = Mathf.Clamp(currentArrogance + result.totalAmount, 0.0f, playerData.maxArrogance);
+        }
+
+        private void HandlePlayerTakeDamage(Vector3 direction)
+        {
+            if (PlayerStateMachine.instance.playerHealth.IsDead
+                || (playerData != null && playerData.loseAllArroganceOnHit))
+                ClearArrogance();
         }
 
 

@@ -17,6 +17,7 @@ MonoBehaviour:
   groundAcceleration: 80
   groundDeceleration: 120
   maxArrogance: 100
+  loseAllArroganceOnHit: 0
   arroganceGainOnCloseDodge: 10
   useProgressiveArroganceGain: 0
   progressiveArroganceGainEasing: 0

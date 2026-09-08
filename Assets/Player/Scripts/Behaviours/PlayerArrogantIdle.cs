@@ -34,17 +34,17 @@ public class PlayerArrogantIdle : IPlayerBehaviour
             return;
         }
 
-        if (player.playerParry.CanParry(player) && player.inputPackage.GetParry.WasPressedWithBuffer())
-        {
-            player.ChangeBehaviour(player.playerParry);
-            return;
-        }
+        // if (player.playerParry.CanParry(player) && player.inputPackage.GetParry.WasPressedWithBuffer())
+        // {
+        //     player.ChangeBehaviour(player.playerParry);
+        //     return;
+        // }
 
-        if (player.playerJump.CanJump(player) && player.inputPackage.GetJump.WasPressedWithBuffer())
-        {
-            player.ChangeBehaviour(player.playerJump);
-            return;
-        }
+        // if (player.playerJump.CanJump(player) && player.inputPackage.GetJump.WasPressedWithBuffer())
+        // {
+        //     player.ChangeBehaviour(player.playerJump);
+        //     return;
+        // }
 
         if (player.moveInput.magnitude >= 0.15f)
         {
@@ -55,6 +55,11 @@ public class PlayerArrogantIdle : IPlayerBehaviour
         if (!player.inputPackage.GetArroganceMode.isPressed)
         {
             player.ChangeBehaviour(player.playerIdle);
+        }
+
+        if (player.playerTargeting.hasTarget)
+        {
+            ArroganceGainEvents.RequestGain(new ArroganceGainRequest(player.playerData.arroganceGainWhileTaunting * Time.deltaTime, ArroganceGainReason.Taunt));
         }
 
         player.CheckForInteraction();
