@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
+using Enemies.Scripts.Behaviours;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BiscottoTsarBombaData", menuName = "ScriptableObjects/Biscotto/Tsar Bomba Data")]
-public sealed class BiscottoTsarBombaData : ScriptableObject
+public sealed class BiscottoTsarBombaData : SerializedScriptableObject
 {
     [field: SerializeField]
     [field: Required]
@@ -70,6 +74,22 @@ public sealed class BiscottoTsarBombaData : ScriptableObject
     [field: SerializeField]
     [field: LabelText("Impact")]
     public string ImpactAnimation { get; private set; }
+
+    [field: SerializeField]
+    [field: LabelText("enchaine une attaque après celle ci")]
+    public bool IsChainingBehaviour { get; private set; }
+
+    [ShowIf(nameof(IsChainingBehaviour))]
+    [OdinSerialize]
+    [LabelText("attaque chainée")]
+    [HideReferenceObjectPicker]
+    [TypeFilter(nameof(GetInlineBehaviourTypes))]
+    public IEnemyBehaviour chainedBehaviour;
+
+    private IEnumerable<Type> GetInlineBehaviourTypes()
+    {
+        return EnemyBehaviourTypeUtility.GetBehaviourTypes("Biscotto");
+    }
 
     private bool LockBeforeImpactIsValid => LockBeforeImpact >= 0.0f && LockBeforeImpact <= SpawnDuration + FillDuration;
 }

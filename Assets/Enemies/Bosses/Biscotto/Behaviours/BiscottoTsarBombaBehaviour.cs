@@ -55,6 +55,9 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             return;
         }
 
+        if (data.IsChainingBehaviour)
+            enemy.EnqueueBehaviour(data.chainedBehaviour);
+
         if (rb == null)
             rb = enemy.GetComponent<Rigidbody>();
 

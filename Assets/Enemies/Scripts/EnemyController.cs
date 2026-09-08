@@ -48,7 +48,7 @@ public class EnemyController : SerializedMonoBehaviour
     [NonSerialized] public UnityEvent OnChangeBehaviour = new UnityEvent();
 
     private List<IEnemyBehaviour> enemyBehaviours;
-    public Queue<IEnemyBehaviour> enemyBehaviourQueue = new Queue<IEnemyBehaviour>();
+    private Queue<IEnemyBehaviour> enemyBehaviourQueue = new Queue<IEnemyBehaviour>();
     public IEnemyBehaviour currentBehaviour { get; private set; }
     public IEnemyBehaviour startingBehaviour { get; private set; }
     public IEnemyBehaviour phaseTransitionBehaviour { get; private set; }

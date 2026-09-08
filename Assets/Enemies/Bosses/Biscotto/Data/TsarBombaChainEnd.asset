@@ -10,8 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67d11ec583c3416989f2e25b43ac59a5, type: 3}
-  m_Name: TsarBomba
+  m_Name: TsarBombaChainEnd
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: f688e00df8e10af458be171b584bd257, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: chainedBehaviour
+      Entry: 7
+      Data: 0|BiscottoTsarBombaBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
   <CircleDamageZonePrefab>k__BackingField: {fileID: 5892917051957619975, guid: 2b14022f64314b2f982205768004697d,
     type: 3}
   <Radius>k__BackingField: 0.28
@@ -20,7 +39,8 @@ MonoBehaviour:
   <LockBeforeImpact>k__BackingField: 0.8
   <AscentDuration>k__BackingField: 0.2
   <FallDuration>k__BackingField: 0.1
-  <RecoveryDuration>k__BackingField: 0.3
+  <RecoveryDuration>k__BackingField: 0.1
   <AnticipationAnimation>k__BackingField: Jump
   <JumpAnimation>k__BackingField: Fall
   <ImpactAnimation>k__BackingField: Slam
+  <IsChainingBehaviour>k__BackingField: 1

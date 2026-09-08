@@ -16,10 +16,10 @@ MonoBehaviour:
     type: 3}
   <Radius>k__BackingField: 0.28
   WaitDuration: 3
-  SpawnDuration: 0.4
-  FillDuration: 1
+  SpawnDuration: 1
+  FillDuration: 1.5
   <FallDuration>k__BackingField: 0.1
-  RecoveryDuration: 0.2
+  RecoveryDuration: 0.75
   LaughDuration: 2
   <LaughAnimation>k__BackingField: Laugh
   <JumpAnimation>k__BackingField: Fall
