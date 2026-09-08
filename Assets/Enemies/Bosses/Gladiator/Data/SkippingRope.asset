@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85f42539eea95bf4183a53e3b28bd0bc, type: 3}
-  m_Name: GladiatorSkippingRopeData
+  m_Name: SkippingRope
   m_EditorClassIdentifier: 
   ropeControllerPrefab: {fileID: -772636080753591642, guid: 143c2c43cc79ef840bf1ead6c1b1339c,
     type: 3}

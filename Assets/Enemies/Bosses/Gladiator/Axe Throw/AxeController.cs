@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class AxeController : MonoBehaviour
 {
+    public static AxeController instance;
+
     private DealDamageToPlayer dealDamageToPlayer;
 
     private bool isSetup;
@@ -17,6 +19,11 @@ public class AxeController : MonoBehaviour
 
     public void Setup(EnemyController enemy, Vector3 direction, float distance, float axeMoveDuration, Action callback)
     {
+        if (instance != null)
+            Destroy(instance.gameObject);
+
+        instance = this;
+
         dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         bossTransform = enemy.transform;
         bossCallback = callback;

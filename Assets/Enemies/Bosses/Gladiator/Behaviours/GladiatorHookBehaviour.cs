@@ -33,7 +33,7 @@ public sealed class GladiatorHookBehaviour : IEnemyBehaviour
         attackSequence
             .ChainCallback(() => PlayAnimation(enemy, data.AnticipationAnimation))
             .ChainCallback(() => SpawnRectangleZone(enemy))
-            .ChainDelay(data.SpawnDuration + data.FillDuration - data.HookThrowAnimationDuration)
+            .ChainDelay(data.SpawnDuration + data.FillDuration - data.HookThrowAnimationDuration + DamageColorTransitionDuration)
             .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
             .ChainDelay(data.HookThrowAnimationDuration)
             .ChainCallback(() => SendHook(enemy))

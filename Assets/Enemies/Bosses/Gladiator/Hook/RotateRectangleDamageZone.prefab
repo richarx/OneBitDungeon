@@ -140,4 +140,4 @@ MonoBehaviour:
   filledColor: {r: 0.42074582, g: 0.56758374, b: 0.5754717, a: 1}
   filledOutlineColor: {r: 0, g: 0, b: 0, a: 1}
   alsoDestroyParent: 1
-  damageZoneType: 0
+  damageZoneType: 3

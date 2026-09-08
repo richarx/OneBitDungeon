@@ -20,7 +20,7 @@ MonoBehaviour:
   FillDuration: 1.5
   <FallDuration>k__BackingField: 0.1
   RecoveryDuration: 0.75
-  LaughDuration: 2
+  LaughDuration: 1.5
   <LaughAnimation>k__BackingField: Laugh
   <JumpAnimation>k__BackingField: Fall
   <ImpactAnimation>k__BackingField: Slam

@@ -32,7 +32,7 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
         attackSequence
             .ChainCallback(() => PlayAnimation(enemy, data.AnticipationAnimation))
             .ChainCallback(() => SpawnRectangleZone(enemy))
-            .ChainDelay(data.SpawnDuration + data.FillDuration - data.ThrowAnimationDuration)
+            .ChainDelay(data.SpawnDuration + data.FillDuration + DamageColorTransitionDuration)
             .ChainCallback(() => PlayAnimation(enemy, data.ImpactAnimation))
             .ChainCallback(() => SpawnAxe(enemy, execution))
             .ChainDelay(data.ThrowAnimationDuration)
@@ -134,6 +134,7 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
             0.0f,
             data.SpawnDuration + data.FillDuration + DamageColorTransitionDuration - data.LockBeforeImpact);
 
+        rectangleDamageZone.SetDimensions(data.DamageZoneWidth, data.DamageZoneLength);
         rectangleDamageZone.Setup(Vector2.right, data.SpawnDuration, data.FillDuration);
 
         Vector3 direction = (PlayerStateMachine.instance.position - enemy.transform.position).normalized;

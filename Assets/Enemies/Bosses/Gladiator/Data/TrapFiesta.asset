@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e6ece1bb3d2e114e9fe2ad737e59b8f, type: 3}
-  m_Name: GladiatorTrapFiestaData
+  m_Name: TrapFiesta
   m_EditorClassIdentifier: 
   <CircleDamageZonePrefab>k__BackingField: {fileID: 2345212183736776820, guid: c25a446e78ae40142801added8efad5a,
     type: 3}

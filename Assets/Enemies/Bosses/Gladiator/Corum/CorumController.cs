@@ -107,7 +107,7 @@ public class CorumController : MonoBehaviour
     {
         attackSequence = Sequence.Create()
             .ChainCallback(() => SpawnRectangleZone())
-            .ChainDelay(damageSpawnDuration + damageFillDuration - attackAnimationDuration)
+            .ChainDelay(damageSpawnDuration + damageFillDuration - attackAnimationDuration + 0.05f)
             .ChainCallback(() => animator.Play("Attack"))
             .ChainDelay(attackAnimationDuration)
             .ChainCallback(() => DashAttack())

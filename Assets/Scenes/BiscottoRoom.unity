@@ -10994,7 +10994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068ca6ab120c7194b90607252bdcd524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 850
+  startingHealth: 750
   isInvincible: 0
   OnTakeDamage:
     m_PersistentCalls:
@@ -11290,7 +11290,7 @@ MonoBehaviour:
       Data: 6|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
-      Data: 700
+      Data: 600
     - Name: transitionBehaviour
       Entry: 7
       Data: 7|CommonPlayAnimationBehaviour, Assembly-CSharp
@@ -11357,7 +11357,7 @@ MonoBehaviour:
       Data: 13|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
-      Data: 550
+      Data: 450
     - Name: transitionBehaviour
       Entry: 7
       Data: 14|BiscottoTsarBombaBehaviour, Assembly-CSharp

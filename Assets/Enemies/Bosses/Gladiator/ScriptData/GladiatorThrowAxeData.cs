@@ -15,6 +15,21 @@ public class GladiatorThrowAxeData : ScriptableObject
     public AxeController AxePrefab;
 
     [field: SerializeField]
+    [field: MinValue(0.001f)]
+    [field: LabelText("Largeur de la zone")]
+    [field: Tooltip("Largeur totale de la zone de dégâts, perpendiculaire au coup.")]
+    [field: SuffixLabel("mètres")]
+    public float DamageZoneWidth { get; private set; } = 4.0f;
+
+    [field: SerializeField]
+    [field: MinValue(0.001f)]
+    [field: LabelText("Longueur de la zone")]
+    [field: Tooltip("Longueur totale de la zone de dégâts, dans l'axe du coup.")]
+    [field: SuffixLabel("mètres")]
+    public float DamageZoneLength { get; private set; } = 6.0f;
+
+
+    [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: LabelText("Durée d'apparition")]
     [field: SuffixLabel("secondes")]

@@ -1,3 +1,4 @@
+using System;
 using Enemies.Scripts;
 using Player.Scripts;
 using PrimeTween;
@@ -37,7 +38,19 @@ public class TrapController : MonoBehaviour
     private void Update()
     {
         if (isSetup && isLanded)
+        {
             CheckForPlayerDamage();
+            CheckForDamageFromAxe();
+        }
+    }
+
+    private void CheckForDamageFromAxe()
+    {
+        if (AxeController.instance == null)
+            return;
+
+        if (Vector3.Distance(AxeController.instance.transform.position, transform.position) <= 2.5f)
+            TriggerTrap();
     }
 
     private void CheckForPlayerDamage()

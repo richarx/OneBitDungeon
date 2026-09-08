@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8d77874a8800884dadf06b2f4637497, type: 3}
-  m_Name: GladiatorCallForBackupData
+  m_Name: CallForBackup
   m_EditorClassIdentifier: 
   CorumPrefab: {fileID: 8109679094841338700, guid: b27686382a654d246a57d712174596c5,
     type: 3}

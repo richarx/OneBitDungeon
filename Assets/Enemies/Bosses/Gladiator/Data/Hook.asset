@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de8b4362280feb942a12cdf3fb7f2c95, type: 3}
-  m_Name: GladiatorHookComboData
+  m_Name: Hook
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 2c28e74e33b5e8841a1df5b371e0174c, type: 2}
+    - {fileID: 11400000, guid: 7d1590b7943f7f9468c53c0eb91908ac, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -35,13 +35,13 @@ MonoBehaviour:
     type: 3}
   HookControllerPrefab: {fileID: 7095477881059379443, guid: 7114558925a661049b43929303dcbd7e,
     type: 3}
-  SpawnDuration: 0.5
+  SpawnDuration: 1
   FillDuration: 0.3
   <LockBeforeImpact>k__BackingField: 0
   RotationDampening: 0.001
   FlyDistance: 20
   FlyDuration: 0.2
-  PullDistance: 2
+  PullDistance: 5
   PullDuration: 0.2
   <MoveAwayFromPlayer>k__BackingField: 0
   <MoveToCornerPosition>k__BackingField: 1
@@ -52,4 +52,4 @@ MonoBehaviour:
   HookThrowAnimationDuration: 0.2
   <ImpactAnimation>k__BackingField: HookThrow
   <TriggerAfterImageOnSideMove>k__BackingField: 0
-  <IsChainingAttack>k__BackingField: 1
+  <IsChainingAttack>k__BackingField: 0
