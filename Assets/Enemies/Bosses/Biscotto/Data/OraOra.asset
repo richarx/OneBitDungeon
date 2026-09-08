@@ -28,6 +28,6 @@ MonoBehaviour:
   <RepositionDistanceToPlayer>k__BackingField: 4
   <RepositionDuration>k__BackingField: 0.25
   <TriggerAfterImageOnReposition>k__BackingField: 1
-  <FinalRecoveryDuration>k__BackingField: 2
+  <FinalRecoveryDuration>k__BackingField: 1
   <PunchAnimation>k__BackingField: Punch_Right_Anticipation
   <RecoveryAnimation>k__BackingField: Punch_Right

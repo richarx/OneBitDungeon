@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6341e3d0ca5179c48a8e10d93a253944, type: 3}
+  m_Name: SlamEnd
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 8808b9dd2f1399a49b07d5a34df69988, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: chainedBehaviour
+      Entry: 7
+      Data: 0|BiscottoOraOraBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+  <CircleDamageZonePrefab>k__BackingField: {fileID: 5892917051957619975, guid: 2b14022f64314b2f982205768004697d,
+    type: 3}
+  <Radius>k__BackingField: 0.3
+  <SpawnDuration>k__BackingField: 0.1
+  <FillDuration>k__BackingField: 0.3
+  <RecoveryDuration>k__BackingField: 0.3
+  <MoveToArenaCenter>k__BackingField: 0
+  <MoveDuration>k__BackingField: 0.25
+  <TriggerAfterImageOnSideMove>k__BackingField: 1
+  <AnticipationAnimation>k__BackingField: Shaking
+  <ImpactAnimation>k__BackingField: Slam
+  <IsChainingBehaviour>k__BackingField: 1

@@ -21,7 +21,6 @@ public sealed class BiscottoReversData : ScriptableObject
     [field: SuffixLabel("degrés")]
     public float HalfAngle { get; private set; } = 45.0f;
 
-
     [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: LabelText("Distance d'approche")]
