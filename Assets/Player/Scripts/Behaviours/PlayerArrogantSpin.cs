@@ -22,7 +22,7 @@ public class PlayerArrogantSpin : IPlayerBehaviour
 
     public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
     {
-        Vector2 inputDirection = player.moveInput.magnitude >= 0.15f ? player.moveInput.normalized : player.LastLookDirection * -1.0f;
+        Vector2 inputDirection = player.moveInput.magnitude >= 0.15f ? player.moveInput.normalized : player.LastLookDirection;
         spinDirection = inputDirection.ToVector3();
         spinStartPosition = player.position;
         spinStartTimestamp = Time.time;
