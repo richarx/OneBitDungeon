@@ -1,54 +1,52 @@
 using System;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 
 namespace Tutorials
 {
     [Serializable]
     [InlineProperty]
-    public sealed class TutorialObjectiveData
+    public class TutorialObjectiveData
     {
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("Objective ID")]
-        [Tooltip("Stable identifier used by tutorial logic and saved progress.")]
-        private string id = string.Empty;
+        private string _id = string.Empty;
 
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("Text")]
-        private TutorialText text = new TutorialText();
+        private TutorialText _text = new TutorialText();
 
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("Input Action")]
-        private TutorialInputAction inputAction = TutorialInputAction.None;
+        private TutorialInputAction _inputAction = TutorialInputAction.None;
 
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("Show Progress")]
-        private bool showProgress;
+        private bool _showProgress;
 
-        [OdinSerialize]
-        [ShowIf(nameof(showProgress))]
+        [SerializeField]
+        [ShowIf(nameof(_showProgress))]
         [MinValue(1)]
         [LabelText("Target")]
-        private int target = 1;
+        private int _target = 1;
 
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("Required")]
         [Tooltip("A tutorial may finish only after all of its required objectives are complete.")]
-        private bool required = true;
+        private bool _required = true;
 
-        public string Id => id;
+        public string Id => _id;
 
-        public TutorialText Text => text;
+        public TutorialText Text => _text;
 
-        public TutorialInputAction InputAction => inputAction;
+        public TutorialInputAction InputAction => _inputAction;
 
-        public bool ShowProgress => showProgress;
+        public bool ShowProgress => _showProgress;
 
-        public int Target => Mathf.Max(1, target);
+        public int Target => Mathf.Max(1, _target);
 
-        public bool Required => required;
+        public bool Required => _required;
 
-        public string ListLabel => string.IsNullOrWhiteSpace(id) ? "New Objective" : id;
+        public string ListLabel => string.IsNullOrWhiteSpace(_id) ? "New Objective" : _id;
     }
 }

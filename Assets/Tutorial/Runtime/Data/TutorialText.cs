@@ -1,6 +1,5 @@
 using System;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 
 namespace Tutorials
@@ -9,12 +8,12 @@ namespace Tutorials
     [InlineProperty]
     public sealed class TutorialText
     {
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("Localization Key")]
         [Tooltip("Stable key reserved for the future localization table.")]
         private string localizationKey = string.Empty;
 
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("Fallback Text")]
         [TextArea(2, 5)]
         [Tooltip("Text displayed while no localization provider is installed.")]

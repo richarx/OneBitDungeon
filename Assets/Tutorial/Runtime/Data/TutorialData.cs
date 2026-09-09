@@ -1,25 +1,24 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 
 namespace Tutorials
 {
-    public abstract class TutorialData : SerializedScriptableObject
+    public abstract class TutorialData : ScriptableObject
     {
         [TitleGroup("Identity")]
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("Tutorial ID")]
         [Tooltip("Stable identifier used by sequencing and saved progress.")]
         private string tutorialId = string.Empty;
 
         [TitleGroup("Identity")]
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("Editor Label")]
         private string editorLabel = string.Empty;
 
         [TitleGroup("Objectives")]
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("Objectives")]
         [ListDrawerSettings(
             DraggableItems = true,
