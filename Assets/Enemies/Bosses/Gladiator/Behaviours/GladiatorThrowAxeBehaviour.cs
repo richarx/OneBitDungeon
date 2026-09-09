@@ -54,7 +54,7 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
                     if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
                         enemy.afterImage.Trigger(data.MoveDuration);
                 })
-                .Chain(Tween.Position(enemy.transform, targetPosition, data.MoveDuration, Ease.OutCirc));
+                .Chain(EnemyMovementUtility.CreateMoveToPosition(enemy, targetPosition, data.MoveDuration, Ease.OutCirc));
         }
         else if (data.MoveToRandomPosition)
         {
@@ -168,7 +168,7 @@ public sealed class GladiatorThrowAxeBehaviour : IEnemyBehaviour
                 if (isSecondPhase)
                     enemy.afterImage.Trigger(moveDuration);
             })
-            .Group(Tween.Position(enemy.transform, enemyPosition, moveDuration, Ease.InOutCubic));
+            .Group(EnemyMovementUtility.CreateMoveToPosition(enemy, enemyPosition, moveDuration, Ease.InOutCubic));
     }
 
     private void RotateThrowTowardPlayer()

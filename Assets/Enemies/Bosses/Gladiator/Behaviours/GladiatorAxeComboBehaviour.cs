@@ -52,7 +52,7 @@ public class GladiatorAxeComboBehaviour : IEnemyBehaviour
                 if (data.TriggerAfterImageOnFirstSideMove && enemy.afterImage != null)
                     enemy.afterImage.Trigger(data.FirstMoveDuration);
             })
-            .Chain(Tween.Position(enemy.transform, targetPosition, data.FirstMoveDuration, Ease.OutCirc))
+            .Chain(EnemyMovementUtility.CreateMoveToPosition(enemy, targetPosition, data.FirstMoveDuration, Ease.OutCirc))
             .ChainCallback(() => PlayAnimation(enemy, data.FirstAnticipationAnimation))
             .ChainCallback(() => SpawnFirstDamageZone(enemy))
             .ChainDelay(data.FirstSpawnDuration + data.FirstFillDuration + DamageColorTransitionDuration)
@@ -79,7 +79,7 @@ public class GladiatorAxeComboBehaviour : IEnemyBehaviour
                     if (data.TriggerAfterImageOnSecondSideMove && enemy.afterImage != null)
                         enemy.afterImage.Trigger(data.SecondMoveDuration);
                 })
-                .Chain(Tween.Position(enemy.transform, targetPosition, data.SecondMoveDuration, Ease.OutCirc));
+                .Chain(EnemyMovementUtility.CreateMoveToPosition(enemy, targetPosition, data.SecondMoveDuration, Ease.OutCirc));
         }
 
         attackSequence

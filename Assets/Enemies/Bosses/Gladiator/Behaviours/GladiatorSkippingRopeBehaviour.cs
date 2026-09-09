@@ -1,5 +1,6 @@
 using System;
 using Enemies.Scripts.Behaviours;
+using Player.Scripts;
 using PrimeTween;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -17,12 +18,21 @@ public class GladiatorSkippingRopeBehaviour : IEnemyBehaviour
     [NonSerialized] private SkippingRopeController ropeController;
     [NonSerialized] private float startRotationTimestamp;
 
+    [NonSerialized] private ArroganceProcessor _arroganceProcessor;
+
     private bool isSpinning;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
         Vector3 targetPosition = Vector3.zero;
         string direction = (targetPosition.x - enemy.transform.position.x) >= 0.0f ? "R" : "L";
+
+        _arroganceProcessor = PlayerStateMachine.instance.GetComponent<ArroganceProcessor>();
+        if (_arroganceProcessor == null)
+        {
+            Debug.LogWarning("[GladiatorSkippingRopeBehaviour] No arrogance processor on PlayerStateMachine");
+        }
+
 
         attackSequence = Sequence.Create()
             .ChainCallback(() => PlayAnimation(enemy, $"Dash_{direction}_Axe"))
@@ -31,7 +41,7 @@ public class GladiatorSkippingRopeBehaviour : IEnemyBehaviour
                 if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
                     enemy.afterImage.Trigger(data.MoveDuration);
             })
-            .Chain(Tween.Position(enemy.transform, Vector3.zero, data.MoveDuration))
+            .Chain(EnemyMovementUtility.CreateMoveToPosition(enemy, Vector3.zero, data.MoveDuration))
             .ChainCallback(() => PlayAnimation(enemy, data.AnticipationAnimation))
             .ChainDelay(data.AnticipationAnimationDuration)
             .ChainCallback(() => PlayAnimation(enemy, data.RopeThrowAnimation))
@@ -39,7 +49,10 @@ public class GladiatorSkippingRopeBehaviour : IEnemyBehaviour
             .ChainCallback(() => SendHookAxe(enemy))
             .ChainCallback(() => startRotationTimestamp = Time.time)
             .ChainCallback(() => isSpinning = true)
-            .ChainDelay(data.SkippingDuration - data.RetractionDuration)
+            .ChainDelay(data.ExtensionDuration - 2)
+            .ChainCallback(() => { if (_arroganceProcessor != null) _arroganceProcessor.TauntGainMultiplier = 4; })
+            .ChainDelay(data.SkippingDuration - data.RetractionDuration - data.ExtensionDuration +2 )
+            .ChainCallback(() => { if (_arroganceProcessor != null) _arroganceProcessor.TauntGainMultiplier = 1; })
             .ChainCallback(() => ropeController.Retract(data.RetractionDuration))
             .ChainDelay(data.RetractionDuration)
             .ChainCallback(() => isSpinning = false)
@@ -52,6 +65,8 @@ public class GladiatorSkippingRopeBehaviour : IEnemyBehaviour
     {
         ropeController = UnityEngine.Object.Instantiate(data.ropeControllerPrefab, enemy.transform.position + data.ThrowOffset, Quaternion.identity);
         ropeController.Setup(data.FlyDistance, data.ExtensionDuration);
+
+
     }
 
     public void UpdateBehaviour(EnemyController enemy)
@@ -92,6 +107,8 @@ public class GladiatorSkippingRopeBehaviour : IEnemyBehaviour
 
     private void ResetRuntimeState()
     {
+        if (_arroganceProcessor != null)
+            _arroganceProcessor.TauntGainMultiplier = 1;
         if (attackSequence.isAlive)
             attackSequence.Stop();
 

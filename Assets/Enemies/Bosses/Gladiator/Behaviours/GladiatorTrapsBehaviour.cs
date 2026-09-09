@@ -53,7 +53,7 @@ public sealed class GladiatorTrapsBehaviour : IEnemyBehaviour
                     if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
                         enemy.afterImage.Trigger(data.MoveDuration);
                 })
-                .Chain(Tween.Position(enemy.transform, targetPosition, data.MoveDuration, Ease.OutCirc));
+                .Chain(EnemyMovementUtility.CreateMoveToPosition(enemy, targetPosition, data.MoveDuration, Ease.OutCirc));
         }
 
         return sequence;

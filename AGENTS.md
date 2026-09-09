@@ -6,14 +6,24 @@
   composants, privilégier ses attributs (`[BoxGroup]`, `[FoldoutGroup]`,
   `[ShowIf]`, `[Button]`, `[Required]`, etc.) plutôt que de créer un inspecteur
   Unity personnalisé.
+- Pour les données à sérialiser, utiliser `[SerializeField]` par défaut.
+  N'employer `[OdinSerialize]` que lorsqu'il est nécessaire, par exemple pour
+  des types ou structures que la sérialisation Unity ne prend pas en charge.
 - Ne créer un `CustomEditor` ou un `PropertyDrawer` que si Odin ne permet pas
   d'obtenir le comportement ou l'ergonomie voulus.
+- Les éléments Odin qui vont au-delà de l'amélioration cosmétique de
+  l'inspecteur — par exemple `SerializedScriptableObject`,
+  `SerializedMonoBehaviour` ou la sérialisation de graphes complexes — ne sont
+  à employer que lorsqu'ils sont strictement nécessaires aux données ou au
+  comportement attendu.
 - Structurer l'inspecteur pour que les références, réglages et actions de debug
   soient faciles à distinguer. Garder les champs d'implémentation privés et
   sérialisés lorsque c'est approprié.
 
 ## Références et performances
 
+- Préfixer chaque champ privé par un underscore (`_`) ; cette règle s'applique
+  aussi aux champs privés sérialisés.
 - Préférer les dépendances assignées dans l'inspecteur (`[SerializeField]`,
   idéalement avec `[Required]`) ou résolues une seule fois à l'initialisation
   (`Awake`, `Start`, injection, ou au moment du spawn).
