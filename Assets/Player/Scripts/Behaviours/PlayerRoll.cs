@@ -1,3 +1,4 @@
+using System;
 using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,12 +14,12 @@ namespace Player.Scripts
         private Vector3 rollStartPosition;
         private float rollStartTimestamp;
         private float rollCooldownTimestamp = -1.0f;
+        private const float rollDirectionBufferDuration = 0.035f;
 
         public bool IsRollingLeft => rollDirection.x >= 0.0f;
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-
             Vector2 inputDirection = player.moveInput.magnitude >= 0.15f ? player.moveInput.normalized : player.LastLookDirection;
             player.SetLastLookDirection(inputDirection);
             rollDirection = inputDirection.ToVector3();
@@ -39,6 +40,9 @@ namespace Player.Scripts
             }
             */
 
+            if (Time.time - rollStartTimestamp <= rollDirectionBufferDuration)
+                UpdateRollDirection(player);
+
             if (Time.time - rollStartTimestamp >= player.playerData.rollMaxDuration)
             {
                 StopRoll(player);
@@ -50,6 +54,20 @@ namespace Player.Scripts
                 StopRoll(player);
                 return;
             }
+        }
+
+        private void UpdateRollDirection(PlayerStateMachine player)
+        {
+            if (player.moveInput.magnitude <= 0.15f)
+                return;
+
+            Vector2 inputDirection = player.moveInput.normalized;
+
+            if (Vector3.Dot(inputDirection.ToVector3(), rollDirection) > 0.9f)
+                return;
+
+            player.SetLastLookDirection(inputDirection);
+            rollDirection = inputDirection.ToVector3();
         }
 
         private void StopRoll(PlayerStateMachine player)

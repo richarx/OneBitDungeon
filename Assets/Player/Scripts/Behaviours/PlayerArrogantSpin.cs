@@ -19,6 +19,7 @@ public class PlayerArrogantSpin : IPlayerBehaviour
     public bool IsSpinningClockwise;
     public Vector3 SpinStartPosition => spinStartPosition;
     public float TimeSinceLastSpin => Time.time - spinStartTimestamp;
+    private const float spinDirectionBufferDuration = 0.035f;
 
     public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
     {
@@ -38,6 +39,9 @@ public class PlayerArrogantSpin : IPlayerBehaviour
 
     public void UpdateBehaviour(PlayerStateMachine player)
     {
+        if (TimeSinceLastSpin <= spinDirectionBufferDuration)
+            UpdateSpinDirection(player);
+
         if (TimeSinceLastSpin >= player.playerData.spinMaxDuration)
         {
             StopSpin(player);
@@ -49,6 +53,20 @@ public class PlayerArrogantSpin : IPlayerBehaviour
             StopSpin(player);
             return;
         }
+    }
+
+    private void UpdateSpinDirection(PlayerStateMachine player)
+    {
+        if (player.moveInput.magnitude <= 0.15f)
+            return;
+
+        Vector2 inputDirection = player.moveInput.normalized;
+
+        if (Vector3.Dot(inputDirection.ToVector3(), spinDirection) > 0.9f)
+            return;
+
+        player.SetLastLookDirection(inputDirection);
+        spinDirection = inputDirection.ToVector3();
     }
 
     private void StopSpin(PlayerStateMachine player)
