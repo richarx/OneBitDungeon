@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 0f81021dda1c02246acdd7c4412d991f
+  m_SerializeEntries:
+  - m_GUID: 022a15b96adedda4fa047046b4a012a0
+    m_Address: Assets/Scenes/RainRoom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 45c0deacfdd6fb3418799a82fc3d48b1
+    m_Address: Assets/Scenes/TutorialRoom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e935a879f837f04abc7b6a65fce2bbc
+    m_Address: Assets/Scenes/PeacockRoom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 625842ceca1918d4faa2be018515f5f7
+    m_Address: Assets/Scenes/Intro.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 687810c82b160f94cbcd955ba9ddc00a
+    m_Address: Assets/Scenes/FrogRoom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 898b0691726a2f244b2873ceebb260a8
+    m_Address: Assets/Scenes/DummyRoom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99c9720ab356a0642a771bea13969a05
+    m_Address: Assets/Scenes/TemplateScene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1879664ec26d2f47a1b265b62aa6e67
+    m_Address: Assets/Scenes/MageRoom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1dd6be2000fe6a459d5e5f784984aa5
+    m_Address: Assets/Scenes/TreeRoom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3c866105f76e2b44babf7a6cbf14652
+    m_Address: Assets/Scenes/MainMenu.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbd2504d09d9f6f47bd4eb87e551cbea
+    m_Address: Assets/Scenes/FireRoom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9c435db98a1e314797cea5278180bc1
+    m_Address: Assets/Scenes/GladiatorRoom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc3f6782fddf913498a6a21c07ada218
+    m_Address: Assets/Scenes/BiscottoRoom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: b4c9a439cdc5b3f429b0fa7853b1f29a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 04db0d74bc17bff4994d0ccab4bcaf74, type: 2}
+    - {fileID: 11400000, guid: 1fb69ab9a26f2c44b9559a2bd0de8f1d, type: 2}
