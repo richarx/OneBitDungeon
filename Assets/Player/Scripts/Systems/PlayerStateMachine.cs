@@ -8,6 +8,7 @@ using UnityEngine;
 namespace Player.Scripts
 {
     [RequireComponent(typeof(PlayerArrogance))]
+    [RequireComponent(typeof(ArroganceProcessor))]
     public class PlayerStateMachine : MonoBehaviour
     {
         public PlayerData playerData;
@@ -62,6 +63,7 @@ namespace Player.Scripts
         [HideInInspector] public PlayerTargeting playerTargeting;
         [HideInInspector] public PlayerHealth playerHealth;
         [HideInInspector] public PlayerArrogance playerArrogance;
+        [HideInInspector] public ArroganceProcessor arroganceProcessor;
         [HideInInspector] public PlayerInteraction playerInteraction;
         [HideInInspector] public PlayerTagSystem playerTagSystem;
         [HideInInspector] public PlayerAnimation playerAnimation;
@@ -81,6 +83,7 @@ namespace Player.Scripts
             playerTargeting = GetComponent<PlayerTargeting>();
             playerHealth = GetComponent<PlayerHealth>();
             playerArrogance = GetComponent<PlayerArrogance>();
+            arroganceProcessor = GetComponent<ArroganceProcessor>();
             playerInteraction = GetComponent<PlayerInteraction>();
             playerAnimation = GetComponent<PlayerAnimation>();
             codeAnimator = GetComponent<CodeAnimator>();

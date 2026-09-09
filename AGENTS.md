@@ -22,6 +22,8 @@
 
 ## Références et performances
 
+- Préfixer chaque champ privé par un underscore (`_`) ; cette règle s'applique
+  aussi aux champs privés sérialisés.
 - Préférer les dépendances assignées dans l'inspecteur (`[SerializeField]`,
   idéalement avec `[Required]`) ou résolues une seule fois à l'initialisation
   (`Awake`, `Start`, injection, ou au moment du spawn).

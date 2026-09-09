@@ -1,4 +1,5 @@
 using System;
+using Player.Scripts;
 using PrimeTween;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class SkippingRopeController : MonoBehaviour
 
     private bool isSetup;
     private Sequence ropeSequence;
+    private ArroganceProcessor _arroganceProcessor;
 
     public void Setup(float flyDistance, float flyDuration)
     {
@@ -21,6 +23,17 @@ public class SkippingRopeController : MonoBehaviour
             .Group(Tween.LocalPositionZ(hookHead, 1.0f, flyDistance, flyDuration, Ease.OutQuad))
             .Group(Tween.ScaleX(damageZone.transform, 4.0f, damageZoneDistance, flyDuration, Ease.OutQuad))
             .Group(Tween.LocalPositionX(damageZone.transform, 2.0f, damageZoneDistance / 2.0f, flyDuration, Ease.OutQuad));
+
+
+        _arroganceProcessor = PlayerStateMachine.instance.GetComponent<ArroganceProcessor>();
+        if (_arroganceProcessor == null)
+        {
+            Debug.LogWarning("[SkippingRopeController] No arrogance processor on PlayerStateMachine");
+        }
+        else
+        {
+            _arroganceProcessor.TauntGainMultiplier = 1;
+        }
 
         damageZone.SimpleSetup();
     }

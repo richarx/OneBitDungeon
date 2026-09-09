@@ -8,6 +8,8 @@ namespace Player.Scripts
     {
         private PlayerData playerData;
 
+        public float TauntGainMultiplier { get; set; } = 1.0f;
+
         private void Awake()
         {
             playerData = GetComponent<PlayerStateMachine>().playerData;
@@ -40,6 +42,8 @@ namespace Player.Scripts
             if (request.reason == ArroganceGainReason.Taunt)
             {
                 amount = ApplyTauntDangerZoneModifier(amount);
+                //Debug.Log($"[ArroganceProcessor] Applying TauntDangerZoneModifier: {amount} (TauntGainMultiplier: {TauntGainMultiplier})");
+                amount *= TauntGainMultiplier;
             }
             else
             {

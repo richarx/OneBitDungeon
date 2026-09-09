@@ -1,15 +1,18 @@
 using Player.Scripts;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerArrogantIdle : IPlayerBehaviour
 {
+
     public UnityEvent OnStartBeingArrogant = new UnityEvent();
     public UnityEvent OnStopBeingArrogant = new UnityEvent();
 
 
     public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
     {
+
         if (previous != BehaviourType.ArrogantRun && previous != BehaviourType.ArrogantSpin)
             OnStartBeingArrogant?.Invoke();
 
@@ -80,6 +83,7 @@ public class PlayerArrogantIdle : IPlayerBehaviour
 
     public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
     {
+
         if (next != BehaviourType.ArrogantRun && next != BehaviourType.ArrogantSpin)
             OnStopBeingArrogant?.Invoke();
     }
