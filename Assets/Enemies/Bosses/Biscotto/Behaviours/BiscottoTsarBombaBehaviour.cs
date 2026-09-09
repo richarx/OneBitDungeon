@@ -120,7 +120,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
 
         jumpSequence = Sequence.Create()
             .ChainDelay(0.1f)
-            .Chain(BiscottoMovementUtility.CreateRigidbodyMove(enemy, rb, targetPosition, ascentDuration, Ease.OutQuad));
+            .Chain(EnemyMovementUtility.CreateRigidbodyMove(enemy, rb, targetPosition, ascentDuration, Ease.OutQuad));
     }
 
     private void StartDescent(EnemyController enemy, float descentDuration)
@@ -129,7 +129,7 @@ public sealed class BiscottoTsarBombaBehaviour : IEnemyBehaviour
             jumpSequence.Stop();
 
         jumpSequence = Sequence.Create()
-            .Chain(BiscottoMovementUtility.CreateRigidbodyMove(enemy, rb, lockedLandingPosition, descentDuration, Ease.OutQuad));
+            .Chain(EnemyMovementUtility.CreateRigidbodyMove(enemy, rb, lockedLandingPosition, descentDuration, Ease.OutQuad));
     }
 
     private void CompleteLanding(EnemyController enemy)

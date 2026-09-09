@@ -31,7 +31,7 @@ public class GladiatorSkippingRopeBehaviour : IEnemyBehaviour
                 if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
                     enemy.afterImage.Trigger(data.MoveDuration);
             })
-            .Chain(Tween.Position(enemy.transform, Vector3.zero, data.MoveDuration))
+            .Chain(EnemyMovementUtility.CreateMoveToPosition(enemy, Vector3.zero, data.MoveDuration))
             .ChainCallback(() => PlayAnimation(enemy, data.AnticipationAnimation))
             .ChainDelay(data.AnticipationAnimationDuration)
             .ChainCallback(() => PlayAnimation(enemy, data.RopeThrowAnimation))
