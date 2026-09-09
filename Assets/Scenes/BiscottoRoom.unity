@@ -11173,6 +11173,7 @@ GameObject:
   - component: {fileID: 8182171200824653879}
   - component: {fileID: 6874293411573246999}
   - component: {fileID: 8182171200824653880}
+  - component: {fileID: 8182171200824653881}
   m_Layer: 9
   m_Name: Biscotto
   m_TagString: Enemy
@@ -11488,16 +11489,16 @@ MonoBehaviour:
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 26|BiscottoSlamBehaviour, Assembly-CSharp
+      Data: 26|BiscottoTsarBombaBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 9
+      Data: 7
     - Name: 
       Entry: 8
       Data: 
   <Sprite>k__BackingField: {fileID: 5071313608623843290}
   <shadowSprite>k__BackingField: {fileID: 2063661912}
-  debugMode: 0
+  debugMode: 1
 --- !u!114 &8182171200824653878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11550,6 +11551,29 @@ MonoBehaviour:
   ySqueeze: 0.2
   duration: 0.2
   GraphicsObject: {fileID: 1060446578}
+--- !u!114 &8182171200824653881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171200824653874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71d3e20eaa4e4a6f8fc073e8ad8b1d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  occlusionRenderer: {fileID: 5071313608623843290}
+  renderersToFade:
+  - {fileID: 5071313608623843290}
+  - {fileID: 48955019}
+  - {fileID: 894026670}
+  - {fileID: 2033680657}
+  targetAlpha: 0.25
+  fadeDuration: 0.15
+  ease: 4
+  minimumHorizontalCoverage: 0.65
+  horizontalCoverageHysteresis: 0.05
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

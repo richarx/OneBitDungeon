@@ -238,7 +238,7 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
             enemy.afterImage.Trigger(step.MoveDuration);
 
         moveSequence = BiscottoMovementUtility.CreateArcMove(
-            enemy.transform,
+            enemy,
             destination,
             pivotPosition,
             step.MoveDuration);

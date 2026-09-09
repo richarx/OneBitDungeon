@@ -101,6 +101,10 @@ namespace Player.Scripts
         [TitleGroup("Insolence"), LabelText("Insolence Past Target Distance"), MinValue(0)]
         public float insolencePastTargetDistance = 10f;
 
+        [TitleGroup("Insolence"), LabelText("Boss Root Duration"), SuffixLabel("Seconds"), MinValue(0.0f)]
+        [Tooltip("Duration in real time for which a boss hit by a critical attack cannot move. KnightData uses 0.75 seconds for the first test.")]
+        public float insolenceBossRootDuration = 0.75f;
+
         [Space]
         [Header("Roll")]
         public float rollMaxSpeed;

@@ -161,7 +161,7 @@ public sealed class BiscottoCrazyRacletteBehaviour : IEnemyBehaviour
 
     private void MoveTowardPlayer(EnemyController enemy)
     {
-        if (data.MovementSpeed <= 0.0f || PlayerStateMachine.instance == null)
+        if (!enemy.CanMove || data.MovementSpeed <= 0.0f || PlayerStateMachine.instance == null)
             return;
 
         Vector3 targetPosition = PlayerStateMachine.instance.position;
