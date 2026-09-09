@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/AnimationHolderData")]
@@ -24,5 +25,5 @@ public class AnimationsHolderData : ScriptableObject
     public AnimationData GetUp;
     public AnimationData SitDown;
     public AnimationData Sit;
-    public AnimationData Taunt;
+    public List<AnimationData> Taunt;
 }

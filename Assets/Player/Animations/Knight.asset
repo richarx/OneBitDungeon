@@ -33,4 +33,10 @@ MonoBehaviour:
   GetUp: {fileID: 11400000, guid: 29629b3d3be286344b733d5d18397337, type: 2}
   SitDown: {fileID: 11400000, guid: ff53ca2c69e939a44930d399eb7affd0, type: 2}
   Sit: {fileID: 11400000, guid: 6d327c02385132142a30d60f6bfb0787, type: 2}
-  Taunt: {fileID: 11400000, guid: b1651badbcd569141b2d0e90ac3cdade, type: 2}
+  Taunt:
+  - {fileID: 11400000, guid: b1651badbcd569141b2d0e90ac3cdade, type: 2}
+  - {fileID: 11400000, guid: 320815bb31d04cb49bbe8a11b7667555, type: 2}
+  - {fileID: 11400000, guid: 75f75b764e6b0bc44acf00cf8133674d, type: 2}
+  - {fileID: 11400000, guid: 9df5fb7ce64c7344dbd5d9077e7f276e, type: 2}
+  - {fileID: 11400000, guid: 2d69406caaf0dbc498025d7fdeee7f98, type: 2}
+  - {fileID: 11400000, guid: b72b0e2ce0811bc4f9c283ca56004ec3, type: 2}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6cb52d6d02f4de5458707795204991a5, type: 3}
-  m_Name: TauntPushups
+  m_Name: Taunt_1
   m_EditorClassIdentifier: 
   weaponInTheBackSprites:
   - {fileID: 184325733, guid: b809ea9c7eff4c34290785693b36d487, type: 3}

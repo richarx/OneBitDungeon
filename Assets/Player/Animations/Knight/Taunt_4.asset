@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb52d6d02f4de5458707795204991a5, type: 3}
+  m_Name: Taunt_4
+  m_EditorClassIdentifier: 
+  weaponInTheBackSprites:
+  - {fileID: 2034108008, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: -236491631, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: -1443133702, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: 370820004, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: 428476213, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: 1805210583, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: 1038396413, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: 27110026, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  weaponInHandSprites:
+  - {fileID: 2034108008, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: -236491631, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: -1443133702, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: 370820004, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: 428476213, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: 1805210583, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: 1038396413, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  - {fileID: 27110026, guid: 78cc48983175af340a80abacd57cec11, type: 3}
+  directionCount: 2
+  timeBetweenFrames: 0.1
+  isLooping: 1
+  canSelfCancel: 0
+  nextAnimation: 0

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,6 +56,7 @@ public class CodeAnimator : MonoBehaviour
     private AnimationDirection currentDirection;
     private AnimationType currentAnimationType;
     private bool currentWeaponState;
+    private int previousTauntIndex;
 
     public AnimationData CurrentAnimation => currentAnimation;
     public AnimationDirection CurrentDirection => currentDirection;
@@ -198,7 +198,15 @@ public class CodeAnimator : MonoBehaviour
             case AnimationType.Sit:
                 return animationsHolder.Sit;
             case AnimationType.Taunt:
-                return animationsHolder.Taunt;
+                if (animationsHolder.Taunt.Contains(currentAnimation))
+                    return currentAnimation;
+                int selectedTaunt = Random.Range(0, animationsHolder.Taunt.Count);
+
+                if (selectedTaunt == previousTauntIndex)
+                    selectedTaunt = selectedTaunt >= animationsHolder.Taunt.Count - 1 ? selectedTaunt - 1 : selectedTaunt + 1;
+
+                previousTauntIndex = selectedTaunt;
+                return animationsHolder.Taunt[selectedTaunt];
         }
     }
 }
