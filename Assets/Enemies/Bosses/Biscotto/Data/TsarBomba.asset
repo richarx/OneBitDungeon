@@ -12,9 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d11ec583c3416989f2e25b43ac59a5, type: 3}
   m_Name: TsarBomba
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: chainedBehaviour
+      Entry: 6
+      Data: 
   <CircleDamageZonePrefab>k__BackingField: {fileID: 5892917051957619975, guid: 2b14022f64314b2f982205768004697d,
     type: 3}
-  <Radius>k__BackingField: 0.28
+  <Radius>k__BackingField: 0.26
   <SpawnDuration>k__BackingField: 0.4
   <FillDuration>k__BackingField: 1
   <LockBeforeImpact>k__BackingField: 0.8
@@ -24,3 +36,4 @@ MonoBehaviour:
   <AnticipationAnimation>k__BackingField: Jump
   <JumpAnimation>k__BackingField: Fall
   <ImpactAnimation>k__BackingField: Slam
+  <IsChainingBehaviour>k__BackingField: 0
