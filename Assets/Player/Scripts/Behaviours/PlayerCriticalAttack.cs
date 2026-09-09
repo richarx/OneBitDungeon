@@ -40,6 +40,8 @@ namespace Player.Scripts
             hasStartedDash = false;
             hasHitObstacle = false;
 
+            ApplyRootToTarget(player);
+
             Vector3 direction = player.playerTargeting.mainDirectionToTarget.ToVector2().normalized.ToVector3();
             player.SetLastLookDirection(direction.ToVector2());
             dashTarget = ComputeDashTarget(player, direction);
@@ -48,6 +50,15 @@ namespace Player.Scripts
 
             currentAttackPayload = new AttackPayload("Critical_Attack", AttackType.Critical, player.playerData.insolenceAttackDamage, 1);
             player.playerAttack.OnPlayerAttack?.Invoke(currentAttackPayload);
+        }
+
+        private static void ApplyRootToTarget(PlayerStateMachine player)
+        {
+            GameObject target = player.playerTargeting.MainTarget;
+            EnemyController enemyController = target != null ? target.GetComponent<EnemyController>() : null;
+
+            if (enemyController != null)
+                enemyController.ApplyRoot(player.playerData.insolenceBossRootDuration);
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)

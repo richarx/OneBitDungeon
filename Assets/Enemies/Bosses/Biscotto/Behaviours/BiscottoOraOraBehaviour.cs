@@ -273,7 +273,7 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
             enemy.afterImage.Trigger(data.RepositionDuration);
 
         moveSequence = BiscottoMovementUtility.CreateArcMove(
-            enemy.transform,
+            enemy,
             destination,
             pivotPosition,
             data.RepositionDuration);

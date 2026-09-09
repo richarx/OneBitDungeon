@@ -43,6 +43,7 @@ MonoBehaviour:
   insolenceAttackDamage: 50
   insolenceRange: 20
   insolencePastTargetDistance: 3
+  insolenceBossRootDuration: 0.75
   rollMaxSpeed: 30
   rollMaxDistance: 4.5
   rollMaxDuration: 0.2

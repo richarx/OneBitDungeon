@@ -84,7 +84,7 @@ public class BiscottoSlamBehaviour : IEnemyBehaviour
                 if (data.TriggerAfterImageOnSideMove && enemy.afterImage != null)
                     enemy.afterImage.Trigger(data.MoveDuration);
             })
-            .Chain(Tween.Position(enemy.transform, targetPosition, data.MoveDuration, Ease.OutCirc));
+            .Chain(BiscottoMovementUtility.CreateMoveToPosition(enemy, targetPosition, data.MoveDuration, Ease.OutCirc));
 
         return attackSequence;
     }

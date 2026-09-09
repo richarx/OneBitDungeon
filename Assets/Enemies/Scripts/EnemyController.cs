@@ -40,6 +40,7 @@ public class EnemyController : SerializedMonoBehaviour
     private bool isDead;
     private BehaviourExecution activeExecution;
     private int executionId;
+    private float rootedUntilUnscaledTime;
 
 
 
@@ -109,6 +110,7 @@ public class EnemyController : SerializedMonoBehaviour
                 return;
 
             isDead = true;
+            ClearRoot();
             InterruptCurrentBehaviour();
 
             IEnemyBehaviour deathBehaviour = GetDeathBehaviour();
@@ -142,6 +144,31 @@ public class EnemyController : SerializedMonoBehaviour
         enemyBehaviours = null;
         activeExecution = null;
         executionId = 0;
+        ClearRoot();
+    }
+
+    /// <summary>
+    /// True while a critical hit prevents this enemy from moving. The duration is measured in unscaled time.
+    /// </summary>
+    public bool IsRooted => !isDead && Time.unscaledTime < rootedUntilUnscaledTime;
+
+    /// <summary>
+    /// Movement behaviours must query this before changing the boss position.
+    /// Spawn and phase-transition behaviours intentionally do not use this gate so their scripted placement remains reliable.
+    /// </summary>
+    public bool CanMove => !isDead && !IsRooted;
+
+    public void ApplyRoot(float duration)
+    {
+        if (isDead || duration <= 0.0f)
+            return;
+
+        rootedUntilUnscaledTime = Mathf.Max(rootedUntilUnscaledTime, Time.unscaledTime + duration);
+    }
+
+    private void ClearRoot()
+    {
+        rootedUntilUnscaledTime = 0.0f;
     }
 
     private void InterruptCurrentBehaviour()
@@ -344,6 +371,11 @@ public class EnemyController : SerializedMonoBehaviour
     private void OnEnable()
     {
         BindPhaseOwners();
+    }
+
+    private void OnDisable()
+    {
+        ClearRoot();
     }
 
     private void OnValidate()

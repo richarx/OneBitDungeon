@@ -163,7 +163,7 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             enemy.afterImage.Trigger(data.MoveDuration);
 
         moveSequence = BiscottoMovementUtility.CreateArcMove(
-            enemy.transform,
+            enemy,
             destination,
             pivotPosition,
             data.MoveDuration);
