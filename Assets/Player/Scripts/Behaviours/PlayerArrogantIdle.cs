@@ -12,10 +12,10 @@ public class PlayerArrogantIdle : IPlayerBehaviour
 
     public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
     {
-
         if (previous != BehaviourType.ArrogantRun && previous != BehaviourType.ArrogantSpin)
             OnStartBeingArrogant?.Invoke();
 
+        player.ComputeLastLookDirection();
         //Debug.Log("ARROGANT IDLE");
     }
 
@@ -66,7 +66,6 @@ public class PlayerArrogantIdle : IPlayerBehaviour
         }
 
         player.CheckForInteraction();
-        player.ComputeLastLookDirection(false);
     }
 
     public void FixedUpdateBehaviour(PlayerStateMachine player)
