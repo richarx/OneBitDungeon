@@ -138,15 +138,11 @@ namespace Player.Scripts
         private void PlayStartBeingArrogantSfx()
         {
             SFXManager.instance.PlaySFX(arrogantStart, 0.03f);
-            if (player.playerSword.IsSwordInHand)
-                SFXManager.instance.PlaySFX(sheatheSword, 0.1f, 0.15f);
         }
 
         private void PlayStopBeingArrogantSfx()
         {
             SFXManager.instance.PlaySFX(arrogantStop, 0.03f);
-            if (player.playerSword.IsSwordInHand)
-                SFXManager.instance.PlaySFX(unsheatheSword, 0.1f, 0.15f);
         }
 
         private void PlayTagSfx(TagContext tagContext)
