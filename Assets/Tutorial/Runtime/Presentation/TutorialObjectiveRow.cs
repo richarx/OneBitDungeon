@@ -35,6 +35,12 @@ namespace Tutorials
                 _objectiveText.text = text ?? string.Empty;
         }
 
+        public void SetSpriteAsset(TMP_SpriteAsset spriteAsset)
+        {
+            if (_objectiveText != null)
+                _objectiveText.spriteAsset = spriteAsset;
+        }
+
         public void SetCompleted(bool isCompleted)
         {
             if (_checkboxImage == null)
