@@ -11209,10 +11209,10 @@ MonoBehaviour:
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 37|GladiatorThrowAxeBehaviour, Assembly-CSharp
+      Data: 37|GladiatorSkippingRopeBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 0
+      Data: 9
     - Name: 
       Entry: 8
       Data: 
