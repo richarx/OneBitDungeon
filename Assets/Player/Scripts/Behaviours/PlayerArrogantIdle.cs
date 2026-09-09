@@ -63,7 +63,7 @@ public class PlayerArrogantIdle : IPlayerBehaviour
         }
 
         player.CheckForInteraction();
-        player.ComputeLastLookDirection();
+        player.ComputeLastLookDirection(false);
     }
 
     public void FixedUpdateBehaviour(PlayerStateMachine player)

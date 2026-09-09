@@ -127,9 +127,9 @@ namespace Player.Scripts
             rb.MovePosition(rbPosition + Vector3.up * -rbPosition.y);
         }
 
-        public void ComputeLastLookDirection()
+        public void ComputeLastLookDirection(bool lookAtTarget = true)
         {
-            if (playerTargeting.hasTarget && playerSword.IsSwordInHand)
+            if (lookAtTarget && playerTargeting.hasTarget && playerSword.IsSwordInHand)
                 lastLookDirection = playerTargeting.directionToTarget.ToVector2().normalized;
             else if (moveInput.magnitude >= 0.15f)
                 lastLookDirection = moveInput.normalized;
