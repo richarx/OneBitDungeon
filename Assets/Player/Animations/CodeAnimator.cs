@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Tools_and_Scripts;
 using UnityEngine;
 
 public class CodeAnimator : MonoBehaviour
@@ -56,7 +57,7 @@ public class CodeAnimator : MonoBehaviour
     private AnimationDirection currentDirection;
     private AnimationType currentAnimationType;
     private bool currentWeaponState;
-    private int previousTauntIndex;
+    private Queue<AnimationData> tauntQueue = new Queue<AnimationData>();
 
     public AnimationData CurrentAnimation => currentAnimation;
     public AnimationDirection CurrentDirection => currentDirection;
@@ -190,13 +191,16 @@ public class CodeAnimator : MonoBehaviour
             case AnimationType.Taunt:
                 if (animationsHolder.Taunt.Contains(currentAnimation))
                     return currentAnimation;
-                int selectedTaunt = Random.Range(0, animationsHolder.Taunt.Count);
 
-                if (selectedTaunt == previousTauntIndex)
-                    selectedTaunt = selectedTaunt >= animationsHolder.Taunt.Count - 1 ? selectedTaunt - 1 : selectedTaunt + 1;
-
-                previousTauntIndex = selectedTaunt;
-                return animationsHolder.Taunt[selectedTaunt];
+                if (tauntQueue.Count < 1)
+                {
+                    List<AnimationData> randomizedList = animationsHolder.Taunt.GetRandomElements(animationsHolder.Taunt.Count);
+                    foreach (AnimationData data in randomizedList)
+                    {
+                        tauntQueue.Enqueue(data);
+                    }
+                }
+                return tauntQueue.Dequeue();
         }
     }
 }

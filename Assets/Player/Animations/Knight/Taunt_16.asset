@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb52d6d02f4de5458707795204991a5, type: 3}
+  m_Name: Taunt_16
+  m_EditorClassIdentifier: 
+  weaponInTheBackSprites:
+  - {fileID: -420951054, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -379134795, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: 343852290, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -1010931108, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -332091162, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -1900566482, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: 683966931, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -1100974631, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -1562006088, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: 1830608146, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: 1810651679, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: 1797739164, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  weaponInHandSprites:
+  - {fileID: -420951054, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -379134795, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: 343852290, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -1010931108, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -332091162, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -1900566482, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: 683966931, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -1100974631, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: -1562006088, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: 1830608146, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: 1810651679, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  - {fileID: 1797739164, guid: 44840ba50d050564da43bc97f2658e0c, type: 3}
+  directionCount: 2
+  timeBetweenFrames: 0.1
+  isLooping: 1
+  canSelfCancel: 0
+  nextAnimation: 0
