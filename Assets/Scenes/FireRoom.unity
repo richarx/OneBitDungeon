@@ -2817,13 +2817,13 @@ PrefabInstance:
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: targetScene.m_SceneName
-      value: FrogRoom
+      value: BarrelRoom2
       objectReference: {fileID: 0}
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: targetScene.m_SceneAsset
       value: 
-      objectReference: {fileID: 102900000, guid: 687810c82b160f94cbcd955ba9ddc00a,
+      objectReference: {fileID: 102900000, guid: f2caf6ad1f96187498d9e40086eb4c67,
         type: 3}
     - target: {fileID: 4733789855144180658, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}

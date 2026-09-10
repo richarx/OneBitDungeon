@@ -6,8 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: b3c866105f76e2b44babf7a6cbf14652
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 625842ceca1918d4faa2be018515f5f7
+  - enabled: 1
     path: Assets/Scenes/TreeRoom.unity
     guid: a1dd6be2000fe6a459d5e5f784984aa5
+  - enabled: 1
+    path: Assets/Scenes/BarrelRoom1.unity
+    guid: 59ec99ca58d324048b103fd07a18a556
+  - enabled: 1
+    path: Assets/Scenes/BarrelRoom2.unity
+    guid: f2caf6ad1f96187498d9e40086eb4c67
   - enabled: 1
     path: Assets/Scenes/FireRoom.unity
     guid: bbd2504d09d9f6f47bd4eb87e551cbea

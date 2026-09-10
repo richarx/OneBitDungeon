@@ -172,6 +172,9 @@ MonoBehaviour:
   blackScreen: {fileID: 1370586195}
   newGameButton: {fileID: 137574235}
   startSound: {fileID: 8300000, guid: 972f0f2cbc1a6c54c9c5edcffc126851, type: 3}
+  targetScene:
+    m_SceneAsset: {fileID: 102900000, guid: 625842ceca1918d4faa2be018515f5f7, type: 3}
+    m_SceneName: Intro
 --- !u!4 &160994020
 Transform:
   m_ObjectHideFlags: 0
@@ -381,7 +384,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Knight
+  m_text: Knights
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9c2844bbfa7ff4cad74e6f40c0cbb8, type: 2}
   m_sharedMaterial: {fileID: -5591166763683099592, guid: 7e9c2844bbfa7ff4cad74e6f40c0cbb8,
