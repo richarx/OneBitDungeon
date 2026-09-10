@@ -1,12 +1,14 @@
 # Rebinding Rewired — plan d’implémentation
 
-Statut : plan uniquement, aucune implémentation lancée.
+Statut : phase 1 autorisée et en cours d’implémentation par Terra ; phases 2 et 3 non lancées.
 Date de l’audit : 9 septembre 2026.
 Exécuteur de l’implémentation : **Terra (`gpt-5.6-terra`)**, à la demande de l’utilisateur.
+Déroulement : **trois phases d’implémentation successives, avec revue du code par lecture et tests manuels à chaque phase**. Ne pas implémenter les trois phases en une seule livraison.
 
 ## 1. Contrat de travail
 
 - Terra écrit et modifie les scripts C# ; l’utilisateur effectue les manipulations Unity.
+- À chaque fin de phase, livrer les scripts, la revue du code et la checklist de tests, puis attendre le retour et la validation de l’utilisateur avant de commencer la phase suivante. Corriger les problèmes de la phase courante sans demander une nouvelle autorisation pour chaque correction.
 - Ne pas modifier les scènes, prefabs, assets, ProjectSettings, packages, sprites, fichiers de sauvegarde ou sources Rewired. Ne pas générer ces modifications par un script Editor. Laisser Unity générer les `.meta` des nouveaux scripts.
 - Conserver au maximum les scripts consommateurs. La modification principale porte sur `Assets/Tools and Scripts/InputPacker.cs`, qui contient aussi `InputPackage`, `InputData` et `InputType`.
 - Les quelques exceptions identifiées ci-dessous sont prévues parce qu’une façade ne peut pas corriger les touches et images codées directement dans ses consommateurs.
@@ -58,7 +60,9 @@ Les propriétés `Get…` lisent les **actions Rewired**, et cessent de déduire
 
 Conserver la lecture physique nécessaire aux commandes fixes de l’intro/menu dans une portion de compatibilité limitée. Garder leurs valeurs correctes et null-safe avec les périphériques absents. Réutiliser les lectures Unity Input System existantes est acceptable pour cette portion ; aucun `Get…` rebindable ne doit en dépendre.
 
-## 4. Étape 1 — façade et conservation du comportement
+## 4. Phase 1 — façade et conservation du comportement
+
+Livraison de cette phase : service d’entrées, façade, correction ciblée de `PlayerSit` et tests du buffer. Ne pas encore coder le contrôleur de menu ni adapter les trois affichages. Cette phase doit être compilable et testable avec les bindings par défaut, après configuration manuelle du runtime et des maps par l’utilisateur.
 
 1. Définir et centraliser les noms d’actions attendus. Les résoudre en identifiants une seule fois après initialisation Rewired ; ne pas imposer des IDs numériques devinés.
 2. Initialiser le service via son cycle Unity/Rewired, jamais depuis le constructeur de `InputPacker`. Avant qu’il soit prêt, renvoyer un état neutre et un diagnostic utile, sans spam. Gérer le cas Rewired déjà prêt lors de l’activation, et le cas où il devient prêt ensuite.
@@ -101,7 +105,9 @@ Prévoir des actions de navigation **propres à Control Mapper**, distinctes des
 
 Séparer les catégories/maps pour les commandes du jeu, celles de dialogue si nécessaire et l’UI protégée. Autoriser les recouvrements contextuels existants, notamment Roll/DialogueQuit à la manette. Ne pas introduire un nouveau routeur gameplay/dialogue exigeant de modifier `DialogueManager` pour cette V1.
 
-## 5. Étape 2 — menu et sauvegarde
+## 5. Phase 2 — menu et sauvegarde
+
+Prérequis : phase 1 validée par l’utilisateur. Livraison : contrôleur Control Mapper, suspension/reprise des entrées et raccordement à la sauvegarde fournie par Rewired. L’utilisateur peut maintenant tester un véritable rebinding. Les anciennes icônes sont une limitation connue de cette livraison intermédiaire, à corriger en phase 3 ; ne pas annoncer le système complet à ce stade.
 
 - Utiliser Control Mapper pour la capture, les conflits, l’annulation d’une capture et le retour aux commandes par défaut. Ne pas réécrire un écran de rebinding.
 - Choix de persistance : composant Rewired **UserDataStore_File**, ajouté et configuré par l’utilisateur. Chargement au démarrage, sauvegarde à la fermeture normale du menu. Ne pas ajouter une deuxième sauvegarde maison.
@@ -113,7 +119,9 @@ Séparer les catégories/maps pour les commandes du jeu, celles de dialogue si n
 - Cette suspension d’entrées ne constitue pas une pause de la simulation. La V1 doit être accessible depuis le menu principal, ou depuis un écran dont l’utilisateur gère déjà la pause. Ne pas ajouter un gestionnaire de pause global ni modifier les effets de ralentissement/gel existants.
 - Notifier l’affichage après changement de binding, chargement, restauration des valeurs par défaut et fermeture. Rafraîchir dès que l’écran redevient visible ; ne pas simuler un changement de périphérique pour signaler un changement de touche.
 
-## 6. Étape 3 — indications cohérentes après rebinding
+## 6. Phase 3 — indications cohérentes après rebinding
+
+Prérequis : phase 2 validée par l’utilisateur. Livraison : résolution commune des bindings/glyphes, adaptations d’affichage ciblées et vérification complète du parcours. Ne pas profiter de cette phase pour modifier le gameplay déjà validé.
 
 Adapter seulement les points où l’image ou le texte de commande est choisi :
 
@@ -145,7 +153,7 @@ Ajouter les scripts du module et les tests nécessaires. Objectif : aucune modif
 
 ## 8. Manipulations réservées à l’utilisateur
 
-Après les scripts, Terra fournit une checklist avec les noms exacts réellement utilisés :
+À chaque livraison, Terra fournit uniquement les manipulations nécessaires à la phase courante, avec les noms exacts réellement utilisés. Répartition : étapes 1, 2, 7 et 9 pour la phase 1 ; étapes 3 à 6 pour la phase 2 ; étape 8 pour la phase 3. Les validations de l’étape 10 sont progressives selon la section 9.
 
 1. Créer/configurer le Rewired Input Manager et le Player de la V1, avec clavier, souris et attribution de la manette.
 2. Créer les actions, catégories, layouts et maps de la table ; reproduire les bindings actuels et régler les conflits contextuels.
@@ -158,24 +166,95 @@ Après les scripts, Terra fournit une checklist avec les noms exacts réellement
 9. Conserver les packages et réglages d’input actuels pendant cette migration partielle.
 10. Effectuer les vérifications Play Mode ci-dessous. Avant cette configuration, les scripts peuvent compiler sans que le rebinding soit utilisable en jeu.
 
-## 9. Validation proportionnée
+## 9. Déroulement, revues et tests manuels
 
-Terra : compilation si un environnement exploitable est disponible, contrôle du diff et tests C# ciblés sur la logique fragile. Utiliser la structure de tests Editor déjà présente ; ne pas installer un framework supplémentaire ni modifier les réglages pour les tests.
+### Référence avant la phase 1
 
-Tests prioritaires : buffer consommé une seule fois, expiration/reset, alias TagCritical, indépendance entre deux InputPacker, absence de réarmement dans une frame, état neutre pendant le rebinding et reprise après relâchement. Une petite entrée de test contrôlable suffit ; éviter une architecture de mocks disproportionnée.
+Avant le remplacement d’InputPacker, l’utilisateur relève le comportement actuel du déplacement, des combats, de l’assise et des dialogues sur clavier et manette. Noter les problèmes déjà présents pour éviter de les confondre avec une régression de la migration. Le relevé peut être une checklist courte ; aucune scène de test ni vidéo n’est exigée.
 
-Utilisateur dans Unity :
+### Cycle obligatoire de chaque phase
 
-- Sans rebind, vérifier déplacement et diagonales, roulade, saut, attaque, parade, tag/critique, arrogance, assise/relevé et dialogues.
-- Rebind clavier, souris et manette : la nouvelle commande agit, l’ancienne cesse d’agir si aucun binding alternatif ne la conserve.
-- Se relever à la manette suit la nouvelle touche Jump ; menus d’intro continuent avec leurs commandes physiques fixes.
-- Ouvrir/rebinder/fermer sans déclencher gameplay ni continuation du menu ; navigation de l’écran utilisable même après changement des commandes de combat.
-- Annuler une capture, gérer un conflit, restaurer les valeurs par défaut ; vérifier les alias et recouvrements intentionnels.
-- Vérifier icônes et libellés après rebinding, reset et changement clavier/manette, y compris glyphe absent.
-- Fermer, relancer le jeu et changer de scène : bindings conservés ; pas de deuxième manager.
-- Débrancher/rebrancher la manette ; démarrer sans manette ; vérifier absence d’erreur, de commande bloquée et de clignotement des glyphes.
+1. **Implémentation par Terra** : uniquement le périmètre de la phase courante, en conservant les modifications locales de l’utilisateur. Ne pas commencer les fonctionnalités de la phase suivante en anticipation.
+2. **Vérifications techniques disponibles** : compilation et tests C# ciblés, sans modifier de réglages Unity. Si leur exécution n’est pas possible, le signaler comme non exécuté ; ne pas l’assimiler à une réussite.
+3. **Revue du code par lecture** : effectuer une passe distincte après l’écriture, lire le diff de la phase et les appels/cycles de vie concernés. Cette revue ne se réduit ni à la compilation ni à `git diff --check`. Fournir les constats avec fichier, emplacement, conséquence et correction. Ne pas présenter cette lecture par l’agent comme une revue humaine indépendante.
+4. **Correction des constats** : Terra corrige les anomalies de la phase et relit les corrections. Fournir un diff final limité que l’utilisateur peut lui-même examiner, en distinguant le code préexistant de celui de la phase.
+5. **Manipulations et tests manuels par l’utilisateur** : fournir des étapes numérotées, chacune avec le résultat attendu, et uniquement les branchements nécessaires à cette livraison.
+6. **Retour et validation** : attendre explicitement le retour de l’utilisateur. Un test non effectué reste en attente ; le silence ne vaut pas validation. En cas d’échec, corriger la phase, relire le code modifié et demander de rejouer les scénarios affectés. Ne passer à la phase suivante qu’après validation de la phase courante, revue incluse.
 
-Terra distingue dans sa livraison ce qui a été vérifié par les outils, ce qui reste à configurer par l’utilisateur et ce qui exige une vérification Play Mode. Ne pas présenter l’intégration Unity comme terminée sur la seule base de scripts compilables.
+Pour chaque livraison, indiquer : fichiers modifiés et raisons, manipulations Unity, résultats de la revue, vérifications exécutées/non exécutées, checklist manuelle et limitations temporaires. Ne pas demander un commit, un merge ou un changement de tâche pour valider une phase.
+
+### Phase 1 — points de revue
+
+- Compatibilité de toutes les signatures publiques et de `new InputPacker()` ; absence de changement des autres comportements de combat.
+- Initialisation avant/après Rewired, références mises en cache, ordre d’exécution et absence d’abonnement dupliqué ou conservé après destruction.
+- Front d’appui, maintien, consommation/expiration/reset des buffers, alias TagCritical et indépendance entre instances.
+- Valeurs analogiques, diagonales, dead zones, souris et sélection du périphérique d’affichage.
+- Distinction entre actions rebindables et champs physiques de compatibilité ; correction locale de `PlayerSit`.
+
+### Phase 1 — tests manuels et résultats attendus
+
+| Manipulation | Résultat attendu |
+|---|---|
+| Après configuration des actions et du runtime, lancer le menu puis l’intro au clavier et à la manette. | Les commandes fixes permettent toujours de continuer, sans exception dans la console. |
+| Tester déplacement cardinal/diagonal, petites amplitudes du stick et retour au repos. | Vitesse comparable à la référence, amplitude analogique conservée, absence de dérive visible. |
+| Tester roulade, saut, attaque, parade, tag/critique et maintien de l’arrogance. | Actions déclenchées comme auparavant ; aucun déclenchement double ni maintien bloqué. |
+| Presser une commande juste avant la fin d’une action, puis la même commande trop tôt. | Le buffer conserve la réactivité attendue sans rejouer une commande expirée ou déjà consommée. |
+| S’asseoir/se relever puis confirmer et quitter un dialogue. | Les commandes par défaut restent opérationnelles ; les images correspondent encore aux bindings par défaut. |
+| Alterner clavier/manette, débrancher/rebrancher la manette et relancer une scène configurée directement. | Pas d’erreur, de blocage d’entrée, de frame d’initialisation provoquant une action ou de doublon de manager. |
+
+Critère de passage : comportement de référence préservé, revue sans anomalie connue affectant la phase et retour utilisateur positif sur les scénarios exécutés. Tout scénario non exécuté doit être identifié et traité avant validation, ou explicitement accepté comme reporté par l’utilisateur.
+
+### Phase 2 — points de revue
+
+- Événements réels de Control Mapper, nettoyage des abonnements et libération des verrous à la fermeture/désactivation/destruction.
+- Neutralisation des commandes du jeu et des entrées de continuation du menu, tout en conservant la navigation de Control Mapper.
+- Purge des buffers et reprise après relâchement ; absence de clic de menu réinterprété comme démarrage du jeu ou attaque.
+- Appels de sauvegarde/chargement/restauration, portée de ces appels et distinction entre annuler une capture et fermer sans sauvegarder.
+- Catégories UI protégées, recouvrements contextuels et alias ; absence de gestionnaire de pause ou de sauvegarde parallèle ajouté.
+
+### Phase 2 — tests manuels et résultats attendus
+
+| Manipulation | Résultat attendu |
+|---|---|
+| Ouvrir « Contrôles » depuis le menu principal, naviguer et fermer avec clavier/souris puis manette. | Le menu fonctionne ; ni le clic d’ouverture ni la fermeture ne font continuer l’écran de démarrage. |
+| Rebind Roll au clavier, Attack à la souris et Jump à la manette, puis essayer dans le jeu. | Chaque nouvelle commande fonctionne ; l’ancienne cesse d’agir si aucun binding alternatif ne la conserve. Se relever à la manette suit Jump. |
+| Lancer une capture puis l’annuler ; essayer une touche déjà utilisée. | Capture annulée sans perte du binding précédent ; conflit géré selon les règles prévues, sans rendre la navigation UI inutilisable. |
+| Tester TagCritical, confirmation de dialogue et Roll/DialogueQuit après modification. | Alias et partages intentionnels conservés ; pas de commande jumelle désynchronisée. |
+| Fermer en maintenant une touche, puis la relâcher et presser à nouveau. | Pas d’action parasite à la fermeture ; les nouvelles entrées fonctionnent après relâchement. |
+| Fermer normalement, changer de scène puis quitter et relancer le jeu. | Les bindings choisis sont retrouvés, sans exception ni manager supplémentaire. |
+| Restaurer les valeurs par défaut, fermer puis relancer. | Les valeurs par défaut sont rétablies et persistent. |
+| Débrancher/rebrancher la manette pendant le menu, puis fermer. | L’écran reste récupérable au clavier/souris et les entrées du jeu ne restent pas verrouillées. |
+
+Critère de passage : rebinding, sauvegarde et reprise des commandes validés. Les indications encore fixes sont explicitement admises comme travail de phase 3, pas comme une fonctionnalité terminée. Les tests en jeu pendant l’ouverture du menu ne sont effectués que dans un contexte de pause géré par l’utilisateur ; la neutralisation des entrées n’arrête pas la simulation.
+
+### Phase 3 — points de revue
+
+- Résolution depuis les bindings effectifs, pas depuis les touches par défaut ; traitement de plusieurs bindings, directions et périphériques.
+- Rafraîchissement après rebinding, reset, chargement, activation de l’affichage et changement de périphérique, sans faux événement de changement d’InputType.
+- Conservation des champs/références sérialisés, animations, localisation et progression des tutoriels.
+- Comportement quand le glyphe ou la référence manque ; aucun ancien sprite trompeur après remapping.
+- Module commun indépendant du joueur et des tutoriels ; modifications limitées aux consommateurs prévus.
+
+### Phase 3 — tests manuels et résultats attendus
+
+| Manipulation | Résultat attendu |
+|---|---|
+| Rebind Interact et plusieurs actions représentées dans les tutoriels, puis afficher interaction, dialogue et tutoriel. | Les indications correspondent aux nouvelles commandes dans les trois usages. |
+| Alterner clavier/souris et manette, y compris à proximité d’une interaction ou pendant un dialogue. | Les indications suivent le périphérique pertinent sans clignotement au repos. |
+| Modifier les directions de déplacement ou conserver plusieurs bindings. | L’indication suit la règle documentée, avec les directions utiles et un choix stable. |
+| Tester un bouton sans glyphe disponible. | Le vrai libellé apparaît si du texte est branché ; sinon l’ancienne image incorrecte est masquée et le diagnostic reste limité. |
+| Restaurer les valeurs par défaut puis relancer le jeu avec une configuration sauvegardée. | Texte et icônes suivent les bindings réellement chargés dans les deux cas. |
+| Rejouer le parcours menu → intro → niveau → combat → dialogue, avec un rebind clavier et un rebind manette. | Les scénarios précédemment validés restent fonctionnels et les indications sont désormais cohérentes. |
+
+Critère de fin : les trois phases ont une revue documentée et une validation manuelle explicite ; aucun problème bloquant connu n’est laissé dans le parcours. Une configuration Unity manquante ou un test non réalisé reste indiqué comme tel.
+
+### Tests automatisés complémentaires
+
+Ils complètent la lecture du code et les essais manuels sans les remplacer. Utiliser la structure de tests Editor existante ; ne pas installer un framework supplémentaire ni modifier les réglages pour les tests.
+
+Phase 1 : buffer consommé une seule fois, expiration/reset, alias TagCritical, indépendance entre deux InputPacker et absence de réarmement dans une frame. Phase 2 : état neutre pendant le rebinding et reprise après relâchement. Une petite entrée de test contrôlable suffit ; éviter une architecture de mocks disproportionnée. En phase 3, n’ajouter de tests que pour une logique nouvelle présentant un risque concret, sans dupliquer l’implémentation.
+
+Terra distingue les vérifications réellement exécutées, la revue par lecture et les résultats rapportés par l’utilisateur. Ne pas présenter l’intégration Unity comme terminée sur la seule base de scripts compilables.
 
 ## 10. Références
 

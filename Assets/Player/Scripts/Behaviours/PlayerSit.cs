@@ -133,7 +133,7 @@ namespace Player.Scripts
             if (player.inputPackage.GetRoll.wasPressedThisFrame)
                 return true;
 
-            if (player.inputPackage.lastInputType == InputType.Gamepad && player.inputPackage.southButton.wasPressedThisFrame)
+            if (player.inputPackage.lastInputType == InputType.Gamepad && player.inputPackage.GetJump.wasPressedThisFrame)
                 return true;
 
             return false;
