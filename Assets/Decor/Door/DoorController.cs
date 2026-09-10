@@ -22,11 +22,19 @@ namespace Decor.Door
         [SerializeField] private bool isSpecialDoor;
         [SerializeField] private string specialTarget;
         [SerializeField] private SceneField targetScene;
+        [SerializeField] private bool lockOnEnteringRoom;
+
+        [Space]
         [SerializeField] private Animator animator;
         [SerializeField] private DoorTrigger trigger;
         [SerializeField] private GameObject hitbox;
         [SerializeField] private SpriteRenderer doorSpriteRenderer;
         [SerializeField] private SpriteRenderer doorwaySpriteRenderer;
+
+        [Space]
+        [SerializeField] private AudioClip openSound;
+        [SerializeField] private AudioClip closeSound;
+
 
         private bool isLocked;
 
@@ -39,9 +47,14 @@ namespace Decor.Door
             Assert.IsNotNull(targetScene, $"In Door : {doorSide} => target scene has not been set");
 
             trigger.OnTrigger.AddListener(() => GameManager.instance.ChangeSceneFromDoor(targetScene.SceneName, this));
+            GameManager.OnLockLevel.AddListener(() =>
+            {
+                if (lockOnEnteringRoom)
+                    LockDoor(true, false);
+            });
         }
 
-        public void UnlockDoor()
+        public void UnlockDoor(bool playSound = false)
         {
             Sequence.Create()
                 .ChainDelay(1.0f)
@@ -49,6 +62,8 @@ namespace Decor.Door
                 .Group(Tween.Alpha(doorwaySpriteRenderer, 1.0f, 1.0f, Ease.InCirc))
                 .ChainCallback(() =>
                 {
+                    if (playSound)
+                        SFXManager.instance.PlaySFX(openSound, 0.1f);
                     animator.Play("Unlock");
                     isLocked = false;
                     hitbox.SetActive(isLocked);
@@ -56,17 +71,23 @@ namespace Decor.Door
                 });
         }
 
-        public void LockDoor()
+        public void LockDoor(bool playSound = false, bool makeInvisible = true)
         {
             animator.Play("Lock");
             isLocked = true;
             hitbox.SetActive(isLocked);
             trigger.gameObject.SetActive(!isLocked);
 
-            Sequence.Create()
+            if (playSound)
+                SFXManager.instance.PlaySFX(closeSound, 0.1f);
+
+            if (makeInvisible)
+            {
+                Sequence.Create()
                 .ChainDelay(1.0f)
                 .Chain(Tween.Alpha(doorSpriteRenderer, 0.0f, 1.0f, Ease.OutCirc))
                 .Group(Tween.Alpha(doorwaySpriteRenderer, 0.0f, 1.0f, Ease.OutCirc));
+            }
         }
 
         public Vector3 ComputeSpawnPosition()
