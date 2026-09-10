@@ -1,3 +1,4 @@
+using Rewired.Glyphs.UnityUI;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -15,6 +16,11 @@ namespace Tutorials
         [SerializeField, Required]
         private TextMeshProUGUI _objectiveText;
 
+        [TitleGroup("References")]
+        [SerializeField, Required]
+        [Tooltip("Parses Rewired tags and displays the current binding inline in the objective text.")]
+        private UnityUITextMeshProGlyphHelper _glyphHelper;
+
         [TitleGroup("Checkbox")]
         [SerializeField, Required]
         private Sprite _uncheckedSprite;
@@ -31,14 +37,16 @@ namespace Tutorials
 
         public void SetText(string text)
         {
-            if (_objectiveText != null)
-                _objectiveText.text = text ?? string.Empty;
-        }
+            string value = text ?? string.Empty;
 
-        public void SetSpriteAsset(TMP_SpriteAsset spriteAsset)
-        {
+            if (_glyphHelper != null)
+            {
+                _glyphHelper.text = value;
+                return;
+            }
+
             if (_objectiveText != null)
-                _objectiveText.spriteAsset = spriteAsset;
+                _objectiveText.text = value;
         }
 
         public void SetCompleted(bool isCompleted)

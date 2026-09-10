@@ -11,6 +11,7 @@ namespace Tools_and_Scripts.RewiredInput
     {
         public static RewiredInputRuntime Instance { get; private set; }
         public bool IsReady => isActiveAndEnabled && _player != null && ReInput.isReady;
+        public int PlayerId => _playerId;
         public int ActionCacheGeneration { get; private set; }
         public InputType LastInputType { get; private set; } = InputType.Keyboard;
 

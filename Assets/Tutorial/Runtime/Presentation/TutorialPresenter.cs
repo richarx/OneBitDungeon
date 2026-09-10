@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Player.Scripts;
 using Sirenix.OdinInspector;
-using Tools_and_Scripts;
+using Tools_and_Scripts.RewiredInput;
 using UnityEngine;
 
 namespace Tutorials
@@ -21,38 +20,20 @@ namespace Tutorials
         [Tooltip("Prefab or inactive scene object used as the model for each objective row.")]
         private TutorialObjectiveRow _objectiveRowTemplate;
 
-        [TitleGroup("Input Glyphs")]
-        [SerializeField]
-        private TutorialInputGlyphDatabase _glyphDatabase;
-
         private readonly Dictionary<string, TutorialObjectiveViewState> _statesById =
             new Dictionary<string, TutorialObjectiveViewState>();
 
         private readonly Dictionary<string, TutorialObjectiveRow> _rowsById =
             new Dictionary<string, TutorialObjectiveRow>();
 
-        private readonly HashSet<string> _missingGlyphWarnings = new HashSet<string>();
+        private readonly HashSet<TutorialInputAction> _missingInputActionWarnings =
+            new HashSet<TutorialInputAction>();
 
         private ITutorialTextResolver _textResolver = new FallbackTutorialTextResolver();
-        private InputType _currentInputType = InputType.Keyboard;
-
-        private void OnEnable()
-        {
-            InputPacker.OnChangeInputType.RemoveListener(HandleInputTypeChanged);
-            InputPacker.OnChangeInputType.AddListener(HandleInputTypeChanged);
-            RefreshCurrentInputType();
-            RefreshAllRows();
-        }
-
-        private void OnDisable()
-        {
-            InputPacker.OnChangeInputType.RemoveListener(HandleInputTypeChanged);
-        }
 
         public void ShowObjectives(IReadOnlyList<TutorialObjectiveData> objectives)
         {
             ClearRows();
-            RefreshCurrentInputType();
 
             if (_objectivesContainer == null || _objectiveRowTemplate == null)
             {
@@ -73,7 +54,6 @@ namespace Tutorials
 
                 TutorialObjectiveViewState state = new TutorialObjectiveViewState(objective);
                 TutorialObjectiveRow row = Instantiate(_objectiveRowTemplate, _objectivesContainer);
-                row.SetSpriteAsset(_glyphDatabase != null ? _glyphDatabase.SpriteAsset : null);
                 row.gameObject.SetActive(true);
 
                 _statesById.Add(objective.Id, state);
@@ -174,34 +154,34 @@ namespace Tutorials
             if (action == TutorialInputAction.None)
                 return string.Empty;
 
-            if (_glyphDatabase != null
-                && _glyphDatabase.TryGetGlyphName(action, _currentInputType, out string glyphName))
+            if (!TutorialRewiredInputActionMap.TryGetActionNames(
+                    action,
+                    out string primaryActionName,
+                    out string secondaryActionName))
             {
-                return $"<sprite name=\"{glyphName}\">";
+                if (_missingInputActionWarnings.Add(action))
+                {
+                    Debug.LogWarning(
+                        $"[Tutorial Presenter] No Rewired action is mapped for tutorial action '{action}'.",
+                        this);
+                }
+
+                return $"[{action}]";
             }
 
-            string warningKey = $"{_currentInputType}:{action}";
-            if (_missingGlyphWarnings.Add(warningKey))
+            int playerId = RewiredInputRuntime.Instance != null
+                ? RewiredInputRuntime.Instance.PlayerId
+                : 0;
+
+            if (string.IsNullOrEmpty(secondaryActionName))
             {
-                Debug.LogWarning(
-                    $"[Tutorial Presenter] Missing {_currentInputType} glyph for action '{action}'.",
-                    this);
+                return $"<rewiredElement type=\"glyphOrText\" playerId={playerId} "
+                       + $"actionName=\"{primaryActionName}\">";
             }
 
-            return $"[{action}]";
-        }
-
-        private void HandleInputTypeChanged(InputType inputType)
-        {
-            _currentInputType = inputType;
-            RefreshAllRows();
-        }
-
-        private void RefreshCurrentInputType()
-        {
-            PlayerStateMachine player = PlayerStateMachine.instance;
-            if (player != null && player.inputPackage != null)
-                _currentInputType = player.inputPackage.lastInputType;
+            return $"<rewiredElement type=\"glyphOrText\" playerId={playerId} "
+                   + $"actionName=\"{primaryActionName}\" "
+                   + $"actionName2=\"{secondaryActionName}\">";
         }
 
         private void RefreshAllRows()
