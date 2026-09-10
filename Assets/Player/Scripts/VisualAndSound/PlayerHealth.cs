@@ -17,7 +17,7 @@ namespace Player.Scripts
         private PlayerStateMachine player;
 
         private int currentHealth;
-        public float lastHitTimestamp { get; private set; }
+        public float lastHitTimestamp { get; private set; } = -1.0f;
 
         public int CurrentHealth => currentHealth;
         public int StartingHealth => startingHealth;

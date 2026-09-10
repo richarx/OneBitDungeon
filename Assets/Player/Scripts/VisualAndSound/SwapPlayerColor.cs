@@ -108,7 +108,7 @@ namespace Player.Scripts
             if (GameManager.instance.IsRestarting)
                 return SpriteState.Initial;
 
-            if (Time.time - playerHealth.lastHitTimestamp <= playerData.staggerDuration)
+            if (playerHealth.lastHitTimestamp > 0.0f && Time.time - playerHealth.lastHitTimestamp <= playerData.staggerDuration)
                 return SpriteState.Staggered;
 
             return SpriteState.Initial;

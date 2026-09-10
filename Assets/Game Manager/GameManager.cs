@@ -44,10 +44,14 @@ namespace Game_Manager
                 Debug.Log("[Game Manager] : excluded scene detected - Waiting For trigger at the end of intro.");
                 isInMainMenu = true;
                 PlayerStateMachine.instance.playerLocked.SetLockState(PlayerStateMachine.instance, PlayerLocked.LockState.Hidden);
+                blackScreenTransition.HideInstant();
+
                 yield return new WaitWhile(() => isInMainMenu);
                 Debug.Log("[Game Manager] : Trigger detected - setting up.");
+                blackScreenTransition.DisplayInstant();
             }
             yield return null;
+            scene = SceneManager.GetActiveScene();
 
             PlayerStateMachine player = PlayerStateMachine.instance;
             player.playerSit.SitAfterRespawn(player);
@@ -68,6 +72,7 @@ namespace Game_Manager
             if (!scene.name.Contains("Tree") && !scene.name.Contains("Fire"))
                 openCircleDuration = 0.5f;
 
+            //Debug.Break();
             yield return blackScreenTransition.OpenCircle(player.position, openCircleDuration);
 
             player.playerSit.Unlock();

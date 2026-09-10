@@ -10,12 +10,27 @@ namespace UI.Arrogance
     public class ArroganceDisplay : MonoBehaviour
     {
         [Required, SerializeField] private Image arroganceBar;
+        [SerializeField] private GameObject pivot;
         [SerializeField] private float smoothTime = 0.1f;
         [SerializeField] private TextMeshProUGUI textMeshPro;
 
         private float velocity;
-
         private bool isFilled;
+        private bool isDisplayed = true;
+
+        private void Awake()
+        {
+            PlayerLocked.OnLockPlayer.AddListener(() =>
+           {
+               if (isDisplayed && PlayerStateMachine.instance.playerLocked.GetLockState == PlayerLocked.LockState.Hidden)
+                   HideInstant();
+           });
+            PlayerLocked.OnUnlockPlayer.AddListener(() =>
+            {
+                if (!isDisplayed)
+                    DisplayHealthBar();
+            });
+        }
 
         private void Update()
         {
@@ -42,6 +57,18 @@ namespace UI.Arrogance
                 textMeshPro.text = "<bounce a*3 s*2>Insolence</bounce>";
             else
                 textMeshPro.text = "Arrogance";
+        }
+
+        private void DisplayHealthBar()
+        {
+            pivot.SetActive(true);
+            isDisplayed = true;
+        }
+
+        private void HideInstant()
+        {
+            pivot.SetActive(false);
+            isDisplayed = false;
         }
     }
 }

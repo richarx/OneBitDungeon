@@ -12,7 +12,7 @@ public class BlackScreenTransition : MonoBehaviour
 
     public IEnumerator OpenCircle(Vector3 worldPosition, float duration)
     {
-        HideInstant();
+        Tools.SetImageAlpha(blackScreen, 0.0f);
 
         Vector2 screenPosition = CamerasHolder.instance.mainCamera.WorldToScreenPoint(worldPosition);
         mask.position = screenPosition;
@@ -37,12 +37,16 @@ public class BlackScreenTransition : MonoBehaviour
 
     public void DisplayInstant()
     {
+        Debug.Log("Display Black screen instant");
         Tools.SetImageAlpha(blackScreen, 1.0f);
+        Tools.SetImageAlpha(maskedScreen, 1.0f);
     }
 
     public void HideInstant()
     {
+        Debug.Log("Hide Black screen instant");
         Tools.SetImageAlpha(blackScreen, 0.0f);
+        Tools.SetImageAlpha(maskedScreen, 0.0f);
     }
 
     public IEnumerator FadeIn(float duration, bool useScaledTime = true)

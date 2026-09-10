@@ -23,8 +23,6 @@ GameObject:
   - component: {fileID: 7752480334871691922}
   - component: {fileID: 6973867706479936140}
   - component: {fileID: 9195213419997846752}
-  - component: {fileID: 8868877689981523211}
-  - component: {fileID: 8954279075693937328}
   - component: {fileID: 2298097891096850778}
   - component: {fileID: 8885984390240367102}
   - component: {fileID: 2249564331457561026}
@@ -126,8 +124,8 @@ MonoBehaviour:
   playerSword: {fileID: 0}
   playerTargeting: {fileID: 0}
   playerHealth: {fileID: 0}
-  playerStamina: {fileID: 0}
   playerArrogance: {fileID: 0}
+  arroganceProcessor: {fileID: 0}
   playerInteraction: {fileID: 0}
   playerTagSystem: {fileID: 0}
   playerAnimation: {fileID: 0}
@@ -241,6 +239,7 @@ MonoBehaviour:
   parry_2: {fileID: 8300000, guid: 20b3ae9f3ff307847bf9459ab4543ea0, type: 3}
   parrySuccess_1: {fileID: 8300000, guid: b04c84e7fa971cb43b2d8658038e1d7a, type: 3}
   parrySuccess_2: {fileID: 8300000, guid: d1f956a23696708488d473b2c4c9438e, type: 3}
+  blockSuccess_1: {fileID: 8300000, guid: e9af0a475f783034fa5335a596fd7f7d, type: 3}
   outOfBreath:
   - {fileID: 8300000, guid: 69e2e29144ac78f4e891d5fdd68d92d1, type: 3}
   - {fileID: 8300000, guid: 2674442b55c45f242846332ef9af1810, type: 3}
@@ -265,7 +264,7 @@ MonoBehaviour:
   insolentAttackHit_2: {fileID: 8300000, guid: 65ee4d87910bd02478de20666a79741b, type: 3}
   counterAttack_1: {fileID: 8300000, guid: d20528b23fd7d04459f890ac545c5e4e, type: 3}
   counterAttack_2: {fileID: 8300000, guid: 04b70eb866614324c818e087431c25b7, type: 3}
-  tauntPushups: {fileID: 8300000, guid: 8ddfcf7ad699f8d4694c9a782e501c9b, type: 3}
+  counterAttack_3: {fileID: 8300000, guid: 2d749dc1e39ef0c4da281900b56c3799, type: 3}
 --- !u!114 &2174515811491700390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,41 +404,6 @@ MonoBehaviour:
   OnInteractWithItem:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8868877689981523211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 642427038457234017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c154df85b4d0d9f4c8f6cff983a1c739, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outOfBreathVfx: {fileID: 3157738141418474266}
-  outOfBreathPivot: {fileID: 2569575758683551168}
---- !u!114 &8954279075693937328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 642427038457234017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d08a3dc648d1d6645ac57e672f9e8cce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slots:
-  - definition: {fileID: 11400000, guid: de86b073841855145bfc6da3bc3e2872, type: 2}
-    graphicsObject: {fileID: 7923046771804982645}
-    savedHealth: 0
-    savedStamina: 0
-  - definition: {fileID: 11400000, guid: f777fc48053892940bd4c3dcf55e971e, type: 2}
-    graphicsObject: {fileID: 6624004368659154068}
-    savedHealth: 0
-    savedStamina: 0
 --- !u!114 &2298097891096850778
 MonoBehaviour:
   m_ObjectHideFlags: 0

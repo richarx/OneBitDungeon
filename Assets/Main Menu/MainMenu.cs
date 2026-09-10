@@ -12,24 +12,25 @@ namespace Main_Menu
         [SerializeField] private Image blackScreen;
         [SerializeField] private Button newGameButton;
         [SerializeField] private AudioClip startSound;
-        
+        [SerializeField] private SceneField targetScene;
+
         private InputPacker inputPacker = new InputPacker();
-        
+
         private IEnumerator Start()
         {
             blackScreen.gameObject.SetActive(true);
             newGameButton.HideInstantly();
-            
+
             yield return new WaitForSeconds(1.0f);
             SFXManager.instance.PlaySFX(startSound);
-        
+
             Coroutine fadeBlackScreen = StartCoroutine(Tools.Fade(blackScreen, 4.0f, false));
             yield return new WaitForSeconds(2.0f);
-            
+
             DisplayButton();
             yield return WaitForInput();
             yield return AnimateButton();
-            
+
             if (fadeBlackScreen != null)
                 StopCoroutine(fadeBlackScreen);
             yield return Tools.Fade(blackScreen, 2.0f, true);
@@ -69,7 +70,7 @@ namespace Main_Menu
 
         private void GoToIntroScene()
         {
-            SceneManager.LoadScene("Intro");
+            SceneManager.LoadScene(targetScene.SceneName);
         }
     }
 }

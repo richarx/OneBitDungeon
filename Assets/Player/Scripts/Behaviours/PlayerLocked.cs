@@ -30,14 +30,17 @@ namespace Player.Scripts
             }
 
             if (lockState == LockState.Hidden)
+            {
                 player.graphics.SetActive(false);
+                Debug.Log($"Hide Player : {player.graphics.activeSelf}");
+            }
 
             OnLockPlayer?.Invoke();
         }
 
         public void SetLockState(PlayerStateMachine player, LockState newLockState = LockState.Full)
         {
-            if (lockState == LockState.Hidden)
+            if (lockState == LockState.Hidden && newLockState != LockState.Hidden)
                 player.graphics.SetActive(true);
 
             lockState = newLockState;
@@ -91,6 +94,7 @@ namespace Player.Scripts
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
         {
+            Debug.Log("Stop Lock");
             if (lockState == LockState.Hidden)
                 player.graphics.SetActive(true);
             OnUnlockPlayer?.Invoke();

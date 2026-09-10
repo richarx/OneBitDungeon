@@ -62,16 +62,6 @@ public class CodeAnimator : MonoBehaviour
     public AnimationDirection CurrentDirection => currentDirection;
     public AnimationType CurrentAnimationType => currentAnimationType;
 
-    public void SetGraphicsTarget(SpriteRenderer newSpriteRenderer)
-    {
-        graphics = newSpriteRenderer;
-    }
-
-    public void SetAnimationsHolder(AnimationsHolderData newAnimationsHolder)
-    {
-        animationsHolder = newAnimationsHolder;
-    }
-
     public void PlayAnimation(AnimationType animationType, AnimationDirection animationDirection, bool hasWeaponInHand = false)
     {
         AnimationData animationData = RetreiveAnimationData(animationType);

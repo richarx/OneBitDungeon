@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Febucci.TextAnimatorForUnity;
 using Game_Manager;
 using SFX;
 using TMPro;
@@ -13,97 +14,102 @@ namespace Intro
     public class Intro : MonoBehaviour
     {
         [SerializeField] private Image blackScreen;
+        [SerializeField] private Image trueBlackScreen;
         [Space]
         [SerializeField] private TextMeshProUGUI text;
 
         [Space]
-        [SerializeField] private Image dogImage;
-        [SerializeField] private Image bossImage;
+        [SerializeField] private Image kingImage;
+        [SerializeField] private Image throneImage;
+        [SerializeField] private Image townImage;
+        [SerializeField] private Image crownImage;
 
         [Space]
         [SerializeField] private List<AudioClip> typingSounds;
         [SerializeField] private AudioClip introMusic;
         [SerializeField] private float introMusicVolume;
 
-        [Space]
-        [SerializeField] private List<AudioClip> dogSounds;
-        [SerializeField] private AudioClip bossSound;
-
-
-        private Image dogShadow;
-        private Image bossShadow;
-
         private InputPacker inputPacker = new InputPacker();
 
         private IEnumerator Start()
         {
-            //text.gameObject.GetComponent<TypewriterByCharacter>().onCharacterVisible.AddListener((c) => SFXManager.instance.PlayRandomSFX(typingSounds));
+            text.gameObject.GetComponent<TypewriterComponent>().onCharacterVisible.AddListener((c) => SFXManager.instance.PlayRandomSFX(typingSounds));
             blackScreen.gameObject.SetActive(true);
+            trueBlackScreen.gameObject.SetActive(true);
             text.text = "";
-            dogShadow = dogImage.transform.GetChild(0).GetComponent<Image>();
-            bossShadow = bossImage.transform.GetChild(0).GetComponent<Image>();
 
             SFXManager.instance.PlaySFX(introMusic, introMusicVolume);
 
             yield return new WaitForSeconds(1.0f);
+            yield return Tools.Fade(trueBlackScreen, 1.0f, false);
+            yield return Tools.Fade(blackScreen, 1.5f, false);
 
-            Coroutine fadeBlackScreen = StartCoroutine(Tools.Fade(blackScreen, 4.0f, false));
-            yield return new WaitForSeconds(0.5f);
-
-            yield return DogIntro();
-            yield return BossIntro();
-            yield return LastMessage();
+            yield return KingIntro();
+            yield return ThroneIntro();
+            yield return TownIntro();
+            yield return CrownIntro();
 
             yield return Tools.Fade(blackScreen, 2.0f, true);
+            yield return Tools.Fade(trueBlackScreen, 1.0f, true);
             GoToFirstLevel();
         }
 
-        private IEnumerator DogIntro()
+        private IEnumerator KingIntro()
         {
-            StartCoroutine(Tools.Fade(dogImage, 0.3f, true));
-            yield return Tools.Fade(dogShadow, 0.3f, true, 0.01f);
+            Coroutine kingFade = StartCoroutine(Tools.Fade(kingImage, 3.0f, true));
 
-            yield return new WaitForSeconds(0.5f);
-            SFXManager.instance.PlaySFX(dogSounds[0]);
-            SFXManager.instance.PlaySFX(dogSounds[1], delay: 0.2f);
-            SFXManager.instance.PlaySFX(dogSounds[2], delay: 0.4f);
+            yield return new WaitForSeconds(1.0f);
 
-            text.text = "This is your dog : \n\"Bobby John John\".";
-            yield return WaitForInput();
-            text.text = "You love your dog.";
+            text.text = "His Supreme Condescension,\nThe King of Hubris is dead...";
             yield return WaitForInput();
             text.text = "";
 
-            StartCoroutine(Tools.Fade(dogImage, 0.3f, false));
-            yield return Tools.Fade(dogShadow, 0.3f, false, 0.01f);
+            StopCoroutine(kingFade);
+            yield return Tools.Fade(kingImage, 0.3f, false, 0.01f);
         }
 
-        private IEnumerator BossIntro()
+        private IEnumerator ThroneIntro()
         {
-            yield return new WaitForSeconds(0.5f);
+            Coroutine throneFade = StartCoroutine(Tools.Fade(throneImage, 3.0f, true));
 
-            StartCoroutine(Tools.Fade(bossImage, 0.3f, true));
-            yield return Tools.Fade(bossShadow, 0.3f, true, 0.01f);
+            yield return new WaitForSeconds(1.0f);
 
-            yield return new WaitForSeconds(0.5f);
-            SFXManager.instance.PlaySFX(bossSound);
-
-            text.text = "This is Blazgul the Wicked.";
+            text.text = "The High Throne of Haughtiness is now vacant...";
             yield return WaitForInput();
-            text.text = "He stole your dog !";
-            yield return WaitForInput();
-            text.text = "Such wickedness shall be punished.";
-            yield return WaitForInput();
-            StartCoroutine(Tools.Fade(bossImage, 0.3f, false));
-            yield return Tools.Fade(bossShadow, 0.3f, false, 0.01f);
             text.text = "";
+
+            StopCoroutine(throneFade);
+            yield return Tools.Fade(throneImage, 0.3f, false, 0.01f);
         }
 
-        private IEnumerator LastMessage()
+        private IEnumerator TownIntro()
         {
-            yield return new WaitForSeconds(0.5f);
-            text.text = "Hold on Bobby John John !";
-            yield return new WaitForSeconds(1.5f);
+            Coroutine townFade = StartCoroutine(Tools.Fade(townImage, 3.0f, true));
+
+            yield return new WaitForSeconds(1.0f);
+
+            text.text = "The most arrogant knights and warriors from the four corners of the realm...";
+            yield return WaitForInput();
+            text.text = "Are starting their pilgrimage to reach the Capital city of Egomaniopolis...";
+            yield return WaitForInput();
+            text.text = "";
+
+            StopCoroutine(townFade);
+            yield return Tools.Fade(townImage, 0.3f, false, 0.01f);
+        }
+
+        private IEnumerator CrownIntro()
+        {
+            Coroutine crownFade = StartCoroutine(Tools.Fade(crownImage, 3.0f, true));
+
+            yield return new WaitForSeconds(1.0f);
+
+            text.text = "Only the most arrogant shall claim the Crown of Blatant disdain...";
+            yield return WaitForInput();
+            text.text = "";
+
+            StopCoroutine(crownFade);
+            yield return Tools.Fade(crownImage, 0.3f, false, 0.01f);
         }
 
         private IEnumerator WaitForInput()
@@ -129,7 +135,7 @@ namespace Intro
         private void GoToFirstLevel()
         {
             GameManager.instance.SetMenuState(false);
-            SceneManager.LoadScene("1-1");
+            SceneManager.LoadScene("TreeRoom");
         }
     }
 }
