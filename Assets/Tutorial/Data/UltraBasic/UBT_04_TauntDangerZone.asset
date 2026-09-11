@@ -22,4 +22,4 @@ MonoBehaviour:
         Entre dans la zone et tient {ArroganceMode}.
     _signalId: 10
     _showProgress: 1
-    _target: 3
+    _target: 1
