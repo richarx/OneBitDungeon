@@ -107,11 +107,11 @@ namespace Tools_and_Scripts
         private InputData _menuDown = new InputData();
         private InputData _dialogueQuit = new InputData();
 
-        internal void SetActions(Vector2 move, InputData roll, InputData jump, InputData attack, InputData parry, InputData interact, InputData sitDown, InputData tagCritical, InputData arroganceMode, InputData menuLeft, InputData menuUp, InputData menuRight, InputData menuDown, InputData dialogueQuit)
+        internal void SetActions(Vector2 move, InputData roll, InputData jump, InputData attack, InputData parry, InputData interact, InputData sitDown, InputData tagCritical, InputData arroganceMode, InputData dialogueQuit)
         {
             _move = move; _roll = roll; _jump = jump; _attack = attack; _parry = parry;
             _interact = interact; _sitDown = sitDown; _tagCritical = tagCritical; _arroganceMode = arroganceMode;
-            _menuLeft = menuLeft; _menuUp = menuUp; _menuRight = menuRight; _menuDown = menuDown; _dialogueQuit = dialogueQuit;
+             _dialogueQuit = dialogueQuit;
         }
 
         internal void Clear()
@@ -146,8 +146,6 @@ namespace Tools_and_Scripts
             RewiredActionNames.SitDown,
             RewiredActionNames.Critical,
             RewiredActionNames.ArroganceMode,
-            RewiredActionNames.MenuHorizontal,
-            RewiredActionNames.MenuVertical,
             RewiredActionNames.DialogueQuit
         };
         public static UnityEvent<InputType> OnChangeInputType = new UnityEvent<InputType>();
@@ -276,10 +274,6 @@ namespace Tools_and_Scripts
                 ReadAction(runtime, RewiredActionNames.SitDown, _previousPackage.GetSitDown),
                 ReadAction(runtime, RewiredActionNames.Critical, _previousPackage.GetTag),
                 ReadAction(runtime, RewiredActionNames.ArroganceMode, _previousPackage.GetArroganceMode),
-                ReadAxisButton(runtime, RewiredActionNames.MenuHorizontal, -1.0f, _previousPackage.GetMenuLeft, ref _ignoreMenuLeftUntilReleased),
-                ReadAxisButton(runtime, RewiredActionNames.MenuVertical, 1.0f, _previousPackage.GetMenuUp, ref _ignoreMenuUpUntilReleased),
-                ReadAxisButton(runtime, RewiredActionNames.MenuHorizontal, 1.0f, _previousPackage.GetMenuRight, ref _ignoreMenuRightUntilReleased),
-                ReadAxisButton(runtime, RewiredActionNames.MenuVertical, -1.0f, _previousPackage.GetMenuDown, ref _ignoreMenuDownUntilReleased),
                 ReadAction(runtime, RewiredActionNames.DialogueQuit, _previousPackage.GetDialogueQuit));
         }
 

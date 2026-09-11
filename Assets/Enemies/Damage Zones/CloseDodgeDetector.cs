@@ -16,12 +16,14 @@ public class CloseDodgeDetector
     private bool wasInsideZoneOnPreviousUpdate = false;
     private bool wasArroganceModeActiveOnExit;
     private float normalizedExitTime;
+    private bool _isSpinOut;
     private bool isActive;
     private bool isResolved;
     private bool isPlayerCurrentlyInsideZone;
 
+    private Vector3 _outPosition;
+
     private PlayerStateMachine player;
-    private bool isPlayerSpinning => player.currentBehaviour.GetBehaviourType() == BehaviourType.ArrogantSpin;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetActiveDetectors()
@@ -63,6 +65,7 @@ public class CloseDodgeDetector
         wasInsideZoneOnPreviousUpdate = false;
         wasArroganceModeActiveOnExit = false;
         normalizedExitTime = 0.0f;
+        _isSpinOut = false;
         isPlayerCurrentlyInsideZone = false;
         this.source = source;
         this.session = session;
@@ -76,12 +79,16 @@ public class CloseDodgeDetector
         if (!isActive || isResolved)
             return;
 
+        bool isPlayerSpinning = player.currentBehaviour.GetBehaviourType() == BehaviourType.ArrogantSpin;
+        if (!isPlayerSpinning)
+            _isSpinOut = false;
+
         isPlayerCurrentlyInsideZone = isPlayerInsideZone;
 
         if (Time.time < windowStartTimestamp || Time.time >= damageTimestamp)
             return;
 
-        TrackCloseDodgePresence(isPlayerInsideZone, isArroganceModeActive);
+        TrackCloseDodgePresence(isPlayerInsideZone, isArroganceModeActive, isPlayerSpinning);
     }
 
     public void Resolve(bool isPlayerInsideZone, bool isArroganceModeActive)
@@ -89,12 +96,19 @@ public class CloseDodgeDetector
         if (!isActive || isResolved)
             return;
 
+        bool isPlayerSpinning = player.currentBehaviour.GetBehaviourType() == BehaviourType.ArrogantSpin;
+        if (!isPlayerSpinning)
+            _isSpinOut = false;
+
         isPlayerCurrentlyInsideZone = isPlayerInsideZone;
 
         if (Time.time >= windowStartTimestamp)
-            TrackCloseDodgePresence(isPlayerInsideZone, isArroganceModeActive);
+            TrackCloseDodgePresence(isPlayerInsideZone, isArroganceModeActive, isPlayerSpinning);
 
         isResolved = true;
+
+        Vector3 exitPosition = new Vector3(_outPosition.x, _outPosition.y, _outPosition.z);
+
         Unregister();
 
         if (!wasInsideZone || isPlayerInsideZone || !isPlayerSpinning)
@@ -104,7 +118,7 @@ public class CloseDodgeDetector
             baseAmount,
             ArroganceGainReason.CloseDodge,
             source,
-            new CloseDodgeGainContext(wasArroganceModeActiveOnExit, normalizedExitTime));
+            new CloseDodgeGainContext(wasArroganceModeActiveOnExit, normalizedExitTime, exitPosition));
 
         if (session != null)
             session.RegisterDodge(gain);
@@ -112,10 +126,12 @@ public class CloseDodgeDetector
             ArroganceGainEvents.RequestGain(gain);
     }
 
-    private void TrackCloseDodgePresence(bool isPlayerInsideZone, bool isArroganceModeActive)
+    private void TrackCloseDodgePresence(bool isPlayerInsideZone, bool isArroganceModeActive, bool isPlayerSpinning)
     {
         if (wasInsideZoneOnPreviousUpdate && !isPlayerInsideZone)
         {
+            _isSpinOut = isPlayerSpinning;
+            _outPosition = player.transform.position;
             wasArroganceModeActiveOnExit = isArroganceModeActive;
             normalizedExitTime = Mathf.InverseLerp(windowStartTimestamp, damageTimestamp, Time.time);
         }
@@ -135,6 +151,7 @@ public class CloseDodgeDetector
         activeDetectors.Remove(this);
         isActive = false;
         isPlayerCurrentlyInsideZone = false;
+        _outPosition = Vector3.zero;
     }
 }
 

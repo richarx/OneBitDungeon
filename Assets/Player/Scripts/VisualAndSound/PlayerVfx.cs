@@ -136,7 +136,7 @@ namespace Player.Scripts
             player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
             player.playerJump.OnStartJump.AddListener(SpawnStartJumpVfx);
             player.playerJump.OnLandJump.AddListener(SpawnLandJumpVfx);
-            ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
+            ArroganceGainEvents.OnGainRequested += HandleArrogantDodge;
             hasSubscribed = true;
         }
 
@@ -157,7 +157,7 @@ namespace Player.Scripts
                 player.playerRoll.OnStartRoll.RemoveListener(SpawnRollVfx);
                 player.playerJump.OnStartJump.RemoveListener(SpawnStartJumpVfx);
                 player.playerJump.OnLandJump.RemoveListener(SpawnLandJumpVfx);
-                ArroganceGainEvents.OnGainProcessed -= HandleArrogantDodge;
+                ArroganceGainEvents.OnGainRequested -= HandleArrogantDodge;
             }
 
             hasSubscribed = false;
@@ -195,15 +195,17 @@ namespace Player.Scripts
                 critTrail.GetComponent<ParticleSystem>().Stop();
         }
 
-        private void HandleArrogantDodge(ArroganceGainResult result)
+        private void HandleArrogantDodge(ArroganceGainRequest result)
         {
-            if (result.request.reason != ArroganceGainReason.CloseDodge)
+            if (result.reason != ArroganceGainReason.CloseDodge)
                 return;
 
             StartCoroutine(SpawnShockWave());
             StartCoroutine(SlowTimeCoroutine(0.5f, 0.3f));
 
-            Vector3 position = player.playerArrogantSpin.SpinStartPosition;
+            CloseDodgeGainContext context = result.context as CloseDodgeGainContext;
+
+            Vector3 position = context.outPosition;
             afterImage.SpawnSnapshot(position);
             Instantiate(waterBlastEffect, position, Quaternion.identity);
             Instantiate(flashBlastEffect, position, Quaternion.identity);

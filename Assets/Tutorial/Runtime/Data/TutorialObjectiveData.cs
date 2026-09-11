@@ -5,7 +5,6 @@ using UnityEngine;
 namespace Tutorials
 {
     [Serializable]
-    [InlineProperty]
     public class TutorialObjectiveData
     {
         [SerializeField]
@@ -14,11 +13,13 @@ namespace Tutorials
 
         [SerializeField]
         [LabelText("Text")]
+        [Tooltip("Use {RewiredActionName} for a binding glyph, plus {current} and {target} for progress.")]
         private TutorialText _text = new TutorialText();
 
         [SerializeField]
-        [LabelText("Input Action")]
-        private TutorialInputAction _inputAction = TutorialInputAction.None;
+        [LabelText("Signal")]
+        [Tooltip("Each received signal increments this objective by one.")]
+        private TutorialSignalId _signalId;
 
         [SerializeField]
         [LabelText("Show Progress")]
@@ -30,22 +31,16 @@ namespace Tutorials
         [LabelText("Target")]
         private int _target = 1;
 
-        [SerializeField]
-        [LabelText("Required")]
-        [Tooltip("A tutorial may finish only after all of its required objectives are complete.")]
-        private bool _required = true;
 
         public string Id => _id;
 
         public TutorialText Text => _text;
 
-        public TutorialInputAction InputAction => _inputAction;
+        public TutorialSignalId SignalId => _signalId;
 
         public bool ShowProgress => _showProgress;
 
         public int Target => Mathf.Max(1, _target);
-
-        public bool Required => _required;
 
         public string ListLabel => string.IsNullOrWhiteSpace(_id) ? "New Objective" : _id;
     }

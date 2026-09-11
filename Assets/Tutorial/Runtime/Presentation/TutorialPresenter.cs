@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using Rewired;
 using Sirenix.OdinInspector;
 using Tools_and_Scripts.RewiredInput;
 using UnityEngine;
 
 namespace Tutorials
 {
-    public sealed class TutorialPresenter : MonoBehaviour, ITutorialPresenter
+    public sealed class TutorialBasicPresenter : MonoBehaviour, ITutorialPresenter
     {
         [TitleGroup("References")]
         [SerializeField]
@@ -20,16 +21,23 @@ namespace Tutorials
         [Tooltip("Prefab or inactive scene object used as the model for each objective row.")]
         private TutorialObjectiveRow _objectiveRowTemplate;
 
-        private readonly Dictionary<string, TutorialObjectiveViewState> _statesById =
-            new Dictionary<string, TutorialObjectiveViewState>();
+        private readonly Dictionary<string, TutorialObjectiveViewState> _statesById = new Dictionary<string, TutorialObjectiveViewState>();
 
-        private readonly Dictionary<string, TutorialObjectiveRow> _rowsById =
-            new Dictionary<string, TutorialObjectiveRow>();
+        private readonly Dictionary<string, TutorialObjectiveRow> _rowsById = new Dictionary<string, TutorialObjectiveRow>();
 
-        private readonly HashSet<TutorialInputAction> _missingInputActionWarnings =
-            new HashSet<TutorialInputAction>();
+        private TutorialTextResolver _textResolver = new TutorialTextResolver();
 
-        private ITutorialTextResolver _textResolver = new FallbackTutorialTextResolver();
+        private void OnEnable()
+        {
+            ReInput.InitializedEvent -= HandleRewiredInitialized;
+            ReInput.InitializedEvent += HandleRewiredInitialized;
+            RefreshAllRows();
+        }
+
+        private void OnDisable()
+        {
+            ReInput.InitializedEvent -= HandleRewiredInitialized;
+        }
 
         public void ShowObjectives(IReadOnlyList<TutorialObjectiveData> objectives)
         {
@@ -88,12 +96,6 @@ namespace Tutorials
                 _panelRoot.SetActive(false);
         }
 
-        public void SetTextResolver(ITutorialTextResolver textResolver)
-        {
-            _textResolver = textResolver ?? new FallbackTutorialTextResolver();
-            RefreshAllRows();
-        }
-
         private bool CanDisplay(TutorialObjectiveData objective)
         {
             if (objective == null)
@@ -117,14 +119,9 @@ namespace Tutorials
             return true;
         }
 
-        private bool TryGetObjective(
-            string objectiveId,
-            out TutorialObjectiveViewState state,
-            out TutorialObjectiveRow row)
+        private bool TryGetObjective(string objectiveId, out TutorialObjectiveViewState state, out TutorialObjectiveRow row)
         {
-            if (!string.IsNullOrWhiteSpace(objectiveId)
-                && _statesById.TryGetValue(objectiveId, out state)
-                && _rowsById.TryGetValue(objectiveId, out row))
+            if (!string.IsNullOrWhiteSpace(objectiveId) && _statesById.TryGetValue(objectiveId, out state) && _rowsById.TryGetValue(objectiveId, out row))
             {
                 return true;
             }
@@ -139,49 +136,18 @@ namespace Tutorials
         {
             TutorialObjectiveData objective = state.Data;
             string template = _textResolver.Resolve(objective.Text);
-            string input = ResolveInputTag(objective.InputAction);
-            string text = TutorialTextFormatter.Format(
-                template,
-                input,
-                state.Current,
-                state.Target);
+            string text = TutorialTextFormatter.Format(template, state.Current, state.Target);
+
+            text = RewiredTool.ResolveRewiredActionTokens(text);
 
             row.Render(text, state.IsCompleted);
         }
 
-        private string ResolveInputTag(TutorialInputAction action)
+ 
+
+        private void HandleRewiredInitialized()
         {
-            if (action == TutorialInputAction.None)
-                return string.Empty;
-
-            if (!TutorialRewiredInputActionMap.TryGetActionNames(
-                    action,
-                    out string primaryActionName,
-                    out string secondaryActionName))
-            {
-                if (_missingInputActionWarnings.Add(action))
-                {
-                    Debug.LogWarning(
-                        $"[Tutorial Presenter] No Rewired action is mapped for tutorial action '{action}'.",
-                        this);
-                }
-
-                return $"[{action}]";
-            }
-
-            int playerId = RewiredInputRuntime.Instance != null
-                ? RewiredInputRuntime.Instance.PlayerId
-                : 0;
-
-            if (string.IsNullOrEmpty(secondaryActionName))
-            {
-                return $"<rewiredElement type=\"glyphOrText\" playerId={playerId} "
-                       + $"actionName=\"{primaryActionName}\">";
-            }
-
-            return $"<rewiredElement type=\"glyphOrText\" playerId={playerId} "
-                   + $"actionName=\"{primaryActionName}\" "
-                   + $"actionName2=\"{secondaryActionName}\">";
+            RefreshAllRows();
         }
 
         private void RefreshAllRows()

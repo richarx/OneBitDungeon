@@ -13,8 +13,6 @@ namespace Tools_and_Scripts.RewiredInput
         public const string SitDown = "SitDown";
         public const string Critical = "Critical";
         public const string ArroganceMode = "ArroganceMode";
-        public const string MenuHorizontal = "MenuHorizontal";
-        public const string MenuVertical = "MenuVertical";
         public const string DialogueQuit = "DialogueQuit";
     }
 }

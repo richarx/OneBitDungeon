@@ -23,7 +23,7 @@ MonoBehaviour:
   spinAcceleration: 200
   spinDeceleration: 60
   spinDecelerationDistanceThreshold: 0.8
-  spinCooldown: 0
+  spinCooldown: 0.3
   closeDodgeWindowDuration: 0.3
   maxArrogance: 100
   loseAllArroganceOnHit: 1

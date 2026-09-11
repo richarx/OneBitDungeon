@@ -7095,22 +7095,9 @@ MonoBehaviour:
     - Name: deathBehaviour
       Entry: 6
       Data: 
-    - Name: enemyBehaviourQueue
-      Entry: 7
-      Data: 1|System.Collections.Generic.Queue`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 2|DummyConeBehaviour, Assembly-CSharp
+      Data: 1|DummyConeBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 0
@@ -7132,6 +7119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be28031ef95f9244faca5cc4ccd86529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMainEnemy: 0
 --- !u!114 &1315216165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11554,6 +11542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be28031ef95f9244faca5cc4ccd86529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMainEnemy: 0
 --- !u!114 &8182171200824653880
 MonoBehaviour:
   m_ObjectHideFlags: 0
