@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using Player.Scripts;
+using Rewired;
 using Sirenix.OdinInspector;
-using Tools_and_Scripts;
+using Tools_and_Scripts.RewiredInput;
 using UnityEngine;
 
 namespace Tutorials
 {
-    public sealed class TutorialPresenter : MonoBehaviour, ITutorialPresenter
+    public sealed class TutorialBasicPresenter : MonoBehaviour, ITutorialPresenter
     {
         [TitleGroup("References")]
         [SerializeField]
@@ -21,38 +21,27 @@ namespace Tutorials
         [Tooltip("Prefab or inactive scene object used as the model for each objective row.")]
         private TutorialObjectiveRow _objectiveRowTemplate;
 
-        [TitleGroup("Input Glyphs")]
-        [SerializeField]
-        private TutorialInputGlyphDatabase _glyphDatabase;
+        private readonly Dictionary<string, TutorialObjectiveViewState> _statesById = new Dictionary<string, TutorialObjectiveViewState>();
 
-        private readonly Dictionary<string, TutorialObjectiveViewState> _statesById =
-            new Dictionary<string, TutorialObjectiveViewState>();
+        private readonly Dictionary<string, TutorialObjectiveRow> _rowsById = new Dictionary<string, TutorialObjectiveRow>();
 
-        private readonly Dictionary<string, TutorialObjectiveRow> _rowsById =
-            new Dictionary<string, TutorialObjectiveRow>();
-
-        private readonly HashSet<string> _missingGlyphWarnings = new HashSet<string>();
-
-        private ITutorialTextResolver _textResolver = new FallbackTutorialTextResolver();
-        private InputType _currentInputType = InputType.Keyboard;
+        private TutorialTextResolver _textResolver = new TutorialTextResolver();
 
         private void OnEnable()
         {
-            InputPacker.OnChangeInputType.RemoveListener(HandleInputTypeChanged);
-            InputPacker.OnChangeInputType.AddListener(HandleInputTypeChanged);
-            RefreshCurrentInputType();
+            ReInput.InitializedEvent -= HandleRewiredInitialized;
+            ReInput.InitializedEvent += HandleRewiredInitialized;
             RefreshAllRows();
         }
 
         private void OnDisable()
         {
-            InputPacker.OnChangeInputType.RemoveListener(HandleInputTypeChanged);
+            ReInput.InitializedEvent -= HandleRewiredInitialized;
         }
 
         public void ShowObjectives(IReadOnlyList<TutorialObjectiveData> objectives)
         {
             ClearRows();
-            RefreshCurrentInputType();
 
             if (_objectivesContainer == null || _objectiveRowTemplate == null)
             {
@@ -73,7 +62,6 @@ namespace Tutorials
 
                 TutorialObjectiveViewState state = new TutorialObjectiveViewState(objective);
                 TutorialObjectiveRow row = Instantiate(_objectiveRowTemplate, _objectivesContainer);
-                row.SetSpriteAsset(_glyphDatabase != null ? _glyphDatabase.SpriteAsset : null);
                 row.gameObject.SetActive(true);
 
                 _statesById.Add(objective.Id, state);
@@ -108,12 +96,6 @@ namespace Tutorials
                 _panelRoot.SetActive(false);
         }
 
-        public void SetTextResolver(ITutorialTextResolver textResolver)
-        {
-            _textResolver = textResolver ?? new FallbackTutorialTextResolver();
-            RefreshAllRows();
-        }
-
         private bool CanDisplay(TutorialObjectiveData objective)
         {
             if (objective == null)
@@ -137,14 +119,9 @@ namespace Tutorials
             return true;
         }
 
-        private bool TryGetObjective(
-            string objectiveId,
-            out TutorialObjectiveViewState state,
-            out TutorialObjectiveRow row)
+        private bool TryGetObjective(string objectiveId, out TutorialObjectiveViewState state, out TutorialObjectiveRow row)
         {
-            if (!string.IsNullOrWhiteSpace(objectiveId)
-                && _statesById.TryGetValue(objectiveId, out state)
-                && _rowsById.TryGetValue(objectiveId, out row))
+            if (!string.IsNullOrWhiteSpace(objectiveId) && _statesById.TryGetValue(objectiveId, out state) && _rowsById.TryGetValue(objectiveId, out row))
             {
                 return true;
             }
@@ -159,49 +136,18 @@ namespace Tutorials
         {
             TutorialObjectiveData objective = state.Data;
             string template = _textResolver.Resolve(objective.Text);
-            string input = ResolveInputTag(objective.InputAction);
-            string text = TutorialTextFormatter.Format(
-                template,
-                input,
-                state.Current,
-                state.Target);
+            string text = TutorialTextFormatter.Format(template, state.Current, state.Target);
+
+            text = RewiredTool.ResolveRewiredActionTokens(text);
 
             row.Render(text, state.IsCompleted);
         }
 
-        private string ResolveInputTag(TutorialInputAction action)
+ 
+
+        private void HandleRewiredInitialized()
         {
-            if (action == TutorialInputAction.None)
-                return string.Empty;
-
-            if (_glyphDatabase != null
-                && _glyphDatabase.TryGetGlyphName(action, _currentInputType, out string glyphName))
-            {
-                return $"<sprite name=\"{glyphName}\">";
-            }
-
-            string warningKey = $"{_currentInputType}:{action}";
-            if (_missingGlyphWarnings.Add(warningKey))
-            {
-                Debug.LogWarning(
-                    $"[Tutorial Presenter] Missing {_currentInputType} glyph for action '{action}'.",
-                    this);
-            }
-
-            return $"[{action}]";
-        }
-
-        private void HandleInputTypeChanged(InputType inputType)
-        {
-            _currentInputType = inputType;
             RefreshAllRows();
-        }
-
-        private void RefreshCurrentInputType()
-        {
-            PlayerStateMachine player = PlayerStateMachine.instance;
-            if (player != null && player.inputPackage != null)
-                _currentInputType = player.inputPackage.lastInputType;
         }
 
         private void RefreshAllRows()

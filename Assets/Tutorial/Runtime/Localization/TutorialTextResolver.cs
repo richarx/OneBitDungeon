@@ -1,6 +1,9 @@
 namespace Tutorials
 {
-    public sealed class FallbackTutorialTextResolver : ITutorialTextResolver
+
+    // For latter to add localization support
+
+    public sealed class TutorialTextResolver
     {
         public string Resolve(TutorialText text)
         {

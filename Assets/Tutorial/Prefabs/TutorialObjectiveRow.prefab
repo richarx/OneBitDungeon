@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _checkboxImage: {fileID: 2233454677151881662}
   _objectiveText: {fileID: 7324382131918271155}
+  _glyphHelper: {fileID: 588007304342423114}
   _uncheckedSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   _checkedSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &882909211701188446
@@ -65,6 +66,7 @@ GameObject:
   - component: {fileID: 7228755298605304057}
   - component: {fileID: 8400520291721685273}
   - component: {fileID: 7324382131918271155}
+  - component: {fileID: 588007304342423114}
   m_Layer: 7
   m_Name: ObjectiveText
   m_TagString: Untagged
@@ -188,6 +190,30 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &588007304342423114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882909211701188446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bbe534aeba3a2347a33c66fbbb87f9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: 
+  _options: {fileID: 0}
+  _spriteOptions:
+    _scale: 1.5
+    _offsetSizeMultiplier: {x: 0, y: 0.75}
+    _extraOffset: {x: 0, y: 0}
+    _xAdvanceWidthMultiplier: 1
+    _extraXAdvance: 0
+  _baseSpriteMaterial: {fileID: 0}
+  _overrideSpriteMaterialProperties: 1
+  _spriteMaterialProperties:
+    _color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1033886864093000080
 GameObject:
   m_ObjectHideFlags: 0

@@ -1922,6 +1922,7 @@ GameObject:
   - component: {fileID: 5853737363920010345}
   - component: {fileID: 6049596869442256883}
   - component: {fileID: 2870728084587923830}
+  - component: {fileID: 6240113541696808653}
   m_Layer: 0
   m_Name: Rewired Input Manager
   m_TagString: Untagged
@@ -1986,7 +1987,7 @@ MonoBehaviour:
       runInEditMode: 0
       allowInputInEditorSceneView: 0
       unityUsePhysicalKeys: 1
-      showSystemKeyLabels: 0
+      showSystemKeyLabels: 1
       keyCombinationOverrideMode: 2
       generateKeyEventsOnKeyCombinationOverride: 1
       platformVars_windowsStandalone:
@@ -3227,6 +3228,21 @@ MonoBehaviour:
   _actionMappingSaveMode: 0
   _fileName: OneBitDungeonControls.json
   _dataFormat: 0
+--- !u!114 &6240113541696808653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3221490794896856694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e94e23f306c46e19f37934df09f4dd1, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  _prefetch: 0
+  _glyphSetCollections:
+  - {fileID: 11400000, guid: 9489dc740d1e9c340b1acc6947c899c6, type: 2}
 --- !u!1 &3961239290421553255
 GameObject:
   m_ObjectHideFlags: 0

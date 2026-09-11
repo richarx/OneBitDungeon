@@ -107,11 +107,11 @@ namespace Tools_and_Scripts
         private InputData _menuDown = new InputData();
         private InputData _dialogueQuit = new InputData();
 
-        internal void SetActions(Vector2 move, InputData roll, InputData jump, InputData attack, InputData parry, InputData interact, InputData sitDown, InputData tagCritical, InputData arroganceMode, InputData menuLeft, InputData menuUp, InputData menuRight, InputData menuDown, InputData dialogueQuit)
+        internal void SetActions(Vector2 move, InputData roll, InputData jump, InputData attack, InputData parry, InputData interact, InputData sitDown, InputData tagCritical, InputData arroganceMode, InputData dialogueQuit)
         {
             _move = move; _roll = roll; _jump = jump; _attack = attack; _parry = parry;
             _interact = interact; _sitDown = sitDown; _tagCritical = tagCritical; _arroganceMode = arroganceMode;
-            _menuLeft = menuLeft; _menuUp = menuUp; _menuRight = menuRight; _menuDown = menuDown; _dialogueQuit = dialogueQuit;
+             _dialogueQuit = dialogueQuit;
         }
 
         internal void Clear()
@@ -134,20 +134,20 @@ namespace Tools_and_Scripts
 
     public class InputPacker
     {
-        private const string MoveHorizontalAction = "MoveHorizontal";
-        private const string MoveVerticalAction = "MoveVertical";
-        private const string RollAction = "Roll";
-        private const string JumpAction = "Jump";
-        private const string AttackAction = "Attack";
-        private const string ParryAction = "Parry";
-        private const string InteractAction = "Interact";
-        private const string SitDownAction = "SitDown";
-        private const string CriticalAction = "Critical";
-        private const string ArroganceModeAction = "ArroganceMode";
-        private const string MenuHorizontalAction = "MenuHorizontal";
-        private const string MenuVerticalAction = "MenuVertical";
-        private const string DialogueQuitAction = "DialogueQuit";
-        private static readonly string[] _actionNames = { MoveHorizontalAction, MoveVerticalAction, RollAction, JumpAction, AttackAction, ParryAction, InteractAction, SitDownAction, CriticalAction, ArroganceModeAction, MenuHorizontalAction, MenuVerticalAction, DialogueQuitAction };
+        private static readonly string[] _actionNames =
+        {
+            RewiredActionNames.MoveHorizontal,
+            RewiredActionNames.MoveVertical,
+            RewiredActionNames.Roll,
+            RewiredActionNames.Jump,
+            RewiredActionNames.Attack,
+            RewiredActionNames.Parry,
+            RewiredActionNames.Interact,
+            RewiredActionNames.SitDown,
+            RewiredActionNames.Critical,
+            RewiredActionNames.ArroganceMode,
+            RewiredActionNames.DialogueQuit
+        };
         public static UnityEvent<InputType> OnChangeInputType = new UnityEvent<InputType>();
         private InputPackage _previousPackage = new InputPackage();
         private InputPackage _currentPackage = new InputPackage();
@@ -259,16 +259,22 @@ namespace Tools_and_Scripts
 
         private void ComputeRewiredInput(InputPackage inputs, RewiredInputRuntime runtime)
         {
-            Vector2 move = Vector3.ClampMagnitude(new Vector2(runtime.GetAxis(MoveHorizontalAction), runtime.GetAxis(MoveVerticalAction)), 1.0f);
+            Vector2 move = Vector3.ClampMagnitude(
+                new Vector2(
+                    runtime.GetAxis(RewiredActionNames.MoveHorizontal),
+                    runtime.GetAxis(RewiredActionNames.MoveVertical)),
+                1.0f);
             inputs.lastInputType = runtime.GetLastInputType();
             inputs.SetActions(move,
-                ReadAction(runtime, RollAction, _previousPackage.GetRoll), ReadAction(runtime, JumpAction, _previousPackage.GetJump),
-                ReadAction(runtime, AttackAction, _previousPackage.GetAttack), ReadAction(runtime, ParryAction, _previousPackage.GetParry),
-                ReadAction(runtime, InteractAction, _previousPackage.GetInteraction), ReadAction(runtime, SitDownAction, _previousPackage.GetSitDown),
-                ReadAction(runtime, CriticalAction, _previousPackage.GetTag), ReadAction(runtime, ArroganceModeAction, _previousPackage.GetArroganceMode),
-                ReadAxisButton(runtime, MenuHorizontalAction, -1.0f, _previousPackage.GetMenuLeft, ref _ignoreMenuLeftUntilReleased), ReadAxisButton(runtime, MenuVerticalAction, 1.0f, _previousPackage.GetMenuUp, ref _ignoreMenuUpUntilReleased),
-                ReadAxisButton(runtime, MenuHorizontalAction, 1.0f, _previousPackage.GetMenuRight, ref _ignoreMenuRightUntilReleased), ReadAxisButton(runtime, MenuVerticalAction, -1.0f, _previousPackage.GetMenuDown, ref _ignoreMenuDownUntilReleased),
-                ReadAction(runtime, DialogueQuitAction, _previousPackage.GetDialogueQuit));
+                ReadAction(runtime, RewiredActionNames.Roll, _previousPackage.GetRoll),
+                ReadAction(runtime, RewiredActionNames.Jump, _previousPackage.GetJump),
+                ReadAction(runtime, RewiredActionNames.Attack, _previousPackage.GetAttack),
+                ReadAction(runtime, RewiredActionNames.Parry, _previousPackage.GetParry),
+                ReadAction(runtime, RewiredActionNames.Interact, _previousPackage.GetInteraction),
+                ReadAction(runtime, RewiredActionNames.SitDown, _previousPackage.GetSitDown),
+                ReadAction(runtime, RewiredActionNames.Critical, _previousPackage.GetTag),
+                ReadAction(runtime, RewiredActionNames.ArroganceMode, _previousPackage.GetArroganceMode),
+                ReadAction(runtime, RewiredActionNames.DialogueQuit, _previousPackage.GetDialogueQuit));
         }
 
         private static InputData ReadAction(RewiredInputRuntime runtime, string name, InputData previous)

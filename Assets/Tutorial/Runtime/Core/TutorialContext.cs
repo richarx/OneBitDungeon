@@ -1,14 +1,12 @@
-using Player.Scripts;
-
 namespace Tutorials
 {
     public sealed class TutorialContext
     {
-        public TutorialContext(PlayerStateMachine player)
+        public TutorialContext(TutorialRunner runner)
         {
-            Player = player;
+            Runner = runner;
         }
 
-        public PlayerStateMachine Player { get; }
+        public TutorialRunner Runner { get; }
     }
 }
