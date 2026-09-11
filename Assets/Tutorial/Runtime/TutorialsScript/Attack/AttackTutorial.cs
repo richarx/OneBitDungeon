@@ -18,9 +18,7 @@ namespace Tutorials
             ? _data.EditorLabel
             : nameof(AttackTutorial);
 
-        public async UniTask ExecuteAsync(
-            TutorialContext context,
-            CancellationToken cancellationToken)
+        public async UniTask ExecuteAsync(TutorialContext context, CancellationToken cancellationToken)
         {
             if (_data == null)
                 throw new InvalidOperationException("AttackTutorial requires an AttackTutorialData asset.");

@@ -12,8 +12,6 @@ namespace Tutorials
 
         public static TutorialSignalBridge Instance { get; private set; }
 
-        [TitleGroup("References")]
-        [SerializeField, Required]
         private PlayerStateMachine _player;
 
         private UnityEvent<TutorialSignal> SignalPublished = new UnityEvent<TutorialSignal>();
@@ -46,6 +44,12 @@ namespace Tutorials
 
         private void Start()
         {
+            _player = PlayerStateMachine.instance;
+            if (_player == null)
+            {
+                Debug.LogError("PlayerStateMachine instance not found.");
+                return;
+            }
             _hasStarted = true;
             SubscribeToActions();
         }
