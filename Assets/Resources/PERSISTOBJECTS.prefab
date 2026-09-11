@@ -1832,7 +1832,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1f875d43334a0da53dd675dc4723cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _presenter: {fileID: 6705227294547180460}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 6705227294547180460}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _presenter
+      Entry: 10
+      Data: 0
 --- !u!114 &2301177926083281580
 MonoBehaviour:
   m_ObjectHideFlags: 0

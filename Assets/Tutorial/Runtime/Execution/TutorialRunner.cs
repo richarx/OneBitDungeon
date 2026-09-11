@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Tutorials
 {
-    public sealed class TutorialRunner : MonoBehaviour
+    public sealed class TutorialRunner : SerializedMonoBehaviour
     {
         [TitleGroup("References")]
         [OdinSerialize, Required]
