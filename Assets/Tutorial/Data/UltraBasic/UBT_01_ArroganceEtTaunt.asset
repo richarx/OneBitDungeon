@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53cf791b06e9bfd4093106f2335b6f21, type: 3}
+  m_Name: UBT_01_ArroganceEtTaunt
+  m_EditorClassIdentifier: 
+  tutorialId: ubt_01_arrogance_taunt
+  editorLabel: Arrogance et taunt
+  objectives:
+  - _id: ubt_01_taunt
+    _text:
+      localizationKey: 
+      fallbackText: "Provoquer remplit ta barre d\u2019arrogance.\nMaintiens {ArroganceMode}"
+    _signalId: 9
+    _showProgress: 1
+    _target: 1

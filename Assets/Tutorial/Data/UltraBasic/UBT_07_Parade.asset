@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53cf791b06e9bfd4093106f2335b6f21, type: 3}
+  m_Name: UBT_07_Parade
+  m_EditorClassIdentifier: 
+  tutorialId: ubt_07_parade
+  editorLabel: Parade
+  objectives:
+  - _id: ubt_07_parry
+    _text:
+      localizationKey: 
+      fallbackText: "Une attaque jaune peut \xEAtre par\xE9e avec {Parry} juste avant
+        l\u2019impact. On ne peut pas parer en provoquant {current} / {target}"
+    _signalId: 5
+    _showProgress: 1
+    _target: 3

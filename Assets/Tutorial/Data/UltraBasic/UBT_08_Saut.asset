@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53cf791b06e9bfd4093106f2335b6f21, type: 3}
+  m_Name: UBT_08_Saut
+  m_EditorClassIdentifier: 
+  tutorialId: ubt_08_saut
+  editorLabel: Saut
+  objectives:
+  - _id: ubt_08_jump_avoided_attack
+    _text:
+      localizationKey: 
+      fallbackText: "Une attaque bleue s\u2019\xE9vite en sautant avec {Jump}. On
+        ne peut pas parer en provoquant {current} / {target}"
+    _signalId: 12
+    _showProgress: 1
+    _target: 3

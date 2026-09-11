@@ -141,7 +141,9 @@ namespace Player.Scripts
 
         public bool CanParry(PlayerStateMachine player)
         {
-            return true;
+            return player != null
+                && !player.isInArroganceMode
+                && !player.inputPackage.GetArroganceMode.isPressed;
         }
 
         public bool IsParrying(PlayerStateMachine player)

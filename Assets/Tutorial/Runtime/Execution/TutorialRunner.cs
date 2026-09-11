@@ -14,12 +14,23 @@ namespace Tutorials
         [OdinSerialize, Required]
         private ITutorialPresenter _presenter;
 
+        [TitleGroup("Presentation")]
+        [SerializeField, MinValue(0.0f)]
+        [Tooltip("Keeps the completed objective visible briefly before the next exercise starts.")]
+        private float _completionDisplayDuration = 0.65f;
+
         private CancellationTokenSource _activeCancellation;
+        private readonly List<TutorialObjectiveRuntime> _activeObjectives = new List<TutorialObjectiveRuntime>();
         private bool _isRunning;
+
+        public event Action<TutorialData> OnObjectivesCompleted;
+
+        public bool IsRunning => _isRunning;
 
         private void OnDisable()
         {
             _activeCancellation?.Cancel();
+            DisposeActiveObjectives();
 
             if (_presenter != null)
                 _presenter.HideObjectives();
@@ -37,7 +48,7 @@ namespace Tutorials
             _activeCancellation = linkedCancellation;
             _isRunning = true;
 
-            List<TutorialObjectiveRuntime> objectives = new List<TutorialObjectiveRuntime>(data.Objectives.Count);
+            _activeObjectives.Clear();
 
             try
             {
@@ -46,14 +57,23 @@ namespace Tutorials
                 foreach (TutorialObjectiveData objective in data.Objectives)
                 {
                     if (objective != null && objective.SignalId != TutorialSignalId.None)
-                        objectives.Add(new TutorialObjectiveRuntime(objective, _presenter));
+                        _activeObjectives.Add(new TutorialObjectiveRuntime(objective, _presenter));
                 }
 
-                await UniTask.WaitUntil(() => AreCompletionObjectivesComplete(objectives), cancellationToken: linkedCancellation.Token);
+                await UniTask.WaitUntil(() => AreCompletionObjectivesComplete(_activeObjectives), cancellationToken: linkedCancellation.Token);
+
+                OnObjectivesCompleted?.Invoke(data);
+
+                if (_completionDisplayDuration > 0.0f)
+                {
+                    await UniTask.Delay(
+                        TimeSpan.FromSeconds(_completionDisplayDuration),
+                        cancellationToken: linkedCancellation.Token);
+                }
             }
             finally
             {
-
+                DisposeActiveObjectives();
                 _presenter.HideObjectives();
 
                 if (ReferenceEquals(_activeCancellation, linkedCancellation))
@@ -62,6 +82,14 @@ namespace Tutorials
                 _isRunning = false;
                 linkedCancellation.Dispose();
             }
+        }
+
+        private void DisposeActiveObjectives()
+        {
+            foreach (TutorialObjectiveRuntime objective in _activeObjectives)
+                objective.Dispose();
+
+            _activeObjectives.Clear();
         }
 
         private static bool AreCompletionObjectivesComplete(IReadOnlyList<TutorialObjectiveRuntime> objectives)

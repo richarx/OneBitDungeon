@@ -76,6 +76,11 @@ public sealed class ConeDamageZone : MonoBehaviour
         int inlineColorId = Shader.PropertyToID("_InlineColor");
         int outlineColorId = Shader.PropertyToID("_OutlineColor");
 
+        // The profile colours must be visible during the telegraph too. This is
+        // especially important for the tutorial's yellow parry and blue jump cues.
+        // material.SetColor(inlineColorId, flashColor);
+        // material.SetColor(outlineColorId, flashOutlineColor);
+
         playerInstance = PlayerStateMachine.instance;
         if (playerInstance == null)
         {

@@ -182,6 +182,15 @@ namespace Player.Scripts
             ResetDangerZoneTauntProgress();
         }
 
+        /// <summary>
+        /// Starts a fresh taunt measurement for an exercise. A held input from the
+        /// previous objective must not count toward the next one.
+        /// </summary>
+        public void ResetTauntDurationTracking()
+        {
+            ResetTauntProgress();
+        }
+
         private void ResetDangerZoneTauntProgress()
         {
             _dangerZoneTauntDuration = 0.0f;

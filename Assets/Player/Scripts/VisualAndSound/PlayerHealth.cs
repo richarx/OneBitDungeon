@@ -23,6 +23,7 @@ namespace Player.Scripts
         public int StartingHealth => startingHealth;
         public bool IsDead => currentHealth <= 0;
         public bool IsFullLife => currentHealth == startingHealth;
+        public bool IsInvincible => isInvincible;
         public bool IsInvincibleFromLastHit => Time.time - lastHitTimestamp <= player.playerData.invincibilityDuration;
 
         private void Awake()
@@ -75,6 +76,11 @@ namespace Player.Scripts
         public void SetMaxHealth(int value)
         {
             startingHealth = value;
+        }
+
+        public void SetInvincible(bool value)
+        {
+            isInvincible = value;
         }
 
         public bool IsParrying()

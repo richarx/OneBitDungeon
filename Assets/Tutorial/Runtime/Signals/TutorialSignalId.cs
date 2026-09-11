@@ -13,6 +13,7 @@ namespace Tutorials
         PlayerParryCounterAttackStarted = 8,
         PlayerTauntedForOneSecond = 9,
         PlayerTauntedInDangerZoneForOneSecond = 10,
-        PlayerTookDamage = 11
+        PlayerTookDamage = 11,
+        PlayerJumpAvoidedAttack = 12
     }
 }

@@ -94,10 +94,15 @@ public class PlayerJump : IPlayerBehaviour
         }
     }
 
-    public bool CanJump(PlayerStateMachine player)
-    {
-        return jumpCooldownTimestamp < 0.0f || Time.time >= jumpCooldownTimestamp;
-    }
+        public bool CanJump(PlayerStateMachine player)
+        {
+            if (player == null
+                || player.isInArroganceMode
+                || player.inputPackage.GetArroganceMode.isPressed)
+                return false;
+
+            return jumpCooldownTimestamp < 0.0f || Time.time >= jumpCooldownTimestamp;
+        }
 
     public void StopBehaviour(PlayerStateMachine player, BehaviourType next)
     {

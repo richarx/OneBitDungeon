@@ -2129,6 +2129,7 @@ RectTransform:
   m_Children:
   - {fileID: 781900730}
   - {fileID: 1764143170}
+  - {fileID: 2098000051}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6444,6 +6445,7 @@ MonoBehaviour:
     - Name: _presenter
       Entry: 10
       Data: 0
+  _completionDisplayDuration: 0.65
 --- !u!114 &1181216470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6453,12 +6455,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1181216467}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cf0cefc609b4544abe6c774e2e8b8b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 33c4f781e50b42b5acb6f542ce268a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _runner: {fileID: 1181216469}
-  _tutorial: {fileID: 11400000, guid: fe094a6a48801b34391a217ae129fe1f, type: 2}
-  _launchOnStart: 0
+  _attackEmitter: {fileID: 2098000001}
+  _dummy: {fileID: 1315216162}
+  _playerExercisePoint: {fileID: 2098000011}
+  _dummyExercisePoint: {fileID: 2098000021}
+  _dangerStartPoint: {fileID: 2098000031}
+  _closeDodgePoint: {fileID: 2098000041}
+  _arroganceAndTaunt: {fileID: 11400000, guid: e0c0300a000000000000000000000001, type: 2}
+  _criticalAttack: {fileID: 11400000, guid: e0c0300a000000000000000000000002, type: 2}
+  _loseArrogance: {fileID: 11400000, guid: e0c0300a000000000000000000000003, type: 2}
+  _tauntInDangerZone: {fileID: 11400000, guid: e0c0300a000000000000000000000004, type: 2}
+  _spin: {fileID: 11400000, guid: e0c0300a000000000000000000000005, type: 2}
+  _closeDodge: {fileID: 11400000, guid: e0c0300a000000000000000000000006, type: 2}
+  _parry: {fileID: 11400000, guid: e0c0300a000000000000000000000007, type: 2}
+  _jump: {fileID: 11400000, guid: e0c0300a000000000000000000000008, type: 2}
+  _minimumReadingDuration: 0.55
+  _attackRetryInterval: 0.8
+  _debugStartStep: 1
 --- !u!4 &1181216471
 Transform:
   m_ObjectHideFlags: 0
@@ -7016,7 +7033,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1281219094
 Transform:
   m_ObjectHideFlags: 0
@@ -7105,6 +7122,7 @@ GameObject:
   - component: {fileID: 1315216164}
   - component: {fileID: 1315216174}
   - component: {fileID: 1315216163}
+  - component: {fileID: 2098000001}
   m_Layer: 9
   m_Name: DummyFighter
   m_TagString: Enemy
@@ -7161,7 +7179,7 @@ MonoBehaviour:
       Data: 
   <Sprite>k__BackingField: {fileID: 160456277}
   <shadowSprite>k__BackingField: {fileID: 646636857}
-  debugMode: 1
+  debugMode: 0
 --- !u!114 &1315216164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7174,7 +7192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be28031ef95f9244faca5cc4ccd86529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMainEnemy: 0
+  isMainEnemy: 1
 --- !u!114 &1315216165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8233,7 +8251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12814c1900895804883275a88bbea5d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRoomLocking: 0
+  isRoomLocking: 1
   openSound: {fileID: 8300000, guid: 8b2b34bad5851ce4f80d5d8560fd514a, type: 3}
   closeSound: {fileID: 8300000, guid: a0785d6cb28133449925b388181e94a6, type: 3}
 --- !u!1001 &1471497327
@@ -11001,6 +11019,251 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &2098000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315216162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d926b9f59d84026848a1a2b3c4d5e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _signalBridge: {fileID: 1181216468}
+  _demonstration:
+    _prefab: {fileID: 4722290469985967793, guid: a1c0300a000000000000000000000001,
+      type: 3}
+    _damage: 1
+    _radius: 5.6
+    _openingAngle: 70
+    _spawnDuration: 0.3
+    _fillDuration: 2.7
+    _despawnBuffer: 0.5
+    _canBeParried: 0
+    _canBeJumped: 0
+  _parry:
+    _prefab: {fileID: 4722290469985967793, guid: a1c0300a000000000000000000000002,
+      type: 3}
+    _damage: 1
+    _radius: 5.6
+    _openingAngle: 70
+    _spawnDuration: 0.3
+    _fillDuration: 2.3
+    _despawnBuffer: 0.5
+    _canBeParried: 1
+    _canBeJumped: 0
+  _jump:
+    _prefab: {fileID: 4722290469985967793, guid: a1c0300a000000000000000000000003,
+      type: 3}
+    _damage: 1
+    _radius: 5.6
+    _openingAngle: 70
+    _spawnDuration: 0.3
+    _fillDuration: 2.3
+    _despawnBuffer: 0.5
+    _canBeParried: 0
+    _canBeJumped: 1
+--- !u!1 &2098000010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2098000011}
+  m_Layer: 0
+  m_Name: Tutorial Player Exercise Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2098000011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098000010}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -4.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2098000020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2098000021}
+  m_Layer: 0
+  m_Name: Tutorial Dummy Exercise Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2098000021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098000020}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2098000030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2098000031}
+  m_Layer: 0
+  m_Name: Tutorial Danger Start Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2098000031
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098000030}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2098000040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2098000041}
+  m_Layer: 0
+  m_Name: Tutorial Close Dodge Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2098000041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098000040}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -5.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2098000050
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2098000051}
+  - component: {fileID: 2098000052}
+  - component: {fileID: 2098000053}
+  m_Layer: 6
+  m_Name: Tutorial Arrogance Bar Highlight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2098000051
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098000050}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 538673354}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -100}
+  m_SizeDelta: {x: 280, y: 12}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2098000052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098000050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.75, b: 0.1, a: 0.9}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2098000053
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098000050}
+  m_CullTransparentMesh: 1
 --- !u!1 &2106530260
 GameObject:
   m_ObjectHideFlags: 0
@@ -11449,3 +11712,7 @@ SceneRoots:
   - {fileID: 1554434918}
   - {fileID: 1315216173}
   - {fileID: 1181216471}
+  - {fileID: 2098000011}
+  - {fileID: 2098000021}
+  - {fileID: 2098000031}
+  - {fileID: 2098000041}

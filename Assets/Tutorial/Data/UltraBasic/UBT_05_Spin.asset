@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53cf791b06e9bfd4093106f2335b6f21, type: 3}
+  m_Name: UBT_05_Spin
+  m_EditorClassIdentifier: 
+  tutorialId: ubt_05_spin
+  editorLabel: Spin
+  objectives:
+  - _id: ubt_05_spin
+    _text:
+      localizationKey: 
+      fallbackText: 'Esquiver pendant une provocation fait un spin.
+
+        Maintiens
+        {ArroganceMode} et appuie sur {Roll} {current} / {target} '
+    _signalId: 3
+    _showProgress: 1
+    _target: 5

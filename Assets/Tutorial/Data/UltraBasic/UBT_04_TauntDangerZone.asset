@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53cf791b06e9bfd4093106f2335b6f21, type: 3}
+  m_Name: UBT_04_TauntDangerZone
+  m_EditorClassIdentifier: 
+  tutorialId: ubt_04_taunt_danger_zone
+  editorLabel: Taunt dans la zone de danger
+  objectives:
+  - _id: ubt_04_danger_taunt
+    _text:
+      localizationKey: 
+      fallbackText: Provoquer dans une zone de danger remplit la barre plus vite.
+        Entre dans la zone et tient {ArroganceMode}.
+    _signalId: 10
+    _showProgress: 1
+    _target: 3

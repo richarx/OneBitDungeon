@@ -103,11 +103,31 @@ namespace Tutorials
 
         public void SubToBridge(UnityAction<TutorialSignal> call)
         {
+            if (call == null)
+                return;
+
             if (!_subscribers.Contains(call))
             {
                 _subscribers.Add(call);
                 _signalPublished.AddListener(call);
             }
+        }
+
+        public void UnsubFromBridge(UnityAction<TutorialSignal> call)
+        {
+            if (call == null || !_subscribers.Remove(call))
+                return;
+
+            _signalPublished.RemoveListener(call);
+        }
+
+        /// <summary>
+        /// Publishes the outcome of a damage-zone collision that a jump actually avoided.
+        /// Zone owners call this instead of treating any jump input as a successful dodge.
+        /// </summary>
+        public void PublishJumpAvoidedAttack()
+        {
+            PublishSignal(TutorialSignalId.PlayerJumpAvoidedAttack);
         }
 
         private void HandlePlayerAttack(AttackPayload payload)

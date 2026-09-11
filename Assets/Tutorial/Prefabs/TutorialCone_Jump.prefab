@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7827322775421795495
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4364034083912672792}
+  - component: {fileID: 2270733634646550044}
+  - component: {fileID: 4722290469985967793}
+  - component: {fileID: 3534283566602156500}
+  m_Layer: 0
+  m_Name: TutorialCone_Jump
+  m_TagString: Untagged
+  m_IsActive: 1
+--- !u!4 &4364034083912672792
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827322775421795495}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.06, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!212 &2270733634646550044
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827322775421795495}
+  m_Enabled: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 50b498c5b87a4d1e957ac3fe0a8b6d42, type: 2}
+  m_SortingLayerID: 0
+  m_SortingOrder: -1
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &4722290469985967793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827322775421795495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7fb29d8ef88434fbf9e334e5d8f6f43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnEase: 16
+  fillEase: 1
+  despawnDuration: 0.3
+  withoutCloseWindow: 1
+  flashColor: {r: 0.25, g: 0.65, b: 1, a: 1}
+  flashOutlineColor: {r: 0.75, g: 0.9, b: 1, a: 1}
+  filledColor: {r: 0, g: 0.2, b: 0.75, a: 1}
+  filledOutlineColor: {r: 0.1, g: 0.55, b: 1, a: 1}
+--- !u!114 &3534283566602156500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827322775421795495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5031c2850f7254e8b0091d914300f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  canBeParried: 0
+  canBeJumped: 1
