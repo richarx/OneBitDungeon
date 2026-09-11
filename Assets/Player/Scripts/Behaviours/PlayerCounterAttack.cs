@@ -1,9 +1,12 @@
 using System;
 using Player.Scripts;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerCounterAttack : IPlayerBehaviour
 {
+    public UnityEvent OnStartCounterAttack = new UnityEvent();
+
     private float attackStartTimestamp;
 
     private bool canAttackBeCanceled;
@@ -21,6 +24,7 @@ public class PlayerCounterAttack : IPlayerBehaviour
 
         currentAttackPayload = new AttackPayload("CounterAttack", AttackType.Punish, player.playerData.counterAttackDamage, 1);
 
+        OnStartCounterAttack?.Invoke();
         player.playerAttack.OnPlayerAttack?.Invoke(currentAttackPayload);
     }
 

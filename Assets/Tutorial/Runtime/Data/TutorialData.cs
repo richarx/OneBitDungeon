@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+
 namespace Tutorials
 {
-    public abstract class TutorialData : ScriptableObject
+    [CreateAssetMenu(fileName = "New Tutorial Data", menuName = "Tutorials/Tutorial Data")]
+    public class TutorialData : ScriptableObject
     {
         [TitleGroup("Identity")]
         [SerializeField]

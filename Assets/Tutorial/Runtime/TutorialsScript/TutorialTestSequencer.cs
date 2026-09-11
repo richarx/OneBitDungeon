@@ -13,8 +13,8 @@ namespace Tutorials
         private TutorialRunner _runner;
 
         [TitleGroup("Tutorial")]
-        [SerializeField]
-        private AttackTutorial _tutorial = new AttackTutorial();
+        [SerializeField, Required]
+        private TutorialData _tutorial;
 
         [TitleGroup("Launch")]
         [SerializeField]
@@ -45,9 +45,7 @@ namespace Tutorials
 
             if (_runner == null || _tutorial == null)
             {
-                Debug.LogError(
-                    "[Tutorial Test Sequencer] Assign the runner and tutorial before launching.",
-                    this);
+                Debug.LogError("[Tutorial Test Sequencer] Assign the runner and tutorial before launching.", this);
                 return;
             }
 
@@ -73,8 +71,7 @@ namespace Tutorials
         {
             try
             {
-                TutorialContext context = new TutorialContext(_runner);
-                await _tutorial.ExecuteAsync(context, cancellation.Token);
+                await _runner.RunAsync(_tutorial, cancellation.Token);
             }
             catch (OperationCanceledException)
             {
