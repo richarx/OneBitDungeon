@@ -18,7 +18,7 @@ MonoBehaviour:
   - _id: ubt_01_taunt
     _text:
       localizationKey: 
-      fallbackText: "Provoquer remplit ta barre d\u2019arrogance.\nMaintiens {ArroganceMode}"
+      fallbackText: "Provoquer remplit ta barre d\u2019arrogance. Maintiens {ArroganceMode}"
     _signalId: 9
     _showProgress: 1
     _target: 1

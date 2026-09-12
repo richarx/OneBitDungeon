@@ -98,7 +98,7 @@ namespace Tutorials
 
         private void OnEnable()
         {
-            GameManager.OnChangeScene.RemoveListener(HandleSceneChanged);
+            GameManager.OnChangeScene.RemoveListener(HandleSceneChanged); // wass ?
             GameManager.OnChangeScene.AddListener(HandleSceneChanged);
         }
 
@@ -337,7 +337,7 @@ namespace Tutorials
             }
         }
 
-        private void PrepareStep(int step)
+        private void PrepareStep(int step) //On pourrait pas mettre ces trucs dans les Tutorial Data ? Pour avoir moins de trucs particulier dans ce script
         {
             _attackEmitter.CancelAll();
             SetArroganceHighlight(false);
@@ -455,7 +455,7 @@ namespace Tutorials
 
         private void SetArroganceHighlight(bool visible)
         {
-           // _arroganceDisplay?.SetTutorialHighlightVisible(visible);
+            // _arroganceDisplay?.SetTutorialHighlightVisible(visible);
         }
     }
 }

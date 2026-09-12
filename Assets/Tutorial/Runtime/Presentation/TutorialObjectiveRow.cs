@@ -1,3 +1,4 @@
+using PrimeTween;
 using Rewired.Glyphs.UnityUI;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -57,6 +58,10 @@ namespace Tutorials
             Sprite targetSprite = isCompleted ? _checkedSprite : _uncheckedSprite;
             if (targetSprite != null)
                 _checkboxImage.sprite = targetSprite;
+
+            if (isCompleted)
+                Sequence.Create()
+                    .Chain(Tween.PunchScale(_checkboxImage.transform, Vector3.one, 0.15f));
         }
     }
 }

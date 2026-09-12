@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-
 namespace Tutorials
 {
     [CreateAssetMenu(fileName = "New Tutorial Data", menuName = "Tutorials/Tutorial Data")]
