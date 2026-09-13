@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53cf791b06e9bfd4093106f2335b6f21, type: 3}
-  m_Name: UBT_04_TauntDangerZone
+  m_Name: UBT_01_Attack
   m_EditorClassIdentifier: 
-  tutorialId: ubt_04_taunt_danger_zone
-  editorLabel: Taunt dans la zone de danger
-  dialogueData: {fileID: 11400000, guid: ce47633737785aa4a976c30aaf702278, type: 2}
+  tutorialId: ubt_01_attack
+  editorLabel: Attack
+  dialogueData: {fileID: 11400000, guid: 067d4139173270e469f32be3272a395b, type: 2}
   objectives:
-  - _id: ubt_04_danger_taunt
+  - _id: ubt_01_attack
     _text:
       localizationKey: 
-      fallbackText: Provoquer dans une zone de danger remplit la barre plus vite.
-        Entre dans la zone et tient {ArroganceMode}.
-    _signalId: 10
+      fallbackText: 'Press {Attack} to Attack.
+
+        {current} / {target}'
+    _signalId: 1
     _showProgress: 1
-    _target: 1
+    _target: 5

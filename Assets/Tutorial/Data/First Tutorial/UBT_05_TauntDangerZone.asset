@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53cf791b06e9bfd4093106f2335b6f21, type: 3}
-  m_Name: UBT_03_PerteArrogance
+  m_Name: UBT_05_TauntDangerZone
   m_EditorClassIdentifier: 
-  tutorialId: ubt_03_perte_arrogance
-  editorLabel: Perdre son arrogance
-  dialogueData: {fileID: 11400000, guid: dce5947cc13bf6f4787dd0416128063b, type: 2}
+  tutorialId: ubt_05_taunt_danger_zone
+  editorLabel: Taunt dans la zone de danger
+  dialogueData: {fileID: 11400000, guid: ce47633737785aa4a976c30aaf702278, type: 2}
   objectives:
-  - _id: ubt_03_took_damage
+  - _id: ubt_05_danger_taunt
     _text:
       localizationKey: 
-      fallbackText: "Un coup re\xE7u vide ta barre d\u2019arrogance {current} / {target}"
-    _signalId: 11
+      fallbackText: Provoquer dans une zone de danger remplit la barre plus vite.
+        Entre dans la zone et tient {ArroganceMode}.
+    _signalId: 10
     _showProgress: 1
     _target: 1

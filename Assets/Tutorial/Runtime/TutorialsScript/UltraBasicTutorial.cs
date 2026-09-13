@@ -47,6 +47,10 @@ namespace Tutorials
 
         [TitleGroup("Steps")]
         [SerializeField, Required]
+        private TutorialData _attacks;
+
+        [TitleGroup("Steps")]
+        [SerializeField, Required]
         private TutorialData _arroganceAndTaunt;
 
         [TitleGroup("Steps")]
@@ -238,19 +242,23 @@ namespace Tutorials
                     UniTask exerciseTask = StartExerciseAsync(step, exerciseCancellation.Token);
                     await runnerTask;
 
-                    if (step == 1)
+                    if (step == 0)
+                    {
+                        _attackEmitter.StopBlocking();
+                    }
+                    else if (step == 2)
                     {
                         await UniTask.WaitUntil(
                             () => _player.currentBehaviour.GetBehaviourType() != BehaviourType.CriticalAttack,
                             cancellationToken: cancellationToken);
                     }
-                    else if (step == 2)
+                    else if (step == 3)
                     {
                         await UniTask.WaitUntil(
                             () => _player.playerArrogance.NormalizedArrogance <= 0.001f,
                             cancellationToken: cancellationToken);
                     }
-                    else if (step == 4)
+                    else if (step == 5)
                     {
                         await UniTask.WaitUntil(
                             () => _player.currentBehaviour.GetBehaviourType() != BehaviourType.ArrogantSpin,
@@ -280,24 +288,29 @@ namespace Tutorials
             switch (step)
             {
                 case 0:
-                case 4:
+                    _attackEmitter.StartBlocking();
                     return UniTask.Never(cancellationToken);
                 case 1:
-                    return RefillArroganceAfterCriticalAttackAsync(cancellationToken);
+                case 5:
+                    return UniTask.Never(cancellationToken);
                 case 2:
+                    return RefillArroganceAfterCriticalAttackAsync(cancellationToken);
+                case 3:
                     return RepeatAttackAsync(
                         TutorialAttackKind.Fast,
                         _playerExercisePoint.position,
                         cancellationToken,
                         refillArroganceBeforeEachAttempt: true);
-                case 3:
+                case 4:
                     return RepeatAttackAsync(TutorialAttackKind.Demonstration, _dangerStartPoint.position, cancellationToken);
-                case 5:
+                case 6:
                     return RepeatAttackAsync(TutorialAttackKind.Demonstration, _closeDodgePoint.position, cancellationToken);
+                /*
                 case 6:
                     return WaitForArroganceReleaseThenRepeatAsync(TutorialAttackKind.Parry, cancellationToken);
                 case 7:
                     return WaitForArroganceReleaseThenRepeatAsync(TutorialAttackKind.Jump, cancellationToken);
+                */
                 default:
                     throw new ArgumentOutOfRangeException(nameof(step));
             }
@@ -358,36 +371,41 @@ namespace Tutorials
             {
                 case 0:
                     PlacePlayer(_playerExercisePoint);
-                    _player.playerArrogance.ClearArrogance();
-                    _player.arroganceProcessor.ResetTauntDurationTracking();
-                    SetArroganceHighlight(true);
                     break;
                 case 1:
                     PlacePlayer(_playerExercisePoint);
-                    _player.playerArrogance.FillArrogance();
+                    _player.playerArrogance.ClearArrogance();
+                    _player.arroganceProcessor.ResetTauntDurationTracking();
+                    SetArroganceHighlight(true);
                     break;
                 case 2:
                     PlacePlayer(_playerExercisePoint);
                     _player.playerArrogance.FillArrogance();
                     break;
                 case 3:
+                    PlacePlayer(_playerExercisePoint);
+                    _player.playerArrogance.FillArrogance();
+                    break;
+                case 4:
                     PlacePlayer(_dangerStartPoint);
                     _player.playerArrogance.ClearArrogance();
                     _player.arroganceProcessor.ResetTauntDurationTracking();
                     break;
-                case 4:
+                case 5:
                     PlacePlayer(_playerExercisePoint);
                     break;
-                case 5:
+                case 6:
                     PlacePlayer(_closeDodgePoint);
                     _player.playerArrogance.ClearArrogance();
                     break;
-                case 6:
-                    PlacePlayer(_playerExercisePoint);
-                    break;
-                case 7:
-                    PlacePlayer(_playerExercisePoint);
-                    break;
+                    /*    
+                    case 6:
+                        PlacePlayer(_playerExercisePoint);
+                        break;
+                    case 7:
+                        PlacePlayer(_playerExercisePoint);
+                        break;
+                    */
             }
         }
 
@@ -425,14 +443,17 @@ namespace Tutorials
         {
             return new[]
             {
+                _attacks,
                 _arroganceAndTaunt,
                 _criticalAttack,
                 _loseArrogance,
                 _tauntInDangerZone,
                 _spin,
                 _closeDodge,
+                /*
                 _parry,
                 _jump
+                */
             };
         }
 

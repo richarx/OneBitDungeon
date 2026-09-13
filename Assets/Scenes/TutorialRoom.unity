@@ -6922,6 +6922,7 @@ MonoBehaviour:
   _dummyExercisePoint: {fileID: 2098000021}
   _dangerStartPoint: {fileID: 2098000031}
   _closeDodgePoint: {fileID: 2098000041}
+  _attacks: {fileID: 11400000, guid: 21c9dbb143062104f949feb8f1d7c1f6, type: 2}
   _arroganceAndTaunt: {fileID: 11400000, guid: e0c0300a000000000000000000000001, type: 2}
   _criticalAttack: {fileID: 11400000, guid: e0c0300a000000000000000000000002, type: 2}
   _loseArrogance: {fileID: 11400000, guid: e0c0300a000000000000000000000003, type: 2}

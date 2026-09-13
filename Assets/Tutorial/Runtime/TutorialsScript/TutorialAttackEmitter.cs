@@ -122,6 +122,7 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
 
     public void StopBlocking()
     {
+        GetComponent<EnemyController>().animator.Play("StopBlocking");
         GetComponent<Damageable>().OnTakeDamage.RemoveListener(PlayBlockHitAnimation);
     }
 

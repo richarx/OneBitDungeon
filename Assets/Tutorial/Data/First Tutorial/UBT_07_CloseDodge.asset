@@ -10,19 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53cf791b06e9bfd4093106f2335b6f21, type: 3}
-  m_Name: UBT_05_Spin
+  m_Name: UBT_07_CloseDodge
   m_EditorClassIdentifier: 
-  tutorialId: ubt_05_spin
-  editorLabel: Spin
-  dialogueData: {fileID: 11400000, guid: 7a734c390ca114640839daec55a358b1, type: 2}
+  tutorialId: ubt_07_close_dodge
+  editorLabel: Close dodge
+  dialogueData: {fileID: 11400000, guid: ab08444c7f36d69428d11e0be1d916e8, type: 2}
   objectives:
-  - _id: ubt_05_spin
+  - _id: ubt_07_close_dodge
     _text:
       localizationKey: 
-      fallbackText: 'Esquiver pendant une provocation fait un spin.
-
-        Maintiens
-        {ArroganceMode} et appuie sur {Roll} {current} / {target} '
-    _signalId: 3
+      fallbackText: 'Quitter la zone au dernier moment avec un spin donne un bonus
+        d''arrogance {current} / {target} '
+    _signalId: 4
     _showProgress: 1
-    _target: 5
+    _target: 1
