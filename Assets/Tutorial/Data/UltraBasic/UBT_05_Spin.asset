@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialId: ubt_05_spin
   editorLabel: Spin
+  dialogueData: {fileID: 11400000, guid: 7a734c390ca114640839daec55a358b1, type: 2}
   objectives:
   - _id: ubt_05_spin
     _text:

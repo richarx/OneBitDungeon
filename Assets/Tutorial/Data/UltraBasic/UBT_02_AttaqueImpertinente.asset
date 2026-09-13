@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialId: ubt_02_attaque_impertinente
   editorLabel: Attaque impertinente
+  dialogueData: {fileID: 11400000, guid: 8fe3147c43e165f408626c94b655c15e, type: 2}
   objectives:
   - _id: ubt_02_critical
     _text:

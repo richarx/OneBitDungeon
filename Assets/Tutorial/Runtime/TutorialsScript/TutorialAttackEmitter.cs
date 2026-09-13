@@ -4,10 +4,12 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Tutorials;
 using PrimeTween;
+using Enemies.Scripts;
 
 public enum TutorialAttackKind
 {
     Demonstration,
+    Fast,
     Parry,
     Jump
 }
@@ -93,6 +95,10 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
 
     [TitleGroup("Profiles")]
     [SerializeField, Required]
+    private TutorialConeAttackProfile _fastAttack = new TutorialConeAttackProfile();
+
+    [TitleGroup("Profiles")]
+    [SerializeField, Required]
     private TutorialConeAttackProfile _parry = new TutorialConeAttackProfile();
 
     [TitleGroup("Profiles")]
@@ -106,6 +112,22 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
     public float GetDuration(TutorialAttackKind kind)
     {
         return GetProfile(kind).Duration;
+    }
+
+    public void StartBlocking()
+    {
+        GetComponent<EnemyController>().animator.Play("StartBlock");
+        GetComponent<Damageable>().OnTakeDamage.AddListener(PlayBlockHitAnimation);
+    }
+
+    public void StopBlocking()
+    {
+        GetComponent<Damageable>().OnTakeDamage.RemoveListener(PlayBlockHitAnimation);
+    }
+
+    private void PlayBlockHitAnimation(Vector2 direction)
+    {
+        GetComponent<EnemyController>().animator.Play("BlockHit");
     }
 
     public ConeDamageZone Launch(TutorialAttackKind kind, Vector3 origin, Vector3 target)
@@ -178,6 +200,8 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
     {
         switch (kind)
         {
+            case TutorialAttackKind.Fast:
+                return _fastAttack;
             case TutorialAttackKind.Parry:
                 return _parry;
             case TutorialAttackKind.Jump:

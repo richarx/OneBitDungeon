@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialId: ubt_04_taunt_danger_zone
   editorLabel: Taunt dans la zone de danger
+  dialogueData: {fileID: 11400000, guid: ce47633737785aa4a976c30aaf702278, type: 2}
   objectives:
   - _id: ubt_04_danger_taunt
     _text:

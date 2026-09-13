@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialId: ubt_01_arrogance_taunt
   editorLabel: Arrogance et taunt
+  dialogueData: {fileID: 11400000, guid: f5700ce4eab1b81438ad3bd60945ce91, type: 2}
   objectives:
   - _id: ubt_01_taunt
     _text:

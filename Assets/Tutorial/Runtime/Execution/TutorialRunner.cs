@@ -36,7 +36,7 @@ namespace Tutorials
                 _presenter.HideObjectives();
         }
 
-        public async UniTask RunAsync(TutorialData data, CancellationToken cancellationToken)
+        public async UniTask RunAsync(TutorialData data, CancellationToken cancellationToken, Action onDialogueCompleteCallback = null)
         {
             Validate(data);
 
@@ -52,6 +52,14 @@ namespace Tutorials
 
             try
             {
+                if (data.dialogueData != null)
+                {
+                    bool isDialogueOver = false;
+                    DialogueManager.instance.TriggerDialogue(data.dialogueData, null, () => isDialogueOver = true);
+                    await UniTask.WaitUntil(() => isDialogueOver);
+                }
+                onDialogueCompleteCallback?.Invoke();
+
                 _presenter.ShowObjectives(data.Objectives);
 
                 foreach (TutorialObjectiveData objective in data.Objectives)
@@ -131,7 +139,7 @@ namespace Tutorials
 
                 if (objective.SignalId == TutorialSignalId.None)
                 {
-                        throw new InvalidOperationException($"Objective '{objective.Id}' has no signal.");
+                    throw new InvalidOperationException($"Objective '{objective.Id}' has no signal.");
                 }
 
                 hasCompletableObjective = true;

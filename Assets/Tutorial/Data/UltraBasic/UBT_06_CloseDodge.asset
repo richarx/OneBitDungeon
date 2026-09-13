@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialId: ubt_06_close_dodge
   editorLabel: Close dodge
+  dialogueData: {fileID: 11400000, guid: ab08444c7f36d69428d11e0be1d916e8, type: 2}
   objectives:
   - _id: ubt_06_close_dodge
     _text:

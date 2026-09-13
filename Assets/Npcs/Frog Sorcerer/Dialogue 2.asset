@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a863d035d7ecb64e8a1c323a530e267, type: 3}
   m_Name: Dialogue 2
   m_EditorClassIdentifier: 
+  npcName: Esteemed Frog Sorcerer
+  npcPortrait: {fileID: 21300000, guid: 53d4a0b826523e94ea331eb46b1095b5, type: 3}
   dialogueLines:
   - 'You can Parry arracks that have a Yellow border,
 

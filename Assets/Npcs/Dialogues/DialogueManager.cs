@@ -1,3 +1,4 @@
+using System;
 using Player.Scripts;
 using PrimeTween;
 using UnityEngine;
@@ -24,6 +25,8 @@ public class DialogueManager : MonoBehaviour
 
     private Sequence currentSequence;
     private Sequence cameraSequence;
+
+    private Action currentCallback;
 
     private void Awake()
     {
@@ -65,19 +68,23 @@ public class DialogueManager : MonoBehaviour
         dialogueDisplay.DisplayNewLine(currentLine);
     }
 
-    public void TriggerDialogue(string npc, Sprite npcSprite, DialogueData dialogueData, Transform cameraTargetPivot)
+    public void TriggerDialogue(DialogueData dialogueData, Transform cameraTargetPivot = null, Action callback = null)
     {
         Debug.Log($"Trigger Dialogue : {dialogueData.dialogueLines[0]}");
 
         if (!isDisplayed)
         {
+            currentCallback = callback;
             isDisplayed = true;
             isSkippingFrame = true;
 
             currentDialogue = dialogueData;
             currentLineIndex = 0;
 
-            DisplayDialogue(npc, npcSprite, cameraTargetPivot);
+            if (cameraTargetPivot != null)
+                DisplayDialogue(dialogueData.npcName, dialogueData.npcPortrait, cameraTargetPivot.position, cameraTargetPivot.rotation.eulerAngles);
+            else
+                DisplayDialogue(dialogueData.npcName, dialogueData.npcPortrait, new Vector3(0.0f, 6.0f, -15.0f), new Vector3(20.0f, 0.0f, 0.0f));
         }
     }
 
@@ -93,7 +100,7 @@ public class DialogueManager : MonoBehaviour
     private Vector3 cameraStartingPosition;
     private Quaternion cameraStartingRotation;
 
-    private void DisplayDialogue(string npc, Sprite npcSprite, Transform cameraTargetPivot)
+    private void DisplayDialogue(string npc, Sprite npcSprite, Vector3 cameraPosition, Vector3 cameraRotation)
     {
         Debug.Log("Display Dialog");
 
@@ -109,8 +116,8 @@ public class DialogueManager : MonoBehaviour
         CamerasHolder.instance.cameraFollowPlayer.SetLockState(true);
 
         cameraSequence = Sequence.Create()
-            .Chain(Tween.Position(camera, cameraTargetPivot.position, 2.0f, Ease.OutCirc))
-            .Group(Tween.Rotation(camera, cameraTargetPivot.rotation, 2.0f, Ease.OutCirc));
+            .Chain(Tween.Position(camera, cameraPosition, 2.0f, Ease.OutCirc))
+            .Group(Tween.Rotation(camera, Quaternion.Euler(cameraRotation), 2.0f, Ease.OutCirc));
 
         currentSequence = Sequence.Create()
             .ChainCallback(() => PlayerStateMachine.instance.playerLocked.SetLockState(PlayerStateMachine.instance, PlayerLocked.LockState.Dialog))
@@ -147,6 +154,11 @@ public class DialogueManager : MonoBehaviour
             .ChainCallback(() => portrait.Hide())
             .ChainCallback(() => cinematicBlackBars.Hide(0.5f, Ease.InCirc))
             .ChainCallback(() => CamerasHolder.instance.cameraFollowPlayer.SetLockState(true))
-            .ChainCallback(() => PlayerStateMachine.instance.playerLocked.UnlockPlayer(PlayerStateMachine.instance));
+            .ChainCallback(() => PlayerStateMachine.instance.playerLocked.UnlockPlayer(PlayerStateMachine.instance))
+            .ChainCallback(() =>
+            {
+                if (currentCallback != null)
+                    currentCallback?.Invoke();
+            });
     }
 }

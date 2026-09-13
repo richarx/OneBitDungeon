@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a863d035d7ecb64e8a1c323a530e267, type: 3}
   m_Name: Dialogue 2
   m_EditorClassIdentifier: 
+  npcName: Sparrow Prince
+  npcPortrait: {fileID: 21300000, guid: b3853a45dc9bde146984acb3f508f6ae, type: 3}
   dialogueLines:
   - You can enter "Arrogant mode" at anytime
   - When arrogant, your roll is replaced by a "Side-step Spin"

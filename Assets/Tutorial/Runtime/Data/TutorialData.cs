@@ -18,6 +18,10 @@ namespace Tutorials
         [LabelText("Editor Label")]
         private string editorLabel = string.Empty;
 
+        [TitleGroup("Dialogue")]
+        [LabelText("Dialogue Data")]
+        public DialogueData dialogueData;
+
         [TitleGroup("Objectives")]
         [SerializeField]
         [LabelText("Objectives")]

@@ -77,6 +77,10 @@ namespace Tutorials
         [SerializeField, Required]
         private TutorialData _jump;
 
+        [TitleGroup("Dialogue")]
+        [SerializeField]
+        private DialogueData goodbyeDialogue;
+
         [TitleGroup("Timing")]
         [SerializeField, MinValue(0.0f)]
         private float _minimumReadingDuration = 0.55f;
@@ -178,6 +182,11 @@ namespace Tutorials
 
                 _attackEmitter.CancelAll();
                 _player.playerArrogance.ClearArrogance();
+
+                bool isDialogueOver = false;
+                DialogueManager.instance.TriggerDialogue(goodbyeDialogue, null, () => isDialogueOver = true);
+                await UniTask.WaitUntil(() => isDialogueOver);
+
                 GameManager.OnUnlockLevel?.Invoke();
             }
             catch (OperationCanceledException)
@@ -220,8 +229,10 @@ namespace Tutorials
                 _runner.OnObjectivesCompleted += HandleObjectivesCompleted;
                 try
                 {
-                    UniTask runnerTask = _runner.RunAsync(data, cancellationToken);
+                    bool isDialogueOver = false;
+                    UniTask runnerTask = _runner.RunAsync(data, cancellationToken, () => isDialogueOver = true);
                     await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+                    await UniTask.WaitUntil(() => isDialogueOver);
                     await UniTask.Delay(TimeSpan.FromSeconds(_minimumReadingDuration), cancellationToken: cancellationToken);
 
                     UniTask exerciseTask = StartExerciseAsync(step, exerciseCancellation.Token);
@@ -275,7 +286,7 @@ namespace Tutorials
                     return RefillArroganceAfterCriticalAttackAsync(cancellationToken);
                 case 2:
                     return RepeatAttackAsync(
-                        TutorialAttackKind.Demonstration,
+                        TutorialAttackKind.Fast,
                         _playerExercisePoint.position,
                         cancellationToken,
                         refillArroganceBeforeEachAttempt: true);
