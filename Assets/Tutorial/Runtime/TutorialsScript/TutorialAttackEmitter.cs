@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Tutorials;
+using PrimeTween;
 
 public enum TutorialAttackKind
 {
@@ -36,6 +37,12 @@ public sealed class TutorialConeAttackProfile
     private float _despawnBuffer = 0.5f;
 
     [SerializeField]
+    private string animation;
+
+    [SerializeField]
+    private float animationAnticipationDuration;
+
+    [SerializeField]
     private bool _canBeParried;
 
     [SerializeField]
@@ -44,6 +51,8 @@ public sealed class TutorialConeAttackProfile
     public bool IsValid => _prefab != null;
 
     public float Duration => _spawnDuration + _fillDuration + _despawnBuffer;
+    public float AnticipationDuration => _spawnDuration + _fillDuration - animationAnticipationDuration;
+    public string Animation => animation;
 
     public ConeDamageZone Spawn(Vector3 origin, Vector3 target)
     {
@@ -92,6 +101,8 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
 
     private readonly List<ActiveAttack> _activeAttacks = new List<ActiveAttack>();
 
+    private Sequence currentAttackAnimation;
+
     public float GetDuration(TutorialAttackKind kind)
     {
         return GetProfile(kind).Duration;
@@ -120,12 +131,22 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
             damageDealer.OnPlayerJumpAvoidedAttack += jumpAvoidedCallback;
         }
 
+        if (currentAttackAnimation.isAlive)
+            currentAttackAnimation.Stop();
+
+        currentAttackAnimation = Sequence.Create()
+            .ChainDelay(profile.AnticipationDuration)
+            .ChainCallback(() => GetComponent<EnemyController>().animator.Play(profile.Animation));
+
         _activeAttacks.Add(new ActiveAttack(zone, damageDealer, jumpAvoidedCallback));
         return zone;
     }
 
     public void CancelAll()
     {
+        if (currentAttackAnimation.isAlive)
+            currentAttackAnimation.Stop();
+
         foreach (ActiveAttack attack in _activeAttacks)
             attack.Cancel();
 
@@ -139,6 +160,9 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
 
     private void RemoveFinishedAttacks()
     {
+        if (currentAttackAnimation.isAlive)
+            currentAttackAnimation.Stop();
+
         for (int index = _activeAttacks.Count - 1; index >= 0; index--)
         {
             ActiveAttack attack = _activeAttacks[index];
