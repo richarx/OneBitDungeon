@@ -4712,6 +4712,7 @@ MonoBehaviour:
     _fillDuration: 2.7
     _despawnBuffer: 0.5
     animation: Slam
+    animationAnticipationDuration: 0.16666667
     _canBeParried: 0
     _canBeJumped: 0
   _parry:
@@ -4724,6 +4725,7 @@ MonoBehaviour:
     _fillDuration: 2.3
     _despawnBuffer: 0.5
     animation: Point
+    animationAnticipationDuration: 0.33333334
     _canBeParried: 1
     _canBeJumped: 0
   _jump:
@@ -4736,6 +4738,7 @@ MonoBehaviour:
     _fillDuration: 2.3
     _despawnBuffer: 0.5
     animation: Swipe
+    animationAnticipationDuration: 0.16666667
     _canBeParried: 0
     _canBeJumped: 1
 --- !u!114 &944595651
@@ -6900,8 +6903,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _runner: {fileID: 1181216469}
-  _attackEmitter: {fileID: 2098000001}
-  _dummy: {fileID: 1315216162}
+  _attackEmitter: {fileID: 944595650}
+  _dummy: {fileID: 944595649}
   _playerExercisePoint: {fileID: 2098000011}
   _dummyExercisePoint: {fileID: 2098000021}
   _dangerStartPoint: {fileID: 2098000031}
@@ -11686,6 +11689,7 @@ MonoBehaviour:
     _fillDuration: 2.7
     _despawnBuffer: 0.5
     animation: 
+    animationAnticipationDuration: 0
     _canBeParried: 0
     _canBeJumped: 0
   _parry:
@@ -11698,6 +11702,7 @@ MonoBehaviour:
     _fillDuration: 2.3
     _despawnBuffer: 0.5
     animation: 
+    animationAnticipationDuration: 0
     _canBeParried: 1
     _canBeJumped: 0
   _jump:
@@ -11710,6 +11715,7 @@ MonoBehaviour:
     _fillDuration: 2.3
     _despawnBuffer: 0.5
     animation: 
+    animationAnticipationDuration: 0
     _canBeParried: 0
     _canBeJumped: 1
 --- !u!1 &2098000010

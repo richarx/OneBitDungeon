@@ -19,7 +19,7 @@ MonoBehaviour:
     _text:
       localizationKey: 
       fallbackText: "Une attaque bleue s\u2019\xE9vite en sautant avec {Jump}. On
-        ne peut pas parer en provoquant {current} / {target}"
+        ne peut pas sauter en provoquant {current} / {target}"
     _signalId: 12
     _showProgress: 1
     _target: 3
