@@ -32,6 +32,28 @@ MonoBehaviour:
     <MoveDuration>k__BackingField: 0.5
     <AnticipationAnimation>k__BackingField: Punch_Right_Anticipation
     <ImpactAnimation>k__BackingField: Punch_Right
+  - <StepName>k__BackingField: Two
+    <RectangularDamageZonePrefabOverride>k__BackingField: {fileID: 0}
+    <DamageZoneWidth>k__BackingField: 2
+    <DamageZoneLength>k__BackingField: 12
+    <DamageZoneSideOffset>k__BackingField: 1
+    <DamageZoneSide>k__BackingField: 1
+    <SpawnDuration>k__BackingField: 0.3
+    <FillDuration>k__BackingField: 0.6
+    <LockBeforeImpact>k__BackingField: 0.4
+    <DelayAfterImpact>k__BackingField: 0.2
+    <MoveBesidePlayer>k__BackingField: 0
+    <MoveDistance>k__BackingField: 2
+    <MoveDuration>k__BackingField: 0.25
+    <AnticipationAnimation>k__BackingField: Punch_Left_Anticipation
+    <ImpactAnimation>k__BackingField: Punch_Left
   <RotationDampening>k__BackingField: 0.08
-  <FinalRecoveryDuration>k__BackingField: 0
+  <FinalRecoveryDuration>k__BackingField: 1
+  <HitAnimations>k__BackingField:
+  - Flex_Left
+  - Flex_Right
+  - Laugh
+  <Backdash>k__BackingField: 1
+  <BackdashDistance>k__BackingField: 10
+  <BackdashDuration>k__BackingField: 0.25
   <TriggerAfterImageOnSideMove>k__BackingField: 0

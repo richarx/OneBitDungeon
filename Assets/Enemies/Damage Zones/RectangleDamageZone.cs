@@ -15,6 +15,8 @@ public enum RectangleDamageZoneType
 
 public class RectangleDamageZone : MonoBehaviour
 {
+    public event Action OnPlayerHit;
+
     [SerializeField] private Vector2 size;
     [SerializeField] private Ease spawnEase;
     [SerializeField] private Ease fillEase;
@@ -265,8 +267,13 @@ public class RectangleDamageZone : MonoBehaviour
         if (PointInTriangle(P, A, B, C) || PointInTriangle(P, A, C, D))
             damageApplied = dealDamageToPlayer.TryDealDamage(direction);
 
-        if (damageApplied && !hasContinuousDamage)
+        if (damageApplied)
         {
+            OnPlayerHit?.Invoke();
+
+            if (hasContinuousDamage)
+                return;
+
             closeDodgeSession?.RegisterHit();
             isCheckingForDamage = false;
         }

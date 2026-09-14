@@ -10995,7 +10995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 750
-  isInvincible: 0
+  isInvincible: 1
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -11225,7 +11225,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1b6a1328bdca0804385740f3eb916aec, type: 2}
     - {fileID: 11400000, guid: b859efed01810184c94b0752daf21de6, type: 2}
     - {fileID: 11400000, guid: 43fa46a965d227745ad52b61e2f3ca97, type: 2}
-    - {fileID: 11400000, guid: 24f9b2e760ee49fabdb31db5853df51f, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -11345,15 +11344,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name:
-      Entry: 7
-      Data: 27|BiscottoWallChargeBehaviour, Assembly-CSharp
-    - Name: _data
-      Entry: 10
-      Data: 11
-    - Name:
-      Entry: 8
-      Data:
+    - Name: 
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -11421,15 +11414,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name:
-      Entry: 7
-      Data: 28|BiscottoWallChargeBehaviour, Assembly-CSharp
-    - Name: _data
-      Entry: 10
-      Data: 11
-    - Name:
-      Entry: 8
-      Data:
+    - Name: 
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -11488,15 +11475,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name:
-      Entry: 7
-      Data: 29|BiscottoWallChargeBehaviour, Assembly-CSharp
-    - Name: _data
-      Entry: 10
-      Data: 11
-    - Name:
-      Entry: 8
-      Data:
+    - Name: 
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -11526,7 +11507,7 @@ MonoBehaviour:
       Data: 
   <Sprite>k__BackingField: {fileID: 5071313608623843290}
   <shadowSprite>k__BackingField: {fileID: 2063661912}
-  debugMode: 0
+  debugMode: 1
 --- !u!114 &8182171200824653878
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -31,6 +31,29 @@ public sealed class BiscottoPunchComboData : ScriptableObject
     public float FinalRecoveryDuration { get; private set; } = 0.8f;
 
     [field: SerializeField]
+    [field: ListDrawerSettings(ShowFoldout = true, DefaultExpandedState = true)]
+    [field: LabelText("Animations si un coup touche")]
+    public List<string> HitAnimations { get; private set; } = new List<string>();
+
+    [field: SerializeField]
+    [field: LabelText("Backdash")]
+    public bool Backdash { get; private set; }
+
+    [field: SerializeField]
+    [field: ShowIf(nameof(Backdash))]
+    [field: MinValue(0.0f)]
+    [field: LabelText("Distance au joueur après le backdash")]
+    [field: SuffixLabel("mètres")]
+    public float BackdashDistance { get; private set; } = 5.0f;
+
+    [field: SerializeField]
+    [field: ShowIf(nameof(Backdash))]
+    [field: MinValue(0.0f)]
+    [field: LabelText("Durée du backdash")]
+    [field: SuffixLabel("secondes")]
+    public float BackdashDuration { get; private set; } = 0.25f;
+
+    [field: SerializeField]
     [field: LabelText("After-image pendant le déplacement")]
     public bool TriggerAfterImageOnSideMove { get; private set; } = true;
 }
