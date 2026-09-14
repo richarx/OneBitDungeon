@@ -56,6 +56,9 @@ namespace Decor.Door
 
         public void UnlockDoor(bool playSound = false)
         {
+            if (lockOnEnteringRoom)
+                return;
+
             Sequence.Create()
                 .ChainDelay(1.0f)
                 .Chain(Tween.Alpha(doorSpriteRenderer, 1.0f, 1.0f, Ease.InCirc))
@@ -73,6 +76,9 @@ namespace Decor.Door
 
         public void LockDoor(bool playSound = false, bool makeInvisible = true)
         {
+            if (isLocked)
+                return;
+
             animator.Play("Lock");
             isLocked = true;
             hitbox.SetActive(isLocked);
