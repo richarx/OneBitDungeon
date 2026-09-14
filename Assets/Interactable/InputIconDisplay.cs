@@ -20,6 +20,7 @@ namespace Interactable
 
         private PlayerStateMachine player;
         private DetectPlayerInRange detection;
+        private InteractableItem interactableItem;
 
         private bool isDisplayed = false;
 
@@ -28,6 +29,7 @@ namespace Interactable
             player = PlayerStateMachine.instance;
 
             detection = transform.parent.GetComponent<DetectPlayerInRange>();
+            interactableItem = transform.parent.GetComponent<InteractableItem>();
 
             detection.OnPlayerEnterRange.AddListener(DisplayIcon);
             detection.OnPlayerExitRange.AddListener(HideIcon);
@@ -38,7 +40,7 @@ namespace Interactable
 
         private void Update()
         {
-            if (!isDisplayed && detection.IsPlayerInRange && !player.isLocked)
+            if (!isDisplayed && detection.IsPlayerInRange && !player.isLocked && !interactableItem.isBeingUsed)
             {
                 DisplayIcon();
                 return;
@@ -47,7 +49,7 @@ namespace Interactable
             if (!isDisplayed)
                 return;
 
-            if (isDisplayed && (!detection.IsPlayerInRange || player.isLocked))
+            if (isDisplayed && (!detection.IsPlayerInRange || player.isLocked || interactableItem.isBeingUsed))
             {
                 HideIcon();
                 return;

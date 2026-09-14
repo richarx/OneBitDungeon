@@ -8,6 +8,7 @@ using Player.Scripts;
 using Sirenix.OdinInspector;
 using UI.Arrogance;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Tutorials
 {
@@ -103,15 +104,14 @@ namespace Tutorials
         private bool _previousInvincibility;
         private bool _hasSavedInvincibility;
         private bool _isExecuting;
+        public bool IsExecuting => _isExecuting;
 
         private void OnEnable()
         {
-            GameManager.OnChangeScene.AddListener(HandleSceneChanged);
         }
 
         private void OnDisable()
         {
-            GameManager.OnChangeScene.RemoveListener(HandleSceneChanged);
             StopTutorial();
             RestorePlayerProtection();
         }
@@ -146,11 +146,6 @@ namespace Tutorials
             SetArroganceHighlight(false);
         }
 
-        private void HandleSceneChanged()
-        {
-            LaunchTutorial();
-        }
-
         private async UniTaskVoid StartAtStepAsync(int startStep)
         {
             if (!Application.isPlaying)
@@ -159,8 +154,11 @@ namespace Tutorials
                 return;
             }
 
-            StopTutorial();
-            await UniTask.WaitUntil(() => !_isExecuting);
+            if (_isExecuting)
+            {
+                StopTutorial();
+                await UniTask.WaitUntil(() => !_isExecuting);
+            }
 
             if (!isActiveAndEnabled)
                 return;

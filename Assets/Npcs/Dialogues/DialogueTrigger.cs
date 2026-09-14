@@ -27,7 +27,7 @@ public class DialogueTrigger : InteractableItem
     {
         base.Interact();
         isBeingUsed = true;
-        DialogueManager.instance.TriggerDialogue(ChooseDialogue(), cameraTargetPivot);
+        DialogueManager.instance.TriggerDialogue(ChooseDialogue(), cameraTargetPivot, () => isBeingUsed = false);
     }
 
     private DialogueData ChooseDialogue()

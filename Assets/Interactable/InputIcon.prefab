@@ -132,6 +132,6 @@ MonoBehaviour:
   spriteRenderer: {fileID: 5991882912313747741}
   gamepadIcon: {fileID: 21300000, guid: 824a9d6a92595404a843cc4d59dfb353, type: 3}
   keyboardIcon: {fileID: 21300000, guid: 81ec65934fbc84d4485be98e1a18dc66, type: 3}
-  offsetPosition: {x: 0, y: 3.4, z: 0}
+  offsetPosition: {x: 0, y: 7.5, z: 0}
   frequency: 1
-  amplitude: 0.5
+  amplitude: 0.4
