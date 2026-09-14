@@ -48,6 +48,14 @@ public sealed class BiscottoPunchComboData : ScriptableObject
 
     [field: SerializeField]
     [field: ShowIf(nameof(Backdash))]
+    [field: MinValue(0.001f)]
+    [field: LabelText("Distance maximale du centre")]
+    [field: Tooltip("Empêche un backdash long d'envoyer Biscotto jusqu'au bord de la salle.")]
+    [field: SuffixLabel("mètres")]
+    public float BackdashMaximumDistanceFromCenter { get; private set; } = 6.0f;
+
+    [field: SerializeField]
+    [field: ShowIf(nameof(Backdash))]
     [field: MinValue(0.0f)]
     [field: LabelText("Durée du backdash")]
     [field: SuffixLabel("secondes")]

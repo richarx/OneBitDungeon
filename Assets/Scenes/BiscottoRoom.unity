@@ -10994,8 +10994,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068ca6ab120c7194b90607252bdcd524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 750
-  isInvincible: 1
+  startingHealth: 800
+  isInvincible: 0
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -11215,9 +11215,11 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 8a4ae70ddab28624ebba7f4114dddd83, type: 2}
-    - {fileID: 11400000, guid: d8f1b736f5216e641a132b61aff92e1e, type: 2}
-    - {fileID: 11400000, guid: f8188a6ab6b856b429595d9df8b19f87, type: 2}
+    - {fileID: 11400000, guid: 3660370180c74e847bf42c3665a92250, type: 2}
+    - {fileID: 11400000, guid: 55cf7d4e55eaa2f4789ef91df07bf06b, type: 2}
     - {fileID: 11400000, guid: db4ff545cbb98ec489805004fbb2f611, type: 2}
+    - {fileID: 11400000, guid: f8188a6ab6b856b429595d9df8b19f87, type: 2}
+    - {fileID: 11400000, guid: d8f1b736f5216e641a132b61aff92e1e, type: 2}
     - {fileID: 11400000, guid: 0dfa851de9368c14183b6789c3059deb, type: 2}
     - {fileID: 11400000, guid: cc0cdca0d8aa8774bb2e79043a9cd3a7, type: 2}
     - {fileID: 11400000, guid: 1eb10afbdd384b44c88fc9d53f7ac729, type: 2}
@@ -11258,7 +11260,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: 4|BiscottoPunchComboBehaviour, Assembly-CSharp
@@ -11278,6 +11280,15 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 6|BiscottoPunchComboBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -11288,13 +11299,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 6|OdinEnemyPhase, Assembly-CSharp
+      Data: 7|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
       Data: 600
     - Name: transitionBehaviour
       Entry: 7
-      Data: 7|CommonPlayAnimationBehaviour, Assembly-CSharp
+      Data: 8|CommonPlayAnimationBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 3
@@ -11303,26 +11314,17 @@ MonoBehaviour:
       Data: 
     - Name: phaseBehaviours
       Entry: 7
-      Data: 8|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+      Data: 9|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 7
-      Data: 9|BiscottoPunchComboBehaviour, Assembly-CSharp
-    - Name: data
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 4
     - Name: 
       Entry: 7
       Data: 10|BiscottoPunchComboBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 1
+      Data: 4
     - Name: 
       Entry: 8
       Data: 
@@ -11331,65 +11333,22 @@ MonoBehaviour:
       Data: 11|BiscottoPunchComboBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 4
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 12|BiscottoSlapBehaviour, Assembly-CSharp
-    - Name: data
-      Entry: 10
       Data: 5
     - Name: 
       Entry: 8
       Data: 
     - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 7
-      Data: 13|OdinEnemyPhase, Assembly-CSharp
-    - Name: healthThresholdToTriggerTransition
-      Entry: 3
-      Data: 450
-    - Name: transitionBehaviour
-      Entry: 7
-      Data: 14|BiscottoTsarBombaBehaviour, Assembly-CSharp
+      Data: 12|BiscottoPunchComboBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 6
     - Name: 
       Entry: 8
       Data: 
-    - Name: phaseBehaviours
-      Entry: 7
-      Data: 15|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 5
     - Name: 
       Entry: 7
-      Data: 16|BiscottoPunchComboBehaviour, Assembly-CSharp
-    - Name: data
-      Entry: 10
-      Data: 4
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 17|BiscottoTsarBombaBehaviour, Assembly-CSharp
+      Data: 13|BiscottoSlapBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 7
@@ -11397,27 +11356,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 18|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
-    - Name: data
-      Entry: 10
-      Data: 8
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 19|BiscottoSlapBehaviour, Assembly-CSharp
-    - Name: data
-      Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -11428,29 +11366,47 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 20|OdinEnemyPhase, Assembly-CSharp
+      Data: 14|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
-      Data: 200
+      Data: 450
     - Name: transitionBehaviour
       Entry: 7
-      Data: 21|BiscottoSlamBehaviour, Assembly-CSharp
+      Data: 15|BiscottoTsarBombaBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: phaseBehaviours
+      Entry: 7
+      Data: 16|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: 17|BiscottoPunchComboBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 18|BiscottoTsarBombaBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 9
     - Name: 
       Entry: 8
       Data: 
-    - Name: phaseBehaviours
-      Entry: 7
-      Data: 22|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 4
     - Name: 
       Entry: 7
-      Data: 23|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
+      Data: 19|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 10
@@ -11459,7 +11415,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 24|BiscottoTsarBombaBehaviour, Assembly-CSharp
+      Data: 20|BiscottoSlapBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 7
@@ -11467,16 +11423,65 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 25|BiscottoSlapBehaviour, Assembly-CSharp
-    - Name: data
-      Entry: 10
-      Data: 5
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
     - Name: 
       Entry: 8
       Data: 
     - Name: 
-      Entry: 6
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 21|OdinEnemyPhase, Assembly-CSharp
+    - Name: healthThresholdToTriggerTransition
+      Entry: 3
+      Data: 200
+    - Name: transitionBehaviour
+      Entry: 7
+      Data: 22|BiscottoSlamBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: phaseBehaviours
+      Entry: 7
+      Data: 23|System.Collections.Generic.List`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 24|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 12
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 25|BiscottoTsarBombaBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 26|BiscottoSlapBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
       Data: 
     - Name: 
       Entry: 13
@@ -11498,16 +11503,16 @@ MonoBehaviour:
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 26|BiscottoTsarBombaBehaviour, Assembly-CSharp
+      Data: 27|BiscottoPunchComboBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 7
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
   <Sprite>k__BackingField: {fileID: 5071313608623843290}
   <shadowSprite>k__BackingField: {fileID: 2063661912}
-  debugMode: 1
+  debugMode: 0
 --- !u!114 &8182171200824653878
 MonoBehaviour:
   m_ObjectHideFlags: 0

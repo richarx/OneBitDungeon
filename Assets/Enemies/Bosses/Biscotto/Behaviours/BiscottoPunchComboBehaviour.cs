@@ -244,7 +244,7 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
 
         Vector3 pivotPosition = PlayerStateMachine.instance.position;
         pivotPosition.y = enemy.transform.position.y;
-        Vector3 destination = BiscottoMovementUtility.ComputeDestination(
+        Vector3 destination = BiscottoMovementUtility.ComputeRightSideDestination(
             enemy.transform,
             PlayerStateMachine.instance.position,
             step.MoveDistance
@@ -302,6 +302,7 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
         Vector3 bestDestination = startPosition;
         float bestDistanceToPlayer = currentDistanceToPlayer;
         float bestDistanceToCenter = new Vector2(startPosition.x, startPosition.z).magnitude;
+        float bestCenterAlignment = -1.0f;
         float bestAwayAlignment = -1.0f;
         bool bestCandidateReachesTarget = false;
         Vector3 directionTowardCenter = new Vector3(-startPosition.x, 0.0f, -startPosition.z);
@@ -332,10 +333,15 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
                 playerToEnemy,
                 candidateDirection,
                 targetDistanceToPlayer);
+            float centerSafeTravelDistance = ComputeCenterSafeTravelDistance(
+                startPosition,
+                candidateDirection,
+                desiredTravelDistance,
+                data.BackdashMaximumDistanceFromCenter);
             float allowedTravelDistance = ComputeWallSafeTravelDistance(
                 enemy.transform,
                 candidateDirection,
-                desiredTravelDistance,
+                centerSafeTravelDistance,
                 PlayerStateMachine.instance.obstaclesLayer);
 
             Vector3 candidateDestination = startPosition + candidateDirection * allowedTravelDistance;
@@ -343,17 +349,22 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
             candidateOffsetFromPlayer.y = 0.0f;
             float candidateDistanceToPlayer = candidateOffsetFromPlayer.magnitude;
             float candidateDistanceToCenter = new Vector2(candidateDestination.x, candidateDestination.z).magnitude;
+            float candidateCenterAlignment = hasDirectionTowardCenter
+                ? Vector3.Dot(directionTowardCenter.normalized, candidateDirection)
+                : 0.0f;
             float candidateAwayAlignment = Vector3.Dot(directionAwayFromPlayer, candidateDirection);
-            bool candidateReachesTarget = allowedTravelDistance >= desiredTravelDistance - BackdashComparisonTolerance;
+            bool candidateReachesTarget = candidateDistanceToPlayer >= targetDistanceToPlayer - BackdashComparisonTolerance;
 
             if (!IsBetterBackdashCandidate(
                     candidateReachesTarget,
                     candidateDistanceToPlayer,
                     candidateDistanceToCenter,
+                    candidateCenterAlignment,
                     candidateAwayAlignment,
                     bestCandidateReachesTarget,
                     bestDistanceToPlayer,
                     bestDistanceToCenter,
+                    bestCenterAlignment,
                     bestAwayAlignment))
             {
                 continue;
@@ -362,6 +373,7 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
             bestDestination = candidateDestination;
             bestDistanceToPlayer = candidateDistanceToPlayer;
             bestDistanceToCenter = candidateDistanceToCenter;
+            bestCenterAlignment = candidateCenterAlignment;
             bestAwayAlignment = candidateAwayAlignment;
             bestCandidateReachesTarget = candidateReachesTarget;
         }
@@ -380,14 +392,54 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
         return Mathf.Max(0.0f, -projectedDistance + Mathf.Sqrt(Mathf.Max(0.0f, discriminant)));
     }
 
+    private static float ComputeCenterSafeTravelDistance(
+        Vector3 startPosition,
+        Vector3 movementDirection,
+        float desiredDistance,
+        float maximumDistanceFromCenter)
+    {
+        if (desiredDistance <= 0.0f)
+            return 0.0f;
+
+        Vector3 horizontalStartPosition = new Vector3(startPosition.x, 0.0f, startPosition.z);
+        float safeRadius = Mathf.Max(BackdashComparisonTolerance, maximumDistanceFromCenter);
+        float startRadiusSquared = horizontalStartPosition.sqrMagnitude;
+        float safeRadiusSquared = safeRadius * safeRadius;
+        float projectedDistance = Vector3.Dot(horizontalStartPosition, movementDirection);
+
+        if (startRadiusSquared <= safeRadiusSquared)
+        {
+            float exitDiscriminant = projectedDistance * projectedDistance
+                                     + safeRadiusSquared
+                                     - startRadiusSquared;
+            float distanceToExit = -projectedDistance + Mathf.Sqrt(Mathf.Max(0.0f, exitDiscriminant));
+            return Mathf.Min(desiredDistance, Mathf.Max(0.0f, distanceToExit));
+        }
+
+        if (projectedDistance >= 0.0f)
+            return 0.0f;
+
+        float intersectionDiscriminant = projectedDistance * projectedDistance
+                                         - (startRadiusSquared - safeRadiusSquared);
+        float distanceToClosestPoint = -projectedDistance;
+
+        if (intersectionDiscriminant < 0.0f)
+            return Mathf.Min(desiredDistance, distanceToClosestPoint);
+
+        float distanceToFarExit = distanceToClosestPoint + Mathf.Sqrt(intersectionDiscriminant);
+        return Mathf.Min(desiredDistance, distanceToFarExit);
+    }
+
     private static bool IsBetterBackdashCandidate(
         bool candidateReachesTarget,
         float candidateDistanceToPlayer,
         float candidateDistanceToCenter,
+        float candidateCenterAlignment,
         float candidateAwayAlignment,
         bool bestCandidateReachesTarget,
         float bestDistanceToPlayer,
         float bestDistanceToCenter,
+        float bestCenterAlignment,
         float bestAwayAlignment)
     {
         if (candidateReachesTarget != bestCandidateReachesTarget)
@@ -395,6 +447,12 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
 
         if (candidateReachesTarget)
         {
+            if (candidateCenterAlignment > bestCenterAlignment + BackdashComparisonTolerance)
+                return true;
+
+            if (Mathf.Abs(candidateCenterAlignment - bestCenterAlignment) > BackdashComparisonTolerance)
+                return false;
+
             if (candidateDistanceToCenter < bestDistanceToCenter - BackdashComparisonTolerance)
                 return true;
 
@@ -406,6 +464,12 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
             return true;
 
         if (Mathf.Abs(candidateDistanceToPlayer - bestDistanceToPlayer) > BackdashComparisonTolerance)
+            return false;
+
+        if (candidateCenterAlignment > bestCenterAlignment + BackdashComparisonTolerance)
+            return true;
+
+        if (Mathf.Abs(candidateCenterAlignment - bestCenterAlignment) > BackdashComparisonTolerance)
             return false;
 
         if (candidateDistanceToCenter < bestDistanceToCenter - BackdashComparisonTolerance)

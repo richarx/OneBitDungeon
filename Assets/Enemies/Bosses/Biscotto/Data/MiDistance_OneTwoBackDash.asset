@@ -48,12 +48,13 @@ MonoBehaviour:
     <AnticipationAnimation>k__BackingField: Punch_Left_Anticipation
     <ImpactAnimation>k__BackingField: Punch_Left
   <RotationDampening>k__BackingField: 0.08
-  <FinalRecoveryDuration>k__BackingField: 1
+  <FinalRecoveryDuration>k__BackingField: 0.75
   <HitAnimations>k__BackingField:
   - Flex_Left
   - Flex_Right
   - Laugh
   <Backdash>k__BackingField: 1
   <BackdashDistance>k__BackingField: 10
+  <BackdashMaximumDistanceFromCenter>k__BackingField: 6
   <BackdashDuration>k__BackingField: 0.25
   <TriggerAfterImageOnSideMove>k__BackingField: 0

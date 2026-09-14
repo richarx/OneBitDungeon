@@ -107,8 +107,26 @@ public static class BiscottoMovementUtility
             directionToPlayer = biscottoTransform.forward;
 
         directionToPlayer.Normalize();
-
         Vector3 destination = playerPosition + Vector3.forward * distance;
+        destination.y = biscottoTransform.position.y;
+        return ClampToArena(destination);
+    }
+
+    public static Vector3 ComputeRightSideDestination(
+        Transform biscottoTransform,
+        Vector3 playerPosition,
+        float distance)
+    {
+        Vector3 directionToPlayer = playerPosition - biscottoTransform.position;
+        directionToPlayer.y = 0.0f;
+
+        if (directionToPlayer.sqrMagnitude <= MinimumRadius)
+            directionToPlayer = biscottoTransform.forward;
+
+        directionToPlayer.Normalize();
+        Vector3 rightSide = new Vector3(directionToPlayer.z, 0.0f, -directionToPlayer.x);
+
+        Vector3 destination = playerPosition + rightSide * distance;
         destination.y = biscottoTransform.position.y;
         return ClampToArena(destination);
     }
