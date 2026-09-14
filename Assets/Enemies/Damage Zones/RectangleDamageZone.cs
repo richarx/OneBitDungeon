@@ -49,6 +49,9 @@ public class RectangleDamageZone : MonoBehaviour
 
 
     private PlayerStateMachine _playerInstance;
+    private SpriteRenderer _runtimeSpriteRenderer;
+    private Vector3 _setupLocalPosition;
+    private Vector2 _setupMoveDirection;
 
     /// <summary>
     /// Configure les dimensions finales de la zone dans l'espace monde.
@@ -62,6 +65,25 @@ public class RectangleDamageZone : MonoBehaviour
         size = new Vector2(
             Mathf.Max(0.0001f, length) / (2.0f * scaleX),
             Mathf.Max(0.0001f, width) / (2.0f * scaleY));
+    }
+
+    /// <summary>
+    /// Redimensionne un télégraphe actif tout en gardant son origine ancrée.
+    /// Prévu pour les attaques visées dont l'extrémité bouge avant le verrouillage.
+    /// </summary>
+    public void UpdateDimensions(float width, float length)
+    {
+        SetDimensions(width, length);
+
+        if (_runtimeSpriteRenderer == null)
+            return;
+
+        _runtimeSpriteRenderer.material.SetVector("_Size", size);
+
+        Vector3 localPosition = _setupLocalPosition;
+        localPosition.x += size.x * transform.localScale.x * _setupMoveDirection.x;
+        localPosition.z += size.y * transform.localScale.y * _setupMoveDirection.y;
+        transform.localPosition = localPosition;
     }
 
     public void SimpleSetup()
@@ -79,6 +101,9 @@ public class RectangleDamageZone : MonoBehaviour
 
         dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        _runtimeSpriteRenderer = spriteRenderer;
+        _setupLocalPosition = transform.localPosition;
+        _setupMoveDirection = moveDirection;
 
         spriteRenderer.material = new Material(spriteRenderer.material);
 

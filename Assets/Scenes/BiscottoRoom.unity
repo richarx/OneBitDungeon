@@ -11225,6 +11225,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1b6a1328bdca0804385740f3eb916aec, type: 2}
     - {fileID: 11400000, guid: b859efed01810184c94b0752daf21de6, type: 2}
     - {fileID: 11400000, guid: 43fa46a965d227745ad52b61e2f3ca97, type: 2}
+    - {fileID: 11400000, guid: 24f9b2e760ee49fabdb31db5853df51f, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -11307,7 +11308,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 5
     - Name: 
       Entry: 7
       Data: 9|BiscottoPunchComboBehaviour, Assembly-CSharp
@@ -11344,6 +11345,15 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name:
+      Entry: 7
+      Data: 27|BiscottoWallChargeBehaviour, Assembly-CSharp
+    - Name: _data
+      Entry: 10
+      Data: 11
+    - Name:
+      Entry: 8
+      Data:
     - Name: 
       Entry: 13
       Data: 
@@ -11374,7 +11384,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 5
     - Name: 
       Entry: 7
       Data: 16|BiscottoPunchComboBehaviour, Assembly-CSharp
@@ -11411,6 +11421,15 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name:
+      Entry: 7
+      Data: 28|BiscottoWallChargeBehaviour, Assembly-CSharp
+    - Name: _data
+      Entry: 10
+      Data: 11
+    - Name:
+      Entry: 8
+      Data:
     - Name: 
       Entry: 13
       Data: 
@@ -11441,7 +11460,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
       Data: 23|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
@@ -11469,6 +11488,15 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name:
+      Entry: 7
+      Data: 29|BiscottoWallChargeBehaviour, Assembly-CSharp
+    - Name: _data
+      Entry: 10
+      Data: 11
+    - Name:
+      Entry: 8
+      Data:
     - Name: 
       Entry: 13
       Data: 
