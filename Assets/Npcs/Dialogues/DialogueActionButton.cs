@@ -38,6 +38,7 @@ public class DialogueActionButton : MonoBehaviour
             currentSequence.Stop();
 
         inputImage.sprite = isLastInputGamepad ? gamepadSprite : keyboardSprite;
+        inputImage.transform.localScale = Vector3.one;
 
         currentSequence = Sequence.Create()
             .Chain(Tween.Alpha(waitImage, 0.0f, fadeDuration))
