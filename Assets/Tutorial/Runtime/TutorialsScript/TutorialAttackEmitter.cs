@@ -5,10 +5,13 @@ using UnityEngine;
 using Tutorials;
 using PrimeTween;
 using Enemies.Scripts;
+using Player.Scripts;
+using Tools_and_Scripts;
 
 public enum TutorialAttackKind
 {
     Demonstration,
+    DemonstrationWithDodgeSignal,
     Fast,
     Parry,
     Jump
@@ -54,6 +57,7 @@ public sealed class TutorialConeAttackProfile
 
     public float Duration => _spawnDuration + _fillDuration + _despawnBuffer;
     public float AnticipationDuration => _spawnDuration + _fillDuration - animationAnticipationDuration;
+    public float DurationBeforeDodge => _spawnDuration + _fillDuration;
     public string Animation => animation;
 
     public ConeDamageZone Spawn(Vector3 origin, Vector3 target)
@@ -93,6 +97,9 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
     [SerializeField, Required]
     private TutorialConeAttackProfile _demonstration = new TutorialConeAttackProfile();
 
+    [SerializeField]
+    private SpriteRenderer dodgeSignal;
+
     [TitleGroup("Profiles")]
     [SerializeField, Required]
     private TutorialConeAttackProfile _fastAttack = new TutorialConeAttackProfile();
@@ -108,6 +115,7 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
     private readonly List<ActiveAttack> _activeAttacks = new List<ActiveAttack>();
 
     private Sequence currentAttackAnimation;
+    private Sequence currentDodgeSignalAnimation;
 
     public float GetDuration(TutorialAttackKind kind)
     {
@@ -157,9 +165,25 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
         if (currentAttackAnimation.isAlive)
             currentAttackAnimation.Stop();
 
+        if (currentDodgeSignalAnimation.isAlive)
+        {
+            currentDodgeSignalAnimation.Stop();
+            dodgeSignal.MakeTransparent();
+        }
+
         currentAttackAnimation = Sequence.Create()
             .ChainDelay(profile.AnticipationDuration)
             .ChainCallback(() => GetComponent<EnemyController>().animator.Play(profile.Animation));
+
+        if (kind == TutorialAttackKind.DemonstrationWithDodgeSignal)
+        {
+            float dodgeWindowDuration = PlayerStateMachine.instance.playerData.closeDodgeWindowDuration;
+            Sequence.Create()
+                .ChainDelay(profile.DurationBeforeDodge - dodgeWindowDuration)
+                .Chain(Tween.Alpha(dodgeSignal, 1.0f, 0.05f))
+                .Group(Tween.PunchScale(dodgeSignal.transform, Vector3.one * 0.3f, dodgeWindowDuration - 0.05f))
+                .Chain(Tween.Alpha(dodgeSignal, 0.0f, 0.05f));
+        }
 
         _activeAttacks.Add(new ActiveAttack(zone, damageDealer, jumpAvoidedCallback));
         return zone;
@@ -169,6 +193,13 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
     {
         if (currentAttackAnimation.isAlive)
             currentAttackAnimation.Stop();
+
+        if (currentDodgeSignalAnimation.isAlive)
+        {
+            currentDodgeSignalAnimation.Stop();
+            dodgeSignal.MakeTransparent();
+        }
+
 
         foreach (ActiveAttack attack in _activeAttacks)
             attack.Cancel();
@@ -185,6 +216,12 @@ public sealed class TutorialAttackEmitter : MonoBehaviour
     {
         if (currentAttackAnimation.isAlive)
             currentAttackAnimation.Stop();
+
+        if (currentDodgeSignalAnimation.isAlive)
+        {
+            currentDodgeSignalAnimation.Stop();
+            dodgeSignal.MakeTransparent();
+        }
 
         for (int index = _activeAttacks.Count - 1; index >= 0; index--)
         {

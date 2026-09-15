@@ -301,7 +301,7 @@ namespace Tutorials
                 case 4:
                     return RepeatAttackAsync(TutorialAttackKind.Demonstration, _dangerStartPoint.position, cancellationToken);
                 case 6:
-                    return RepeatAttackAsync(TutorialAttackKind.Demonstration, _closeDodgePoint.position, cancellationToken);
+                    return RepeatAttackAsync(TutorialAttackKind.DemonstrationWithDodgeSignal, _closeDodgePoint.position, cancellationToken);
                 /*
                 case 6:
                     return WaitForArroganceReleaseThenRepeatAsync(TutorialAttackKind.Parry, cancellationToken);

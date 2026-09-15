@@ -31,8 +31,8 @@ namespace Interactable
             detection = transform.parent.GetComponent<DetectPlayerInRange>();
             interactableItem = transform.parent.GetComponent<InteractableItem>();
 
-            detection.OnPlayerEnterRange.AddListener(DisplayIcon);
-            detection.OnPlayerExitRange.AddListener(HideIcon);
+            detection.OnPlayerEnterRange.AddListener(TryDisplayIcon);
+            detection.OnPlayerExitRange.AddListener(TryHideIcon);
 
             SetPosition();
             spriteRenderer.gameObject.SetActive(false);
@@ -40,20 +40,12 @@ namespace Interactable
 
         private void Update()
         {
-            if (!isDisplayed && detection.IsPlayerInRange && !player.isLocked && !interactableItem.isBeingUsed)
-            {
-                DisplayIcon();
-                return;
-            }
+            TryDisplayIcon();
 
             if (!isDisplayed)
                 return;
 
-            if (isDisplayed && (!detection.IsPlayerInRange || player.isLocked || interactableItem.isBeingUsed))
-            {
-                HideIcon();
-                return;
-            }
+            TryHideIcon();
 
             SetSpriteFromInputType();
             AnimatePosition();
@@ -63,6 +55,16 @@ namespace Interactable
         {
             Vector3 position = offsetPosition + Vector3.up * (Mathf.Sin(Time.time * frequency) * amplitude);
             transform.localPosition = position;
+        }
+
+        private void TryDisplayIcon()
+        {
+            if (!isDisplayed && detection.IsPlayerInRange && !player.isLocked && !interactableItem.isBeingUsed)
+            {
+                Debug.Log($"Zuzu : Show Icon : {interactableItem.isBeingUsed}");
+                DisplayIcon();
+                return;
+            }
         }
 
         private void DisplayIcon()
@@ -77,6 +79,17 @@ namespace Interactable
             StopAllCoroutines();
             StartCoroutine(Tools.Fade(spriteRenderer, 0.3f, true));
         }
+
+        private void TryHideIcon()
+        {
+            if (isDisplayed && (!detection.IsPlayerInRange || player.isLocked || interactableItem.isBeingUsed))
+            {
+                Debug.Log($"Zuzu : Hide Icon : {isDisplayed}");
+                HideIcon();
+                return;
+            }
+        }
+
 
         private void HideIcon()
         {
