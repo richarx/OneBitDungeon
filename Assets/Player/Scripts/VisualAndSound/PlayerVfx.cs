@@ -117,6 +117,7 @@ namespace Player.Scripts
 
         private void OnDestroy()
         {
+            ResetShockWaveFocalPoint();
             RestoreTimeScale();
             UnsubscribeFromEvents();
         }
@@ -161,6 +162,12 @@ namespace Player.Scripts
             }
 
             hasSubscribed = false;
+        }
+
+        private void ResetShockWaveFocalPoint()
+        {
+            shockWaveEffect.SetVector("_FocalPoint", Vector3.zero);
+            shockWaveEffect.SetFloat("_Progress", 0.0f);
         }
 
         private void HandlePlayerAttack(AttackPayload attackPayload)

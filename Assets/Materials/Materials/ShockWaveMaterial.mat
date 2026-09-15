@@ -44,18 +44,14 @@ Material:
     m_Floats:
     - _LoopInEditor: 0
     - _Magnification: -0.1
-    - _Progress: -0.05
+    - _Progress: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Size: 0.05
     - _SizeRatio: 1.777
     - _Speed: 2
     m_Colors:
-<<<<<<< HEAD
-    - _FocalPoint: {r: 0.5027944, g: 0.46357137, b: 19.96555, a: 0}
-=======
-    - _FocalPoint: {r: 0.4992748, g: 0.7287206, b: 28.596397, a: 0}
->>>>>>> biscotoo-toujours
+    - _FocalPoint: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &2754719107193631106
 MonoBehaviour:
