@@ -50,6 +50,12 @@ public class BiscottoSlapData : ScriptableObject
     [field: SuffixLabel("mètres")]
     public float MoveDistance { get; private set; } = 2.0f;
 
+    [Title("Impact")]
+    [field: SerializeField]
+    [field: MinValue(0.0f)]
+    [field: LabelText("Puissance de projection")]
+    public float HitStaggerPower { get; private set; } = 30.0f;
+
     [field: SerializeField]
     [field: MinValue(0.0f)]
     [field: LabelText("Durée d'approche")]

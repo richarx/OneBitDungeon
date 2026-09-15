@@ -21,6 +21,7 @@ MonoBehaviour:
   <LockBeforeImpact>k__BackingField: 0.6
   <RotationDampening>k__BackingField: 0.08
   <MoveDistance>k__BackingField: 2
+  <HitStaggerPower>k__BackingField: 60
   <MoveDuration>k__BackingField: 0.5
   <TriggerAfterImageOnSideMove>k__BackingField: 0
   <AnticipationAnimation>k__BackingField: Slap_Anticipation

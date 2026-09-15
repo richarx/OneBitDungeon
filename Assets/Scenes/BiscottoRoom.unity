@@ -9052,7 +9052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enablePlayerStaggerBounce: 1
-  _playerStaggerBounceSpeedRetention: 0.2
+  _playerStaggerBounceSpeedRetention: 0.25
 --- !u!1001 &1876714769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11260,10 +11260,10 @@ MonoBehaviour:
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 32|BiscottoReversBehaviour, Assembly-CSharp
-    - Name: data
+      Data: 32|BiscottoEndlessPunchBehaviour, Assembly-CSharp
+    - Name: _data
       Entry: 10
-      Data: 15
+      Data: 12
     - Name: 
       Entry: 8
       Data: 
