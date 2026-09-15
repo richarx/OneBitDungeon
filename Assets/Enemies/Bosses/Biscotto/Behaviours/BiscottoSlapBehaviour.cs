@@ -113,7 +113,9 @@ public class BiscottoSlapBehaviour : IEnemyBehaviour
             data.Radius,
             data.HalfAngle * 2.0f,
             data.SpawnDuration,
-            data.FillDuration);
+            data.FillDuration,
+            null,
+            data.HitStaggerPower);
     }
 
     private void RotateZoneTowardPlayer(EnemyController enemy, bool immediate = false)

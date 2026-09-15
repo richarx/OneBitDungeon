@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <BackPosition>k__BackingField: {x: 0, y: 8}
   <FrontPosition>k__BackingField: {x: 0, y: -8}
-  <PlayerPushPower>k__BackingField: 35
+  <PlayerPushPower>k__BackingField: 50
   <MoveToBackDuration>k__BackingField: 0.7
   <TriggerAfterImageOnMove>k__BackingField: 1
   <RectangularDamageZonePrefab>k__BackingField: {fileID: 227854228040328757, guid: 09c0e16c4786d514eb6f8565609c163c,
     type: 3}
   <PunchInterval>k__BackingField: 1
   <DamageZoneWidth>k__BackingField: 2.5
-  <DamageZoneLength>k__BackingField: 15
+  <DamageZoneLength>k__BackingField: 20
   <DamageZoneSideOffset>k__BackingField: 1
   <DodgeCorridorOffset>k__BackingField: 0.8
   <FirstPunchSide>k__BackingField: 0

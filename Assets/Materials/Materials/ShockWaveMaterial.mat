@@ -51,7 +51,11 @@ Material:
     - _SizeRatio: 1.777
     - _Speed: 2
     m_Colors:
+<<<<<<< HEAD
     - _FocalPoint: {r: 0.5027944, g: 0.46357137, b: 19.96555, a: 0}
+=======
+    - _FocalPoint: {r: 0.4992748, g: 0.7287206, b: 28.596397, a: 0}
+>>>>>>> biscotoo-toujours
   m_BuildTextureStacks: []
 --- !u!114 &2754719107193631106
 MonoBehaviour:
