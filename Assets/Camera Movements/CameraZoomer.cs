@@ -21,7 +21,7 @@ public class CameraZoomer : MonoBehaviour
         player.playerAttack.OnPlayerAttack.AddListener(HandleAttack);
         player.playerHealth.OnPlayerTakeDamage.AddListener((_) => StartZoom(0.1f, 0.5f, 12.0f));
 
-        ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
+        //ArroganceGainEvents.OnGainProcessed += HandleArrogantDodge;
     }
 
     private void SetupCameras()

@@ -1,5 +1,6 @@
 using System;
 using Player.Scripts;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class DealDamageToPlayer : MonoBehaviour
@@ -7,6 +8,20 @@ public class DealDamageToPlayer : MonoBehaviour
     [SerializeField] private int damage;
     [SerializeField] private bool canBeParried;
     [SerializeField] private bool canBeJumped;
+
+    [BoxGroup("Impact")]
+    [SerializeField]
+    [LabelText("Personnaliser la projection")]
+    [Tooltip("Utilise une puissance de projection propre à cette attaque au lieu de la valeur du PlayerData.")]
+    private bool _overrideStaggerPower;
+
+    [BoxGroup("Impact")]
+    [ShowIf(nameof(_overrideStaggerPower))]
+    [SerializeField]
+    [MinValue(0.0f)]
+    [LabelText("Puissance de projection")]
+    [SuffixLabel("m/s")]
+    private float _staggerPower;
 
     private bool hasBeenParried = false;
     private bool _hasPublishedJumpAvoidedAttack;
@@ -51,7 +66,11 @@ public class DealDamageToPlayer : MonoBehaviour
             return false;
         }
 
-        bool isDamageApplied = player.playerHealth.TakeDamage(damage, direction.normalized, staggerPower);
+        float effectiveStaggerPower = staggerPower >= 0.0f
+            ? staggerPower
+            : _overrideStaggerPower ? _staggerPower : -1.0f;
+
+        bool isDamageApplied = player.playerHealth.TakeDamage(damage, direction.normalized, effectiveStaggerPower);
 
         return isDamageApplied;
     }

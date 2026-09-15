@@ -122,3 +122,5 @@ MonoBehaviour:
   damage: 1
   canBeParried: 0
   canBeJumped: 0
+  _overrideStaggerPower: 1
+  _staggerPower: 50

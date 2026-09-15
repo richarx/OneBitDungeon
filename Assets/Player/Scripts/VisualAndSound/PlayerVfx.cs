@@ -200,10 +200,12 @@ namespace Player.Scripts
             if (result.reason != ArroganceGainReason.CloseDodge)
                 return;
 
-            StartCoroutine(SpawnShockWave());
-            StartCoroutine(SlowTimeCoroutine(0.5f, 0.3f));
 
             CloseDodgeGainContext context = result.context as CloseDodgeGainContext;
+            StartCoroutine(SpawnShockWave(context));
+            StartCoroutine(SlowTimeCoroutine(0.5f, 0.3f));
+
+
 
             Vector3 position = context.outPosition;
             afterImage.SpawnSnapshot(position);
@@ -211,11 +213,13 @@ namespace Player.Scripts
             Instantiate(flashBlastEffect, position, Quaternion.identity);
         }
 
-        private IEnumerator SpawnShockWave()
+        private IEnumerator SpawnShockWave(CloseDodgeGainContext context)
         {
             float size = shockWaveEffect.GetFloat("_Size");
             float timer = -size;
             float maxTimer = 0.5f - size;
+            Vector3 focalPoint = CamerasHolder.instance.mainCamera.WorldToViewportPoint(context.outPosition);
+            shockWaveEffect.SetVector("_FocalPoint", focalPoint);
             while (timer <= maxTimer)
             {
                 shockWaveEffect.SetFloat("_Progress", timer);

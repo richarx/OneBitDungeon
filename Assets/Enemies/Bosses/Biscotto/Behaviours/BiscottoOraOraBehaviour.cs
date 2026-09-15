@@ -281,12 +281,10 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
 
     private Vector3 ComputeRepositionDestination(EnemyController enemy)
     {
-        Vector3 playerPosition = PlayerStateMachine.instance.position;
-
-        Vector3 destination = playerPosition
-            + Vector3.forward * data.RepositionDistanceToPlayer;
-        destination.y = enemy.transform.position.y;
-        return destination;
+        return BiscottoMovementUtility.ComputeRightSideDestination(
+            enemy.transform,
+            PlayerStateMachine.instance.position,
+            data.RepositionDistanceToPlayer);
     }
 
     private void RotatePunchTowardPlayer(Transform punchRoot, bool immediate = false)

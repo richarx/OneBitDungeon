@@ -36,7 +36,10 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
     private float currentAimEndTimestamp;
     private List<RectangleDamageZone> spawnedDamageZones = new List<RectangleDamageZone>();
     private bool _hasHitPlayer;
+    private bool _isFinishingAfterHit;
     private SphereCollider _enemyCollider;
+    private EnemyController _currentEnemy;
+    private BehaviourExecution _currentExecution;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -64,6 +67,9 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
             execution.Complete();
             return;
         }
+
+        _currentEnemy = enemy;
+        _currentExecution = execution;
 
         attackSequence = Sequence.Create();
 
@@ -532,6 +538,41 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
     private void HandlePlayerHit()
     {
         _hasHitPlayer = true;
+
+        if (data == null
+            || !data.InterruptComboOnHit
+            || _isFinishingAfterHit
+            || _currentEnemy == null
+            || !_currentEnemy.IsExecutionActive(_currentExecution))
+        {
+            return;
+        }
+
+        BeginHitRecovery();
+    }
+
+    private void BeginHitRecovery()
+    {
+        _isFinishingAfterHit = true;
+
+        if (attackSequence.isAlive)
+            attackSequence.Stop();
+
+        if (moveSequence.isAlive)
+            moveSequence.Stop();
+
+        CancelSpawnedDamageZones();
+        ClearCurrentAimTarget();
+        PlayHitAnimationIfNeeded(_currentEnemy);
+
+        attackSequence = Sequence.Create()
+            .ChainDelay(data.FinalRecoveryDuration)
+            .ChainCallback(() => PlayAnimation(_currentEnemy, "Idle"))
+            .ChainCallback(() =>
+            {
+                if (_currentEnemy != null && _currentEnemy.IsExecutionActive(_currentExecution))
+                    _currentExecution.Complete();
+            });
     }
 
     private void PlayHitAnimationIfNeeded(EnemyController enemy)
@@ -589,6 +630,20 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
         if (moveSequence.isAlive)
             moveSequence.Stop();
 
+        CancelSpawnedDamageZones();
+
+        attackSequence = default;
+        moveSequence = default;
+        _hasHitPlayer = false;
+        _isFinishingAfterHit = false;
+        _enemyCollider = null;
+        _currentEnemy = null;
+        _currentExecution = null;
+        ClearCurrentAimTarget();
+    }
+
+    private void CancelSpawnedDamageZones()
+    {
         if (spawnedDamageZones == null)
         {
             spawnedDamageZones = new List<RectangleDamageZone>();
@@ -606,11 +661,5 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
 
             spawnedDamageZones.Clear();
         }
-
-        attackSequence = default;
-        moveSequence = default;
-        _hasHitPlayer = false;
-        _enemyCollider = null;
-        ClearCurrentAimTarget();
     }
 }

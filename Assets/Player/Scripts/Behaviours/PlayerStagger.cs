@@ -57,8 +57,8 @@ namespace Player.Scripts
 
         private void HandleDeceleration(PlayerStateMachine player)
         {
-            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.staggerDeceleration * Time.fixedDeltaTime);
-            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.staggerDeceleration * Time.fixedDeltaTime);
+            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.staggerDeceleration * Time.fixedDeltaTime * player.playerData.staggerDeceleration);
+            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.staggerDeceleration * Time.fixedDeltaTime * player.playerData.staggerDeceleration);
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)

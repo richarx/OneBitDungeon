@@ -15,6 +15,11 @@ namespace Enemies.Scripts
         public int currentHealth { get; private set; }
         public bool IsDead => currentHealth <= 0;
         public bool IsFullLife => currentHealth == startingHealth;
+        public bool IsInvincible
+        {
+            get => isInvincible;
+            set => isInvincible = value;
+        }
 
         private void Start()
         {

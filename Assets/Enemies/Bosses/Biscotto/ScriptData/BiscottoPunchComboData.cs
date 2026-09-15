@@ -30,6 +30,13 @@ public sealed class BiscottoPunchComboData : ScriptableObject
     [field: SuffixLabel("secondes")]
     public float FinalRecoveryDuration { get; private set; } = 0.8f;
 
+    [SerializeField]
+    [LabelText("Interrompre le combo si un coup touche")]
+    [Tooltip("Dès la première touche, annule les coups restants et joue une animation de touche.")]
+    private bool _interruptComboOnHit;
+
+    public bool InterruptComboOnHit => _interruptComboOnHit;
+
     [field: SerializeField]
     [field: ListDrawerSettings(ShowFoldout = true, DefaultExpandedState = true)]
     [field: LabelText("Animations si un coup touche")]
