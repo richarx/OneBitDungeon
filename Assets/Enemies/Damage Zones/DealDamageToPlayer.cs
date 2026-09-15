@@ -1,5 +1,6 @@
 using System;
 using Player.Scripts;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class DealDamageToPlayer : MonoBehaviour
@@ -51,7 +52,9 @@ public class DealDamageToPlayer : MonoBehaviour
             return false;
         }
 
-        bool isDamageApplied = player.playerHealth.TakeDamage(damage, direction.normalized, staggerPower);
+        float effectiveStaggerPower = staggerPower >= 0.0f ? staggerPower : -1.0f;
+
+        bool isDamageApplied = player.playerHealth.TakeDamage(damage, direction.normalized, effectiveStaggerPower);
 
         return isDamageApplied;
     }

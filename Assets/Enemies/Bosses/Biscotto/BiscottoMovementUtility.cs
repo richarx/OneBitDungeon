@@ -51,6 +51,50 @@ public static class BiscottoMovementUtility
             }, ease));
     }
 
+    public static Sequence CreateLinearMove(
+        EnemyController enemy,
+        Vector3 destination,
+        float duration,
+        Ease ease = Ease.InOutSine)
+    {
+        Transform movingTransform = enemy != null ? enemy.transform : null;
+        if (movingTransform == null)
+            return Sequence.Create().ChainDelay(duration);
+
+        if (duration <= 0.0f)
+        {
+            return Sequence.Create().ChainCallback(() =>
+            {
+                if (enemy.CanMove)
+                    movingTransform.position = destination;
+            });
+        }
+
+        Vector3 segmentStartPosition = movingTransform.position;
+        float segmentStartProgress = 0.0f;
+        bool wasRooted = false;
+
+        return Sequence.Create()
+            .Group(Tween.Custom(0.0f, 1.0f, duration, progress =>
+            {
+                if (!enemy.CanMove)
+                {
+                    wasRooted = true;
+                    return;
+                }
+
+                if (wasRooted)
+                {
+                    segmentStartPosition = movingTransform.position;
+                    segmentStartProgress = progress;
+                    wasRooted = false;
+                }
+
+                float segmentProgress = Mathf.InverseLerp(segmentStartProgress, 1.0f, progress);
+                movingTransform.position = Vector3.Lerp(segmentStartPosition, destination, segmentProgress);
+            }, ease));
+    }
+
     public static Vector3 ComputeDestination(
         Transform biscottoTransform,
         Vector3 playerPosition,
@@ -63,8 +107,26 @@ public static class BiscottoMovementUtility
             directionToPlayer = biscottoTransform.forward;
 
         directionToPlayer.Normalize();
-
         Vector3 destination = playerPosition + Vector3.forward * distance;
+        destination.y = biscottoTransform.position.y;
+        return ClampToArena(destination);
+    }
+
+    public static Vector3 ComputeRightSideDestination(
+        Transform biscottoTransform,
+        Vector3 playerPosition,
+        float distance)
+    {
+        Vector3 directionToPlayer = playerPosition - biscottoTransform.position;
+        directionToPlayer.y = 0.0f;
+
+        if (directionToPlayer.sqrMagnitude <= MinimumRadius)
+            directionToPlayer = biscottoTransform.forward;
+
+        directionToPlayer.Normalize();
+        Vector3 rightSide = new Vector3(directionToPlayer.z, 0.0f, -directionToPlayer.x);
+
+        Vector3 destination = playerPosition + rightSide * distance;
         destination.y = biscottoTransform.position.y;
         return ClampToArena(destination);
     }

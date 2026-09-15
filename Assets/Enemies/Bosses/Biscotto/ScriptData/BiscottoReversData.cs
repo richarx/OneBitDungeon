@@ -37,6 +37,12 @@ public sealed class BiscottoReversData : ScriptableObject
     [field: LabelText("After-image pendant le déplacement")]
     public bool TriggerAfterImageOnSideMove { get; private set; } = true;
 
+    [Title("Impact")]
+    [field: SerializeField]
+    [field: MinValue(0.0f)]
+    [field: LabelText("Puissance de projection")]
+    public float HitStaggerPower { get; private set; } = 30.0f;
+
     [Title("Télégraphe")]
     [field: SerializeField]
     [field: MinValue(0.0f)]

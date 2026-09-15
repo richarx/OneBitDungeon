@@ -86,6 +86,7 @@ public class EnemyController : SerializedMonoBehaviour
 
         if (debugMode)
         {
+            damageable.IsInvincible = true;
             EnemyHolder.instance.RegisterEnemy(gameObject, true);
             return;
         }

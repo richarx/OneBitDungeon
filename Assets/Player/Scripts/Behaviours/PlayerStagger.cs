@@ -57,8 +57,53 @@ namespace Player.Scripts
 
         private void HandleDeceleration(PlayerStateMachine player)
         {
-            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.staggerDeceleration * Time.fixedDeltaTime);
-            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.staggerDeceleration * Time.fixedDeltaTime);
+            player.moveVelocity.x = Mathf.MoveTowards(player.moveVelocity.x, 0.0f, player.playerData.staggerDeceleration * Time.fixedDeltaTime); //* Mathf.Sqrt(Time.fixedDeltaTime));
+            player.moveVelocity.z = Mathf.MoveTowards(player.moveVelocity.z, 0.0f, player.playerData.staggerDeceleration * Time.fixedDeltaTime); //* Mathf.Sqrt(Time.fixedDeltaTime));
+        }
+
+        public void BounceOffWall(PlayerStateMachine player, Collision collision, float speedRetention)
+        {
+            Vector3 incomingVelocity = player.moveVelocity;
+            incomingVelocity.y = 0.0f;
+
+            if (incomingVelocity.sqrMagnitude <= 0.0001f)
+                return;
+
+            Vector3 wallNormal = GetMostOpposingWallNormal(collision, incomingVelocity);
+            if (wallNormal.sqrMagnitude <= 0.0001f)
+                return;
+
+            Vector3 normalVelocity = Vector3.Project(incomingVelocity, wallNormal);
+            Vector3 tangentialVelocity = incomingVelocity - normalVelocity;
+            player.moveVelocity = tangentialVelocity - normalVelocity * speedRetention;
+            player.SetLastLookDirection((-player.moveVelocity).ToVector2());
+            player.ApplyMovement();
+        }
+
+        private static Vector3 GetMostOpposingWallNormal(Collision collision, Vector3 incomingVelocity)
+        {
+            Vector3 incomingDirection = incomingVelocity.normalized;
+            Vector3 wallNormal = Vector3.zero;
+            float mostOpposingDot = 0.0f;
+
+            for (int i = 0; i < collision.contactCount; i++)
+            {
+                Vector3 contactNormal = collision.GetContact(i).normal;
+                contactNormal.y = 0.0f;
+
+                if (contactNormal.sqrMagnitude <= 0.0001f)
+                    continue;
+
+                contactNormal.Normalize();
+                float dot = Vector3.Dot(incomingDirection, contactNormal);
+                if (dot >= mostOpposingDot)
+                    continue;
+
+                mostOpposingDot = dot;
+                wallNormal = contactNormal;
+            }
+
+            return wallNormal;
         }
 
         public void StopBehaviour(PlayerStateMachine player, BehaviourType next)

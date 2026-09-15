@@ -15,6 +15,8 @@ public enum RectangleDamageZoneType
 
 public class RectangleDamageZone : MonoBehaviour
 {
+    public event Action OnPlayerHit;
+
     [SerializeField] private Vector2 size;
     [SerializeField] private Ease spawnEase;
     [SerializeField] private Ease fillEase;
@@ -39,6 +41,8 @@ public class RectangleDamageZone : MonoBehaviour
     private bool hasBeenParried;
     private bool hasContinuousDamage;
 
+    private float _staggerPower = -1.0f;
+
     private CloseDodgeDetector _closeDodgeDetector;
     private CloseDodgeSession closeDodgeSession;
 
@@ -49,6 +53,9 @@ public class RectangleDamageZone : MonoBehaviour
 
 
     private PlayerStateMachine _playerInstance;
+    private SpriteRenderer _runtimeSpriteRenderer;
+    private Vector3 _setupLocalPosition;
+    private Vector2 _setupMoveDirection;
 
     /// <summary>
     /// Configure les dimensions finales de la zone dans l'espace monde.
@@ -64,6 +71,25 @@ public class RectangleDamageZone : MonoBehaviour
             Mathf.Max(0.0001f, width) / (2.0f * scaleY));
     }
 
+    /// <summary>
+    /// Redimensionne un télégraphe actif tout en gardant son origine ancrée.
+    /// Prévu pour les attaques visées dont l'extrémité bouge avant le verrouillage.
+    /// </summary>
+    public void UpdateDimensions(float width, float length)
+    {
+        SetDimensions(width, length);
+
+        if (_runtimeSpriteRenderer == null)
+            return;
+
+        _runtimeSpriteRenderer.material.SetVector("_Size", size);
+
+        Vector3 localPosition = _setupLocalPosition;
+        localPosition.x += size.x * transform.localScale.x * _setupMoveDirection.x;
+        localPosition.z += size.y * transform.localScale.y * _setupMoveDirection.y;
+        transform.localPosition = localPosition;
+    }
+
     public void SimpleSetup()
     {
         dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
@@ -71,14 +97,23 @@ public class RectangleDamageZone : MonoBehaviour
         hasContinuousDamage = true;
     }
 
-    public void Setup(Vector2 moveDirection, float _spawnDuration, float _fillDuration, CloseDodgeSession session = null)
+    public void Setup(
+        Vector2 moveDirection,
+        float _spawnDuration,
+        float _fillDuration,
+        CloseDodgeSession session = null,
+        float staggerPower = -1.0f)
     {
         spawnDuration = _spawnDuration;
         fillDuration = _fillDuration;
         closeDodgeSession = session;
+        _staggerPower = staggerPower;
 
         dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        _runtimeSpriteRenderer = spriteRenderer;
+        _setupLocalPosition = transform.localPosition;
+        _setupMoveDirection = moveDirection;
 
         spriteRenderer.material = new Material(spriteRenderer.material);
 
@@ -233,15 +268,20 @@ public class RectangleDamageZone : MonoBehaviour
         Vector2 C = (position + transform.right * X - transform.up * Y).ToVector2();
         Vector2 D = (position - transform.right * X - transform.up * Y).ToVector2();
 
-        Vector3 direction = (P.ToVector3() - position).normalized;
+        Vector3 direction = transform.right.normalized;
 
         bool damageApplied = false;
 
         if (PointInTriangle(P, A, B, C) || PointInTriangle(P, A, C, D))
-            damageApplied = dealDamageToPlayer.TryDealDamage(direction);
+            damageApplied = dealDamageToPlayer.TryDealDamage(direction, _staggerPower);
 
-        if (damageApplied && !hasContinuousDamage)
+        if (damageApplied)
         {
+            OnPlayerHit?.Invoke();
+
+            if (hasContinuousDamage)
+                return;
+
             closeDodgeSession?.RegisterHit();
             isCheckingForDamage = false;
         }

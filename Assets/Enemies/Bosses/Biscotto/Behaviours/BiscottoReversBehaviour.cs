@@ -22,7 +22,6 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
     private Sequence outcomeSequence;
     private ConeDamageZone currentDamageZone;
     private CloseDodgeSession closeDodgeSession;
-    private BiscottoArrogance biscottoArrogance;
     private EnemyController currentEnemy;
     private BehaviourExecution currentExecution;
     private float aimEndTimestamp;
@@ -35,7 +34,6 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
 
         currentEnemy = enemy;
         currentExecution = execution;
-        biscottoArrogance = enemy.GetComponent<BiscottoArrogance>();
 
         if (data == null)
         {
@@ -44,18 +42,6 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             return;
         }
 
-        if (biscottoArrogance == null)
-        {
-            Debug.LogError("[BiscottoReversBehaviour] BiscottoArrogance est requis sur le boss.", enemy);
-            execution.Complete();
-            return;
-        }
-
-        if (!biscottoArrogance.IsFull && !execution.DebugMode)
-        {
-            execution.Complete();
-            return;
-        }
 
         if (data.ConeDamageZonePrefab == null)
         {
@@ -120,8 +106,7 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
 
     public bool CanExecute(EnemyController enemy)
     {
-        BiscottoArrogance arrogance = enemy != null ? enemy.GetComponent<BiscottoArrogance>() : null;
-        return arrogance != null && arrogance.IsFull;
+        return true;
     }
 
     private void SpawnDamageZone(EnemyController enemy)
@@ -141,7 +126,8 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             data.HalfAngle * 2.0f,
             data.SpawnDuration,
             data.FillDuration,
-            closeDodgeSession);
+            closeDodgeSession,
+            data.HitStaggerPower);
     }
 
     private void StartMove(EnemyController enemy)
@@ -214,14 +200,12 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
         switch (outcome)
         {
             case CloseDodgeSessionOutcome.Hit:
-                biscottoArrogance.ConsumeFullArrogance();
                 playerArrogance?.ClearArrogance();
                 PlayAnimation(currentEnemy, data.HitPlayerAnimation);
                 CompleteAfterDelay(data.HitRecoveryDuration);
                 break;
 
             case CloseDodgeSessionOutcome.CloseDodge:
-                biscottoArrogance.ConsumeFullArrogance();
                 playerArrogance?.FillArrogance();
                 PlayAnimation(currentEnemy, data.ReflectedAnimation);
                 ApplyReflectedDamage();
@@ -293,7 +277,6 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
         outcomeSequence = default;
         currentDamageZone = null;
         closeDodgeSession = null;
-        biscottoArrogance = null;
         currentEnemy = null;
         currentExecution = null;
         aimEndTimestamp = 0.0f;
