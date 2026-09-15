@@ -19,6 +19,12 @@ public sealed class BiscottoPunchComboData : ScriptableObject
     [field: LabelText("Coups")]
     public List<BiscottoPunchStep> PunchSteps { get; private set; } = new List<BiscottoPunchStep>();
 
+    [Title("Impact")]
+    [field: SerializeField]
+    [field: MinValue(0.0f)]
+    [field: LabelText("Puissance de projection")]
+    public float HitStaggerPower { get; private set; } = 30.0f;
+
     [field: SerializeField]
     [field: MinValue(0.001f)]
     [field: LabelText("Lissage de la visée")]

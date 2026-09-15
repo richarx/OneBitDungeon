@@ -35,6 +35,7 @@ public sealed class ConeDamageZone : MonoBehaviour
     private Vector2 direction;
     private float radius;
     private float openingAngleDegrees;
+    private float _staggerPower = -1.0f;
 
     public bool IsDestroyed { get; private set; }
 
@@ -48,12 +49,14 @@ public sealed class ConeDamageZone : MonoBehaviour
         float openingAngle,
         float spawnDuration,
         float fillDuration,
-        CloseDodgeSession session = null)
+        CloseDodgeSession session = null,
+        float staggerPower = -1.0f)
     {
         direction = coneDirection.sqrMagnitude <= Mathf.Epsilon ? Vector2.right : coneDirection.normalized;
         radius = Mathf.Max(0.0f, coneRadius);
         openingAngleDegrees = Mathf.Clamp(openingAngle, 0.0f, 360.0f);
         closeDodgeSession = session;
+        _staggerPower = staggerPower;
 
         AlignLocalForwardWithDirection();
 
@@ -201,7 +204,7 @@ public sealed class ConeDamageZone : MonoBehaviour
         Vector3 hitDirection = playerPosition - transform.position;
         hitDirection.y = 0.0f;
 
-        if (dealDamageToPlayer.TryDealDamage(hitDirection))
+        if (dealDamageToPlayer.TryDealDamage(hitDirection, _staggerPower))
         {
             closeDodgeSession?.RegisterHit();
             isCheckingForDamage = false;

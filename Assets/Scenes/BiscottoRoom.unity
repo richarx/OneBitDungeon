@@ -9013,6 +9013,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1857920065}
+  - component: {fileID: 1857920066}
   m_Layer: 0
   m_Name: Wall Colliders
   m_TagString: Untagged
@@ -9038,6 +9039,20 @@ Transform:
   - {fileID: 63313600}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1857920066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a8cb646b1ec466787683209d0bec575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enablePlayerStaggerBounce: 1
+  _playerStaggerBounceSpeedRetention: 0.2
 --- !u!1001 &1876714769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10707,7 +10722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068ca6ab120c7194b90607252bdcd524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 800
+  startingHealth: 900
   isInvincible: 0
   OnTakeDamage:
     m_PersistentCalls:
@@ -10914,13 +10929,14 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 3660370180c74e847bf42c3665a92250, type: 2}
     - {fileID: 11400000, guid: 55cf7d4e55eaa2f4789ef91df07bf06b, type: 2}
     - {fileID: 11400000, guid: db4ff545cbb98ec489805004fbb2f611, type: 2}
-    - {fileID: 11400000, guid: f8188a6ab6b856b429595d9df8b19f87, type: 2}
-    - {fileID: 11400000, guid: d8f1b736f5216e641a132b61aff92e1e, type: 2}
-    - {fileID: 11400000, guid: 0dfa851de9368c14183b6789c3059deb, type: 2}
-    - {fileID: 11400000, guid: cc0cdca0d8aa8774bb2e79043a9cd3a7, type: 2}
+    - {fileID: 11400000, guid: 92d971e2f71c0384788d34e43e071aae, type: 2}
+    - {fileID: 11400000, guid: 33628b4ea85bd6847ba578c06a3d681f, type: 2}
+    - {fileID: 11400000, guid: 297e843e520a0f34b9d2bef86626206f, type: 2}
     - {fileID: 11400000, guid: 1eb10afbdd384b44c88fc9d53f7ac729, type: 2}
+    - {fileID: 11400000, guid: 0dfa851de9368c14183b6789c3059deb, type: 2}
     - {fileID: 11400000, guid: f688e00df8e10af458be171b584bd257, type: 2}
     - {fileID: 11400000, guid: 1b6a1328bdca0804385740f3eb916aec, type: 2}
+    - {fileID: 11400000, guid: cc0cdca0d8aa8774bb2e79043a9cd3a7, type: 2}
     - {fileID: 11400000, guid: b859efed01810184c94b0752daf21de6, type: 2}
     - {fileID: 11400000, guid: 43fa46a965d227745ad52b61e2f3ca97, type: 2}
     SerializedBytesString: 
@@ -10998,7 +11014,7 @@ MonoBehaviour:
       Data: 7|OdinEnemyPhase, Assembly-CSharp
     - Name: healthThresholdToTriggerTransition
       Entry: 3
-      Data: 600
+      Data: 700
     - Name: transitionBehaviour
       Entry: 7
       Data: 8|CommonPlayAnimationBehaviour, Assembly-CSharp
@@ -11029,25 +11045,25 @@ MonoBehaviour:
       Data: 11|BiscottoPunchComboBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 12|BiscottoReversBehaviour, Assembly-CSharp
+    - Name: data
+      Entry: 10
       Data: 5
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 12|BiscottoPunchComboBehaviour, Assembly-CSharp
+      Data: 13|BiscottoOraOraBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 6
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 13|BiscottoSlapBehaviour, Assembly-CSharp
-    - Name: data
-      Entry: 10
-      Data: 7
     - Name: 
       Entry: 8
       Data: 
@@ -11071,7 +11087,7 @@ MonoBehaviour:
       Data: 15|BiscottoTsarBombaBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 8
+      Data: 7
     - Name: 
       Entry: 8
       Data: 
@@ -11087,7 +11103,7 @@ MonoBehaviour:
       Data: 17|BiscottoPunchComboBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 6
+      Data: 8
     - Name: 
       Entry: 8
       Data: 
@@ -11114,7 +11130,7 @@ MonoBehaviour:
       Data: 20|BiscottoSlapBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 7
+      Data: 11
     - Name: 
       Entry: 8
       Data: 
@@ -11138,7 +11154,7 @@ MonoBehaviour:
       Data: 22|BiscottoSlamBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 11
+      Data: 12
     - Name: 
       Entry: 8
       Data: 
@@ -11154,7 +11170,7 @@ MonoBehaviour:
       Data: 24|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 12
+      Data: 13
     - Name: 
       Entry: 8
       Data: 
@@ -11172,7 +11188,7 @@ MonoBehaviour:
       Data: 26|BiscottoSlapBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 7
+      Data: 11
     - Name: 
       Entry: 8
       Data: 
@@ -11196,16 +11212,16 @@ MonoBehaviour:
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 27|BiscottoPunchComboBehaviour, Assembly-CSharp
+      Data: 27|BiscottoCrazyRacletteBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 1
+      Data: 10
     - Name: 
       Entry: 8
       Data: 
   <Sprite>k__BackingField: {fileID: 5071313608623843290}
   <shadowSprite>k__BackingField: {fileID: 2063661912}
-  debugMode: 1
+  debugMode: 0
 --- !u!114 &8182171200824653878
 MonoBehaviour:
   m_ObjectHideFlags: 0

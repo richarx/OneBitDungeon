@@ -41,7 +41,7 @@ public class RectangleDamageZone : MonoBehaviour
     private bool hasBeenParried;
     private bool hasContinuousDamage;
 
-    private float staggerPower;
+    private float _staggerPower = -1.0f;
 
     private CloseDodgeDetector _closeDodgeDetector;
     private CloseDodgeSession closeDodgeSession;
@@ -97,12 +97,17 @@ public class RectangleDamageZone : MonoBehaviour
         hasContinuousDamage = true;
     }
 
-    public void Setup(Vector2 moveDirection, float _spawnDuration, float _fillDuration, CloseDodgeSession session = null, float stagger = -1f)
+    public void Setup(
+        Vector2 moveDirection,
+        float _spawnDuration,
+        float _fillDuration,
+        CloseDodgeSession session = null,
+        float staggerPower = -1.0f)
     {
         spawnDuration = _spawnDuration;
         fillDuration = _fillDuration;
         closeDodgeSession = session;
-        staggerPower = stagger;
+        _staggerPower = staggerPower;
 
         dealDamageToPlayer = GetComponent<DealDamageToPlayer>();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -268,7 +273,7 @@ public class RectangleDamageZone : MonoBehaviour
         bool damageApplied = false;
 
         if (PointInTriangle(P, A, B, C) || PointInTriangle(P, A, C, D))
-            damageApplied = dealDamageToPlayer.TryDealDamage(direction);
+            damageApplied = dealDamageToPlayer.TryDealDamage(direction, _staggerPower);
 
         if (damageApplied)
         {

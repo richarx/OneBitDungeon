@@ -188,7 +188,11 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
         damageZone.OnPlayerHit += HandlePlayerHit;
         damageZone.SetDimensions(step.DamageZoneWidth, step.DamageZoneLength);
         RotateCurrentZoneTowardPlayer(enemy, true);
-        damageZone.Setup(Vector2.right, step.SpawnDuration, step.FillDuration);
+        damageZone.Setup(
+            Vector2.right,
+            step.SpawnDuration,
+            step.FillDuration,
+            staggerPower: data.HitStaggerPower);
     }
 
     private static Vector3 ComputeDamageZoneOffset(EnemyController enemy, BiscottoPunchStep step)

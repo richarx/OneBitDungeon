@@ -148,6 +148,33 @@ namespace Player.Scripts
             //KeepOnGround();
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            TryBounceDuringStagger(collision);
+        }
+
+        private void OnCollisionStay(Collision collision)
+        {
+            TryBounceDuringStagger(collision);
+        }
+
+        private void TryBounceDuringStagger(Collision collision)
+        {
+            ArenaProperty arenaProperty = ArenaProperty.Instance;
+            if (currentBehaviour != playerStagger ||
+                arenaProperty == null ||
+                !arenaProperty.EnablePlayerStaggerBounce)
+            {
+                return;
+            }
+
+            int collisionLayer = 1 << collision.gameObject.layer;
+            if ((obstaclesLayer.value & collisionLayer) == 0)
+                return;
+
+            playerStagger.BounceOffWall(this, collision, arenaProperty.PlayerStaggerBounceSpeedRetention);
+        }
+
         public void ChangeBehaviour(IPlayerBehaviour newBehaviour)
         {
             if (newBehaviour == null || newBehaviour == currentBehaviour)

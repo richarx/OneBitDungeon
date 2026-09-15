@@ -47,6 +47,7 @@ MonoBehaviour:
     <MoveDuration>k__BackingField: 0.25
     <AnticipationAnimation>k__BackingField: Punch_Left_Anticipation
     <ImpactAnimation>k__BackingField: Punch_Left
+  <HitStaggerPower>k__BackingField: 40
   <RotationDampening>k__BackingField: 0.08
   <FinalRecoveryDuration>k__BackingField: 0.75
   _interruptComboOnHit: 1

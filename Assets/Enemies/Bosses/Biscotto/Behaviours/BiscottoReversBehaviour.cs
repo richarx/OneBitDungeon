@@ -106,8 +106,7 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
 
     public bool CanExecute(EnemyController enemy)
     {
-        BiscottoArrogance arrogance = enemy != null ? enemy.GetComponent<BiscottoArrogance>() : null;
-        return arrogance != null && arrogance.IsFull;
+        return true;
     }
 
     private void SpawnDamageZone(EnemyController enemy)
@@ -127,7 +126,8 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             data.HalfAngle * 2.0f,
             data.SpawnDuration,
             data.FillDuration,
-            closeDodgeSession);
+            closeDodgeSession,
+            data.HitStaggerPower);
     }
 
     private void StartMove(EnemyController enemy)

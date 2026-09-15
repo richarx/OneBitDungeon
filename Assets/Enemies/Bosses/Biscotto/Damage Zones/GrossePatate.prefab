@@ -158,4 +158,4 @@ MonoBehaviour:
   canBeParried: 0
   canBeJumped: 0
   _overrideStaggerPower: 1
-  _staggerPower: 30
+  _staggerPower: 10
