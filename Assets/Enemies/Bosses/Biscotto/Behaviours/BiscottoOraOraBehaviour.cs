@@ -18,6 +18,7 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
         public RectangleDamageZone DamageZone;
         public Transform Root;
         public float AimEndTimestamp;
+        public BiscottoPunchSide Side;
     }
 
     [OdinSerialize]
@@ -85,7 +86,7 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
             }
 
             if (Time.time < punch.AimEndTimestamp)
-                RotatePunchTowardPlayer(punch.Root);
+                RotatePunchTowardPlayer(punch);
         }
 
         UpdatePunchBarrage(enemy);
@@ -113,9 +114,11 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
     {
         PlayAnimation(enemy, data.PunchAnimation);
 
+        BiscottoPunchSide punchSide = GetPunchSide(punchIndex);
+
         GameObject zoneObject = UnityEngine.Object.Instantiate(
             data.RectangularDamageZonePrefab,
-            enemy.transform.position + ComputeDamageZoneOffset(enemy, punchIndex),
+            enemy.transform.position + ComputeDamageZoneOffset(enemy, punchSide),
             Quaternion.identity);
         RectangleDamageZone damageZone = zoneObject.GetComponentInChildren<RectangleDamageZone>();
 
@@ -132,14 +135,15 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
             Root = zoneObject.transform,
             AimEndTimestamp = Time.time + Mathf.Max(
                 0.0f,
-                data.SpawnDuration + data.FillDuration - data.LockBeforeImpact)
+                data.SpawnDuration + data.FillDuration - data.LockBeforeImpact),
+            Side = punchSide
         };
 
         activePunches.Add(punch);
         //SetPunchRenderingOrder(damageZone, punchIndex);
         damageZone.SetDimensions(data.DamageZoneWidth, data.DamageZoneLength);
-        RotatePunchTowardPlayer(punch.Root, true);
-        damageZone.Setup(Vector2.right, data.SpawnDuration, data.FillDuration);
+        RotatePunchTowardPlayer(punch, true);
+        damageZone.Setup(Vector2.right, data.SpawnDuration, data.FillDuration, null, data.HitStaggerPower);
     }
 
     private static void SetPunchRenderingOrder(RectangleDamageZone damageZone, int punchIndex)
@@ -152,7 +156,7 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
         spriteRenderer.sortingOrder -= punchIndex;
     }
 
-    private Vector3 ComputeDamageZoneOffset(EnemyController enemy, int punchIndex)
+    private Vector3 ComputeDamageZoneOffset(EnemyController enemy, BiscottoPunchSide punchSide)
     {
         if (data.DamageZoneSideOffset <= 0.0f)
             return Vector3.zero;
@@ -167,7 +171,7 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
 
         directionToPlayer.Normalize();
         Vector3 rightSide = new Vector3(directionToPlayer.z, 0.0f, -directionToPlayer.x);
-        float sideSign = GetPunchSide(punchIndex) == BiscottoPunchSide.Right ? 1.0f : -1.0f;
+        float sideSign = GetSideSign(punchSide);
         return rightSide * sideSign * data.DamageZoneSideOffset;
     }
 
@@ -180,6 +184,11 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
         return data.FirstPunchSide == BiscottoPunchSide.Left
             ? BiscottoPunchSide.Right
             : BiscottoPunchSide.Left;
+    }
+
+    private static float GetSideSign(BiscottoPunchSide side)
+    {
+        return side == BiscottoPunchSide.Right ? 1.0f : -1.0f;
     }
 
     private void UpdatePunchBarrage(EnemyController enemy)
@@ -287,28 +296,43 @@ public sealed class BiscottoOraOraBehaviour : IEnemyBehaviour
             data.RepositionDistanceToPlayer);
     }
 
-    private void RotatePunchTowardPlayer(Transform punchRoot, bool immediate = false)
+    private void RotatePunchTowardPlayer(ActivePunch punch, bool immediate = false)
     {
-        if (punchRoot == null || PlayerStateMachine.instance == null)
+        if (punch == null || punch.Root == null || PlayerStateMachine.instance == null)
             return;
 
-        Vector3 direction = PlayerStateMachine.instance.position - punchRoot.position;
-        direction.y = 0.0f;
+        Vector3 directionToPlayer = PlayerStateMachine.instance.position - punch.Root.position;
+        directionToPlayer.y = 0.0f;
 
-        if (direction.sqrMagnitude <= 0.0001f)
+        if (directionToPlayer.sqrMagnitude <= 0.0001f)
             return;
+
+        float minimumTrackingDistance = Mathf.Max(0.0f, data.MinimumTrackingDistance);
+        if (!immediate && directionToPlayer.sqrMagnitude < minimumTrackingDistance * minimumTrackingDistance)
+            return;
+
+        Vector3 direction = directionToPlayer;
+        float corridorOffset = Mathf.Max(0.0f, data.DodgeCorridorOffset);
+        if (corridorOffset > 0.0f)
+        {
+            Vector3 rightSide = new Vector3(directionToPlayer.z, 0.0f, -directionToPlayer.x).normalized;
+            Vector3 aimPosition = PlayerStateMachine.instance.position
+                                  + rightSide * GetSideSign(punch.Side) * corridorOffset;
+            direction = aimPosition - punch.Root.position;
+            direction.y = 0.0f;
+        }
 
         Quaternion targetRotation = Quaternion.LookRotation(
             direction.normalized.ToVector2().AddAngleToDirection(90.0f).ToVector3());
 
         if (immediate)
         {
-            punchRoot.rotation = targetRotation;
+            punch.Root.rotation = targetRotation;
             return;
         }
 
-        punchRoot.rotation = Quaternion.Slerp(
-            punchRoot.rotation,
+        punch.Root.rotation = Quaternion.Slerp(
+            punch.Root.rotation,
             targetRotation,
             Time.deltaTime / Mathf.Max(0.001f, data.RotationDampening));
     }

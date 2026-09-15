@@ -32,6 +32,13 @@ public sealed class BiscottoPunchComboData : ScriptableObject
 
     [field: SerializeField]
     [field: MinValue(0.0f)]
+    [field: LabelText("Distance minimale de suivi")]
+    [field: Tooltip("Dans ce rayon autour de l'origine du coup, le télégraphe conserve sa dernière direction afin d'éviter une rotation brutale.")]
+    [field: SuffixLabel("mètres")]
+    public float MinimumTrackingDistance { get; private set; } = 1.5f;
+
+    [field: SerializeField]
+    [field: MinValue(0.0f)]
     [field: LabelText("Récupération finale")]
     [field: SuffixLabel("secondes")]
     public float FinalRecoveryDuration { get; private set; } = 0.8f;

@@ -9,28 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20a5c410cf384875ac1702c960fb2289, type: 3}
-  m_Name: OraOra
+  m_Script: {fileID: 11500000, guid: b4f7cb3610ba4c689fc9e42e84ab5f35, type: 3}
+  m_Name: EndlessPunch
   m_EditorClassIdentifier: 
+  <BackPosition>k__BackingField: {x: 0, y: 8}
+  <FrontPosition>k__BackingField: {x: 0, y: -8}
+  <PlayerPushPower>k__BackingField: 50
+  <MoveToBackDuration>k__BackingField: 0.7
+  <TriggerAfterImageOnMove>k__BackingField: 1
   <RectangularDamageZonePrefab>k__BackingField: {fileID: 227854228040328757, guid: 09c0e16c4786d514eb6f8565609c163c,
     type: 3}
-  <PunchCount>k__BackingField: 16
-  <PunchInterval>k__BackingField: 0.6
+  <PunchInterval>k__BackingField: 0.8
   <DamageZoneWidth>k__BackingField: 2.5
-  <DamageZoneLength>k__BackingField: 10
+  <DamageZoneLength>k__BackingField: 15
   <DamageZoneSideOffset>k__BackingField: 1
   <DodgeCorridorOffset>k__BackingField: 0.8
   <FirstPunchSide>k__BackingField: 0
-  <SpawnDuration>k__BackingField: 0.3
-  <FillDuration>k__BackingField: 0.6
+  <SpawnDuration>k__BackingField: 0.4
+  <FillDuration>k__BackingField: 0.5
   <LockBeforeImpact>k__BackingField: 0.3
   <RotationDampening>k__BackingField: 0.1
-  <MinimumTrackingDistance>k__BackingField: 1.5
-  <RepositionDistanceThreshold>k__BackingField: 10
-  <RepositionDistanceToPlayer>k__BackingField: 4
-  <RepositionDuration>k__BackingField: 0.25
-  <TriggerAfterImageOnReposition>k__BackingField: 1
-  <HitStaggerPower>k__BackingField: 50
-  <FinalRecoveryDuration>k__BackingField: 2.5
+  <HitRecoveryDuration>k__BackingField: 0.8
+  <MoveAnimation>k__BackingField: Jump
   <PunchAnimation>k__BackingField: Punch_Right_Anticipation
-  <RecoveryAnimation>k__BackingField: Exhausted
+  <HitAnimation>k__BackingField: FallBack

@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ConeDamageZonePrefab>k__BackingField: {fileID: 4722290469985967793, guid: f6704d1df0c74d0c9076d3119d22e84c,
     type: 3}
-  <Radius>k__BackingField: 8
+  <Radius>k__BackingField: 12
   <HalfAngle>k__BackingField: 112.3
-  <MoveDistance>k__BackingField: 2
-  <MoveDuration>k__BackingField: 1
-  <TriggerAfterImageOnSideMove>k__BackingField: 0
-  <HitStaggerPower>k__BackingField: 40
+  <MoveDistance>k__BackingField: 4
+  <MoveDuration>k__BackingField: 0.2
+  <TriggerAfterImageOnSideMove>k__BackingField: 1
+  <HitStaggerPower>k__BackingField: 80
   <SpawnDuration>k__BackingField: 0.35
-  <FillDuration>k__BackingField: 0.5
+  <FillDuration>k__BackingField: 2
   <LockBeforeImpact>k__BackingField: 0.6
   <RotationDampening>k__BackingField: 0.08
   <SelfDamage>k__BackingField: 0

@@ -40,6 +40,7 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
     private SphereCollider _enemyCollider;
     private EnemyController _currentEnemy;
     private BehaviourExecution _currentExecution;
+    private Vector3 _currentDamageZoneOffset;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -166,7 +167,11 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
             return;
         }
 
-        GameObject zoneObject = UnityEngine.Object.Instantiate(zonePrefab, enemy.transform.position, Quaternion.identity);
+        _currentDamageZoneOffset = ComputeDamageZoneOffset(enemy, step);
+        GameObject zoneObject = UnityEngine.Object.Instantiate(
+            zonePrefab,
+            enemy.transform.position + _currentDamageZoneOffset,
+            Quaternion.identity);
         RectangleDamageZone damageZone = zoneObject.GetComponentInChildren<RectangleDamageZone>();
 
         if (damageZone == null)
@@ -220,12 +225,16 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
         if (currentDamageZoneRoot == null || currentPunchStep == null || PlayerStateMachine.instance == null)
             return;
 
-        currentDamageZoneRoot.position = enemy.transform.position + ComputeDamageZoneOffset(enemy, currentPunchStep);
+        currentDamageZoneRoot.position = enemy.transform.position + _currentDamageZoneOffset;
 
         Vector3 direction = PlayerStateMachine.instance.position - currentDamageZoneRoot.position;
         direction.y = 0.0f;
 
         if (direction.sqrMagnitude <= 0.0001f)
+            return;
+
+        float minimumTrackingDistance = Mathf.Max(0.0f, data.MinimumTrackingDistance);
+        if (!immediate && direction.sqrMagnitude < minimumTrackingDistance * minimumTrackingDistance)
             return;
 
         Quaternion targetRotation = Quaternion.LookRotation(
@@ -624,6 +633,7 @@ public class BiscottoPunchComboBehaviour : IEnemyBehaviour
         currentDamageZoneRoot = null;
         currentPunchStep = null;
         currentAimEndTimestamp = 0.0f;
+        _currentDamageZoneOffset = Vector3.zero;
     }
 
     private void ResetRuntimeState()

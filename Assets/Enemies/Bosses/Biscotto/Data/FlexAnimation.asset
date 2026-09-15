@@ -15,14 +15,21 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 4f10188baf7542afae058f45285a85e7, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
     - Name: chainedBehaviour
-      Entry: 6
+      Entry: 7
+      Data: 0|BiscottoEndlessPunchBehaviour, Assembly-CSharp
+    - Name: _data
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
       Data: 
   <Animation>k__BackingField: Flex_Both
   AnimationDuration: 10
@@ -31,4 +38,4 @@ MonoBehaviour:
   <MoveDuration>k__BackingField: 0.3
   <MoveAnimation>k__BackingField: Idle
   <TriggerAfterImageOnSideMove>k__BackingField: 0
-  <IsChainingAnimation>k__BackingField: 0
+  <IsChainingAnimation>k__BackingField: 1

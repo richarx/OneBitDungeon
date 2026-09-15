@@ -47,18 +47,18 @@ public class CommonPlayAnimationData : SerializedScriptableObject
     public bool TriggerAfterImageOnSideMove { get; private set; } = false;
 
     [field: SerializeField]
-    [field: LabelText("enchaine une animation après celle ci")]
+    [field: LabelText("Enchaîne un comportement après celui-ci")]
     public bool IsChainingAnimation { get; private set; }
 
     [ShowIf(nameof(IsChainingAnimation))]
     [OdinSerialize]
-    [LabelText("Chained Animation")]
+    [LabelText("Comportement chaîné")]
     [HideReferenceObjectPicker]
     [TypeFilter(nameof(GetInlineBehaviourTypes))]
     public IEnemyBehaviour chainedBehaviour;
 
     private IEnumerable<Type> GetInlineBehaviourTypes()
     {
-        return EnemyBehaviourTypeUtility.GetBehaviourTypes("PlayAnimation");
+        return EnemyBehaviourTypeUtility.GetBehaviourTypes(string.Empty);
     }
 }

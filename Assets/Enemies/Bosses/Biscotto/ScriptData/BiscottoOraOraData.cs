@@ -42,6 +42,14 @@ public sealed class BiscottoOraOraData : ScriptableObject
     public float DamageZoneSideOffset { get; private set; } = 2.0f;
 
     [field: SerializeField]
+    [field: MinValue(0.0f)]
+    [field: LabelText("Décalage du couloir d'esquive")]
+    [field: Tooltip("Décale alternativement la ligne dangereuse autour du joueur. Le côté opposé au décalage devient la sortie la plus courte. Une valeur de 0 conserve une visée centrée.")]
+    [field: SuffixLabel("mètres")]
+    [field: ValidateInput(nameof(DodgeCorridorOffsetIsValid), "Le décalage doit rester inférieur ou égal à la moitié de la largeur pour que le joueur commence dans le couloir.")]
+    public float DodgeCorridorOffset { get; private set; }
+
+    [field: SerializeField]
     [field: LabelText("Côté du premier coup")]
     [field: Tooltip("Les coups suivants alternent automatiquement entre gauche et droite.")]
     public BiscottoPunchSide FirstPunchSide { get; private set; } = BiscottoPunchSide.Left;
@@ -72,6 +80,13 @@ public sealed class BiscottoOraOraData : ScriptableObject
     [field: Tooltip("Une valeur élevée rend le suivi du joueur moins précis.")]
     public float RotationDampening { get; private set; } = 0.4f;
 
+    [field: SerializeField]
+    [field: MinValue(0.0f)]
+    [field: LabelText("Distance minimale de suivi")]
+    [field: Tooltip("Dans ce rayon autour de l'origine du coup, le télégraphe conserve sa dernière direction afin d'éviter une rotation brutale.")]
+    [field: SuffixLabel("mètres")]
+    public float MinimumTrackingDistance { get; private set; } = 1.5f;
+
     [Title("Repositionnement")]
     [field: SerializeField]
     [field: MinValue(0.001f)]
@@ -97,6 +112,12 @@ public sealed class BiscottoOraOraData : ScriptableObject
     [field: LabelText("After-image pendant le repositionnement")]
     public bool TriggerAfterImageOnReposition { get; private set; } = true;
 
+    [Title("Impact")]
+    [field: SerializeField]
+    [field: MinValue(0.0f)]
+    [field: LabelText("Puissance de projection")]
+    public float HitStaggerPower { get; private set; } = 30.0f;
+
     [Title("Fin")]
     [field: SerializeField]
     [field: MinValue(0.0f)]
@@ -113,4 +134,5 @@ public sealed class BiscottoOraOraData : ScriptableObject
     public string RecoveryAnimation { get; private set; }
 
     private bool LockBeforeImpactIsValid => LockBeforeImpact >= 0.0f && LockBeforeImpact <= SpawnDuration + FillDuration;
+    private bool DodgeCorridorOffsetIsValid => DodgeCorridorOffset >= 0.0f && DodgeCorridorOffset <= DamageZoneWidth * 0.5f;
 }

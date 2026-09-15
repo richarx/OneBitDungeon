@@ -28,7 +28,7 @@ MonoBehaviour:
     <LockBeforeImpact>k__BackingField: 0.5
     <DelayAfterImpact>k__BackingField: 0.1
     <MoveBesidePlayer>k__BackingField: 1
-    <MoveDistance>k__BackingField: 5
+    <MoveDistance>k__BackingField: 4
     <MoveDuration>k__BackingField: 0.5
     <AnticipationAnimation>k__BackingField: Punch_Right_Anticipation
     <ImpactAnimation>k__BackingField: Punch_Right
@@ -58,12 +58,13 @@ MonoBehaviour:
     <LockBeforeImpact>k__BackingField: 0.4
     <DelayAfterImpact>k__BackingField: 0.2
     <MoveBesidePlayer>k__BackingField: 1
-    <MoveDistance>k__BackingField: 3.5
+    <MoveDistance>k__BackingField: 4
     <MoveDuration>k__BackingField: 0.2
     <AnticipationAnimation>k__BackingField: Punch_Right_Anticipation
     <ImpactAnimation>k__BackingField: Punch_Right
   <HitStaggerPower>k__BackingField: 40
   <RotationDampening>k__BackingField: 0.08
+  <MinimumTrackingDistance>k__BackingField: 1.5
   <FinalRecoveryDuration>k__BackingField: 1
   _interruptComboOnHit: 1
   <HitAnimations>k__BackingField:

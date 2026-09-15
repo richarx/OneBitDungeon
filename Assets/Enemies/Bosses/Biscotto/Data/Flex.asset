@@ -12,8 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4d70177ff743a89e3a6e36f4196c4c, type: 3}
   m_Name: Flex
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 4f10188baf7542afae058f45285a85e7, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: chainedBehaviour
+      Entry: 7
+      Data: 0|BiscottoEndlessPunchBehaviour, Assembly-CSharp
+    - Name: _data
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
   <FlexDuration>k__BackingField: 2
   <RecoveryDuration>k__BackingField: 0.35
   <FlexAnimation_Arrogance_1>k__BackingField: Flex_Left
   <FlexAnimation_Arrogance_2>k__BackingField: Flex_Right
   <FlexAnimation_Arrogance_3>k__BackingField: Flex_Both
+  <IsChainingBehaviour>k__BackingField: 1

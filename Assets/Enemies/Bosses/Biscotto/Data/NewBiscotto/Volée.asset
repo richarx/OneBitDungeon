@@ -19,15 +19,18 @@ MonoBehaviour:
   <DamageZoneWidth>k__BackingField: 2.5
   <DamageZoneLength>k__BackingField: 10
   <DamageZoneSideOffset>k__BackingField: 1
+  <DodgeCorridorOffset>k__BackingField: 0.8
   <FirstPunchSide>k__BackingField: 0
   <SpawnDuration>k__BackingField: 0.3
   <FillDuration>k__BackingField: 0.8
   <LockBeforeImpact>k__BackingField: 0.3
   <RotationDampening>k__BackingField: 0.1
+  <MinimumTrackingDistance>k__BackingField: 1.5
   <RepositionDistanceThreshold>k__BackingField: 100
   <RepositionDistanceToPlayer>k__BackingField: 5
   <RepositionDuration>k__BackingField: 0.5
   <TriggerAfterImageOnReposition>k__BackingField: 0
+  <HitStaggerPower>k__BackingField: 30
   <FinalRecoveryDuration>k__BackingField: 0.4
   <PunchAnimation>k__BackingField: Punch_Right_Anticipation
   <RecoveryAnimation>k__BackingField: Punch_Right
