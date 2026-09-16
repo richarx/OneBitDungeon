@@ -61,7 +61,6 @@ namespace Interactable
         {
             if (!isDisplayed && detection.IsPlayerInRange && !player.isLocked && !interactableItem.isBeingUsed)
             {
-                Debug.Log($"Zuzu : Show Icon : {interactableItem.isBeingUsed}");
                 DisplayIcon();
                 return;
             }
@@ -84,7 +83,6 @@ namespace Interactable
         {
             if (isDisplayed && (!detection.IsPlayerInRange || player.isLocked || interactableItem.isBeingUsed))
             {
-                Debug.Log($"Zuzu : Hide Icon : {isDisplayed}");
                 HideIcon();
                 return;
             }

@@ -11,6 +11,7 @@ namespace Player.Scripts
         public UnityEvent OnStartSittingDown = new UnityEvent();
         public UnityEvent OnStartGettingUp = new UnityEvent();
         public UnityEvent OnSitInstant = new UnityEvent();
+        public UnityEvent OnSitAtBonfire = new UnityEvent();
 
         private bool isLocked;
 
@@ -57,15 +58,10 @@ namespace Player.Scripts
             isLeftDirection = (position - player.position).normalized.x <= 0.0;
             hasTargetBeenSet = true;
 
-            // TAG TEMPORAIREMENT DÉSACTIVÉ : le feu restaure uniquement le personnage actif.
-            /*
-            if (player.playerTagSystem != null)
-                player.playerTagSystem.ResetBothCharacters();
-            else
-            */
             player.playerHealth.ResetHealth();
             player.ChangeBehaviour(player.playerSit);
             GameManager.instance.SetRespawnPosition();
+            OnSitAtBonfire?.Invoke();
         }
 
         public void UpdateBehaviour(PlayerStateMachine player)

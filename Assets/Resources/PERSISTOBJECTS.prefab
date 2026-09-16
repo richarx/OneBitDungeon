@@ -1861,6 +1861,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2892046594153899155}
   - component: {fileID: 5109332170508423197}
+  - component: {fileID: 1298919864890460028}
   m_Layer: 7
   m_Name: GameManager
   m_TagString: Untagged
@@ -1896,6 +1897,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blackScreenTransition: {fileID: 4732173642139772669}
+--- !u!114 &1298919864890460028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5315122734659114338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2957f4dda8db347b3273f4c5e00a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5702097407365026212
 GameObject:
   m_ObjectHideFlags: 0

@@ -386,11 +386,15 @@ MonoBehaviour:
   targetScene:
     m_SceneAsset: {fileID: 102900000, guid: a1879664ec26d2f47a1b265b62aa6e67, type: 3}
     m_SceneName: MageRoom
+  lockType: 0
+  bossName: 0
   animator: {fileID: 202936372610200022}
   trigger: {fileID: 3464853648202452012}
   hitbox: {fileID: 3547943783648569155}
   doorSpriteRenderer: {fileID: 6398535197405247988}
   doorwaySpriteRenderer: {fileID: 682358406049004003}
+  openSound: {fileID: 8300000, guid: ef6601d08f7137649b34da8332950728, type: 3}
+  closeSound: {fileID: 8300000, guid: 374ed001dff2ad14abb524523124da63, type: 3}
 --- !u!1 &8706780716750374873
 GameObject:
   m_ObjectHideFlags: 0

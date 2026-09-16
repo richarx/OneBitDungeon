@@ -10877,6 +10877,7 @@ GameObject:
   - component: {fileID: 7157533160962557551}
   - component: {fileID: 774514631634286766}
   - component: {fileID: 6454322194524206920}
+  - component: {fileID: 8182171200824653882}
   - component: {fileID: 4687748904170165850}
   - component: {fileID: 3992247431011730986}
   - component: {fileID: 133443657123579624}
@@ -11345,6 +11346,19 @@ MonoBehaviour:
   ease: 4
   minimumHorizontalCoverage: 0.65
   horizontalCoverageHysteresis: 0.05
+--- !u!114 &8182171200824653882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171200824653874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d7aa19259a22414eacc37c8707e4f7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossName: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

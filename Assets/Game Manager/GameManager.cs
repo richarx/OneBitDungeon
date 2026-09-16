@@ -151,6 +151,7 @@ namespace Game_Manager
 
             DoorController door = DoorsHolder.instance.GetDoor(triggerDoor);
             Vector3 spawnPosition = door.ComputeSpawnPosition();
+            door.MarkAsCurrentDoor();
             player.rb.position = spawnPosition;
 
             yield return blackScreenTransition.FadeOut(0.5f);

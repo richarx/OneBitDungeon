@@ -11,6 +11,9 @@ public class TutorialTrigger : InteractableItem
 
     public override void Interact()
     {
+        if (isBeingUsed)
+            return;
+
         base.Interact();
         isBeingUsed = true;
 

@@ -2884,13 +2884,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
+      propertyPath: lockType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
       propertyPath: lockOnEnteringRoom
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
       propertyPath: targetScene.m_SceneName
-      value: BarrelRoom2
+      value: Forest_2
       objectReference: {fileID: 0}
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
@@ -6303,6 +6308,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8714358413845725489, guid: 3d0670393b3af0846a47472ac7cd1d99,
         type: 3}
+      propertyPath: lockType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714358413845725489, guid: 3d0670393b3af0846a47472ac7cd1d99,
+        type: 3}
+      propertyPath: openSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ef6601d08f7137649b34da8332950728, type: 3}
+    - target: {fileID: 8714358413845725489, guid: 3d0670393b3af0846a47472ac7cd1d99,
+        type: 3}
       propertyPath: specialTarget
       value: Biscoto
       objectReference: {fileID: 0}
@@ -8116,6 +8131,11 @@ PrefabInstance:
         type: 3}
       propertyPath: doorSide
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
+        type: 3}
+      propertyPath: lockType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3072213924796149653, guid: 73e9970e42d9ab948bc9809dd739d53e,
         type: 3}
@@ -11103,6 +11123,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6213611061125620224, guid: aa5d30ef25e51e747b3523c8d60e9900,
+        type: 3}
+      propertyPath: offsetPosition.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7088519863684583651, guid: aa5d30ef25e51e747b3523c8d60e9900,
         type: 3}
