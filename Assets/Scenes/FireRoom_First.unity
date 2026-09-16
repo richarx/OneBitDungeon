@@ -6313,11 +6313,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8714358413845725489, guid: 3d0670393b3af0846a47472ac7cd1d99,
         type: 3}
-      propertyPath: openSound
-      value: 
-      objectReference: {fileID: 8300000, guid: ef6601d08f7137649b34da8332950728, type: 3}
-    - target: {fileID: 8714358413845725489, guid: 3d0670393b3af0846a47472ac7cd1d99,
-        type: 3}
       propertyPath: specialTarget
       value: Biscoto
       objectReference: {fileID: 0}
