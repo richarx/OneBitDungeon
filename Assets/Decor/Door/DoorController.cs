@@ -62,7 +62,11 @@ namespace Decor.Door
         {
             Assert.IsNotNull(targetScene, $"In Door : {doorSide} => target scene has not been set");
 
-            trigger.OnTrigger.AddListener(() => GameManager.instance.ChangeSceneFromDoor(targetScene.SceneName, this));
+            trigger.OnTrigger.AddListener(() =>
+            {
+                if (!isLocked)
+                    GameManager.instance.ChangeSceneFromDoor(targetScene.SceneName, this);
+            });
 
             SetupEvents();
             SetInitialState();
