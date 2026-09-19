@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using Tools_and_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,8 +12,10 @@ namespace Enemies.Scripts
 
         [HideInInspector] public UnityEvent<Vector2> OnTakeDamage = new UnityEvent<Vector2>();
         [HideInInspector] public UnityEvent OnDie = new UnityEvent();
+        [HideInInspector] public UnityEvent OnResetHealth = new UnityEvent();
 
         public int currentHealth { get; private set; }
+        public int maxHealth { get; private set; }
         public bool IsDead => currentHealth <= 0;
         public bool IsFullLife => currentHealth == startingHealth;
         public bool IsInvincible
@@ -20,9 +23,11 @@ namespace Enemies.Scripts
             get => isInvincible;
             set => isInvincible = value;
         }
+        public float currentHealthNormalized => Tools.NormalizeValue(currentHealth, 0.0f, maxHealth);
 
-        private void Start()
+        private void Awake()
         {
+            maxHealth = startingHealth;
             currentHealth = startingHealth;
         }
 
@@ -44,6 +49,13 @@ namespace Enemies.Scripts
         public void InstantKill()
         {
             TakeDamage(currentHealth, Vector2.left);
+        }
+
+        public void ResetHealth(int newHealthCount)
+        {
+            maxHealth = newHealthCount;
+            currentHealth = newHealthCount;
+            OnResetHealth?.Invoke();
         }
     }
 }

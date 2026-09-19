@@ -19,6 +19,7 @@ public class EnemyController : SerializedMonoBehaviour
     [ListDrawerSettings(ShowFoldout = true)]
     [LabelText("Phases")]
     private List<OdinEnemyPhase> phases = new List<OdinEnemyPhase>();
+    public List<OdinEnemyPhase> Phases => phases;
 
     [TitleGroup("Mort")]
     [OdinSerialize]
@@ -91,37 +92,38 @@ public class EnemyController : SerializedMonoBehaviour
             return;
         }
 
-        damageable.OnTakeDamage.AddListener((_) =>
+        damageable.ResetHealth(phases[currentPhase].healthPoints);
+        damageable.OnDie.AddListener(() =>
         {
-            if (!isDead && !isLastPhase && currentBehaviour != startingBehaviour && damageable.currentHealth <= GetPhaseHealthThreshold(currentPhase + 1))
+            if (!isLastPhase && currentBehaviour != startingBehaviour && damageable.currentHealth <= 0)
             {
                 Debug.Log("Trigger Next Phase !");
                 currentPhase += 1;
+                damageable.ResetHealth(phases[currentPhase].healthPoints);
                 enemyBehaviours = GetPhaseBehaviours(currentPhase);
                 enemyBehaviourQueue.Clear();
                 InterruptCurrentBehaviour();
                 startingBehaviour = GetPhaseTransitionBehaviour(currentPhase);
                 ExecuteBehaviour(startingBehaviour);
             }
-        });
-
-        damageable.OnDie.AddListener(() =>
-        {
-            if (isDead)
-                return;
-
-            isDead = true;
-            ClearRoot();
-            InterruptCurrentBehaviour();
-
-            IEnemyBehaviour deathBehaviour = GetDeathBehaviour();
-            if (deathBehaviour != null)
+            else
             {
-                ExecuteBehaviour(deathBehaviour);
-                return;
-            }
+                if (isDead)
+                    return;
 
-            HandleMissingDeathBehaviour();
+                isDead = true;
+                ClearRoot();
+                InterruptCurrentBehaviour();
+
+                IEnemyBehaviour deathBehaviour = GetDeathBehaviour();
+                if (deathBehaviour != null)
+                {
+                    ExecuteBehaviour(deathBehaviour);
+                    return;
+                }
+
+                HandleMissingDeathBehaviour();
+            }
         });
 
         if (GetPhaseCount() == 0)
@@ -312,15 +314,6 @@ public class EnemyController : SerializedMonoBehaviour
     private int GetPhaseCount()
     {
         return phases != null ? phases.Count : 0;
-    }
-
-    private int GetPhaseHealthThreshold(int phaseIndex)
-    {
-        if (!IsPhaseInList(phaseIndex))
-            return 0;
-
-        OdinEnemyPhase phase = phases[phaseIndex];
-        return phase != null ? phase.healthThresholdToTriggerTransition : 0;
     }
 
     private List<IEnemyBehaviour> GetPhaseBehaviours(int phaseIndex)

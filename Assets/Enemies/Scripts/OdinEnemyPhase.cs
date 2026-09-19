@@ -12,8 +12,8 @@ public class OdinEnemyPhase
     [NonSerialized] private EnemyController owner;
 
     [OdinSerialize]
-    [LabelText("Seuil de transition (PV)")]
-    public int healthThresholdToTriggerTransition;
+    [LabelText("Points de vie de la phase")]
+    public int healthPoints;
 
     [OdinSerialize]
     [LabelText("Transition")]
