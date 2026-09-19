@@ -94,6 +94,12 @@ public class EnemyController : SerializedMonoBehaviour
             return;
         }
 
+        humility.OnFullHumility.AddListener(() =>
+        {
+            enemyBehaviourQueue.Clear();
+            InterruptCurrentBehaviour();
+        });
+
         humility.ResetHumility(phases[currentPhase].maxHumility);
         damageable.ResetHealth(phases[currentPhase].healthPoints);
         damageable.OnDie.AddListener(() =>

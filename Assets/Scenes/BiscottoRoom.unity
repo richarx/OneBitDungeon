@@ -11649,7 +11649,7 @@ MonoBehaviour:
       Data: 50
     - Name: maxHumility
       Entry: 3
-      Data: 100
+      Data: 50
     - Name: transitionBehaviour
       Entry: 7
       Data: 2|BiscottoSpawnBehaviour, Assembly-CSharp
@@ -11710,7 +11710,7 @@ MonoBehaviour:
       Data: 50
     - Name: maxHumility
       Entry: 3
-      Data: 100
+      Data: 50
     - Name: transitionBehaviour
       Entry: 7
       Data: 8|CommonPlayAnimationBehaviour, Assembly-CSharp
@@ -11798,7 +11798,7 @@ MonoBehaviour:
       Data: 50
     - Name: maxHumility
       Entry: 3
-      Data: 100
+      Data: 50
     - Name: transitionBehaviour
       Entry: 7
       Data: 17|BiscottoTsarBombaBehaviour, Assembly-CSharp
@@ -11886,7 +11886,7 @@ MonoBehaviour:
       Data: 50
     - Name: maxHumility
       Entry: 3
-      Data: 100
+      Data: 50
     - Name: transitionBehaviour
       Entry: 7
       Data: 26|BiscottoSlamBehaviour, Assembly-CSharp
@@ -12073,6 +12073,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnResetHumility:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFullHumility:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1660057539 &9223372036854775807

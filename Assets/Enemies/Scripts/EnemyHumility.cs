@@ -8,11 +8,14 @@ public class EnemyHumility : MonoBehaviour
 
     [HideInInspector] public UnityEvent OnUpdateHumility = new UnityEvent();
     [HideInInspector] public UnityEvent OnResetHumility = new UnityEvent();
+    [HideInInspector] public UnityEvent OnFullHumility = new UnityEvent();
 
     public int currentHumility { get; private set; }
     public int maxHumility { get; private set; }
 
     public float currentHumilityNormalized => Tools.NormalizeValue(currentHumility, 0.0f, maxHumility);
+
+    public bool IsFull => currentHumility >= maxHumility;
 
     private void Awake()
     {
@@ -23,6 +26,9 @@ public class EnemyHumility : MonoBehaviour
     {
         currentHumility = Mathf.Clamp(currentHumility + value, 0, maxHumility);
         OnUpdateHumility?.Invoke();
+
+        if (IsFull)
+            OnFullHumility?.Invoke();
     }
 
     public void ResetHumility(int value)
