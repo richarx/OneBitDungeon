@@ -36,8 +36,6 @@ public class BossHealthBar : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        Debug.Log("Update Health Bar");
-
         if (resetHealthSequence.isAlive)
             resetHealthSequence.Complete();
 
@@ -57,8 +55,6 @@ public class BossHealthBar : MonoBehaviour
 
     private void ResetHealthBar()
     {
-        Debug.Log("Reset Health Bar");
-
         if (updateHealthSequence.isAlive)
             updateHealthSequence.Stop();
 

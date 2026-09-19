@@ -35,6 +35,7 @@ public class EnemyController : SerializedMonoBehaviour
     // Runtime Components and state
     public Animator animator { get; private set; }
     public Damageable damageable { get; private set; }
+    public EnemyHumility humility { get; private set; }
     public AfterImage afterImage { get; private set; }
     private SphereCollider sphereCollider;
 
@@ -83,6 +84,7 @@ public class EnemyController : SerializedMonoBehaviour
         animator = Sprite.GetComponent<Animator>();
         sphereCollider = GetComponent<SphereCollider>();
         damageable = GetComponent<Damageable>();
+        humility = GetComponent<EnemyHumility>();
         afterImage = GetComponent<AfterImage>();
 
         if (debugMode)
@@ -92,6 +94,7 @@ public class EnemyController : SerializedMonoBehaviour
             return;
         }
 
+        humility.ResetHumility(phases[currentPhase].maxHumility);
         damageable.ResetHealth(phases[currentPhase].healthPoints);
         damageable.OnDie.AddListener(() =>
         {
@@ -100,6 +103,7 @@ public class EnemyController : SerializedMonoBehaviour
                 Debug.Log("Trigger Next Phase !");
                 currentPhase += 1;
                 damageable.ResetHealth(phases[currentPhase].healthPoints);
+                humility.ResetHumility(phases[currentPhase].maxHumility);
                 enemyBehaviours = GetPhaseBehaviours(currentPhase);
                 enemyBehaviourQueue.Clear();
                 InterruptCurrentBehaviour();

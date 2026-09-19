@@ -123,7 +123,11 @@ public class CloseDodgeDetector
         if (session != null)
             session.RegisterDodge(gain);
         else
+        {
             ArroganceGainEvents.RequestGain(gain);
+            if (EnemyHumility.instance != null)
+                EnemyHumility.instance.AddHumility(10);
+        }
     }
 
     private void TrackCloseDodgePresence(bool isPlayerInsideZone, bool isArroganceModeActive, bool isPlayerSpinning)
@@ -241,6 +245,8 @@ public class CloseDodgeSession
                         maxGain = gain;
                 }
                 ArroganceGainEvents.RequestGain(maxGain);
+                if (EnemyHumility.instance != null)
+                    EnemyHumility.instance.AddHumility(10);
             }
         }
 

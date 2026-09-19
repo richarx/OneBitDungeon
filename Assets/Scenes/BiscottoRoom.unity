@@ -3113,6 +3113,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 714396157}
+  - component: {fileID: 714396158}
   m_Layer: 5
   m_Name: Humility Bar
   m_TagString: Untagged
@@ -3140,6 +3141,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &714396158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714396156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a53055c7685f8db4ca37224ca2ee9314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyController: {fileID: 8182171200824653877}
+  humilityBar: {fileID: 1689277751}
 --- !u!1 &730246436
 GameObject:
   m_ObjectHideFlags: 0
@@ -11573,6 +11588,7 @@ GameObject:
   - component: {fileID: 8182171200824653879}
   - component: {fileID: 8182171200824653880}
   - component: {fileID: 8182171200824653881}
+  - component: {fileID: 8182171200824653883}
   m_Layer: 9
   m_Name: Biscotto
   m_TagString: Enemy
@@ -11631,6 +11647,9 @@ MonoBehaviour:
     - Name: healthPoints
       Entry: 3
       Data: 50
+    - Name: maxHumility
+      Entry: 3
+      Data: 100
     - Name: transitionBehaviour
       Entry: 7
       Data: 2|BiscottoSpawnBehaviour, Assembly-CSharp
@@ -11689,6 +11708,9 @@ MonoBehaviour:
     - Name: healthPoints
       Entry: 3
       Data: 50
+    - Name: maxHumility
+      Entry: 3
+      Data: 100
     - Name: transitionBehaviour
       Entry: 7
       Data: 8|CommonPlayAnimationBehaviour, Assembly-CSharp
@@ -11774,6 +11796,9 @@ MonoBehaviour:
     - Name: healthPoints
       Entry: 3
       Data: 50
+    - Name: maxHumility
+      Entry: 3
+      Data: 100
     - Name: transitionBehaviour
       Entry: 7
       Data: 17|BiscottoTsarBombaBehaviour, Assembly-CSharp
@@ -11859,6 +11884,9 @@ MonoBehaviour:
     - Name: healthPoints
       Entry: 3
       Data: 50
+    - Name: maxHumility
+      Entry: 3
+      Data: 100
     - Name: transitionBehaviour
       Entry: 7
       Data: 26|BiscottoSlamBehaviour, Assembly-CSharp
@@ -12029,6 +12057,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossName: 0
+--- !u!114 &8182171200824653883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171200824653874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 455c19dbb97f1224581a22fdb22184e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnUpdateHumility:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResetHumility:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

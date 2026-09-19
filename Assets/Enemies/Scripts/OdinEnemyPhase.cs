@@ -16,6 +16,10 @@ public class OdinEnemyPhase
     public int healthPoints;
 
     [OdinSerialize]
+    [LabelText("Quantité d'Humility de la phase")]
+    public int maxHumility;
+
+    [OdinSerialize]
     [LabelText("Transition")]
     [HideReferenceObjectPicker]
     [TypeFilter(nameof(GetInlineBehaviourTypes))]
