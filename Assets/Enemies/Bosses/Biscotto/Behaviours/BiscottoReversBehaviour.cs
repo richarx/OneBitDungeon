@@ -228,7 +228,7 @@ public sealed class BiscottoReversBehaviour : IEnemyBehaviour, IConditionalEnemy
             return;
 
         Vector3 direction = currentEnemy.transform.position - PlayerStateMachine.instance.position;
-        currentEnemy.damageable.TakeDamage(data.SelfDamage, new Vector2(direction.x, direction.z).normalized);
+        currentEnemy.damageable.TakeDamage(new AttackPayload("Self Damage", AttackType.Punish, data.SelfDamage, 1), new Vector2(direction.x, direction.z).normalized);
     }
 
     private void CompleteAfterDelay(float delay)

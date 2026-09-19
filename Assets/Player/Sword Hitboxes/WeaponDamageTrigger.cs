@@ -27,7 +27,7 @@ namespace Player.Sword_Hitboxes
             if (damageable != null && !damageable.IsDead && !targetsHit.Contains(damageable))
             {
                 Vector2 direction = (damageable.transform.position - PlayerStateMachine.instance.position).normalized.ToVector2();
-                damageable.TakeDamage(attackPayload.damage, direction);
+                damageable.TakeDamage(attackPayload, direction);
                 targetsHit.Add(damageable);
 
                 if (damageable.CompareTag("Enemy"))

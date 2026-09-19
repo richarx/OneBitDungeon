@@ -1,3 +1,4 @@
+using Player.Scripts;
 using Sirenix.OdinInspector;
 using Tools_and_Scripts;
 using UnityEngine;
@@ -31,13 +32,18 @@ namespace Enemies.Scripts
             currentHealth = startingHealth;
         }
 
-        public void TakeDamage(int damage, Vector2 direction)
+        public void TakeDamage(AttackPayload attackPayload, Vector2 direction)
         {
             if (IsDead)
                 return;
 
             if (!isInvincible)
-                currentHealth -= damage;
+            {
+                if (attackPayload.Type == AttackType.Critical)
+                    currentHealth = 0;
+                else
+                    currentHealth -= attackPayload.damage;
+            }
 
             if (IsDead)
                 OnDie?.Invoke();
@@ -48,7 +54,7 @@ namespace Enemies.Scripts
         [Button]
         public void InstantKill()
         {
-            TakeDamage(currentHealth, Vector2.left);
+            TakeDamage(new AttackPayload("Instant Kill", AttackType.Light, currentHealth, 1), Vector2.left);
         }
 
         public void ResetHealth(int newHealthCount)

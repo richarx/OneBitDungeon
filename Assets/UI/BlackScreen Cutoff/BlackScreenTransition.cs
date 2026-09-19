@@ -37,14 +37,12 @@ public class BlackScreenTransition : MonoBehaviour
 
     public void DisplayInstant()
     {
-        Debug.Log("Display Black screen instant");
         Tools.SetImageAlpha(blackScreen, 1.0f);
         Tools.SetImageAlpha(maskedScreen, 1.0f);
     }
 
     public void HideInstant()
     {
-        Debug.Log("Hide Black screen instant");
         Tools.SetImageAlpha(blackScreen, 0.0f);
         Tools.SetImageAlpha(maskedScreen, 0.0f);
     }
