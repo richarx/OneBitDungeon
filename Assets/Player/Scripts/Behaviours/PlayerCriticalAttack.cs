@@ -28,7 +28,8 @@ namespace Player.Scripts
 
         public void StartBehaviour(PlayerStateMachine player, BehaviourType previous)
         {
-            if (!CanCriticalAttack(player) || !player.playerArrogance.ConsumeFullArrogance())
+            //if (!CanCriticalAttack(player) || !player.playerArrogance.ConsumeFullArrogance())
+            if (!CanCriticalAttack(player))
             {
                 player.ChangeBehaviour(player.playerIdle);
                 return;
@@ -106,14 +107,18 @@ namespace Player.Scripts
 
         public bool CanCriticalAttack(PlayerStateMachine player)
         {
-            if (!player.playerAttack.CanAttack(player) || !player.playerArrogance.IsFull || !player.playerTargeting.hasMainTarget)
+            //if (!player.playerAttack.CanAttack(player) || !player.playerArrogance.IsFull || !player.playerTargeting.hasMainTarget)
+            if (!player.playerAttack.CanAttack(player) || !player.playerTargeting.hasMainTarget)
                 return false;
 
             GameObject target = player.playerTargeting.MainTarget;
+            EnemyHumility enemyHumility = target != null ? target.GetComponent<EnemyHumility>() : null;
             Damageable damageable = target != null ? target.GetComponent<Damageable>() : null;
 
             return damageable != null
                 && !damageable.IsDead
+                && enemyHumility != null
+                && enemyHumility.IsFull
                 && player.playerTargeting.mainTargetDistance > 0.01f
                 && player.playerTargeting.mainTargetDistance <= player.playerData.insolenceRange;
         }
