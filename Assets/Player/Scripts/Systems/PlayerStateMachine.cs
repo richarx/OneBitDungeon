@@ -100,6 +100,7 @@ namespace Player.Scripts
             if (!Application.isEditor)
                 Cursor.visible = false;
 
+            EnemyHumility.OnFullHumility.AddListener(() => playerLocked.SetLockState(this, PlayerLocked.LockState.CriticalAnticipation));
         }
 
         private void Update()

@@ -94,7 +94,7 @@ public class EnemyController : SerializedMonoBehaviour
             return;
         }
 
-        humility.OnFullHumility.AddListener(() =>
+        EnemyHumility.OnFullHumility.AddListener(() =>
         {
             enemyBehaviourQueue.Clear();
             InterruptCurrentBehaviour();

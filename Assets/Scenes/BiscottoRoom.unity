@@ -1188,11 +1188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b276e2ccc072cf54b92592a250617515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starting: {fileID: 1611670042}
-  target: {fileID: 2006632352}
   duration: 1.5
   ease: 27
-  delay: 0.8
 --- !u!114 &325725114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11589,6 +11586,7 @@ GameObject:
   - component: {fileID: 8182171200824653880}
   - component: {fileID: 8182171200824653881}
   - component: {fileID: 8182171200824653883}
+  - component: {fileID: 8182171200824653884}
   m_Layer: 9
   m_Name: Biscotto
   m_TagString: Enemy
@@ -12075,9 +12073,19 @@ MonoBehaviour:
   OnResetHumility:
     m_PersistentCalls:
       m_Calls: []
-  OnFullHumility:
-    m_PersistentCalls:
-      m_Calls: []
+--- !u!114 &8182171200824653884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182171200824653874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa932e478a3c4a2499df96582ca68ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1060446578}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

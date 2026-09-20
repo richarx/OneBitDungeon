@@ -10,6 +10,7 @@ namespace Player.Scripts
             Dialog,
             Full,
             Hidden,
+            CriticalAnticipation,
             Unlocked
         }
 
@@ -23,7 +24,7 @@ namespace Player.Scripts
         {
             Debug.Log("LOCKED");
 
-            if (lockState == LockState.Full || lockState == LockState.Hidden)
+            if (lockState == LockState.Full || lockState == LockState.Hidden || lockState == LockState.CriticalAnticipation)
             {
                 player.moveVelocity = Vector3.zero;
                 player.ApplyMovement();
@@ -55,7 +56,7 @@ namespace Player.Scripts
                 return;
             }
 
-            if (player.inputPackage.GetCriticalAttack.WasPressedWithBuffer() && player.TryStartCriticalAttack())
+            if (player.TryStartCriticalAttack())
             {
                 return;
             }
@@ -84,6 +85,12 @@ namespace Player.Scripts
         {
             if (lockState == LockState.Dialog)
                 player.ComputeLastLookDirection();
+
+            if (lockState == LockState.CriticalAnticipation && player.TryStartCriticalAttack())
+            {
+                player.ChangeBehaviour(player.playerCriticalAttack);
+                return;
+            }
         }
 
         public void FixedUpdateBehaviour(PlayerStateMachine player)

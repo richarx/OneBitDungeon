@@ -8,7 +8,7 @@ public class EnemyHumility : MonoBehaviour
 
     [HideInInspector] public UnityEvent OnUpdateHumility = new UnityEvent();
     [HideInInspector] public UnityEvent OnResetHumility = new UnityEvent();
-    [HideInInspector] public UnityEvent OnFullHumility = new UnityEvent();
+    public static UnityEvent OnFullHumility = new UnityEvent();
 
     public int currentHumility { get; private set; }
     public int maxHumility { get; private set; }
