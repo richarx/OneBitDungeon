@@ -126,7 +126,7 @@ public class CloseDodgeDetector
         {
             ArroganceGainEvents.RequestGain(gain);
             if (EnemyHumility.instance != null)
-                EnemyHumility.instance.AddHumility(10);
+                EnemyHumility.instance.AddHumility(10.0f);
         }
     }
 
@@ -246,7 +246,7 @@ public class CloseDodgeSession
                 }
                 ArroganceGainEvents.RequestGain(maxGain);
                 if (EnemyHumility.instance != null)
-                    EnemyHumility.instance.AddHumility(10);
+                    EnemyHumility.instance.AddHumility(10.0f);
             }
         }
 

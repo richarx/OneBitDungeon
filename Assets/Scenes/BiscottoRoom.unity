@@ -11646,7 +11646,7 @@ MonoBehaviour:
       Entry: 3
       Data: 50
     - Name: maxHumility
-      Entry: 3
+      Entry: 4
       Data: 50
     - Name: transitionBehaviour
       Entry: 7
@@ -11707,7 +11707,7 @@ MonoBehaviour:
       Entry: 3
       Data: 50
     - Name: maxHumility
-      Entry: 3
+      Entry: 4
       Data: 50
     - Name: transitionBehaviour
       Entry: 7
@@ -11795,7 +11795,7 @@ MonoBehaviour:
       Entry: 3
       Data: 50
     - Name: maxHumility
-      Entry: 3
+      Entry: 4
       Data: 50
     - Name: transitionBehaviour
       Entry: 7
@@ -11883,7 +11883,7 @@ MonoBehaviour:
       Entry: 3
       Data: 50
     - Name: maxHumility
-      Entry: 3
+      Entry: 4
       Data: 50
     - Name: transitionBehaviour
       Entry: 7
@@ -12073,6 +12073,56 @@ MonoBehaviour:
   OnResetHumility:
     m_PersistentCalls:
       m_Calls: []
+  timeBeforeHumilityReduction: 1
+  timeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.61083317
+      outSlope: 0.61083317
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.059592724
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  humilityReductionPower: 3
+  powerCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.08830184
+      outSlope: 0.08830184
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.048076928
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &8182171200824653884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12085,7 +12135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa932e478a3c4a2499df96582ca68ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1060446578}
+  target: {fileID: 2078947100584772823}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

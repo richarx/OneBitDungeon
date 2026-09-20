@@ -17,7 +17,7 @@ public class OdinEnemyPhase
 
     [OdinSerialize]
     [LabelText("Quantité d'Humility de la phase")]
-    public int maxHumility;
+    public float maxHumility;
 
     [OdinSerialize]
     [LabelText("Transition")]
