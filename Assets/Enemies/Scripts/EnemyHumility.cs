@@ -12,11 +12,16 @@ public class EnemyHumility : MonoBehaviour
     [HideInInspector] public UnityEvent OnResetHumility = new UnityEvent();
     public static UnityEvent OnFullHumility = new UnityEvent();
 
+    [Space]
     [SerializeField] private float timeBeforeHumilityReduction;
     [SerializeField] private AnimationCurve timeCurve;
 
+    [Space]
     [SerializeField] private float humilityReductionPower;
     [SerializeField] private AnimationCurve powerCurve;
+
+    [Space]
+    [SerializeField] private bool resetReductionOnHit;
 
     public float currentHumility { get; private set; }
     public float maxHumility { get; private set; }
@@ -32,7 +37,11 @@ public class EnemyHumility : MonoBehaviour
     {
         instance = this;
         damageable = GetComponent<Damageable>();
-        damageable.OnTakeDamage.AddListener((direction) => lastHumilityGainTimestamp = Time.time);
+        damageable.OnTakeDamage.AddListener((direction) =>
+        {
+            if (resetReductionOnHit)
+                lastHumilityGainTimestamp = Time.time;
+        });
     }
 
     private void Update()
