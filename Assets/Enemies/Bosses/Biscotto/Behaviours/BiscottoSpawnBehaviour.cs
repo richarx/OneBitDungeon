@@ -20,8 +20,6 @@ public sealed class BiscottoSpawnBehaviour : IEnemyBehaviour
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
-        ResetRuntimeState(enemy);
-
         if (data == null)
         {
             UnityEngine.Debug.LogError("[BiscottoSpawnBehaviour] Un data d'apparition est requis.", enemy);

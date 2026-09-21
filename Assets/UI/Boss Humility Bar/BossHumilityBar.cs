@@ -18,6 +18,9 @@ public class BossHumilityBar : MonoBehaviour
     private Sequence updateHumilitySequence;
     private Sequence resetHumilitySequence;
 
+    private RectTransform rectTransform;
+    private Vector2 startingPosition;
+
     private void Start()
     {
         Assert.IsNotNull(enemyController, "EnemyController is not set in Boss Healthbar");
@@ -25,6 +28,32 @@ public class BossHumilityBar : MonoBehaviour
         bossHumility = enemyController.GetComponent<EnemyHumility>();
         bossHumility.OnUpdateHumility.AddListener(() => UpdateHumilityBar());
         bossHumility.OnResetHumility.AddListener(() => ResetHumilityBar());
+
+        enemyController.OnSpawnBoss.AddListener(DisplayBar);
+        enemyController.OnKillBoss.AddListener(HideBar);
+
+        rectTransform = GetComponent<RectTransform>();
+        startingPosition = rectTransform.anchoredPosition;
+
+        HideInstant();
+    }
+
+    private void DisplayBar()
+    {
+        Sequence.Create()
+            .ChainDelay(0.3f)
+            .Chain(Tween.UIAnchoredPosition(rectTransform, startingPosition, 0.3f, Ease.OutBack));
+    }
+
+    private void HideBar()
+    {
+        Sequence.Create()
+            .Chain(Tween.UIAnchoredPosition(rectTransform, startingPosition + Vector2.up * 300.0f, 0.3f, Ease.InBack));
+    }
+
+    private void HideInstant()
+    {
+        rectTransform.anchoredPosition = startingPosition + Vector2.up * 300.0f;
     }
 
     private void UpdateHumilityBar()

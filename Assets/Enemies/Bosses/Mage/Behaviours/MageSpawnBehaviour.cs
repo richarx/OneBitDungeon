@@ -26,7 +26,6 @@ public sealed class MageSpawnBehaviour : IEnemyBehaviour
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
-        ResetRuntimeState();
         enemy.Sprite.transform.position = Vector3.up * 30.0f;
         enemy.shadowSprite.transform.localScale = Vector3.zero;
         enemy.DeactivateHitbox();

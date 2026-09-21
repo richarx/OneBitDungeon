@@ -81,6 +81,10 @@ public class EnemyController : SerializedMonoBehaviour
     [TypeFilter(nameof(GetInlineBehaviourTypes))]
     private IEnemyBehaviour debugBehaviour;
 
+    public UnityEvent OnSpawnBoss = new UnityEvent();
+    public UnityEvent OnKillBoss = new UnityEvent();
+    private bool hasSpawned = false;
+
     protected virtual void Start()
     {
         BindPhaseOwners();
@@ -140,6 +144,7 @@ public class EnemyController : SerializedMonoBehaviour
                 }
 
                 HandleMissingDeathBehaviour();
+                OnKillBoss?.Invoke();
             }
         });
 
@@ -419,6 +424,12 @@ public class EnemyController : SerializedMonoBehaviour
     {
         EnemyHolder.instance.RegisterEnemy(gameObject, true);
         sphereCollider.enabled = true;
+
+        if (!hasSpawned)
+        {
+            hasSpawned = true;
+            OnSpawnBoss?.Invoke();
+        }
     }
 
     [ShowIf(nameof(debugMode))]
