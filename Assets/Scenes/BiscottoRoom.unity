@@ -11551,10 +11551,10 @@ MonoBehaviour:
       Data: 1|OdinEnemyPhase, Assembly-CSharp
     - Name: healthPoints
       Entry: 3
-      Data: 50
+      Data: 800
     - Name: maxHumility
       Entry: 4
-      Data: 50
+      Data: 100
     - Name: transitionBehaviour
       Entry: 7
       Data: 2|BiscottoSpawnBehaviour, Assembly-CSharp
@@ -11612,10 +11612,10 @@ MonoBehaviour:
       Data: 7|OdinEnemyPhase, Assembly-CSharp
     - Name: healthPoints
       Entry: 3
-      Data: 50
+      Data: 1000
     - Name: maxHumility
       Entry: 4
-      Data: 50
+      Data: 100
     - Name: transitionBehaviour
       Entry: 7
       Data: 8|CommonPlayAnimationBehaviour, Assembly-CSharp
@@ -11700,10 +11700,10 @@ MonoBehaviour:
       Data: 16|OdinEnemyPhase, Assembly-CSharp
     - Name: healthPoints
       Entry: 3
-      Data: 50
+      Data: 1200
     - Name: maxHumility
       Entry: 4
-      Data: 50
+      Data: 100
     - Name: transitionBehaviour
       Entry: 7
       Data: 17|BiscottoTsarBombaBehaviour, Assembly-CSharp
@@ -11788,10 +11788,10 @@ MonoBehaviour:
       Data: 25|OdinEnemyPhase, Assembly-CSharp
     - Name: healthPoints
       Entry: 3
-      Data: 50
+      Data: 1500
     - Name: maxHumility
       Entry: 4
-      Data: 50
+      Data: 150
     - Name: transitionBehaviour
       Entry: 7
       Data: 26|BiscottoSlamBehaviour, Assembly-CSharp
@@ -11877,6 +11877,12 @@ MonoBehaviour:
   <Sprite>k__BackingField: {fileID: 5071313608623843290}
   <shadowSprite>k__BackingField: {fileID: 2063661912}
   debugMode: 0
+  OnSpawnBoss:
+    m_PersistentCalls:
+      m_Calls: []
+  OnKillBoss:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8182171200824653878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11983,7 +11989,7 @@ MonoBehaviour:
   OnResetHumility:
     m_PersistentCalls:
       m_Calls: []
-  timeBeforeHumilityReduction: 1
+  timeBeforeHumilityReduction: 1.5
   timeCurve:
     serializedVersion: 2
     m_Curve:
@@ -11999,11 +12005,11 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0.61083317
-      outSlope: 0.61083317
+      inSlope: -12.571917
+      outSlope: -12.571917
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.059592724
+      inWeight: 0.03704512
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -12024,15 +12030,16 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0.08830184
-      outSlope: 0.08830184
+      inSlope: 1.8837744
+      outSlope: 1.8837744
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.048076928
+      inWeight: 0.030048072
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  resetReductionOnHit: 0
 --- !u!114 &8182171200824653884
 MonoBehaviour:
   m_ObjectHideFlags: 0

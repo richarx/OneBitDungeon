@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/FireRoom_First.unity
+    guid: bbd2504d09d9f6f47bd4eb87e551cbea
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: b3c866105f76e2b44babf7a6cbf14652
   - enabled: 1
@@ -23,9 +26,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Forest_3.unity
     guid: 1f8182a5e0ee7924c957dcb2b2ef34e9
-  - enabled: 1
-    path: Assets/Scenes/FireRoom_First.unity
-    guid: bbd2504d09d9f6f47bd4eb87e551cbea
   - enabled: 1
     path: Assets/Scenes/RainRoom.unity
     guid: 022a15b96adedda4fa047046b4a012a0
