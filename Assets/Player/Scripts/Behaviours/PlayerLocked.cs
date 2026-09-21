@@ -28,6 +28,7 @@ namespace Player.Scripts
             {
                 player.moveVelocity = Vector3.zero;
                 player.ApplyMovement();
+                player.ComputeLastLookDirection();
             }
 
             if (lockState == LockState.Hidden)
