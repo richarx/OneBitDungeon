@@ -25,5 +25,6 @@ public class AnimationsHolderData : ScriptableObject
     public AnimationData GetUp;
     public AnimationData SitDown;
     public AnimationData Sit;
+    public AnimationData CriticalAnticipation;
     public List<AnimationData> Taunt;
 }

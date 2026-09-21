@@ -32,6 +32,11 @@ public class EnemyController : SerializedMonoBehaviour
     [field: SerializeField] public SpriteRenderer shadowSprite { get; private set; }
 
 
+    [TitleGroup("Humility")]
+    [OdinSerialize]
+    [LabelText("Animation")]
+    private string humilityAnimation;
+
     // Runtime Components and state
     public Animator animator { get; private set; }
     public Damageable damageable { get; private set; }
@@ -96,6 +101,8 @@ public class EnemyController : SerializedMonoBehaviour
 
         EnemyHumility.OnFullHumility.AddListener(() =>
         {
+            if (!string.IsNullOrEmpty(humilityAnimation))
+                animator.Play(humilityAnimation);
             enemyBehaviourQueue.Clear();
             InterruptCurrentBehaviour();
         });

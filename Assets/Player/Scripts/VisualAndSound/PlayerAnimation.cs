@@ -74,7 +74,9 @@ namespace Player.Scripts
                 case BehaviourType.Locked:
                     if (!player.isLockedAndHidden)
                     {
-                        if (player.moveVelocity.magnitude >= 0.015f)
+                        if (player.playerLocked.GetLockState == PlayerLocked.LockState.CriticalAnticipation)
+                            PlayCriticalAnticipation();
+                        else if (player.moveVelocity.magnitude >= 0.015f)
                             PlayRunAnimation();
                         else
                             PlayIdleAnimation();
@@ -85,6 +87,11 @@ namespace Player.Scripts
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void PlayCriticalAnticipation()
+        {
+            codeAnimator.PlayAnimation(AnimationType.CriticalAnticipation, ComputeAnimationDirection(), true);
         }
 
         private void PlayDeathAnimation()

@@ -92,6 +92,9 @@ namespace Player.Scripts
         [FoldoutGroup(InsolentStrike, true), LabelText("Cinematic Black Bars"), SerializeField]
         private CinematicBlackBars cinematicBlackBars;
 
+        [FoldoutGroup(InsolentStrike, true), LabelText("Speed Lines"), SerializeField]
+        private SpeedLines speedLines;
+
         private PlayerStateMachine player;
         private AfterImage afterImage;
 
@@ -130,6 +133,7 @@ namespace Player.Scripts
             WeaponDamageTrigger.OnHitEnemy.AddListener(HandleHitEnemy);
             player.playerHealth.OnPlayerTakeDamage.AddListener(HandlePlayerTakeDamage);
             player.playerAttack.OnPlayerAttack.AddListener(HandlePlayerAttack);
+            PlayerLocked.OnLockPlayer.AddListener(HandleCriticalAnticipation);
             player.playerCriticalAttack.OnStartDash.AddListener(HandleCritStrikeDash);
             player.playerCriticalAttack.OnReachedTarget.AddListener(HandleCritStrikeReachedTarget);
             player.playerParry.OnSuccessfulParry.AddListener(HandleSuccessfulParry);
@@ -152,6 +156,7 @@ namespace Player.Scripts
             {
                 player.playerHealth.OnPlayerTakeDamage.RemoveListener(HandlePlayerTakeDamage);
                 player.playerAttack.OnPlayerAttack.RemoveListener(HandlePlayerAttack);
+                PlayerLocked.OnLockPlayer.RemoveListener(HandleCriticalAnticipation);
                 player.playerCriticalAttack.OnStartDash.RemoveListener(HandleCritStrikeDash);
                 player.playerCriticalAttack.OnReachedTarget.RemoveListener(HandleCritStrikeReachedTarget);
                 player.playerParry.OnSuccessfulParry.RemoveListener(HandleSuccessfulParry);
@@ -177,13 +182,23 @@ namespace Player.Scripts
             else if (attackPayload.Type == AttackType.Critical)
                 HandleCritStrike();
         }
+
+        private void HandleCriticalAnticipation()
+        {
+            if (player.playerLocked.GetLockState == PlayerLocked.LockState.CriticalAnticipation)
+            {
+                cinematicBlackBars.Display(0.15f, Ease.OutCirc, 150.0f);
+                speedLines.DisplayLines(0.1f);
+            }
+        }
+
         GameObject critTrail;
         private void HandleCritStrike()
         {
             StartCoroutine(SlowTimeCoroutine(0.5f, 0.1f));
+            speedLines.HideLines(0.05f);
             critTrail = Instantiate(swordCritTrailPrefab, player.position, Quaternion.identity);
             critTrail.transform.SetParent(player.transform);
-            cinematicBlackBars.Display(0.15f, Ease.OutCirc, 150.0f);
         }
 
         private void HandleCritStrikeDash()

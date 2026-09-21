@@ -29,7 +29,8 @@ public class CodeAnimator : MonoBehaviour
         Sit,
         JumpAttack,
         CounterAttack,
-        Taunt
+        Taunt,
+        CriticalAnticipation
     }
 
     public enum AnimationDirection
@@ -188,6 +189,8 @@ public class CodeAnimator : MonoBehaviour
                 return animationsHolder.SitDown;
             case AnimationType.Sit:
                 return animationsHolder.Sit;
+            case AnimationType.CriticalAnticipation:
+                return animationsHolder.CriticalAnticipation;
             case AnimationType.Taunt:
                 if (animationsHolder.Taunt.Contains(currentAnimation))
                     return currentAnimation;
