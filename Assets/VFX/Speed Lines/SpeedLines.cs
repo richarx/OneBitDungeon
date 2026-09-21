@@ -54,7 +54,7 @@ public class SpeedLines : MonoBehaviour
             currentSequence.ChainDelay(delay);
 
         currentSequence
-            .Chain(Tween.Alpha(lineImage, 1.0f, apparitionDuration));
+            .Chain(Tween.Alpha(lineImage, 0.1f, apparitionDuration));
     }
 
     public void HideLines(float disappearanceDuration, float delay = 0.0f)
@@ -73,6 +73,6 @@ public class SpeedLines : MonoBehaviour
             currentSequence.ChainDelay(delay);
 
         currentSequence
-                    .Chain(Tween.Alpha(lineImage, 0.0f, disappearanceDuration));
+            .Chain(Tween.Alpha(lineImage, 0.0f, disappearanceDuration));
     }
 }
