@@ -7095,22 +7095,12 @@ MonoBehaviour:
     - Name: deathBehaviour
       Entry: 6
       Data: 
-    - Name: enemyBehaviourQueue
-      Entry: 7
-      Data: 1|System.Collections.Generic.Queue`1[[Enemies.Scripts.Behaviours.IEnemyBehaviour,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
+    - Name: humilityAnimation
+      Entry: 6
       Data: 
     - Name: debugBehaviour
       Entry: 7
-      Data: 2|DummyConeBehaviour, Assembly-CSharp
+      Data: 1|DummyConeBehaviour, Assembly-CSharp
     - Name: data
       Entry: 10
       Data: 0
@@ -7120,6 +7110,12 @@ MonoBehaviour:
   <Sprite>k__BackingField: {fileID: 160456277}
   <shadowSprite>k__BackingField: {fileID: 646636857}
   debugMode: 1
+  OnSpawnBoss:
+    m_PersistentCalls:
+      m_Calls: []
+  OnKillBoss:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1315216164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7132,6 +7128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be28031ef95f9244faca5cc4ccd86529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMainEnemy: 0
 --- !u!114 &1315216165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7234,6 +7231,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDie:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResetHealth:
     m_PersistentCalls:
       m_Calls: []
 --- !u!54 &1315216171
@@ -8897,37 +8897,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608218155}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1611670041
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1611670042}
-  m_Layer: 0
-  m_Name: BossRoom Camera Start
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1611670042
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1611670041}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 3.2, z: -14.21}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1 &1616134379
 GameObject:
   m_ObjectHideFlags: 0
@@ -9238,37 +9207,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1693448089}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1732948322
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1732948323}
-  m_Layer: 0
-  m_Name: BossRoom Camera Death
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1732948323
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1732948322}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 9, z: -6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!1 &1736092858
 GameObject:
   m_ObjectHideFlags: 0
@@ -9677,20 +9615,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!114 &1857920066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1857920064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a8cb646b1ec466787683209d0bec575, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  _enablePlayerStaggerBounce: 1
-  _playerStaggerBounceSpeedRetention: 0.75
 --- !u!4 &1857920065
 Transform:
   m_ObjectHideFlags: 0
@@ -9709,6 +9633,20 @@ Transform:
   - {fileID: 63313600}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1857920066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a8cb646b1ec466787683209d0bec575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enablePlayerStaggerBounce: 1
+  _playerStaggerBounceSpeedRetention: 0.75
 --- !u!1001 &1876714769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10248,37 +10186,6 @@ Transform:
   - {fileID: 568881376}
   - {fileID: 414646860}
   m_Father: {fileID: 566705188}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2006632351
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2006632352}
-  m_Layer: 0
-  m_Name: BossRoom Camera Target
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2006632352
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006632351}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.38268346, y: -0, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 15, z: -17}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2038006668
 GameObject:
@@ -11364,6 +11271,9 @@ MonoBehaviour:
   OnDie:
     m_PersistentCalls:
       m_Calls: []
+  OnResetHealth:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!135 &7157533160962557551
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11569,6 +11479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be28031ef95f9244faca5cc4ccd86529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMainEnemy: 0
 --- !u!114 &8182171200824653880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11588,9 +11499,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 325725112}
-  - {fileID: 2006632352}
-  - {fileID: 1611670042}
-  - {fileID: 1732948323}
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1616134381}
