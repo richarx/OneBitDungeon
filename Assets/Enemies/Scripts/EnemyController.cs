@@ -4,6 +4,7 @@ using Enemies.Scripts;
 using Enemies.Scripts.Behaviours;
 using Enemies.Spawner;
 using Game_Manager;
+using Player.Scripts;
 using PrimeTween;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -44,10 +45,42 @@ public class EnemyController : SerializedMonoBehaviour
     public AfterImage afterImage { get; private set; }
     private SphereCollider sphereCollider;
 
+    [TitleGroup("Sélection IA")]
+    [SerializeField]
+    [MinValue(0.05f)]
+    [LabelText("Retry interval without candidate")]
+    [SuffixLabel("seconds")]
+    private float _emptySelectionRetryInterval = 0.25f;
+
+    [TitleGroup("Sélection IA")]
+    [SerializeField]
+    [MinValue(0.0f)]
+    [LabelText("Exchange memory duration")]
+    [SuffixLabel("seconds")]
+    private float _exchangeMemoryDuration = 1.0f;
+
+    [TitleGroup("Debug")]
+    [ShowInInspector]
+    [ReadOnly]
+    [LabelText("Context")]
+    private EnemyContext _context;
+
+    public EnemyContext Context => _context;
+
     private bool isDead;
     private BehaviourExecution activeExecution;
     private int executionId;
     private float rootedUntilUnscaledTime;
+    private float _nextEmptySelectionRetryUnscaledTime;
+    private bool _isWaitingForCandidate;
+    private bool _isProcessingSelection;
+    private bool _hasPendingSelection;
+    private IEnemyBehaviour _pendingCompletedBehaviour;
+    private bool _pendingWasTransition;
+    private bool _isProcessingDebugExecution;
+    private bool _hasPendingDebugExecution;
+    private Transform _contextTarget;
+    private const int _maxImmediateSelectionsPerRequest = 32;
 
 
 
@@ -90,42 +123,63 @@ public class EnemyController : SerializedMonoBehaviour
         BindPhaseOwners();
 
         ResetRuntimeState();
-        animator = Sprite.GetComponent<Animator>();
+        animator = Sprite != null ? Sprite.GetComponent<Animator>() : null;
         sphereCollider = GetComponent<SphereCollider>();
         damageable = GetComponent<Damageable>();
         humility = GetComponent<EnemyHumility>();
         afterImage = GetComponent<AfterImage>();
+        _context = new EnemyContext();
+        _context.SetTarget(_contextTarget != null ? _contextTarget
+            : PlayerStateMachine.instance != null ? PlayerStateMachine.instance.transform : null);
+        _context.Reset(currentPhase);
+
+        if (damageable == null || humility == null)
+        {
+            Debug.LogError($"[{name}] Damageable and EnemyHumility components are required.", this);
+            return;
+        }
 
         if (debugMode)
         {
             damageable.IsInvincible = true;
-            EnemyHolder.instance.RegisterEnemy(gameObject, true);
+            if (EnemyHolder.instance != null)
+                EnemyHolder.instance.RegisterEnemy(gameObject, true);
             return;
         }
 
+        if (GetPhaseCount() == 0)
+        {
+            Debug.LogError($"[{name}] No enemy phase is configured.", this);
+            return;
+        }
+
+        humility.ResetHumility(phases[currentPhase].maxHumility);
+        damageable.ResetHealth(phases[currentPhase].healthPoints);
         EnemyHumility.OnFullHumility.AddListener(() =>
         {
-            if (!string.IsNullOrEmpty(humilityAnimation))
+            if (!string.IsNullOrEmpty(humilityAnimation) && animator != null)
                 animator.Play(humilityAnimation);
             enemyBehaviourQueue.Clear();
             InterruptCurrentBehaviour();
         });
 
-        humility.ResetHumility(phases[currentPhase].maxHumility);
-        damageable.ResetHealth(phases[currentPhase].healthPoints);
         damageable.OnDie.AddListener(() =>
         {
             if (!isLastPhase && currentBehaviour != startingBehaviour && damageable.currentHealth <= 0)
             {
                 Debug.Log("Trigger Next Phase !");
                 currentPhase += 1;
+                _context.SetCurrentPhase(currentPhase);
                 damageable.ResetHealth(phases[currentPhase].healthPoints);
                 humility.ResetHumility(phases[currentPhase].maxHumility);
                 enemyBehaviours = GetPhaseBehaviours(currentPhase);
                 enemyBehaviourQueue.Clear();
                 InterruptCurrentBehaviour();
                 startingBehaviour = GetPhaseTransitionBehaviour(currentPhase);
-                ExecuteBehaviour(startingBehaviour);
+                if (startingBehaviour != null)
+                    ExecuteBehaviour(startingBehaviour);
+                else
+                    RequestNextBehaviourSelection(null, true);
             }
             else
             {
@@ -136,10 +190,10 @@ public class EnemyController : SerializedMonoBehaviour
                 ClearRoot();
                 InterruptCurrentBehaviour();
 
-                IEnemyBehaviour deathBehaviour = GetDeathBehaviour();
-                if (deathBehaviour != null)
+                IEnemyBehaviour configuredDeathBehaviour = GetDeathBehaviour();
+                if (configuredDeathBehaviour != null)
                 {
-                    ExecuteBehaviour(deathBehaviour);
+                    ExecuteBehaviour(configuredDeathBehaviour);
                     return;
                 }
 
@@ -148,15 +202,12 @@ public class EnemyController : SerializedMonoBehaviour
             }
         });
 
-        if (GetPhaseCount() == 0)
-        {
-            Debug.LogError($"[{name}] No enemy phase is configured.", this);
-            return;
-        }
-
         enemyBehaviours = GetPhaseBehaviours(currentPhase);
         startingBehaviour = GetPhaseTransitionBehaviour(currentPhase);
-        ExecuteBehaviour(startingBehaviour);
+        if (startingBehaviour != null)
+            ExecuteBehaviour(startingBehaviour);
+        else
+            RequestNextBehaviourSelection(null, true);
     }
 
     private void ResetRuntimeState()
@@ -169,7 +220,18 @@ public class EnemyController : SerializedMonoBehaviour
         enemyBehaviours = null;
         activeExecution = null;
         executionId = 0;
+        _nextEmptySelectionRetryUnscaledTime = 0.0f;
+        _isWaitingForCandidate = false;
+        _isProcessingSelection = false;
+        _hasPendingSelection = false;
+        _pendingCompletedBehaviour = null;
+        _pendingWasTransition = false;
+        _isProcessingDebugExecution = false;
+        _hasPendingDebugExecution = false;
         ClearRoot();
+
+        if (_context != null)
+            _context.Reset(currentPhase);
     }
 
     /// <summary>
@@ -235,7 +297,12 @@ public class EnemyController : SerializedMonoBehaviour
     protected virtual void Update()
     {
         if (currentBehaviour != null)
+        {
             currentBehaviour.UpdateBehaviour(this);
+            return;
+        }
+
+        TryRetrySelectionAfterWait();
     }
 
     protected virtual void FixedUpdate()
@@ -250,6 +317,8 @@ public class EnemyController : SerializedMonoBehaviour
             return;
 
         currentBehaviour = newBehaviour;
+        _isWaitingForCandidate = false;
+        _context?.SetCurrentBehaviour(currentBehaviour);
         BehaviourExecution execution = new BehaviourExecution(this, currentBehaviour, ++executionId);
         activeExecution = execution;
         currentBehaviour.SetSubBehaviourState(false);
@@ -258,6 +327,7 @@ public class EnemyController : SerializedMonoBehaviour
         // condition uniquement si le comportement se Complete dans le StartBehaviour, ce qui est le cas du DummyImmediateTransitionBehaviour
         if (activeExecution == execution)
             OnChangeBehaviour?.Invoke();
+
     }
 
     public void TryCompleteBehaviour(BehaviourExecution execution)
@@ -273,10 +343,11 @@ public class EnemyController : SerializedMonoBehaviour
 
         RemoveCurrentBehaviourAndExecution();
         completedBehaviour.StopBehaviour(this);
+
         if (!debugMode)
-            SelectNextBehaviour(completedBehaviour, wasTransition);
+            RequestNextBehaviourSelection(completedBehaviour, wasTransition);
         else
-            ExecuteDebugBehaviour();
+            RequestDebugBehaviourExecution();
 
     }
 
@@ -291,11 +362,75 @@ public class EnemyController : SerializedMonoBehaviour
     {
         activeExecution = null;
         currentBehaviour = null;
+        _context?.SetCurrentBehaviour(null);
     }
 
     public void EnqueueBehaviour(IEnemyBehaviour behaviour)
     {
-        enemyBehaviourQueue.Enqueue(behaviour);
+        if (behaviour != null)
+            enemyBehaviourQueue.Enqueue(behaviour);
+    }
+
+    /// <summary>
+    /// Optional passive exchange memory for callers that already own an attributable result.
+    /// Selection does not record or react to this data automatically.
+    /// </summary>
+    public void RecordExchangeResult(EnemyExchangeResult result)
+    {
+        _context?.RecordExchange(result);
+    }
+
+    /// <summary>
+    /// Allows a spawner to provide a late-created target without any per-frame lookup.
+    /// </summary>
+    public void SetContextTarget(Transform target)
+    {
+        _contextTarget = target;
+        _context?.SetTarget(target);
+    }
+
+    private void RequestNextBehaviourSelection(IEnemyBehaviour completedBehaviour, bool wasTransition)
+    {
+        if (_isProcessingSelection)
+        {
+            _pendingCompletedBehaviour = completedBehaviour;
+            _pendingWasTransition = wasTransition;
+            _hasPendingSelection = true;
+            return;
+        }
+
+        _isProcessingSelection = true;
+        try
+        {
+            IEnemyBehaviour nextCompletedBehaviour = completedBehaviour;
+            bool nextWasTransition = wasTransition;
+            int immediateSelectionCount = 0;
+
+            do
+            {
+                _hasPendingSelection = false;
+                SelectNextBehaviour(nextCompletedBehaviour, nextWasTransition);
+                immediateSelectionCount++;
+
+                if (currentBehaviour != null || _isWaitingForCandidate || !_hasPendingSelection)
+                    return;
+
+                if (immediateSelectionCount >= _maxImmediateSelectionsPerRequest)
+                {
+                    Debug.LogWarning($"[{name}] Too many immediate behaviour completions. Retrying selection shortly.", this);
+                    _hasPendingSelection = false;
+                    StartWaitingForCandidate();
+                    return;
+                }
+
+                nextCompletedBehaviour = _pendingCompletedBehaviour;
+                nextWasTransition = _pendingWasTransition;
+            } while (true);
+        }
+        finally
+        {
+            _isProcessingSelection = false;
+        }
     }
 
     private void SelectNextBehaviour(IEnemyBehaviour completedBehaviour, bool wasTransition)
@@ -303,34 +438,147 @@ public class EnemyController : SerializedMonoBehaviour
         if (isDead)
             return;
 
+        RefreshContextForDecision();
         if (enemyBehaviourQueue.Count > 0)
         {
             ExecuteBehaviour(enemyBehaviourQueue.Dequeue());
             return;
         }
 
-        List<IEnemyBehaviour> validBehaviours = GetValidBehaviours();
-        if (validBehaviours.Count == 0)
+        List<WeightedBehaviourCandidate> candidates = GetWeightedCandidates();
+        if (candidates.Count == 0)
         {
-            Debug.LogWarning($"[{name}] No valid attack behaviour is configured for the current phase.", this);
+            StartWaitingForCandidate();
             return;
         }
 
-        if (!wasTransition && validBehaviours.Count > 1 && validBehaviours.Contains(completedBehaviour))
-            validBehaviours.Remove(completedBehaviour);
-
-        ExecuteBehaviour(validBehaviours[UnityEngine.Random.Range(0, validBehaviours.Count)]);
+        RemoveCompletedBehaviourWhenAlternativesExist(candidates, completedBehaviour, wasTransition);
+        ExecuteBehaviour(PickWeightedBehaviour(candidates));
     }
 
-    private List<IEnemyBehaviour> GetValidBehaviours()
+    private void RefreshContextForDecision()
     {
-        if (enemyBehaviours == null)
-            return new List<IEnemyBehaviour>();
+        if (_context != null && _context.Target == null)
+        {
+            if (_contextTarget != null)
+                _context.SetTarget(_contextTarget);
+            else if (PlayerStateMachine.instance != null)
+                _context.SetTarget(PlayerStateMachine.instance.transform);
+        }
 
-        return enemyBehaviours.FindAll(behaviour =>
-            behaviour != null
-            && (!(behaviour is IConditionalEnemyBehaviour conditionalBehaviour)
-                || conditionalBehaviour.CanExecute(this)));
+        _context?.RefreshForDecision(transform, currentPhase, currentBehaviour, _exchangeMemoryDuration);
+    }
+
+    private List<WeightedBehaviourCandidate> GetWeightedCandidates()
+    {
+        List<WeightedBehaviourCandidate> candidates = new List<WeightedBehaviourCandidate>();
+
+        if (enemyBehaviours == null)
+            return candidates;
+
+        foreach (IEnemyBehaviour behaviour in enemyBehaviours)
+        {
+            if (behaviour == null || !IsBehaviourEligible(behaviour, out float weight))
+                continue;
+
+            candidates.Add(new WeightedBehaviourCandidate(behaviour, weight));
+        }
+
+        return candidates;
+    }
+
+    private bool IsBehaviourEligible(IEnemyBehaviour behaviour, out float weight)
+    {
+        weight = 0.0f;
+
+        if (behaviour is IConditionalEnemyBehaviour conditionalBehaviour
+            && !conditionalBehaviour.CanExecute(this))
+            return false;
+
+        if (behaviour is IContextualEnemyBehaviour contextualBehaviour)
+        {
+            if (_context == null
+                || !contextualBehaviour.CanExecute(_context))
+                return false;
+
+            weight = contextualBehaviour.GetWeight(_context);
+        }
+        else
+        {
+            weight = 100.0f;
+        }
+
+        return weight > 0.0f && !float.IsNaN(weight) && !float.IsInfinity(weight);
+    }
+
+    private static void RemoveCompletedBehaviourWhenAlternativesExist(
+        List<WeightedBehaviourCandidate> candidates,
+        IEnemyBehaviour completedBehaviour,
+        bool wasTransition)
+    {
+        if (wasTransition || completedBehaviour == null || candidates.Count <= 1)
+            return;
+
+        int alternativesCount = 0;
+        foreach (WeightedBehaviourCandidate candidate in candidates)
+        {
+            if (candidate.Behaviour != completedBehaviour)
+                alternativesCount++;
+        }
+
+        if (alternativesCount > 0)
+            candidates.RemoveAll(candidate => candidate.Behaviour == completedBehaviour);
+    }
+
+    private static IEnemyBehaviour PickWeightedBehaviour(List<WeightedBehaviourCandidate> candidates)
+    {
+        double totalWeight = 0.0;
+        foreach (WeightedBehaviourCandidate candidate in candidates)
+            totalWeight += candidate.Weight;
+
+        double roll = UnityEngine.Random.value * totalWeight;
+        double cumulativeWeight = 0.0;
+        foreach (WeightedBehaviourCandidate candidate in candidates)
+        {
+            cumulativeWeight += candidate.Weight;
+            if (roll < cumulativeWeight)
+                return candidate.Behaviour;
+        }
+
+        return candidates[candidates.Count - 1].Behaviour;
+    }
+
+    private void StartWaitingForCandidate()
+    {
+        if (!_isWaitingForCandidate)
+            Debug.LogWarning($"[{name}] No eligible positive-weight behaviour is configured for the current phase. Retrying shortly.", this);
+
+        _isWaitingForCandidate = true;
+        _nextEmptySelectionRetryUnscaledTime = Time.unscaledTime + Mathf.Max(0.05f, _emptySelectionRetryInterval);
+    }
+
+    private void TryRetrySelectionAfterWait()
+    {
+        if (!_isWaitingForCandidate
+            || isDead
+            || debugMode
+            || Time.unscaledTime < _nextEmptySelectionRetryUnscaledTime)
+            return;
+
+        _isWaitingForCandidate = false;
+        RequestNextBehaviourSelection(null, false);
+    }
+
+    private readonly struct WeightedBehaviourCandidate
+    {
+        public IEnemyBehaviour Behaviour { get; }
+        public float Weight { get; }
+
+        public WeightedBehaviourCandidate(IEnemyBehaviour behaviour, float weight)
+        {
+            Behaviour = behaviour;
+            Weight = weight;
+        }
     }
 
     private int GetPhaseCount()
@@ -448,6 +696,46 @@ public class EnemyController : SerializedMonoBehaviour
             return;
         }
 
+        RequestDebugBehaviourExecution();
+    }
+
+    private void RequestDebugBehaviourExecution()
+    {
+        if (_isProcessingDebugExecution)
+        {
+            _hasPendingDebugExecution = true;
+            return;
+        }
+
+        _isProcessingDebugExecution = true;
+        try
+        {
+            int immediateExecutionCount = 0;
+            do
+            {
+                _hasPendingDebugExecution = false;
+                ExecuteDebugBehaviourNow();
+                immediateExecutionCount++;
+
+                if (currentBehaviour != null || !_hasPendingDebugExecution)
+                    return;
+
+                if (immediateExecutionCount >= _maxImmediateSelectionsPerRequest)
+                {
+                    Debug.LogWarning($"[{name}] Too many immediate debug behaviour completions. Debug execution stopped.", this);
+                    _hasPendingDebugExecution = false;
+                    return;
+                }
+            } while (true);
+        }
+        finally
+        {
+            _isProcessingDebugExecution = false;
+        }
+    }
+
+    private void ExecuteDebugBehaviourNow()
+    {
         InterruptCurrentBehaviour();
 
         if (enemyBehaviourQueue.Count > 0)
