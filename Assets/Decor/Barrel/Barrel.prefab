@@ -95,8 +95,8 @@ GameObject:
   - component: {fileID: 481655001900178308}
   - component: {fileID: 141411139495285025}
   - component: {fileID: 6864561015525826888}
-  - component: {fileID: 1659772586025125574}
   - component: {fileID: 2050335223036885669}
+  - component: {fileID: 6016442703028099025}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Enemy
@@ -140,6 +140,9 @@ MonoBehaviour:
   OnDie:
     m_PersistentCalls:
       m_Calls: []
+  OnResetHealth:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6864561015525826888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,8 +161,21 @@ MonoBehaviour:
   - {fileID: 1418222715720614052, guid: d9d39ebdcc6899f4d9fe98a8fe99a0eb, type: 3}
   vfxPrefabs:
   - {fileID: 7022592844882815679, guid: 62927147af3a45f4ba9cd89175996154, type: 3}
---- !u!135 &1659772586025125574
-SphereCollider:
+--- !u!114 &2050335223036885669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8916242568200596533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa932e478a3c4a2499df96582ca68ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 8700106910450751300}
+--- !u!136 &6016442703028099025
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -176,19 +192,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 2
   m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0.29}
---- !u!114 &2050335223036885669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8916242568200596533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa932e478a3c4a2499df96582ca68ac3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 8700106910450751300}
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0.44}
