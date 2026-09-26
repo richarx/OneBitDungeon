@@ -38,6 +38,7 @@ public sealed class ConeDamageZone : MonoBehaviour
     private float _staggerPower = -1.0f;
 
     public bool IsDestroyed { get; private set; }
+    public float DamageDelay { get; private set; }
 
     /// <summary>
     /// Configures the zone. Direction is in the XZ plane (x, z), radius is in
@@ -98,7 +99,9 @@ public sealed class ConeDamageZone : MonoBehaviour
         float dangerFillDuration = withoutCloseWindow
             ? Mathf.Max(0.0f, safeFillDuration - closeDodgeWindowDuration)
             : safeFillDuration;
-        float damageTimestamp = Time.time + safeSpawnDuration + safeFillDuration;
+        DamageDelay = safeSpawnDuration + dangerFillDuration
+            + (withoutCloseWindow ? closeDodgeWindowDuration : 0.0f) + ColorTransitionDuration;
+        float damageTimestamp = Time.time + DamageDelay;
         closeDodgeDetector = new CloseDodgeDetector();
         closeDodgeDetector.Setup(
             damageTimestamp,

@@ -32,6 +32,7 @@ namespace Player.Scripts
         public PlayerCounterAttack playerCounterAttack = new PlayerCounterAttack();
         public PlayerJumpTag playerJumpTag;
         public PlayerStagger playerStagger = new PlayerStagger();
+        public PlayerDeflected playerDeflected = new PlayerDeflected();
         public PlayerParry playerParry = new PlayerParry();
         public PlayerSit playerSit = new PlayerSit();
         public PlayerDead playerDead = new PlayerDead();
@@ -108,6 +109,9 @@ namespace Player.Scripts
             inputPackage = inputPacker.ComputeInputPackage();
             moveInput = inputPackage.GetMove;
 
+            if (playerDeflected.IsAttackLocked)
+                playerDeflected.DiscardAttackInputs(this);
+
             //if (PauseMenu.instance.IsPaused)
             //    return;
 
@@ -181,6 +185,12 @@ namespace Player.Scripts
             if (newBehaviour == null || newBehaviour == currentBehaviour)
                 return;
 
+            BehaviourType next = newBehaviour.GetBehaviourType();
+            if (playerDeflected.IsAttackLocked &&
+                (next == BehaviourType.Attack || next == BehaviourType.CriticalAttack ||
+                 next == BehaviourType.JumpAttack || next == BehaviourType.CounterAttack))
+                return;
+
             BehaviourType previous = currentBehaviour.GetBehaviourType();
             currentBehaviour.StopBehaviour(this, newBehaviour.GetBehaviourType());
             currentBehaviour = newBehaviour;
@@ -196,7 +206,7 @@ namespace Player.Scripts
 
         public bool TryStartAttack()
         {
-            if (playerAttack.CanAttack(this) && inputPackage.GetAttack.WasPressedWithBuffer())
+            if (!playerDeflected.IsAttackLocked && playerAttack.CanAttack(this) && inputPackage.GetAttack.WasPressedWithBuffer())
             {
                 ChangeBehaviour(playerAttack);
                 return true;
@@ -207,7 +217,7 @@ namespace Player.Scripts
 
         public bool TryStartCriticalAttack()
         {
-            if (playerCriticalAttack.CanCriticalAttack(this) && inputPackage.GetCriticalAttack.WasPressedWithBuffer())
+            if (!playerDeflected.IsAttackLocked && playerCriticalAttack.CanCriticalAttack(this) && inputPackage.GetCriticalAttack.WasPressedWithBuffer())
             {
                 ChangeBehaviour(playerCriticalAttack);
                 return true;

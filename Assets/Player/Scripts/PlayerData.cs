@@ -164,6 +164,27 @@ namespace Player.Scripts
         public float staggerDeceleration;
         public float invincibilityDuration;
 
+        [BoxGroup("Attack deflected"), SerializeField, MinValue(0.0f), SuffixLabel("seconds")]
+        private float _deflectedDefenceRecovery = 0.1f;
+
+        [BoxGroup("Attack deflected"), SerializeField, MinValue(0.0f), SuffixLabel("seconds")]
+        private float _deflectedAttackRecovery = 0.55f;
+
+        [BoxGroup("Attack deflected"), SerializeField, MinValue(0.0f)]
+        private float _deflectedRecoilSpeed = 2.0f;
+
+        [BoxGroup("Attack deflected"), SerializeField, MinValue(0.01f)]
+        private float _deflectedRecoilDeceleration = 20.0f;
+
+        [BoxGroup("Attack deflected"), SerializeField]
+        private CodeAnimator.AnimationType _deflectedAnimation = CodeAnimator.AnimationType.Hurt;
+
+        public float DeflectedDefenceRecovery => Mathf.Max(0.0f, _deflectedDefenceRecovery);
+        public float DeflectedAttackRecovery => Mathf.Max(DeflectedDefenceRecovery, _deflectedAttackRecovery);
+        public float DeflectedRecoilSpeed => Mathf.Max(0.0f, _deflectedRecoilSpeed);
+        public float DeflectedRecoilDeceleration => Mathf.Max(0.01f, _deflectedRecoilDeceleration);
+        public CodeAnimator.AnimationType DeflectedAnimation => _deflectedAnimation;
+
         [Space]
         [Header("Parry")]
         public float parryWalkSpeed;

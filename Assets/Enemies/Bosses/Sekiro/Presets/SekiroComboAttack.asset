@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15ddcb1ec1fe49c6838041c8fc1e4d3d, type: 3}
+  m_Name: SekiroComboAttack
+  m_EditorClassIdentifier: 
+  _normalWeight: 50
+  _maximumStartingDistance: 4
+  _parryData: {fileID: 11400000, guid: 563b1314cbff44f9ad8c2239d9e0d483, type: 2}
+  _pursuitData: {fileID: 11400000, guid: 6c83c0c5180942a8958b07ee0ca6a1fa, type: 2}
+  _parryReactionRange: 3
+  _minimumPlayerFacingDot: 0.2
+  _rapidParryWindowDuration: 0.45
+  _pursuitReplaceDistance: 5
+  _coneZonePrefab: {fileID: 4722290469985967793, guid: f6704d1df0c74d0c9076d3119d22e84c,
+    type: 3}
+  _rapidAttack1:
+    _preparationAnimation: Attack
+    _impactAnimation: Attack
+    _radius: 6
+    _openingAngle: 85
+    _rectangleZonePrefab: {fileID: 227854228040328757, guid: 3d0b20f83e069ce4eb9173c1dfe67aad, type: 3}
+    _rectangleWidth: 1.8
+    _rectangleLength: 3.25
+    _spawnDuration: 0.2
+    _fillDuration: 0.5
+    _recoveryDuration: 0.3
+    _damage: 1
+    _canBeParried: 1
+    _canBeJumped: 0
+    _staggerPower: -1
+  _rapidAttack2:
+    _preparationAnimation: Attack
+    _impactAnimation: Attack
+    _radius: 6
+    _openingAngle: 85
+    _rectangleZonePrefab: {fileID: 227854228040328757, guid: 3d0b20f83e069ce4eb9173c1dfe67aad, type: 3}
+    _rectangleWidth: 1.8
+    _rectangleLength: 3.25
+    _spawnDuration: 0.2
+    _fillDuration: 0.5
+    _recoveryDuration: 0.55
+    _damage: 1
+    _canBeParried: 1
+    _canBeJumped: 0
+    _staggerPower: -1
+  _variantAWeight: 1
+  _variantALongCone:
+    _preparationAnimation: ParryStart
+    _impactAnimation: Attack
+    _radius: 5.2
+    _openingAngle: 100
+    _spawnDuration: 0.2
+    _fillDuration: 1.3
+    _recoveryDuration: 0.7
+    _damage: 2
+    _canBeParried: 1
+    _canBeJumped: 0
+    _staggerPower: -1
+  _variantBWeight: 1
+  _variantBMediumCone:
+    _preparationAnimation: Roll
+    _impactAnimation: Attack
+    _radius: 4.55
+    _openingAngle: 95
+    _spawnDuration: 0.15
+    _fillDuration: 0.6
+    _recoveryDuration: 0.6
+    _damage: 1
+    _canBeParried: 1
+    _canBeJumped: 0
+    _staggerPower: -1
+  _variantBFinalRapid:
+    _preparationAnimation: Attack
+    _impactAnimation: Attack
+    _radius: 3.25
+    _openingAngle: 85
+    _rectangleZonePrefab: {fileID: 227854228040328757, guid: 3d0b20f83e069ce4eb9173c1dfe67aad, type: 3}
+    _rectangleWidth: 1.8
+    _rectangleLength: 3.25
+    _spawnDuration: 0.1
+    _fillDuration: 0.25
+    _recoveryDuration: 0.6
+    _damage: 1
+    _canBeParried: 1
+    _canBeJumped: 0
+    _staggerPower: -1

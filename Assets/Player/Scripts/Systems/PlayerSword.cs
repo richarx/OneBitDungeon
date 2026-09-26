@@ -115,6 +115,8 @@ namespace Player.Scripts
         {
             if (currentHitbox != null)
             {
+                // Destroy is deferred: stop additional contacts in this physics step immediately.
+                currentHitbox.SetActive(false);
                 Destroy(currentHitbox);
                 currentHitbox = null;
             }

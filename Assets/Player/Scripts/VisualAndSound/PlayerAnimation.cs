@@ -18,6 +18,7 @@ namespace Player.Scripts
             player.playerAttack.OnPlayerAttack.AddListener(PlayAttackAnimation);
             player.playerJumpTag.OnStartJumpTag.AddListener(PlayJumpTagAnimation);
             player.playerStagger.OnStagger.AddListener(PlayStaggerAnimation);
+            player.playerDeflected.OnDeflected.AddListener(PlayDeflectedAnimation);
 
             player.playerSit.OnStartSittingDown.AddListener(PlaySitAnimation);
             player.playerSit.OnStartGettingUp.AddListener(PlaySitAnimation);
@@ -70,6 +71,7 @@ namespace Player.Scripts
                 case BehaviourType.CriticalAttack:
                 case BehaviourType.JumpTag:
                 case BehaviourType.Stagger:
+                case BehaviourType.Deflected:
                     break;
                 case BehaviourType.Locked:
                     if (!player.isLockedAndHidden)
@@ -190,6 +192,17 @@ namespace Player.Scripts
         private void PlayStaggerAnimation()
         {
             codeAnimator.PlayAnimation(AnimationType.Hurt, ComputeAnimationDirection(), player.playerSword.IsSwordInHand);
+        }
+
+        private void PlayDeflectedAnimation(Vector3 opponentPosition)
+        {
+            codeAnimator.PlayAnimation(player.playerData.DeflectedAnimation, ComputeAnimationDirection(), true);
+        }
+
+        private void OnDestroy()
+        {
+            if (player != null)
+                player.playerDeflected.OnDeflected.RemoveListener(PlayDeflectedAnimation);
         }
 
         private AnimationDirection ComputeAnimationDirection()

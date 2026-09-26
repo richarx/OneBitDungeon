@@ -53,6 +53,9 @@ namespace Player.Scripts
         [FoldoutGroup(CombatVfxGroup, true), BoxGroup(ParryGroup), LabelText("Parry Duration"), MinValue(0.0f), SerializeField]
         private float parryFreezeDuration = 0.03f;
 
+        [FoldoutGroup(CombatVfxGroup, true), BoxGroup(ParryGroup), LabelText("Deflected spark scale"), MinValue(0.01f), SerializeField]
+        private float _deflectedSparkScale = 0.8f;
+
         [FoldoutGroup(MovementVfxGroup, true), BoxGroup(RollGroup), LabelText("Prefab"), SerializeField]
         private GameObject rollVfx;
 
@@ -138,6 +141,7 @@ namespace Player.Scripts
             player.playerCriticalAttack.OnReachedTarget.AddListener(HandleCritStrikeReachedTarget);
             player.playerParry.OnSuccessfulParry.AddListener(HandleSuccessfulParry);
             player.playerParry.OnSuccessfulBlock.AddListener(HandleSuccessfulBlock);
+            player.playerDeflected.OnDeflected.AddListener(HandleAttackDeflected);
             player.playerRoll.OnStartRoll.AddListener(SpawnRollVfx);
             player.playerJump.OnStartJump.AddListener(SpawnStartJumpVfx);
             player.playerJump.OnLandJump.AddListener(SpawnLandJumpVfx);
@@ -160,6 +164,7 @@ namespace Player.Scripts
                 player.playerCriticalAttack.OnStartDash.RemoveListener(HandleCritStrikeDash);
                 player.playerCriticalAttack.OnReachedTarget.RemoveListener(HandleCritStrikeReachedTarget);
                 player.playerParry.OnSuccessfulParry.RemoveListener(HandleSuccessfulParry);
+                player.playerDeflected.OnDeflected.RemoveListener(HandleAttackDeflected);
                 player.playerRoll.OnStartRoll.RemoveListener(SpawnRollVfx);
                 player.playerJump.OnStartJump.RemoveListener(SpawnStartJumpVfx);
                 player.playerJump.OnLandJump.RemoveListener(SpawnLandJumpVfx);
@@ -292,6 +297,22 @@ namespace Player.Scripts
                 spark.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
         }
 
+        private void HandleAttackDeflected(Vector3 opponentPosition)
+        {
+            if (hitSparkPrefab == null)
+                return;
+
+            Vector3 direction = opponentPosition - player.position;
+            direction.y = 0.0f;
+            Vector3 position = player.position + direction.normalized * Mathf.Min(direction.magnitude * 0.5f, 0.8f)
+                + Vector3.up * 0.5f;
+            GameObject spark = InstantiateVfx(hitSparkPrefab, position, Quaternion.identity);
+            spark.transform.localScale *= _deflectedSparkScale;
+            if (direction.x > 0.0f)
+                spark.transform.localScale = Vector3.Scale(spark.transform.localScale, new Vector3(-1.0f, 1.0f, 1.0f));
+            FreezeTime(parryFreezeDuration);
+        }
+
         private void SpawnHurtVfx(Vector3 direction)
         {
             Vector3 position = player.position + Vector3.up + (direction * 3.0f);
@@ -322,6 +343,9 @@ namespace Player.Scripts
         private IEnumerator WaitAndSpawnSwordSlash(AttackPayload attackPayload, float delay)
         {
             yield return new WaitForSeconds(delay);
+
+            if (!player.isAttacking)
+                yield break;
 
             if (attackPayload.Type == AttackType.Special)
             {
