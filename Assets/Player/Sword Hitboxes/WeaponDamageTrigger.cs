@@ -14,14 +14,20 @@ namespace Player.Sword_Hitboxes
         private List<Damageable> targetsHit = new List<Damageable>();
 
         private AttackPayload attackPayload;
+        private bool _wasDeflected;
 
         public void SetPayload(AttackPayload payload)
         {
             attackPayload = payload;
+            _wasDeflected = false;
+            targetsHit.Clear();
         }
 
         private void OnTriggerEnter(Collider other)
         {
+            if (_wasDeflected || !gameObject.activeInHierarchy)
+                return;
+
             Damageable damageable = other.GetComponent<Damageable>();
 
             if (damageable != null && !damageable.IsDead && !targetsHit.Contains(damageable))
@@ -29,6 +35,14 @@ namespace Player.Sword_Hitboxes
                 Vector2 direction = (damageable.transform.position - PlayerStateMachine.instance.position).normalized.ToVector2();
                 bool hitWasApplied = damageable.TryTakeDamage(attackPayload, direction);
                 targetsHit.Add(damageable);
+
+                if (!hitWasApplied)
+                {
+                    _wasDeflected = true;
+                    PlayerStateMachine player = PlayerStateMachine.instance;
+                    player.playerDeflected.Trigger(player, damageable.transform.position);
+                    return;
+                }
 
                 if (hitWasApplied && damageable.CompareTag("Enemy"))
                     OnHitEnemy?.Invoke(attackPayload, damageable.transform.position);

@@ -22,10 +22,10 @@ MonoBehaviour:
   _recoveryAnimation: ParryRecovery
   _revengeConePrefab: {fileID: 4722290469985967793, guid: f6704d1df0c74d0c9076d3119d22e84c,
     type: 3}
-  _revengeEnabled: 0
+  _revengeEnabled: 1
   _revengeDelay: 0.05
   _revengeAttack:
-    _preparationAnimation: Attack
+    _preparationAnimation: ''
     _impactAnimation: Attack
     _radius: 3.1
     _openingAngle: 100

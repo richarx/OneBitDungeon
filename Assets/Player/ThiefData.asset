@@ -48,6 +48,11 @@ MonoBehaviour:
   attackDashMaxDistance: 3.5
   attackDashDeceleration: 500
   staggerDuration: 0.4
+  _deflectedDefenceRecovery: 0.1
+  _deflectedAttackRecovery: 0.55
+  _deflectedRecoilSpeed: 2
+  _deflectedRecoilDeceleration: 20
+  _deflectedAnimation: 15
   staggerPower: 20
   staggerDeceleration: 60
   invincibilityDuration: 1.5

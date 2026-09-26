@@ -69,7 +69,7 @@ public sealed class SekiroParryBehaviour : IEnemyBehaviour, IContextualEnemyBeha
             return;
         }
 
-        if (!_revengeSpawned && Time.time >= _revengeAtTime)
+        if (!_revengeSpawned && _data.RevengeEnabled && Time.time >= _revengeAtTime)
             SpawnRevenge(enemy);
 
         if (_revengeSpawned && !_revengeImpactPlayed && Time.time >= _revengeImpactAtTime)
@@ -192,7 +192,6 @@ public sealed class SekiroParryBehaviour : IEnemyBehaviour, IContextualEnemyBeha
 
     private void SpawnRevenge(EnemyController enemy)
     {
-        _revengeSpawned = true;
         if (!_data.RevengeEnabled || _data.RevengeConePrefab == null || _data.RevengeAttack == null)
             return;
 
@@ -200,6 +199,8 @@ public sealed class SekiroParryBehaviour : IEnemyBehaviour, IContextualEnemyBeha
         EnemyContext context = enemy.Context;
         if (context == null || !context.HasTarget)
             return;
+
+        _revengeSpawned = true;
 
         Vector3 position = enemy.transform.position;
         _revengeZone = UnityEngine.Object.Instantiate(_data.RevengeConePrefab, position, Quaternion.identity);
@@ -215,6 +216,11 @@ public sealed class SekiroParryBehaviour : IEnemyBehaviour, IContextualEnemyBeha
         DealDamageToPlayer damageDealer = _revengeZone.GetComponent<DealDamageToPlayer>();
         if (damageDealer != null)
             damageDealer.Configure(_data.RevengeAttack.Damage, _data.RevengeAttack.CanBeParried, _data.RevengeAttack.CanBeJumped);
+
+        // The zone includes the close-dodge window and colour transition before its real impact.
+        _revengeImpactAtTime = Time.time + _revengeZone.DamageDelay;
+        _completionTime = _revengeImpactAtTime + Mathf.Max(0.0f, _data.RevengeAttack.RecoveryDuration)
+            + Mathf.Max(0.0f, _data.FinalRecoveryDuration);
 
         PlayAnimation(enemy, _data.RevengeAttack.PreparationAnimation);
     }

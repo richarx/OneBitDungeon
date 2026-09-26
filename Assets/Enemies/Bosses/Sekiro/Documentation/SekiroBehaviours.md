@@ -74,4 +74,28 @@ Les attaques coniques sont configurées par étape avec **Player can parry** et 
 6. Annuler, changer de phase, tuer ou désactiver l'ennemi pendant chaque comportement : zones disparaissent, dash/séquences et abonnements s'arrêtent. Avec deux ennemis, vérifier que seule la cible pertinente réagit et que leurs zones restent séparées.
 7. Configurer `SekiroSpawnBehaviour` comme transition initiale. Vérifier que le boss tombe sur sa position placée au même instant que l’impact réel du cercle, puis que sa hitbox revient avant la sélection normale. Annuler l'intro, changer de phase ou désactiver le boss : le Rigidbody revient au sol, le cercle est annulé et les renderers reviennent exactement à leur état initial; la hitbox reste sous le contrôle de l’état suivant, afin de ne pas réactiver le combat pendant une mort ou transition.
 
-Aucune logique d'arrogance, d'humilité ou de parade du joueur n'est changée. Cette étape ne construit pas de scène, prefab boss ni états d'animation Sekiro.
+## Recul du joueur après une attaque déviée
+
+Une interception réelle du coup déclenche `PlayerDeflected` : l'attaque est interrompue,
+sa hitbox est désactivée immédiatement et le joueur recule légèrement. Aucun dégât ni
+invulnérabilité de blessure ne sont appliqués. Une attaque dans le vide ne déclenche rien.
+
+Dans `KnightData` et `ThiefData`, le groupe **Attack deflected** règle :
+
+- **Deflected Defence Recovery** : `0.10 s` avant de pouvoir parer, rouler, sauter ou faire un spin (mode arrogance + roulade).
+- **Deflected Attack Recovery** : `0.55 s` avant de pouvoir attaquer à nouveau, même après une sortie anticipée vers une défense.
+- **Deflected Recoil Speed / Deceleration** : `2 / 20`, pour un déplacement très court.
+- **Deflected Animation** : `Hurt`, utilisant les sprites avec épée en main du personnage actif, dans la direction de l'adversaire. Les planches Knight et Thief contiennent déjà trois images de recul par direction.
+
+Les commandes d'attaque reçues pendant la récupération sont oubliées. Les commandes
+défensives conservent leur buffer habituel. Le stagger de dégâts reste un état distinct.
+
+`PlayerVfx` réutilise **Spark Prefab** pour afficher une petite étincelle entre les
+combattants, avec la courte pause de parade existante. Sa taille se règle dans
+**Parry / Deflected spark scale** (défaut `0.8`).
+
+Le preset `SekiroParry` active la revanche. Son animation d'attaque est déclenchée à
+l'impact prévu par la zone, en incluant la fenêtre d'esquive et la transition de couleur.
+La fenêtre de spin du cône utilise désormais ce même instant. La préparation ne relance
+plus une première animation d'attaque prématurée. Une revanche désactivée ne verrouille
+plus à tort le réarmement de la parade.
