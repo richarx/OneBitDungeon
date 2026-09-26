@@ -17,7 +17,12 @@ public float GetWeight(EnemyContext context)
 }
 ```
 
-`CommonReactionTestBehaviour` reste présent seulement parce que `DummyRoom` le référence déjà. Il a été réduit à ce même test de poids selon la distance, sans réaction ni fenêtre d'interruption.
+`CommonReactionTestBehaviour` reste présent parce que `DummyRoom` le référence déjà. Son Inspector ne contient que **Data** : la configuration est portée par `CommonReactionTestData`. Les deux instances de `DummyRoom` référencent respectivement :
+
+- `Assets/Enemies/CommonBehaviours/Data/CommonReactionTestShortData.asset` — poids normal/proche `100`/`100`, distance `3 m`, éligible, durée `1 s`.
+- `Assets/Enemies/CommonBehaviours/Data/CommonReactionTestLongData.asset` — poids normal/proche `100`/`100`, distance `3 m`, éligible, durée `5 s`.
+
+Modifier ces assets dans leur Inspector change les valeurs sans dupliquer les réglages sur le comportement. Si **Data** est vide, le comportement est inéligible et le message Odin explique la référence manquante, sans journaliser à répétition.
 
 Vérifications manuelles :
 
@@ -28,4 +33,4 @@ Vérifications manuelles :
 5. Avec deux ennemis actifs, vérifier que leurs informations de contexte affichées en débogage restent séparées.
 6. Dans `DummyRoom` en mode debug, exécuter le comportement de transition immédiat : au plus 32 complétions synchrones sont traitées dans la même requête, puis l'exécution s'arrête avec un avertissement au lieu de récursiver.
 
-La mémoire d'échange de `EnemyContext` reste une donnée passive accessible via `RecordExchangeResult`; aucun événement combat ne l'alimente et la sélection ne l'interprète pas. Cette version ne s'abonne à aucun événement de combat et ne modifie ni dégâts, ni humilité, ni arrogance.
+La mémoire d'échange de `EnemyContext` reste une donnée passive accessible via `RecordExchangeResult`; aucun événement combat ne l'alimente et la sélection ne l'interprète pas. La réaction immédiate explicite et les données de roulade/proximité sont décrites dans `AiImmediateReactions.md`. Aucune logique ne modifie les dégâts, la parade, l'humilité ou l'arrogance.

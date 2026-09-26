@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07de8169fafb41c78dbd0c0f7979a4ee, type: 3}
+  m_Name: SekiroPursuit
+  m_EditorClassIdentifier: 
+  _baseWeight: 10
+  _weightPerMeter: 12
+  _activationDistance: 4
+  _distantRollWeightBonus: 20
+  _distantRollMemoryDuration: 0.75
+  _desiredDistance: 2
+  _maximumDashDistance: 5
+  _dashDuration: 0.35
+  _dashAnimation: Roll
+  _dashConePrefab: {fileID: 4722290469985967793, guid: f6704d1df0c74d0c9076d3119d22e84c, type: 3}
+  _dashAttackEnabled: 1
+  _attackDelay: 0
+  _dashAttack:
+    _preparationAnimation: Attack
+    _impactAnimation: Attack
+    _radius: 3.65
+    _openingAngle: 80
+    _spawnDuration: 0.1
+    _fillDuration: 0.25
+    _recoveryDuration: 0.35
+    _damage: 1
+    _canBeParried: 1
+    _canBeJumped: 0
+    _staggerPower: -1

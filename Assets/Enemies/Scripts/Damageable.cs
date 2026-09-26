@@ -1,6 +1,7 @@
 using Player.Scripts;
 using Sirenix.OdinInspector;
 using Tools_and_Scripts;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,6 +15,12 @@ namespace Enemies.Scripts
         [HideInInspector] public UnityEvent<Vector2> OnTakeDamage = new UnityEvent<Vector2>();
         [HideInInspector] public UnityEvent OnDie = new UnityEvent();
         [HideInInspector] public UnityEvent OnResetHealth = new UnityEvent();
+
+        /// <summary>
+        /// Local, runtime-only interception point for an enemy defence such as SekiroParryBehaviour.
+        /// A handler returning true consumes this hit before health, OnTakeDamage and OnDie are touched.
+        /// </summary>
+        public event Func<AttackPayload, Vector2, bool> OnTryInterceptDamage;
 
         public int currentHealth { get; private set; }
         public int maxHealth { get; private set; }
@@ -49,6 +56,29 @@ namespace Enemies.Scripts
                 OnDie?.Invoke();
             else
                 OnTakeDamage?.Invoke(direction);
+        }
+
+        /// <summary>
+        /// Applies a player hit unless a local defence consumes it. False means the hit was intercepted;
+        /// true means the usual TakeDamage path ran (including the legacy invincibility behaviour).
+        /// </summary>
+        public bool TryTakeDamage(AttackPayload attackPayload, Vector2 direction)
+        {
+            if (IsDead)
+                return false;
+
+            if (OnTryInterceptDamage != null)
+            {
+                foreach (Delegate callback in OnTryInterceptDamage.GetInvocationList())
+                {
+                    Func<AttackPayload, Vector2, bool> interceptor = (Func<AttackPayload, Vector2, bool>)callback;
+                    if (interceptor.Invoke(attackPayload, direction))
+                        return false;
+                }
+            }
+
+            TakeDamage(attackPayload, direction);
+            return true;
         }
 
         [Button]

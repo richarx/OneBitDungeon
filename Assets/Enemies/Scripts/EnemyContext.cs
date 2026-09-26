@@ -1,4 +1,5 @@
 using Enemies.Scripts.Behaviours;
+using Player.Scripts;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace Enemies.Scripts
     public sealed class EnemyContext
     {
         [ShowInInspector, ReadOnly] public Transform Target { get; private set; }
+        [ShowInInspector, ReadOnly] public PlayerStateMachine Player { get; private set; }
         [ShowInInspector, ReadOnly] public Vector3 TargetPosition { get; private set; }
         [ShowInInspector, ReadOnly] public Vector3 DirectionToTarget { get; private set; }
         [ShowInInspector, ReadOnly] public float DistanceToTarget { get; private set; }
@@ -34,6 +36,14 @@ namespace Enemies.Scripts
         [ShowInInspector, ReadOnly] public int ExchangeCount { get; private set; }
         [ShowInInspector, ReadOnly] public int ConsecutiveExchangeCount { get; private set; }
 
+        [ShowInInspector, ReadOnly] public bool IsPlayerRolling { get; private set; }
+        [ShowInInspector, ReadOnly] public float LastRollStartUnscaledTime { get; private set; } = float.NegativeInfinity;
+        [ShowInInspector, ReadOnly] public float LastRollEndUnscaledTime { get; private set; } = float.NegativeInfinity;
+        [ShowInInspector, ReadOnly] public float DistanceAtRollStart { get; private set; }
+        [ShowInInspector, ReadOnly] public bool IsPlayerNearby { get; private set; }
+        [ShowInInspector, ReadOnly] public float NearbySinceUnscaledTime { get; private set; } = float.NegativeInfinity;
+        [ShowInInspector, ReadOnly] public float NearbyDuration { get; private set; }
+
         internal void Reset(int currentPhase)
         {
             CurrentPhase = currentPhase;
@@ -42,7 +52,19 @@ namespace Enemies.Scripts
             LastExchangeUnscaledTime = float.NegativeInfinity;
             ExchangeCount = 0;
             ConsecutiveExchangeCount = 0;
+            IsPlayerRolling = false;
+            LastRollStartUnscaledTime = float.NegativeInfinity;
+            LastRollEndUnscaledTime = float.NegativeInfinity;
+            DistanceAtRollStart = 0.0f;
+            IsPlayerNearby = false;
+            NearbySinceUnscaledTime = float.NegativeInfinity;
+            NearbyDuration = 0.0f;
             ClearSpatialData();
+        }
+
+        internal void SetPlayer(PlayerStateMachine player)
+        {
+            Player = player;
         }
 
         internal void SetTarget(Transform target)
@@ -52,7 +74,12 @@ namespace Enemies.Scripts
                 ClearSpatialData();
         }
 
-        internal void RefreshForDecision(Transform enemyTransform, int currentPhase, IEnemyBehaviour currentBehaviour, float exchangeMemoryDuration)
+        internal void RefreshForDecision(
+            Transform enemyTransform,
+            int currentPhase,
+            IEnemyBehaviour currentBehaviour,
+            float exchangeMemoryDuration,
+            float nearbyRadius)
         {
             CurrentPhase = currentPhase;
             CurrentBehaviour = currentBehaviour;
@@ -61,6 +88,7 @@ namespace Enemies.Scripts
             if (enemyTransform == null || Target == null)
             {
                 ClearSpatialData();
+                ClearNearbyData();
                 return;
             }
 
@@ -70,6 +98,7 @@ namespace Enemies.Scripts
             DistanceToTarget = offset.magnitude;
             DirectionToTarget = DistanceToTarget > Mathf.Epsilon ? offset / DistanceToTarget : Vector3.zero;
             HasTarget = true;
+            RefreshNearbyData(nearbyRadius);
         }
 
         internal void SetCurrentBehaviour(IEnemyBehaviour behaviour)
@@ -93,6 +122,19 @@ namespace Enemies.Scripts
             LastExchangeResult = result;
             LastExchangeUnscaledTime = Time.unscaledTime;
             ExchangeCount++;
+        }
+
+        internal void RecordPlayerRollStarted()
+        {
+            IsPlayerRolling = true;
+            LastRollStartUnscaledTime = Time.unscaledTime;
+            DistanceAtRollStart = DistanceToTarget;
+        }
+
+        internal void RecordPlayerRollEnded()
+        {
+            IsPlayerRolling = false;
+            LastRollEndUnscaledTime = Time.unscaledTime;
         }
 
         internal void ConsumeExchangeMemory()
@@ -124,6 +166,30 @@ namespace Enemies.Scripts
             DirectionToTarget = Vector3.zero;
             DistanceToTarget = 0.0f;
             HasTarget = false;
+        }
+
+        private void RefreshNearbyData(float nearbyRadius)
+        {
+            if (DistanceToTarget > Mathf.Max(0.0f, nearbyRadius))
+            {
+                ClearNearbyData();
+                return;
+            }
+
+            if (!IsPlayerNearby)
+            {
+                IsPlayerNearby = true;
+                NearbySinceUnscaledTime = Time.unscaledTime;
+            }
+
+            NearbyDuration = Mathf.Max(0.0f, Time.unscaledTime - NearbySinceUnscaledTime);
+        }
+
+        private void ClearNearbyData()
+        {
+            IsPlayerNearby = false;
+            NearbySinceUnscaledTime = float.NegativeInfinity;
+            NearbyDuration = 0.0f;
         }
     }
 }

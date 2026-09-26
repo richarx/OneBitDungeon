@@ -6,46 +6,23 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 
 /// <summary>
-/// Compatibility test behaviour retained because existing scene data references this type.
-/// It now exercises only context-dependent weighted selection.
+/// Context-weight test behaviour kept under its original type name for scene compatibility.
+/// Its editable configuration lives in CommonReactionTestData assets.
 /// </summary>
 [Serializable]
 public sealed class CommonReactionTestBehaviour : IEnemyBehaviour, IContextualEnemyBehaviour
 {
-    [TitleGroup("Context weight")]
     [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Default weight")]
-    private float _defaultWeight = 100.0f;
-
-    [TitleGroup("Context weight")]
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Close distance")]
-    [SuffixLabel("meters")]
-    private float _closeDistance = 3.0f;
-
-    [TitleGroup("Context weight")]
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Weight while close")]
-    private float _closeWeight = 100.0f;
-
-    [TitleGroup("Context weight")]
-    [OdinSerialize]
-    [LabelText("Eligible")]
-    private bool _isEligible = true;
-
-    [TitleGroup("Lifetime")]
-    [OdinSerialize]
-    [MinValue(0.0f)]
-    [LabelText("Auto-complete after")]
-    [SuffixLabel("seconds")]
-    private float _autoCompleteAfter = 1.0f;
+    [Required]
+    [LabelText("Data")]
+    [InfoBox("Assign a Common Reaction Test Data asset. This behaviour is not eligible without one.", InfoMessageType.Error, nameof(HasMissingData))]
+    private CommonReactionTestData _data;
 
     [NonSerialized] private EnemyController _enemy;
     [NonSerialized] private BehaviourExecution _execution;
     [NonSerialized] private Sequence _completionSequence;
+
+    private bool HasMissingData => _data == null;
 
     public void StartBehaviour(EnemyController enemy, BehaviourExecution execution)
     {
@@ -53,14 +30,14 @@ public sealed class CommonReactionTestBehaviour : IEnemyBehaviour, IContextualEn
         _enemy = enemy;
         _execution = execution;
 
-        if (_autoCompleteAfter <= 0.0f)
+        if (_data == null || _data.AutoCompleteAfter <= 0.0f)
         {
             execution.Complete();
             return;
         }
 
         _completionSequence = Sequence.Create()
-            .ChainDelay(_autoCompleteAfter)
+            .ChainDelay(_data.AutoCompleteAfter)
             .ChainCallback(() =>
             {
                 if (_enemy != null && _enemy.IsExecutionActive(_execution))
@@ -74,13 +51,16 @@ public sealed class CommonReactionTestBehaviour : IEnemyBehaviour, IContextualEn
     public void CancelBehaviour(EnemyController enemy) => ResetRuntimeState();
     public void SetSubBehaviourState(bool state) { }
 
-    public bool CanExecute(EnemyContext context) => _isEligible;
+    public bool CanExecute(EnemyContext context) => _data != null && _data.IsEligible;
 
     public float GetWeight(EnemyContext context)
     {
-        return context != null && context.HasTarget && context.DistanceToTarget <= _closeDistance
-            ? _closeWeight
-            : _defaultWeight;
+        if (_data == null)
+            return 0.0f;
+
+        return context != null && context.HasTarget && context.DistanceToTarget <= _data.CloseDistance
+            ? _data.CloseWeight
+            : _data.DefaultWeight;
     }
 
     private void ResetRuntimeState()

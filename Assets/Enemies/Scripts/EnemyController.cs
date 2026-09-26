@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class EnemyController : SerializedMonoBehaviour
 {
@@ -40,6 +41,7 @@ public class EnemyController : SerializedMonoBehaviour
 
     // Runtime Components and state
     public Animator animator { get; private set; }
+    public CodeAnimator codeAnimator { get; private set; }
     public Damageable damageable { get; private set; }
     public EnemyHumility humility { get; private set; }
     public AfterImage afterImage { get; private set; }
@@ -58,6 +60,14 @@ public class EnemyController : SerializedMonoBehaviour
     [LabelText("Exchange memory duration")]
     [SuffixLabel("seconds")]
     private float _exchangeMemoryDuration = 1.0f;
+
+    [TitleGroup("Contexte IA")]
+    [SerializeField]
+    [FormerlySerializedAs("_nearbyRollReactionDistance")]
+    [MinValue(0.0f)]
+    [LabelText("Nearby player radius")]
+    [SuffixLabel("meters")]
+    private float _nearbyPlayerRadius = 3.0f;
 
     [TitleGroup("Debug")]
     [ShowInInspector]
@@ -80,6 +90,12 @@ public class EnemyController : SerializedMonoBehaviour
     private bool _isProcessingDebugExecution;
     private bool _hasPendingDebugExecution;
     private Transform _contextTarget;
+    private PlayerStateMachine _cachedPlayer;
+    private PlayerStateMachine _boundPlayer;
+    private bool _playerSignalsBound;
+    private bool _isInitialized;
+    private bool _isDisabling;
+    private bool _isReplacingBehaviour;
     private const int _maxImmediateSelectionsPerRequest = 32;
 
 
@@ -124,13 +140,15 @@ public class EnemyController : SerializedMonoBehaviour
 
         ResetRuntimeState();
         animator = Sprite != null ? Sprite.GetComponent<Animator>() : null;
+        codeAnimator = Sprite != null ? Sprite.GetComponent<CodeAnimator>() : null;
         sphereCollider = GetComponent<SphereCollider>();
         damageable = GetComponent<Damageable>();
         humility = GetComponent<EnemyHumility>();
         afterImage = GetComponent<AfterImage>();
         _context = new EnemyContext();
+        TryAcquirePlayerAtDecision();
         _context.SetTarget(_contextTarget != null ? _contextTarget
-            : PlayerStateMachine.instance != null ? PlayerStateMachine.instance.transform : null);
+            : _cachedPlayer != null ? _cachedPlayer.transform : null);
         _context.Reset(currentPhase);
 
         if (damageable == null || humility == null)
@@ -138,6 +156,9 @@ public class EnemyController : SerializedMonoBehaviour
             Debug.LogError($"[{name}] Damageable and EnemyHumility components are required.", this);
             return;
         }
+
+        _isInitialized = true;
+        BindPlayerSignals();
 
         if (debugMode)
         {
@@ -157,6 +178,9 @@ public class EnemyController : SerializedMonoBehaviour
         damageable.ResetHealth(phases[currentPhase].healthPoints);
         EnemyHumility.OnFullHumility.AddListener(() =>
         {
+            if (_isDisabling)
+                return;
+
             if (!string.IsNullOrEmpty(humilityAnimation) && animator != null)
                 animator.Play(humilityAnimation);
             enemyBehaviourQueue.Clear();
@@ -165,6 +189,9 @@ public class EnemyController : SerializedMonoBehaviour
 
         damageable.OnDie.AddListener(() =>
         {
+            if (_isDisabling)
+                return;
+
             if (!isLastPhase && currentBehaviour != startingBehaviour && damageable.currentHealth <= 0)
             {
                 Debug.Log("Trigger Next Phase !");
@@ -228,6 +255,8 @@ public class EnemyController : SerializedMonoBehaviour
         _pendingWasTransition = false;
         _isProcessingDebugExecution = false;
         _hasPendingDebugExecution = false;
+        _isDisabling = false;
+        _isReplacingBehaviour = false;
         ClearRoot();
 
         if (_context != null)
@@ -296,6 +325,8 @@ public class EnemyController : SerializedMonoBehaviour
 
     protected virtual void Update()
     {
+        RefreshContext();
+
         if (currentBehaviour != null)
         {
             currentBehaviour.UpdateBehaviour(this);
@@ -334,7 +365,8 @@ public class EnemyController : SerializedMonoBehaviour
     {
         if (!IsExecutionActive(execution))
         {
-            Debug.LogWarning("[" + name + "] Attempted to complete a behaviour execution that is not active.", this);
+            if (!_isReplacingBehaviour && !_isDisabling)
+                Debug.LogWarning("[" + name + "] Attempted to complete a behaviour execution that is not active.", this);
             return;
         }
 
@@ -372,6 +404,57 @@ public class EnemyController : SerializedMonoBehaviour
     }
 
     /// <summary>
+    /// Immediately replaces the active behaviour when a pattern has a valid, current opportunity.
+    /// Weight is deliberately ignored here: it only belongs to normal weighted selection.
+    /// Pass the calling pattern's execution to reject callbacks from an obsolete execution.
+    /// </summary>
+    public bool TryReplaceCurrentBehaviour(IEnemyBehaviour nextBehaviour, BehaviourExecution sourceExecution = null)
+    {
+        if (_isReplacingBehaviour
+            || _isDisabling
+            || !isActiveAndEnabled
+            || isDead
+            || nextBehaviour == null
+            || currentBehaviour == null
+            || activeExecution == null
+            || currentBehaviour == nextBehaviour
+            || !IsPhaseInList(currentPhase)
+            || (sourceExecution != null && !IsExecutionActive(sourceExecution)))
+            return false;
+
+        RefreshContextForDecision();
+        if (!CanExecuteBehaviour(nextBehaviour, out _))
+            return false;
+
+        IEnemyBehaviour interruptedBehaviour = currentBehaviour;
+        int phaseBeforeCancel = currentPhase;
+        _isReplacingBehaviour = true;
+        try
+        {
+            // Invalidate the token before user callbacks and discard the interrupted pattern's planned chain.
+            RemoveCurrentBehaviourAndExecution();
+            enemyBehaviourQueue.Clear();
+            interruptedBehaviour.CancelBehaviour(this);
+
+            if (_isDisabling
+                || !isActiveAndEnabled
+                || isDead
+                || currentPhase != phaseBeforeCancel
+                || currentBehaviour != null
+                || activeExecution != null
+                || !IsPhaseInList(currentPhase))
+                return false;
+
+            ExecuteBehaviour(nextBehaviour);
+            return true;
+        }
+        finally
+        {
+            _isReplacingBehaviour = false;
+        }
+    }
+
+    /// <summary>
     /// Optional passive exchange memory for callers that already own an attributable result.
     /// Selection does not record or react to this data automatically.
     /// </summary>
@@ -387,6 +470,15 @@ public class EnemyController : SerializedMonoBehaviour
     {
         _contextTarget = target;
         _context?.SetTarget(target);
+    }
+
+    /// <summary>
+    /// Refreshes spatial, roll and nearby-duration data from references already cached by this controller.
+    /// Behaviour code may call this immediately before evaluating a reaction opportunity.
+    /// </summary>
+    public void RefreshContext()
+    {
+        RefreshContextInternal(false);
     }
 
     private void RequestNextBehaviourSelection(IEnemyBehaviour completedBehaviour, bool wasTransition)
@@ -458,15 +550,78 @@ public class EnemyController : SerializedMonoBehaviour
 
     private void RefreshContextForDecision()
     {
-        if (_context != null && _context.Target == null)
+        RefreshContextInternal(true);
+    }
+
+    private void RefreshContextInternal(bool canAcquirePlayer)
+    {
+        if (canAcquirePlayer)
+            TryAcquirePlayerAtDecision();
+
+        if (_context == null)
+            return;
+
+        _context.SetPlayer(_cachedPlayer);
+        if (_contextTarget != null)
+            _context.SetTarget(_contextTarget);
+        else if (_cachedPlayer != null)
+            _context.SetTarget(_cachedPlayer.transform);
+
+        _context.RefreshForDecision(
+            transform,
+            currentPhase,
+            currentBehaviour,
+            _exchangeMemoryDuration,
+            _nearbyPlayerRadius);
+    }
+
+    private void TryAcquirePlayerAtDecision()
+    {
+        if (_cachedPlayer != null)
+            return;
+
+        UnbindPlayerSignals();
+        _cachedPlayer = PlayerStateMachine.instance;
+        _context?.SetPlayer(_cachedPlayer);
+        BindPlayerSignals();
+    }
+
+    private void BindPlayerSignals()
+    {
+        if (!_isInitialized || _playerSignalsBound || _cachedPlayer == null || _cachedPlayer.playerRoll == null)
+            return;
+
+        _boundPlayer = _cachedPlayer;
+        _boundPlayer.playerRoll.OnStartRoll.AddListener(HandlePlayerRollStarted);
+        _boundPlayer.playerRoll.OnStopRoll.AddListener(HandlePlayerRollEnded);
+        _playerSignalsBound = true;
+    }
+
+    private void UnbindPlayerSignals()
+    {
+        if (!_playerSignalsBound)
+            return;
+
+        if (_boundPlayer != null && _boundPlayer.playerRoll != null)
         {
-            if (_contextTarget != null)
-                _context.SetTarget(_contextTarget);
-            else if (PlayerStateMachine.instance != null)
-                _context.SetTarget(PlayerStateMachine.instance.transform);
+            _boundPlayer.playerRoll.OnStartRoll.RemoveListener(HandlePlayerRollStarted);
+            _boundPlayer.playerRoll.OnStopRoll.RemoveListener(HandlePlayerRollEnded);
         }
 
-        _context?.RefreshForDecision(transform, currentPhase, currentBehaviour, _exchangeMemoryDuration);
+        _boundPlayer = null;
+        _playerSignalsBound = false;
+    }
+
+    private void HandlePlayerRollStarted()
+    {
+        RefreshContext();
+        _context?.RecordPlayerRollStarted();
+    }
+
+    private void HandlePlayerRollEnded()
+    {
+        RefreshContext();
+        _context?.RecordPlayerRollEnded();
     }
 
     private List<WeightedBehaviourCandidate> GetWeightedCandidates()
@@ -489,7 +644,17 @@ public class EnemyController : SerializedMonoBehaviour
 
     private bool IsBehaviourEligible(IEnemyBehaviour behaviour, out float weight)
     {
+        if (!CanExecuteBehaviour(behaviour, out weight))
+            return false;
+
+        return weight > 0.0f && !float.IsNaN(weight) && !float.IsInfinity(weight);
+    }
+
+    private bool CanExecuteBehaviour(IEnemyBehaviour behaviour, out float weight)
+    {
         weight = 0.0f;
+        if (behaviour == null)
+            return false;
 
         if (behaviour is IConditionalEnemyBehaviour conditionalBehaviour
             && !conditionalBehaviour.CanExecute(this))
@@ -497,18 +662,15 @@ public class EnemyController : SerializedMonoBehaviour
 
         if (behaviour is IContextualEnemyBehaviour contextualBehaviour)
         {
-            if (_context == null
-                || !contextualBehaviour.CanExecute(_context))
+            if (_context == null || !contextualBehaviour.CanExecute(_context))
                 return false;
 
             weight = contextualBehaviour.GetWeight(_context);
-        }
-        else
-        {
-            weight = 100.0f;
+            return true;
         }
 
-        return weight > 0.0f && !float.IsNaN(weight) && !float.IsInfinity(weight);
+        weight = 100.0f;
+        return true;
     }
 
     private static void RemoveCompletedBehaviourWhenAlternativesExist(
@@ -635,11 +797,42 @@ public class EnemyController : SerializedMonoBehaviour
     private void OnEnable()
     {
         BindPhaseOwners();
+
+        if (!_isInitialized || isDead)
+            return;
+
+        _isDisabling = false;
+        TryAcquirePlayerAtDecision();
+        BindPlayerSignals();
+        RefreshContextForDecision();
+
+        if (!debugMode && currentBehaviour == null && !_isWaitingForCandidate)
+            RequestNextBehaviourSelection(null, false);
     }
 
     private void OnDisable()
     {
+        _isDisabling = true;
+        UnbindPlayerSignals();
+
+        if (_isInitialized)
+        {
+            IEnemyBehaviour behaviourToCancel = currentBehaviour;
+            RemoveCurrentBehaviourAndExecution();
+            enemyBehaviourQueue.Clear();
+            _isWaitingForCandidate = false;
+            _context?.Reset(currentPhase);
+
+            if (behaviourToCancel != null)
+                behaviourToCancel.CancelBehaviour(this);
+        }
+
         ClearRoot();
+    }
+
+    private void OnDestroy()
+    {
+        UnbindPlayerSignals();
     }
 
     private void OnValidate()
