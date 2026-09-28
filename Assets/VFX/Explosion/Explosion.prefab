@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6711144665642198117
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 516462710165673474}
+  - component: {fileID: 8139377839042415666}
+  m_Layer: 0
+  m_Name: Explosion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &516462710165673474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6711144665642198117}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.756283, y: -115.06067, z: 148.81064}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8139377839042415666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6711144665642198117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b232cd688a3cf6f42976b4610bd431e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blastPrefab: {fileID: 40136842147385639, guid: c614a87becde3bd4581586a524fbbe07,
+    type: 3}
+  blastSprites:
+  - {fileID: 156844127, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -1111273091, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -1424656029, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -1725521108, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -1720714199, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -1528756833, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: 174728048, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -851848583, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -1500215173, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -257941005, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -1793437689, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -586487778, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: 626682204, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  - {fileID: -758901688, guid: ca53a34c0074f4048be6e6a9ce7c3e24, type: 3}
+  minBlastCount: 15
+  maxBlastCount: 20
+  minRange: 2
+  maxRange: 3
+  timeBetweenUpdates: 0.03

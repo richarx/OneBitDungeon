@@ -22,4 +22,4 @@ MonoBehaviour:
   _pursuitData: {fileID: 11400000, guid: 6c83c0c5180942a8958b07ee0ca6a1fa, type: 2}
   _parryReactionRange: 3
   _minimumPlayerFacingDot: 0.2
-  _pursuitReplaceDistance: 5
+  _pursuitReplaceDistance: 100

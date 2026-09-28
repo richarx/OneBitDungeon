@@ -11119,6 +11119,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bonfire
       objectReference: {fileID: 0}
+    - target: {fileID: 8307510220749411531, guid: aa5d30ef25e51e747b3523c8d60e9900,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.953717
+      objectReference: {fileID: 0}
+    - target: {fileID: 8307510220749411531, guid: aa5d30ef25e51e747b3523c8d60e9900,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.30070576
+      objectReference: {fileID: 0}
+    - target: {fileID: 8307510220749411531, guid: aa5d30ef25e51e747b3523c8d60e9900,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 35
+      objectReference: {fileID: 0}
     - target: {fileID: 8975111475851865485, guid: aa5d30ef25e51e747b3523c8d60e9900,
         type: 3}
       propertyPath: m_LocalPosition.x
